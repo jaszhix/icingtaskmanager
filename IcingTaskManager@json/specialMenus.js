@@ -74,9 +74,6 @@ AppMenuButtonRightClickMenu.prototype = {
     var setupMonitorMoveEvent = function (itemChangeMonitor) {
       itemChangeMonitor.connect('activate', Lang.bind(this, function () {
         this.metaWindow.move_to_monitor(itemChangeMonitor.index)
-        try {
-          global.log(this);
-        } catch (e) {}
       }))
     }.bind(this)
 
