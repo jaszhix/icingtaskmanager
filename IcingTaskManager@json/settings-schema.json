@@ -95,7 +95,7 @@
  },
  "enable-hover-peek" : {
     "type" : "checkbox",
-    "default" : true,
+    "default" : false,
     "description": "Enable hover peek",
     "tooltip": "Enable Hover peek when mouse is over thumbnail"
  },
