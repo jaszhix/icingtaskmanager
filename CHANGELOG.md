@@ -1,5 +1,9 @@
 Changelog
 
+### 3.0.1
+
+  * Disabled hover peek by default. It is a more conservative default setting, and the effect can be overwhelming on multi-monitor setups.
+
 ### 3.0.0
 
   * Ability to move windows between monitors is now fixed.
