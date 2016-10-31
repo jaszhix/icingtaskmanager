@@ -4,7 +4,7 @@ Changelog
 
   * Ability to move windows between monitors is now fixed.
   * More theme-agnostic close button than the one found on the development branch.
-  * Integrated a [pull request](https://github.com/jake-phy/WindowIconList/pull/155) by mswiszcz, add optional icon size control.
+  * Integrated a [pull request](https://github.com/jake-phy/WindowIconList/pull/155) by mswiszcz, added optional icon size control.
   * Formatting of code for readability.
 
 ### Original Fork
