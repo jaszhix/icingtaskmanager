@@ -12,10 +12,17 @@ This is a fork of the unfinished development branch of [Window List With App Gro
 
 See more changes in the [changelog](https://github.com/jaszhix/icingtaskmanager/blob/master/CHANGELOG.md).
 
-Firefox History
+Importing pinned apps from the Window List With App Grouping applet
+--------------
+  * Go to directory: ~/.cinnamon/configs/WindowListGroup@jake.phy@gmail.com
+  * Open the JSON file with a text editor and copy its contents.
+  * Go to directory: ~/.cinnamon/configs/IcingTaskManager@json
+  * Open the JSON file, select all text, and overwrite it. Do not change the filename.
+
+Firefox history
 --------------
 You will need to install the gir1.2-gda-5.0 package to have Firefox's history show up in its context menu.
 
-How to Install
+How to install
 --------------
 Run the configure.py script.

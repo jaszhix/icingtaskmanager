@@ -1,8 +1,14 @@
 Changelog
 
+### 3.0.3
+
+  * Added French translation by [ncelerier](https://github.com/jake-phy/WindowIconList/pull/165)
+  * Corrected punctuation and grammatical errors in the settings dialogue.
+  * Changed the default option for the number display setting to "Smart".
+
 ### 3.0.2
 
-  * Add Russian translation by [magnetx](https://github.com/mswiszcz/WindowIconList/pull/1)
+  * Added Russian translation by [magnetx](https://github.com/mswiszcz/WindowIconList/pull/1)
 
 ### 3.0.1
 
