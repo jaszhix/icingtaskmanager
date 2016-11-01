@@ -107,7 +107,7 @@
     "step" : 5,
     "units" : "milliseconds",
     "description" : "Window fade time:",
-    "tooltip" : "Controls how quickly an app's set of window thumbnails will fade in when the mouse leaves the app button."
+    "tooltip" : "Controls how quickly a window will fade on hover."
  },
  "hover-peek-opacity" : {
     "type": "spinbutton",
@@ -117,7 +117,7 @@
     "step" : 2,
     "units" : "percent",
     "description" : "Window opacity:",
-    "tooltip" : "Opacity of the windows on peek."
+    "tooltip" : "Opacity of the windows on hover."
  },
  "Space2" : {
     "type" : "header",
@@ -216,7 +216,7 @@
  "firefox-menu" : {
     "type": "combobox",
     "default" : 1,
-    "description" : "Firefox context menu",
+    "description" : "Firefox context menu:",
     "options" : {
         "Most Visited" : 1,
         "Recent History" : 2,

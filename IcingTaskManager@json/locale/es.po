@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Window List Group 2.8\n"
-"Report-Msgid-Bugs-To: \n"
+"Report-Msgid-Bugs-To: NA\n"
 "POT-Creation-Date: 2015-07-16 23:04+0800\n"
 "PO-Revision-Date: 2014-09-09 13:31-0600\n"
 "Last-Translator: Lester Carballo Pérez <lestcape@gmail.com>\n"
@@ -18,420 +18,193 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Poedit 1.5.4\n"
 
-#: specialMenus.js:74
-#, c-format
-msgid "Move to monitor %d"
-msgstr ""
-
-#: specialMenus.js:91
-msgid "Close All"
-msgstr "Cerrar Todo"
-
-#: specialMenus.js:94
-msgid "Close"
-msgstr "Cerrar"
-
-#: specialMenus.js:97 specialMenus.js:492
-msgid "Minimize"
-msgstr "Minimizar"
-
-#: specialMenus.js:100 specialMenus.js:489
-msgid "Maximize"
-msgstr "Maximizar"
-
-#: specialMenus.js:103
-msgid "Move to left workspace"
-msgstr "Mover al área de trabajo de la izquierda"
-
-#: specialMenus.js:106
-msgid "Move to right workspace"
-msgstr "Mover al área de trabajo de la derecha"
-
-#: specialMenus.js:109 specialMenus.js:479
-msgid "Visible on all workspaces"
-msgstr "Mostrar en todas las áreas de trabajo"
-
-#: specialMenus.js:134
-msgid "Unpin from Panel"
-msgstr ""
-
-#: specialMenus.js:137
-msgid "Pin to Panel"
-msgstr ""
-
-#: specialMenus.js:146
-msgid "Settings"
-msgstr ""
-
-#: specialMenus.js:149
-msgid "ReArrange"
-msgstr "Reordenar"
-
-#: specialMenus.js:153
-msgid "Show Pinned"
-msgstr "Mostrar Fijadas "
-
-#: specialMenus.js:157
-msgid "Show Thumbs"
-msgstr "Mostrar Miniaturas"
-
-#: specialMenus.js:161
-msgid "Stack Thumbs"
-msgstr "Aplicar Miniaturas"
-
-#: specialMenus.js:165
-msgid "Hover to Peek"
-msgstr "Realizar Vistazo cuando el ratón está encima"
-
-#. IcingTaskManager@json->settings-schema.json->show-
-#. recent->description
-#: specialMenus.js:169
-msgid "Show Recent"
-msgstr ""
-
-#: specialMenus.js:173
-msgid "Vertical Thumbs"
-msgstr "Miniaturas verticales"
-
-#: specialMenus.js:177
-msgid "   Go to Settings"
-msgstr ""
-
-#: specialMenus.js:263
-msgid "Install Gda"
-msgstr ""
-
-#: specialMenus.js:475
-msgid "Only on this workspace"
-msgstr "Solo en esta área de trabajo"
-
-#: specialMenus.js:487
-msgid "Unmaximize"
-msgstr "No maximizada"
-
-#: specialMenus.js:491
-msgid "Restore"
-msgstr "Restaurar"
-
-#. IcingTaskManager@json->metadata.json->description
-msgid "Window List with App Grouping and Window Thumbnails"
-msgstr ""
-
-#. IcingTaskManager@json->metadata.json->name
-msgid "Icing Task Manager"
-msgstr ""
-
-#. IcingTaskManager@json->settings-schema.json->thumbnail-
-#. size->description
-msgid "Thumbnail Size:"
-msgstr "Tamaño de las Miniaturas:"
-
-#. IcingTaskManager@json->settings-schema.json->thumbnail-
-#. size->tooltip
-#. IcingTaskManager@json->settings-schema.json->hover-peek-
-#. opacity->tooltip
-msgid "Opacity of the windows on peek."
-msgstr "Opacidad de las ventanas de vistazo."
-
-#. IcingTaskManager@json->settings-schema.json->thumbnail-
-#. size->units
-msgid "size"
-msgstr "Tamaño"
-
-#. IcingTaskManager@json->settings-schema.json->closeall-menu-
-#. item->description
-msgid "Close All Menu Items"
-msgstr ""
-
-#. IcingTaskManager@json->settings-schema.json->closeall-menu-
-#. item->tooltip
-msgid "Show a 'Close All' menu item to close all windows for an app."
-msgstr ""
-
-#. IcingTaskManager@json->settings-schema.json->show-
-#. thumbnails->description
-msgid "Show Thumbnails"
-msgstr "Mostrar Miniaturas"
-
-#. IcingTaskManager@json->settings-schema.json->show-
-#. thumbnails->tooltip
-msgid "Show the Thumbnail Windows"
-msgstr "Mostrar Miniaturas de Ventanas"
-
-#. IcingTaskManager@json->settings-schema.json->hover-peek-
-#. time->description
-msgid "Window fade time:"
-msgstr "Tiempo de desvanecimiento de las ventanas:"
-
-#. IcingTaskManager@json->settings-schema.json->hover-peek-
-#. time->tooltip
-msgid "The animation time for the windows on hover peek"
-msgstr "Tiempo de animación de las ventanas, al realizar un vistazo"
-
-#. IcingTaskManager@json->settings-schema.json->hover-peek-
-#. time->units
-#. IcingTaskManager@json->settings-schema.json->thumbnail-
-#. timeout->units
-msgid "milliseconds"
-msgstr "milisegundos"
-
-#. IcingTaskManager@json->settings-schema.json->appmenu-
-#. number->description
-msgid "Number of Menu Items:"
-msgstr ""
-
-#. IcingTaskManager@json->settings-schema.json->appmenu-
-#. number->tooltip
-msgid "The number of AppMenu Items"
-msgstr ""
-
-#. IcingTaskManager@json->settings-schema.json->appmenu-
-#. number->units
-#. IcingTaskManager@json->settings-schema.json->appmenu-
-#. width->units
-msgid "number"
-msgstr ""
-
-#. IcingTaskManager@json->settings-schema.json->title-
-#. display->description
-msgid "Title Display:"
-msgstr "Título de pantalla:"
-
-#. IcingTaskManager@json->settings-schema.json->title-
-#. display->tooltip
-msgid ""
-"focused: show focused window title, title: display the window title, app: "
-"diplay app name, none: don't display anything"
-msgstr ""
-"enfocado: muestra el título de la ventana con el foco, título: muestra el "
-"título de la ventana, aplicación: muestra el nombre de la aplicación, nada: "
-"no muestra nada"
-
-#. IcingTaskManager@json->settings-schema.json->title-
-#. display->options
-#. IcingTaskManager@json->settings-schema.json->number-
-#. display->options
-msgid "none"
-msgstr "nada"
-
-#. IcingTaskManager@json->settings-schema.json->title-
-#. display->options
-msgid "focused"
-msgstr "enfocado"
-
-#. IcingTaskManager@json->settings-schema.json->title-
-#. display->options
-msgid "app"
-msgstr "aplicación"
-
-#. IcingTaskManager@json->settings-schema.json->title-
-#. display->options
-msgid "title"
-msgstr "título"
-
-#. IcingTaskManager@json->settings-
-#. schema.json->AppMenu->description
-msgid "AppMenu Settings"
-msgstr ""
-
-#. IcingTaskManager@json->settings-schema.json->sort-
-#. thumbnails->description
-msgid "Sort by last Focused"
-msgstr ""
-
-#. IcingTaskManager@json->settings-schema.json->sort-
-#. thumbnails->tooltip
-msgid "Show the last focused first"
-msgstr ""
-
-#. IcingTaskManager@json->settings-schema.json->hover-peek-
-#. opacity->description
-msgid "Window opacity:"
-msgstr "Opacidad de la ventana:"
-
-#. IcingTaskManager@json->settings-schema.json->hover-peek-
-#. opacity->units
-msgid "percent"
-msgstr "porcentaje"
-
-#. IcingTaskManager@json->settings-schema.json->enable-hover-
-#. peek->description
-msgid "Enable hover peek"
-msgstr "Habilitar vistazo cuando el ratón se encuentra sobre el área."
-
-#. IcingTaskManager@json->settings-schema.json->enable-hover-
-#. peek->tooltip
-msgid "Enable Hover peek when mouse is over thumbnail"
-msgstr "Activar vistazo flotante cuando el ratón está sobre la miniatura"
-
-#. IcingTaskManager@json->settings-schema.json->icon-
-#. padding->description
-msgid "Icon Padding:"
-msgstr "Relleno del Icono:"
-
-#. IcingTaskManager@json->settings-schema.json->icon-
-#. padding->tooltip
-msgid "How much Padding is between the icons"
-msgstr "Cuanto relleno poner entre los iconos"
-
-#. IcingTaskManager@json->settings-schema.json->icon-
-#. padding->units
-msgid "padding"
-msgstr "relleno"
-
-#. IcingTaskManager@json->settings-schema.json->show-
-#. pinned->description
-msgid "Show pinned apps"
-msgstr "Mostrar aplicaciones fijas"
-
-#. IcingTaskManager@json->settings-schema.json->show-
-#. pinned->tooltip
-msgid "Show the pinned apps or just show the open windows"
-msgstr ""
-"Mostrar las aplicaciones fijas o simplemente mostrar las ventanas abiertas"
-
-#. IcingTaskManager@json->settings-
-#. schema.json->WindowList->description
-msgid "Window List Settings"
-msgstr "Configuración de la Lista de Ventanas"
-
-#. IcingTaskManager@json->settings-schema.json->appmenu-
-#. width->description
-msgid "Appmenu Width"
-msgstr ""
-
-#. IcingTaskManager@json->settings-schema.json->appmenu-
-#. width->tooltip
-msgid "Set the width of the AppMenu."
-msgstr ""
-
-#. IcingTaskManager@json->settings-
-#. schema.json->Thumbnails->description
-msgid "Thumbnail Settings"
-msgstr "Configuración de Miniaturas"
-
-#. IcingTaskManager@json->settings-schema.json->show-
-#. recent->tooltip
-msgid "Show Recent Menu Items"
-msgstr ""
-
-#. IcingTaskManager@json->settings-schema.json->vertical-
-#. thumbnails->description
-msgid "Vertical Thumbnails"
-msgstr "Miniaturas Verticales"
-
-#. IcingTaskManager@json->settings-schema.json->vertical-
-#. thumbnails->tooltip
-msgid "Arrange thumbnails vertically or horizontally"
-msgstr "Organizar miniaturas vertical u horizontalmente"
-
-#. IcingTaskManager@json->settings-schema.json->thumbnail-
-#. timeout->description
-msgid "Thumbnail timeout:"
-msgstr "Tiempo de espera de las miniaturas:"
-
-#. IcingTaskManager@json->settings-schema.json->thumbnail-
-#. timeout->tooltip
-msgid "Thumbnail timeout"
-msgstr "Tiempo de espera de las miniaturas"
-
-#. IcingTaskManager@json->settings-schema.json->stack-
-#. thumbnails->description
-msgid "Stack Thumbnails"
-msgstr "Apilar Miniaturas"
-
-#. IcingTaskManager@json->settings-schema.json->stack-
-#. thumbnails->tooltip
-msgid ""
-"Stack the Thumbnail Windows if there are to many thumbnails for the screen"
-msgstr ""
-"Apilar Miniaturas de Ventanas, si hay muchas imágenes de miniaturas en la "
-"pantalla"
-
-#. IcingTaskManager@json->settings-schema.json->number-
-#. display->description
-msgid "Number Display:"
-msgstr "Mostrar Número:"
-
-#. IcingTaskManager@json->settings-schema.json->number-
-#. display->tooltip
-msgid ""
-"normal: display window number, smart: display window number if more than one "
-"window, none: don't display number, all: display window number for favorites "
-"too"
-msgstr ""
-"normal: muestra el número de la ventana, inteligente: muestra el número de "
-"la ventana, solo si hay más de una, nada: no muestra el número, todos: "
-"muestra el número también para favoritos"
-
-#. IcingTaskManager@json->settings-schema.json->number-
-#. display->options
-msgid "all"
-msgstr "todos"
-
-#. IcingTaskManager@json->settings-schema.json->number-
-#. display->options
-msgid "Smart"
-msgstr "inteligente"
-
-#. IcingTaskManager@json->settings-schema.json->number-
-#. display->options
-msgid "normal"
-msgstr "normal"
-
-#. IcingTaskManager@json->settings-schema.json->onclick-
-#. thumbnails->description
-msgid "Open Thumbnails OnClick"
-msgstr "Abrir Miniaturas al hacer clic"
-
-#. IcingTaskManager@json->settings-schema.json->onclick-
-#. thumbnails->tooltip
-msgid "Open the thumbnails on click, if there is more than 1 windows open."
-msgstr ""
-"Abrir las imágenes en miniatura al hacer clic, solo si hay más de 1 ventana "
-"abierta."
-
-#. IcingTaskManager@json->settings-
-#. schema.json->HoverPeek->description
-msgid "Hover Peek Settings"
-msgstr "Configuración del Vistazo"
-
-#. IcingTaskManager@json->settings-schema.json->firefox-
-#. menu->description
-msgid "Firefox AppMenu:"
-msgstr ""
-
-#. IcingTaskManager@json->settings-schema.json->firefox-
-#. menu->tooltip
-msgid ""
-"Most Visited: show the sites you visit most, Recent Histor: display the the "
-"last pages you visited, Bookmarks: show your favorite bookmarks"
-msgstr ""
-
-#. IcingTaskManager@json->settings-schema.json->firefox-
-#. menu->options
-msgid "Bookmarks"
-msgstr ""
-
-#. IcingTaskManager@json->settings-schema.json->firefox-
-#. menu->options
-msgid "Most Visited"
-msgstr ""
-
-#. IcingTaskManager@json->settings-schema.json->firefox-
-#. menu->options
-msgid "Recent History"
-msgstr ""
-
-#. IcingTaskManager@json->settings-schema.json->arrange-
-#. pinnedApps->description
-msgid "Arrange pinned apps"
-msgstr "Ordenar aplicaciones fijas"
-
-#. IcingTaskManager@json->settings-schema.json->arrange-
-#. pinnedApps->tooltip
-msgid "Arrange pinned apps into a different order"
-msgstr "Ordenar aplicaciones fijas en un orden diferente"
+#~ msgid "Close All"
+#~ msgstr "Cerrar Todo"
+
+#~ msgid "Close"
+#~ msgstr "Cerrar"
+
+#~ msgid "Minimize"
+#~ msgstr "Minimizar"
+
+#~ msgid "Maximize"
+#~ msgstr "Maximizar"
+
+#~ msgid "Move to left workspace"
+#~ msgstr "Mover al área de trabajo de la izquierda"
+
+#~ msgid "Move to right workspace"
+#~ msgstr "Mover al área de trabajo de la derecha"
+
+#~ msgid "Visible on all workspaces"
+#~ msgstr "Mostrar en todas las áreas de trabajo"
+
+#~ msgid "ReArrange"
+#~ msgstr "Reordenar"
+
+#~ msgid "Show Pinned"
+#~ msgstr "Mostrar Fijadas "
+
+#~ msgid "Show Thumbs"
+#~ msgstr "Mostrar Miniaturas"
+
+#~ msgid "Stack Thumbs"
+#~ msgstr "Aplicar Miniaturas"
+
+#~ msgid "Hover to Peek"
+#~ msgstr "Realizar Vistazo cuando el ratón está encima"
+
+#~ msgid "Vertical Thumbs"
+#~ msgstr "Miniaturas verticales"
+
+#~ msgid "Only on this workspace"
+#~ msgstr "Solo en esta área de trabajo"
+
+#~ msgid "Unmaximize"
+#~ msgstr "No maximizada"
+
+#~ msgid "Restore"
+#~ msgstr "Restaurar"
+
+#~ msgid "Thumbnail Size:"
+#~ msgstr "Tamaño de las Miniaturas:"
+
+#~ msgid "Opacity of the windows on peek."
+#~ msgstr "Opacidad de las ventanas de vistazo."
+
+#~ msgid "size"
+#~ msgstr "Tamaño"
+
+#~ msgid "Show Thumbnails"
+#~ msgstr "Mostrar Miniaturas"
+
+#~ msgid "Show the Thumbnail Windows"
+#~ msgstr "Mostrar Miniaturas de Ventanas"
+
+#~ msgid "Window fade time:"
+#~ msgstr "Tiempo de desvanecimiento de las ventanas:"
+
+#~ msgid "The animation time for the windows on hover peek"
+#~ msgstr "Tiempo de animación de las ventanas, al realizar un vistazo"
+
+#~ msgid "milliseconds"
+#~ msgstr "milisegundos"
+
+#~ msgid "Title Display:"
+#~ msgstr "Título de pantalla:"
+
+#~ msgid ""
+#~ "focused: show focused window title, title: display the window title, app: "
+#~ "diplay app name, none: don't display anything"
+#~ msgstr ""
+#~ "enfocado: muestra el título de la ventana con el foco, título: muestra el "
+#~ "título de la ventana, aplicación: muestra el nombre de la aplicación, "
+#~ "nada: no muestra nada"
+
+#~ msgid "none"
+#~ msgstr "nada"
+
+#~ msgid "focused"
+#~ msgstr "enfocado"
+
+#~ msgid "app"
+#~ msgstr "aplicación"
+
+#~ msgid "title"
+#~ msgstr "título"
+
+#~ msgid "Window opacity:"
+#~ msgstr "Opacidad de la ventana:"
+
+#~ msgid "percent"
+#~ msgstr "porcentaje"
+
+#~ msgid "Enable hover peek"
+#~ msgstr "Habilitar vistazo cuando el ratón se encuentra sobre el área."
+
+#~ msgid "Enable Hover peek when mouse is over thumbnail"
+#~ msgstr "Activar vistazo flotante cuando el ratón está sobre la miniatura"
+
+#~ msgid "Icon Padding:"
+#~ msgstr "Relleno del Icono:"
+
+#~ msgid "How much Padding is between the icons"
+#~ msgstr "Cuanto relleno poner entre los iconos"
+
+#~ msgid "padding"
+#~ msgstr "relleno"
+
+#~ msgid "Show pinned apps"
+#~ msgstr "Mostrar aplicaciones fijas"
+
+#~ msgid "Show the pinned apps or just show the open windows"
+#~ msgstr ""
+#~ "Mostrar las aplicaciones fijas o simplemente mostrar las ventanas abiertas"
+
+#~ msgid "Window List Settings"
+#~ msgstr "Configuración de la Lista de Ventanas"
+
+#~ msgid "Thumbnail Settings"
+#~ msgstr "Configuración de Miniaturas"
+
+#~ msgid "Vertical Thumbnails"
+#~ msgstr "Miniaturas Verticales"
+
+#~ msgid "Arrange thumbnails vertically or horizontally"
+#~ msgstr "Organizar miniaturas vertical u horizontalmente"
+
+#~ msgid "Thumbnail timeout:"
+#~ msgstr "Tiempo de espera de las miniaturas:"
+
+#~ msgid "Thumbnail timeout"
+#~ msgstr "Tiempo de espera de las miniaturas"
+
+#~ msgid "Stack Thumbnails"
+#~ msgstr "Apilar Miniaturas"
+
+#~ msgid ""
+#~ "Stack the Thumbnail Windows if there are to many thumbnails for the screen"
+#~ msgstr ""
+#~ "Apilar Miniaturas de Ventanas, si hay muchas imágenes de miniaturas en la "
+#~ "pantalla"
+
+#~ msgid "Number Display:"
+#~ msgstr "Mostrar Número:"
+
+#~ msgid ""
+#~ "normal: display window number, smart: display window number if more than "
+#~ "one window, none: don't display number, all: display window number for "
+#~ "favorites too"
+#~ msgstr ""
+#~ "normal: muestra el número de la ventana, inteligente: muestra el número "
+#~ "de la ventana, solo si hay más de una, nada: no muestra el número, todos: "
+#~ "muestra el número también para favoritos"
+
+#~ msgid "all"
+#~ msgstr "todos"
+
+#~ msgid "Smart"
+#~ msgstr "inteligente"
+
+#~ msgid "normal"
+#~ msgstr "normal"
+
+#~ msgid "Open Thumbnails OnClick"
+#~ msgstr "Abrir Miniaturas al hacer clic"
+
+#~ msgid "Open the thumbnails on click, if there is more than 1 windows open."
+#~ msgstr ""
+#~ "Abrir las imágenes en miniatura al hacer clic, solo si hay más de 1 "
+#~ "ventana abierta."
+
+#~ msgid "Hover Peek Settings"
+#~ msgstr "Configuración del Vistazo"
+
+#~ msgid "Arrange pinned apps"
+#~ msgstr "Ordenar aplicaciones fijas"
+
+#~ msgid "Arrange pinned apps into a different order"
+#~ msgstr "Ordenar aplicaciones fijas en un orden diferente"
 
 #~ msgid "Group Apps"
 #~ msgstr "Agrupar aplicaciones"

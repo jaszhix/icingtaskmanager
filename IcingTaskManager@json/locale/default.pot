@@ -122,14 +122,14 @@ msgstr ""
 
 #. IcingTaskManager@json->settings-schema.json->thumbnail-
 #. size->description
-msgid "Thumbnail Size:"
+msgid "Thumbnail size:"
 msgstr ""
 
 #. IcingTaskManager@json->settings-schema.json->thumbnail-
 #. size->tooltip
 #. IcingTaskManager@json->settings-schema.json->hover-peek-
 #. opacity->tooltip
-msgid "Opacity of the windows on peek."
+msgid "Opacity of the windows on hover."
 msgstr ""
 
 #. IcingTaskManager@json->settings-schema.json->thumbnail-
@@ -139,22 +139,22 @@ msgstr ""
 
 #. IcingTaskManager@json->settings-schema.json->closeall-menu-
 #. item->description
-msgid "Close All Menu Items"
+msgid "Enable option to close all windows"
 msgstr ""
 
 #. IcingTaskManager@json->settings-schema.json->closeall-menu-
 #. item->tooltip
-msgid "Show a 'Close All' menu item to close all windows for an app."
+msgid "Show a \"Close All\" context menu item to close all windows for an app."
 msgstr ""
 
 #. IcingTaskManager@json->settings-schema.json->show-
 #. thumbnails->description
-msgid "Show Thumbnails"
+msgid "Show thumbnails"
 msgstr ""
 
 #. IcingTaskManager@json->settings-schema.json->show-
 #. thumbnails->tooltip
-msgid "Show the Thumbnail Windows"
+msgid "Show window thumbnails when hovering over an app button."
 msgstr ""
 
 #. IcingTaskManager@json->settings-schema.json->hover-peek-
@@ -164,7 +164,7 @@ msgstr ""
 
 #. IcingTaskManager@json->settings-schema.json->hover-peek-
 #. time->tooltip
-msgid "The animation time for the windows on hover peek"
+msgid "Controls how quickly a window will fade on hover."
 msgstr ""
 
 #. IcingTaskManager@json->settings-schema.json->hover-peek-
@@ -176,12 +176,12 @@ msgstr ""
 
 #. IcingTaskManager@json->settings-schema.json->appmenu-
 #. number->description
-msgid "Number of Menu Items:"
+msgid "Number of context menu items:"
 msgstr ""
 
 #. IcingTaskManager@json->settings-schema.json->appmenu-
 #. number->tooltip
-msgid "The number of AppMenu Items"
+msgid "Controls how many items appear in the context menu."
 msgstr ""
 
 #. IcingTaskManager@json->settings-schema.json->appmenu-
@@ -193,7 +193,7 @@ msgstr ""
 
 #. IcingTaskManager@json->settings-schema.json->title-
 #. display->description
-msgid "Title Display:"
+msgid "Title display:"
 msgstr ""
 
 #. IcingTaskManager@json->settings-schema.json->title-
@@ -207,37 +207,37 @@ msgstr ""
 #. display->options
 #. IcingTaskManager@json->settings-schema.json->number-
 #. display->options
-msgid "none"
+msgid "None"
 msgstr ""
 
 #. IcingTaskManager@json->settings-schema.json->title-
 #. display->options
-msgid "focused"
+msgid "Focused"
 msgstr ""
 
 #. IcingTaskManager@json->settings-schema.json->title-
 #. display->options
-msgid "app"
+msgid "App"
 msgstr ""
 
 #. IcingTaskManager@json->settings-schema.json->title-
 #. display->options
-msgid "title"
+msgid "Title"
 msgstr ""
 
 #. IcingTaskManager@json->settings-
 #. schema.json->AppMenu->description
-msgid "AppMenu Settings"
+msgid "Context Menu Settings"
 msgstr ""
 
 #. IcingTaskManager@json->settings-schema.json->sort-
 #. thumbnails->description
-msgid "Sort by last Focused"
+msgid "Sort windows for each app by last focused"
 msgstr ""
 
 #. IcingTaskManager@json->settings-schema.json->sort-
 #. thumbnails->tooltip
-msgid "Show the last focused first"
+msgid "Controls whether the order windows appear for an app is by last focused, or the order they were opened."
 msgstr ""
 
 #. IcingTaskManager@json->settings-schema.json->hover-peek-
@@ -252,22 +252,22 @@ msgstr ""
 
 #. IcingTaskManager@json->settings-schema.json->enable-hover-
 #. peek->description
-msgid "Enable hover peek"
+msgid "Show windows when hovered over"
 msgstr ""
 
 #. IcingTaskManager@json->settings-schema.json->enable-hover-
 #. peek->tooltip
-msgid "Enable Hover peek when mouse is over thumbnail"
+msgid "Controls whether or not windows display when hovered over."
 msgstr ""
 
 #. IcingTaskManager@json->settings-schema.json->icon-
 #. padding->description
-msgid "Icon Padding:"
+msgid "Icon padding:"
 msgstr ""
 
 #. IcingTaskManager@json->settings-schema.json->icon-
 #. padding->tooltip
-msgid "How much Padding is between the icons"
+msgid "Controls how much space is between the icons."
 msgstr ""
 
 #. IcingTaskManager@json->settings-schema.json->icon-
@@ -282,7 +282,7 @@ msgstr ""
 
 #. IcingTaskManager@json->settings-schema.json->show-
 #. pinned->tooltip
-msgid "Show the pinned apps or just show the open windows"
+msgid "Controls whether or not the pinned apps appear in the panel if they are not open."
 msgstr ""
 
 #. IcingTaskManager@json->settings-
@@ -292,12 +292,12 @@ msgstr ""
 
 #. IcingTaskManager@json->settings-schema.json->appmenu-
 #. width->description
-msgid "Appmenu Width"
+msgid "Context menu width:"
 msgstr ""
 
 #. IcingTaskManager@json->settings-schema.json->appmenu-
 #. width->tooltip
-msgid "Set the width of the AppMenu."
+msgid "Set the width of the context menu."
 msgstr ""
 
 #. IcingTaskManager@json->settings-
@@ -307,17 +307,17 @@ msgstr ""
 
 #. IcingTaskManager@json->settings-schema.json->show-
 #. recent->tooltip
-msgid "Show Recent Menu Items"
+msgid "Show recent items"
 msgstr ""
 
 #. IcingTaskManager@json->settings-schema.json->vertical-
 #. thumbnails->description
-msgid "Vertical Thumbnails"
+msgid "Enable vertical thumbnails"
 msgstr ""
 
 #. IcingTaskManager@json->settings-schema.json->vertical-
 #. thumbnails->tooltip
-msgid "Arrange thumbnails vertically or horizontally"
+msgid "If enabled, thumbnails will stack vertically."
 msgstr ""
 
 #. IcingTaskManager@json->settings-schema.json->thumbnail-
@@ -327,23 +327,22 @@ msgstr ""
 
 #. IcingTaskManager@json->settings-schema.json->thumbnail-
 #. timeout->tooltip
-msgid "Thumbnail timeout"
+msgid "Controls how quickly an app's set of window thumbnails will fade out when the mouse leaves the app button."
 msgstr ""
 
 #. IcingTaskManager@json->settings-schema.json->stack-
 #. thumbnails->description
-msgid "Stack Thumbnails"
+msgid "Stack window thumbnails"
 msgstr ""
 
 #. IcingTaskManager@json->settings-schema.json->stack-
 #. thumbnails->tooltip
-msgid ""
-"Stack the Thumbnail Windows if there are to many thumbnails for the screen"
+msgid "Stack window thumbnails if they exceed the available screen space."
 msgstr ""
 
 #. IcingTaskManager@json->settings-schema.json->number-
 #. display->description
-msgid "Number Display:"
+msgid "Number display:"
 msgstr ""
 
 #. IcingTaskManager@json->settings-schema.json->number-
@@ -356,7 +355,7 @@ msgstr ""
 
 #. IcingTaskManager@json->settings-schema.json->number-
 #. display->options
-msgid "all"
+msgid "All"
 msgstr ""
 
 #. IcingTaskManager@json->settings-schema.json->number-
@@ -366,17 +365,17 @@ msgstr ""
 
 #. IcingTaskManager@json->settings-schema.json->number-
 #. display->options
-msgid "normal"
+msgid "Normal"
 msgstr ""
 
 #. IcingTaskManager@json->settings-schema.json->onclick-
 #. thumbnails->description
-msgid "Open Thumbnails OnClick"
+msgid "Open thumbnails on click"
 msgstr ""
 
 #. IcingTaskManager@json->settings-schema.json->onclick-
 #. thumbnails->tooltip
-msgid "Open the thumbnails on click, if there is more than 1 windows open."
+msgid "Open the thumbnails on click if there is more than one window open."
 msgstr ""
 
 #. IcingTaskManager@json->settings-
@@ -386,7 +385,7 @@ msgstr ""
 
 #. IcingTaskManager@json->settings-schema.json->firefox-
 #. menu->description
-msgid "Firefox AppMenu:"
+msgid "Firefox context menu:"
 msgstr ""
 
 #. IcingTaskManager@json->settings-schema.json->firefox-
@@ -418,7 +417,7 @@ msgstr ""
 
 #. IcingTaskManager@json->settings-schema.json->arrange-
 #. pinnedApps->tooltip
-msgid "Arrange pinned apps into a different order"
+msgid "Arrange pinned apps into a different order."
 msgstr ""
 
 #. IcingTaskManager@json->settings-schema.json->group-
@@ -433,10 +432,10 @@ msgstr ""
 
 #. IcingTaskManager@json->settings-schema.json->icon-
 #. size->description
-msgid "Icon Size:"
+msgid "Icon size:"
 msgstr ""
 
 #. IcingTaskManager@json->settings-schema.json->icon-
 #. size->tooltip
-msgid "Set icon size"
+msgid "Adjust icon size independent of Cinnamon's panel scaling."
 msgstr ""

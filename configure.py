@@ -46,7 +46,7 @@ class GTKButton(Gtk.HBox):
 class CinnamonListSettings:
 
     def __init__(self):
-        self.window = Gtk.Window(title='Icing')
+        self.window = Gtk.Window(title='Icing Task Manager')
         self.window.connect('destroy', Gtk.main_quit)
 	self.window.set_default_size(320, 50)
 	self.window.set_border_width(5)
@@ -57,8 +57,8 @@ class CinnamonListSettings:
         self.copy_applet = "cp -avrf  IcingTaskManager@json ~/.local/share/cinnamon/applets/ && ./locale.sh"
         self.remove_applet = "rm -rf -v ~/.local/share/cinnamon/applets/IcingTaskManager@json"
 
-        self.install_applet = GTKButton('Install Applet', 'Install the Applet',self.copy_applet, "Install the applet and schema")
-        self.uninstall_applet = GTKButton('Uninstall Applet', 'Uninstall the Applet', self.remove_applet, "Remove the applet and schema")
+        self.install_applet = GTKButton('Install', 'Install the Applet',self.copy_applet, "Install the applet and schema")
+        self.uninstall_applet = GTKButton('Uninstall', 'Uninstall the Applet', self.remove_applet, "Remove the applet and schema")
 
         self.Ivbox = Gtk.VBox()
         self.Ivbox.add(self.install_applet)

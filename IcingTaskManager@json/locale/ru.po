@@ -5,476 +5,322 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Window List Group 2.8\n"
+"Project-Id-Version: Icing Task Manager\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-01-11 22:16+0800\n"
 "PO-Revision-Date: 2016-10-23 17:43+0300\n"
 "Last-Translator: Pavel S. Konovalov <magnetx79@gmail.com>\n"
 "Language-Team: jake-phy <jake.phy@gmail.com>\n"
-"Language: es\n"
+"Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Poedit 1.5.4\n"
 
-#: specialMenus.js:75
-#, c-format
-msgid "Move to monitor %d"
-msgstr "Переместить на экран %d"
-
-#: specialMenus.js:92
-msgid "Close All"
-msgstr "Закрыть все"
-
-#: specialMenus.js:95
-msgid "Close"
-msgstr "Закрыть"
-
-#: specialMenus.js:98 specialMenus.js:520
-msgid "Minimize"
-msgstr "Свернуть"
-
-#: specialMenus.js:101 specialMenus.js:517
-msgid "Maximize"
-msgstr "Развернуть"
-
-#: specialMenus.js:104
-msgid "Move to left workspace"
-msgstr "На рабочий стол слева"
-
-#: specialMenus.js:107
-msgid "Move to right workspace"
-msgstr "На рабочий стол справа"
-
-#: specialMenus.js:110 specialMenus.js:507
-msgid "Visible on all workspaces"
-msgstr "На всех рабочих столах"
-
-#: specialMenus.js:135
-msgid "Unpin from Panel"
-msgstr "Открепить"
-
-#: specialMenus.js:138
-msgid "Pin to Panel"
-msgstr "Прикрепить"
-
-#: specialMenus.js:147
-msgid "Settings"
-msgstr "Настройки"
-
-#: specialMenus.js:150
-msgid "ReArrange"
-msgstr "Перемещение"
-
-#: specialMenus.js:154
-msgid "Show Pinned"
-msgstr "Прикрепленные"
-
-#: specialMenus.js:162
-msgid "Show Thumbs"
-msgstr "Миниатюры"
-
-#: specialMenus.js:170
-msgid "Stack Thumbs"
-msgstr "Стек миниатюр"
-
-#: specialMenus.js:178
-msgid "Hover to Peek"
-msgstr "При наведении"
-
-#. IcingTaskManager@json->settings-schema.json->show-
-#. recent->description
-#: specialMenus.js:186
-msgid "Show Recent"
-msgstr "Недавние"
-
-#: specialMenus.js:194
-msgid "Vertical Thumbs"
-msgstr "Миниатюры верт."
-
-#: specialMenus.js:202
-msgid "   Go to Settings"
-msgstr "   Открыть настройки"
-
-#: specialMenus.js:291
-msgid "Install Gda"
-msgstr "Установить GDA"
-
-#: specialMenus.js:503
-msgid "Only on this workspace"
-msgstr "Только на этом рабочем столе"
-
-#: specialMenus.js:515
-msgid "Unmaximize"
-msgstr "Вернуть размер"
-
-#: specialMenus.js:519
-msgid "Restore"
-msgstr "Восстановить"
-
-#. IcingTaskManager@json->metadata.json->description
-msgid "Window List with App Grouping an Window Thumbnails"
-msgstr "Список окон с группировкой и миниатюрами"
-
-#. IcingTaskManager@json->metadata.json->name
-msgid "Window List With App Grouping"
-msgstr "Список окон с группировкой"
-
-#. IcingTaskManager@json->settings-schema.json->thumbnail-
-#. size->description
-msgid "Thumbnail Size:"
-msgstr "Размер миниатюры:"
-
-#. IcingTaskManager@json->settings-schema.json->thumbnail-
-#. size->tooltip
-#. IcingTaskManager@json->settings-schema.json->hover-peek-
-#. opacity->tooltip
-msgid "Opacity of the windows on peek."
-msgstr "Установить прозрачность окна при наведении."
-
-#. IcingTaskManager@json->settings-schema.json->thumbnail-
-#. size->units
-msgid "size"
-msgstr "размер"
-
-#. IcingTaskManager@json->settings-schema.json->closeall-menu-
-#. item->description
-msgid "Close All Menu Items"
-msgstr "Элемент меню 'Закрыть все'"
-
-#. IcingTaskManager@json->settings-schema.json->closeall-menu-
-#. item->tooltip
-msgid "Show a 'Close All' menu item to close all windows for an app."
-msgstr "Показать элемент 'Закрыть все' для закрытия всех окон приложения."
-
-#. IcingTaskManager@json->settings-schema.json->show-
-#. thumbnails->description
-msgid "Show Thumbnails"
-msgstr "Показывать миниатюры"
-
-#. IcingTaskManager@json->settings-schema.json->show-
-#. thumbnails->tooltip
-msgid "Show the Thumbnail Windows"
-msgstr "Показывать миниатюры открытых окон."
-
-#. IcingTaskManager@json->settings-schema.json->hover-peek-
-#. time->description
-msgid "Window fade time:"
-msgstr "Скорость анимации:"
-
-#. IcingTaskManager@json->settings-schema.json->hover-peek-
-#. time->tooltip
-msgid "The animation time for the windows on hover peek"
-msgstr "Скорость исчезновения окна, миллисекунды"
-
-#. IcingTaskManager@json->settings-schema.json->hover-peek-
-#. time->units
-#. IcingTaskManager@json->settings-schema.json->thumbnail-
-#. timeout->units
-msgid "milliseconds"
-msgstr "миллисекунд"
-
-#. IcingTaskManager@json->settings-schema.json->appmenu-
-#. number->description
-msgid "Number of Menu Items:"
-msgstr "Количество элементов:"
-
-#. IcingTaskManager@json->settings-schema.json->appmenu-
-#. number->tooltip
-msgid "The number of AppMenu Items"
-msgstr "Максимальное количество элементов AppMenu."
-
-#. IcingTaskManager@json->settings-schema.json->appmenu-
-#. number->units
-#. IcingTaskManager@json->settings-schema.json->appmenu-
-#. width->units
-msgid "number"
-msgstr "число"
-
-#. IcingTaskManager@json->settings-schema.json->title-
-#. display->description
-msgid "Title Display:"
-msgstr "Отображение заголовков:"
-
-#. IcingTaskManager@json->settings-schema.json->title-
-#. display->tooltip
-msgid ""
-"focused: show focused window title, title: display the window title, app: "
-"diplay app name, none: don't display anything"
-msgstr ""
-"Активное: показывать заголовок активного окна; Заголовок: показывать "
-"заголовок окна; Приложение: показывать название приложения, Ничего: не "
-"показывать"
-
-#. IcingTaskManager@json->settings-schema.json->title-
-#. display->options
-#. IcingTaskManager@json->settings-schema.json->number-
-#. display->options
-msgid "none"
-msgstr "Ничего"
-
-#. IcingTaskManager@json->settings-schema.json->title-
-#. display->options
-msgid "focused"
-msgstr "Активное"
-
-#. IcingTaskManager@json->settings-schema.json->title-
-#. display->options
-msgid "app"
-msgstr "Приложение"
-
-#. IcingTaskManager@json->settings-schema.json->title-
-#. display->options
-msgid "title"
-msgstr "Заголовок"
-
-#. IcingTaskManager@json->settings-schema.json->show-
-#. alerts->description
-#. IcingTaskManager@json->settings-schema.json->show-
-#. alerts->tooltip
-msgid "Show app alerts and notifications"
-msgstr "Показать, когда приложение требует внимания"
-
-#. IcingTaskManager@json->settings-
-#. schema.json->AppMenu->description
-msgid "AppMenu Settings"
-msgstr "Настройки AppMenu"
-
-#. IcingTaskManager@json->settings-schema.json->sort-
-#. thumbnails->description
-msgid "Sort by last Focused"
-msgstr "Сортировать по последнему активному"
-
-#. IcingTaskManager@json->settings-schema.json->sort-
-#. thumbnails->tooltip
-msgid "Show the last focused first"
-msgstr "Сначала показывать последние активные"
-
-#. IcingTaskManager@json->settings-schema.json->hover-peek-
-#. opacity->description
-msgid "Window opacity:"
-msgstr "Прозрачность окна:"
-
-#. IcingTaskManager@json->settings-schema.json->hover-peek-
-#. opacity->units
-msgid "percent"
-msgstr "процентов"
-
-#. IcingTaskManager@json->settings-schema.json->enable-hover-
-#. peek->description
-msgid "Enable hover peek"
-msgstr "Показывать при наведении"
-
-#. IcingTaskManager@json->settings-schema.json->enable-hover-
-#. peek->tooltip
-msgid "Enable Hover peek when mouse is over thumbnail"
-msgstr "Показывать окно при наведении курсора мыши на его миниатюру"
-
-#. IcingTaskManager@json->settings-schema.json->icon-
-#. padding->description
-msgid "Icon Padding:"
-msgstr "Расстояние между значками:"
-
-#. IcingTaskManager@json->settings-schema.json->icon-
-#. padding->tooltip
-msgid "How much Padding is between the icons"
-msgstr "Установить расстояние между значками в пикселях."
-
-#. IcingTaskManager@json->settings-schema.json->icon-
-#. padding->units
-msgid "padding"
-msgstr "пикселей"
-
-#. IcingTaskManager@json->settings-schema.json->show-
-#. pinned->description
-msgid "Show pinned apps"
-msgstr "Показывать прикрепленные"
-
-#. IcingTaskManager@json->settings-schema.json->show-
-#. pinned->tooltip
-msgid "Show the pinned apps or just show the open windows"
-msgstr "Показывать значки прикрепленных приложений"
-
-#. IcingTaskManager@json->settings-
-#. schema.json->WindowList->description
-msgid "Window List Settings"
-msgstr "Настройки списка окон"
-
-#. IcingTaskManager@json->settings-schema.json->appmenu-
-#. width->description
-msgid "Appmenu Width"
-msgstr "Ширина AppMenu"
-
-#. IcingTaskManager@json->settings-schema.json->appmenu-
-#. width->tooltip
-msgid "Set the width of the AppMenu."
-msgstr "Установить ширину AppMenu в пикселях."
-
-#. IcingTaskManager@json->settings-
-#. schema.json->Thumbnails->description
-msgid "Thumbnail Settings"
-msgstr "Настройки миниатюр"
-
-#. IcingTaskManager@json->settings-schema.json->show-
-#. recent->tooltip
-msgid "Show Recent Menu Items"
-msgstr "Показать в меню недавние элементы."
-
-#. IcingTaskManager@json->settings-schema.json->vertical-
-#. thumbnails->description
-msgid "Vertical Thumbnails"
-msgstr "Миниатюры вертикально"
-
-#. IcingTaskManager@json->settings-schema.json->vertical-
-#. thumbnails->tooltip
-msgid "Arrange thumbnails vertically or horizontally"
-msgstr "Вкл/Выкл вертикальное расположение миниатюр."
-
-#. IcingTaskManager@json->settings-schema.json->thumbnail-
-#. timeout->description
-msgid "Thumbnail timeout:"
-msgstr "Таймаут миниатюр:"
-
-#. IcingTaskManager@json->settings-schema.json->thumbnail-
-#. timeout->tooltip
-msgid "Thumbnail timeout"
-msgstr "Установить время, через которое появится миниатюра, в миллисекундах."
-
-#. IcingTaskManager@json->settings-schema.json->stack-
-#. thumbnails->description
-msgid "Stack Thumbnails"
-msgstr "Стек миниатюр"
-
-#. IcingTaskManager@json->settings-schema.json->stack-
-#. thumbnails->tooltip
-msgid ""
-"Stack the Thumbnail Windows if there are to many thumbnails for the screen"
-msgstr "Расположить миниатюры в несколько строк при достижении границы экрана."
-
-#. IcingTaskManager@json->settings-schema.json->number-
-#. display->description
-msgid "Number Display:"
-msgstr "Число окон:"
-
-#. IcingTaskManager@json->settings-schema.json->number-
-#. display->tooltip
-msgid ""
-"normal: display window number, smart: display window number if more than one "
-"window, none: don't display number, all: display window number for favorites "
-"too"
-msgstr ""
-"Обычный: показать на значке количество открытых окон; Умный: показать "
-"количество открытых окон, если их больше одного; Ничего: не показывать "
-"количество окон; Всегда: Всегда показывать количество окон, даже если "
-"открытых нет"
-
-#. IcingTaskManager@json->settings-schema.json->number-
-#. display->options
-msgid "all"
-msgstr "Всегда"
-
-#. IcingTaskManager@json->settings-schema.json->number-
-#. display->options
-msgid "Smart"
-msgstr "Умный"
-
-#. IcingTaskManager@json->settings-schema.json->number-
-#. display->options
-msgid "normal"
-msgstr "Обычный"
-
-#. IcingTaskManager@json->settings-schema.json->onclick-
-#. thumbnails->description
-msgid "Open Thumbnails OnClick"
-msgstr "Открывать миниатюры по клику"
-
-#. IcingTaskManager@json->settings-schema.json->onclick-
-#. thumbnails->tooltip
-msgid "Open the thumbnails on click, if there is more than 1 windows open."
-msgstr "Открывать миниатюры по клику, если открыто более одного окна."
-
-#. IcingTaskManager@json->settings-
-#. schema.json->HoverPeek->description
-msgid "Hover Peek Settings"
-msgstr "Настройки наведения"
-
-#. IcingTaskManager@json->settings-schema.json->firefox-
-#. menu->description
-msgid "Firefox AppMenu:"
-msgstr "AppMenu для Firefox:"
-
-#. IcingTaskManager@json->settings-schema.json->firefox-
-#. menu->tooltip
-msgid ""
-"Most Visited: show the sites you visit most, Recent Histor: display the the "
-"last pages you visited, Bookmarks: show your favorite bookmarks"
-msgstr ""
-"Часто посещаемые: показать часто посещаемые сайты; История: показать "
-"последние посещенные сайты; Закладки: показать избранные закладки"
-
-#. IcingTaskManager@json->settings-schema.json->firefox-
-#. menu->options
-msgid "Bookmarks"
-msgstr "Закладки"
-
-#. IcingTaskManager@json->settings-schema.json->firefox-
-#. menu->options
-msgid "Most Visited"
-msgstr "Часто посещаемые"
-
-#. IcingTaskManager@json->settings-schema.json->firefox-
-#. menu->options
-msgid "Recent History"
-msgstr "История"
-
-#. IcingTaskManager@json->settings-schema.json->arrange-
-#. pinnedApps->description
-msgid "Arrange pinned apps"
-msgstr "Перемещать прикрепленные"
-
-#. IcingTaskManager@json->settings-schema.json->arrange-
-#. pinnedApps->tooltip
-msgid "Arrange pinned apps into a different order"
-msgstr "Вкл/Выкл возможность перемещения значков прикрепленных приложений."
-
-#. IcingTaskManager@json->settings-schema.json->group-
-#. apps->description
-msgid "Group apps into single icon"
-msgstr "Группировать окна приложения"
-
-#. IcingTaskManager@json->settings-schema.json->group-
-#. apps->tooltip
-msgid "Group the open app instances into single icon"
-msgstr "Группировать все открытые окна приложения в один значок."
-
-#. IcingTaskManager@json->settings-schema.json->icon-
-#. size->description
-msgid "Icon Size:"
-msgstr "Размер значка:"
-
-#. IcingTaskManager@json->settings-schema.json->icon-
-#. size->tooltip
-msgid "Set icon size"
-msgstr "Установить размер значка приложения на панели."
-
-#~ msgid "Size of the icon on panel"
+#~ msgid "Move to monitor %d"
+#~ msgstr "Переместить на экран %d"
+
+#~ msgid "Close All"
+#~ msgstr "Закрыть все"
+
+#~ msgid "Close"
+#~ msgstr "Закрыть"
+
+#~ msgid "Minimize"
+#~ msgstr "Свернуть"
+
+#~ msgid "Maximize"
+#~ msgstr "Развернуть"
+
+#~ msgid "Move to left workspace"
+#~ msgstr "На рабочий стол слева"
+
+#~ msgid "Move to right workspace"
+#~ msgstr "На рабочий стол справа"
+
+#~ msgid "Visible on all workspaces"
+#~ msgstr "На всех рабочих столах"
+
+#~ msgid "Unpin from Panel"
+#~ msgstr "Открепить"
+
+#~ msgid "Pin to Panel"
+#~ msgstr "Прикрепить"
+
+#~ msgid "Settings"
+#~ msgstr "Настройки"
+
+#~ msgid "ReArrange"
+#~ msgstr "Перемещение"
+
+#~ msgid "Show Pinned"
+#~ msgstr "Прикрепленные"
+
+#~ msgid "Show Thumbs"
+#~ msgstr "Миниатюры"
+
+#~ msgid "Stack Thumbs"
+#~ msgstr "Стек миниатюр"
+
+#~ msgid "Hover to Peek"
+#~ msgstr "При наведении"
+
+#~ msgid "Show Recent"
+#~ msgstr "Недавние"
+
+#~ msgid "Vertical Thumbs"
+#~ msgstr "Миниатюры верт."
+
+#~ msgid "   Go to Settings"
+#~ msgstr "   Открыть настройки"
+
+#~ msgid "Install Gda"
+#~ msgstr "Установить GDA"
+
+#~ msgid "Only on this workspace"
+#~ msgstr "Только на этом рабочем столе"
+
+#~ msgid "Unmaximize"
+#~ msgstr "Вернуть размер"
+
+#~ msgid "Restore"
+#~ msgstr "Восстановить"
+
+#~ msgid "Window List with App Grouping an Window Thumbnails"
+#~ msgstr "Список окон с группировкой и миниатюрами"
+
+#~ msgid "Icing Task Manager"
+#~ msgstr "Обледенение Task Manager"
+
+#~ msgid "Thumbnail size:"
+#~ msgstr "Размер миниатюры:"
+
+#~ msgid "Opacity of the windows on hover."
+#~ msgstr "Установить прозрачность окна при наведении."
+
+#~ msgid "size"
+#~ msgstr "размер"
+
+#~ msgid "Enable option to close all windows"
+#~ msgstr "Элемент меню 'Закрыть все'"
+
+#~ msgid ""
+#~ "Show a \"Close All\" context menu item to close all windows for an app."
+#~ msgstr "Показать элемент 'Закрыть все' для закрытия всех окон приложения."
+
+#~ msgid "Show thumbnails"
+#~ msgstr "Показывать миниатюры"
+
+#~ msgid "Show window thumbnails when hovering over an app button."
+#~ msgstr "Показывать миниатюры открытых окон."
+
+#~ msgid "Window fade time:"
+#~ msgstr "Скорость анимации:"
+
+#~ msgid "Controls how quickly a window will fade on hover."
+#~ msgstr "Скорость исчезновения окна, миллисекунды"
+
+#~ msgid "milliseconds"
+#~ msgstr "миллисекунд"
+
+#~ msgid "Number of context menu items:"
+#~ msgstr "Количество элементов:"
+
+#~ msgid "Controls how many items appear in the context menu."
+#~ msgstr "Максимальное количество элементов AppMenu."
+
+#~ msgid "number"
+#~ msgstr "число"
+
+#~ msgid "Title display:"
+#~ msgstr "Отображение заголовков:"
+
+#~ msgid ""
+#~ "focused: show focused window title, title: display the window title, app: "
+#~ "diplay app name, none: don't display anything"
+#~ msgstr ""
+#~ "Активное: показывать заголовок активного окна; Заголовок: показывать "
+#~ "заголовок окна; Приложение: показывать название приложения, Ничего: не "
+#~ "показывать"
+
+#~ msgid "None"
+#~ msgstr "Ничего"
+
+#~ msgid "Focused"
+#~ msgstr "Активное"
+
+#~ msgid "App"
+#~ msgstr "Приложение"
+
+#~ msgid "Title"
+#~ msgstr "Заголовок"
+
+#~ msgid "Show app alerts and notifications"
+#~ msgstr "Показать, когда приложение требует внимания"
+
+#~ msgid "Context Menu Settings"
+#~ msgstr "Настройки AppMenu"
+
+#~ msgid "Sort windows for each app by last focused"
+#~ msgstr "Сортировать по последнему активному"
+
+#~ msgid ""
+#~ "Controls whether the order windows appear for an app is by last focused, "
+#~ "or the order they were opened."
+#~ msgstr "Сначала показывать последние активные"
+
+#~ msgid "Window opacity:"
+#~ msgstr "Прозрачность окна:"
+
+#~ msgid "percent"
+#~ msgstr "процентов"
+
+#~ msgid "Show windows when hovered over"
+#~ msgstr "Показывать при наведении"
+
+#~ msgid "Controls whether or not windows display when hovered over."
+#~ msgstr "Показывать окно при наведении курсора мыши на его миниатюру"
+
+#~ msgid "Icon padding:"
+#~ msgstr "Расстояние между значками:"
+
+#~ msgid "Controls how much space is between the icons."
+#~ msgstr "Установить расстояние между значками в пикселях."
+
+#~ msgid "padding"
+#~ msgstr "пикселей"
+
+#~ msgid "Show pinned apps"
+#~ msgstr "Показывать прикрепленные"
+
+#~ msgid ""
+#~ "Controls whether or not the pinned apps appear in the panel if they are "
+#~ "not open."
+#~ msgstr "Показывать значки прикрепленных приложений"
+
+#~ msgid "Window List Settings"
+#~ msgstr "Настройки списка окон"
+
+#~ msgid "Context Menu Width"
+#~ msgstr "Ширина AppMenu"
+
+#~ msgid "Set the width of the context menu."
+#~ msgstr "Установить ширину AppMenu в пикселях."
+
+#~ msgid "Thumbnail Settings"
+#~ msgstr "Настройки миниатюр"
+
+#~ msgid "Show recent items"
+#~ msgstr "Показать в меню недавние элементы."
+
+#~ msgid "Enable vertical thumbnails"
+#~ msgstr "Миниатюры вертикально"
+
+#~ msgid "If enabled, thumbnails will stack vertically."
+#~ msgstr "Вкл/Выкл вертикальное расположение миниатюр."
+
+#~ msgid "Thumbnail timeout:"
+#~ msgstr "Таймаут миниатюр:"
+
+#~ msgid ""
+#~ "Controls how quickly an app's set of window thumbnails will fade out when "
+#~ "the mouse leaves the app button."
+#~ msgstr ""
+#~ "Установить время, через которое появится миниатюра, в миллисекундах."
+
+#~ msgid "Stack thumbnails"
+#~ msgstr "Стек миниатюр"
+
+#~ msgid ""
+#~ "Stack the Thumbnail Windows if there are to many thumbnails for the screen"
+#~ msgstr ""
+#~ "Расположить миниатюры в несколько строк при достижении границы экрана."
+
+#~ msgid "Number Display:"
+#~ msgstr "Число окон:"
+
+#~ msgid "Stack window thumbnails if they exceed the available screen space."
+#~ msgstr ""
+#~ "Обычный: показать на значке количество открытых окон; Умный: показать "
+#~ "количество открытых окон, если их больше одного; Ничего: не показывать "
+#~ "количество окон; Всегда: Всегда показывать количество окон, даже если "
+#~ "открытых нет"
+
+#~ msgid "All"
+#~ msgstr "Всегда"
+
+#~ msgid "Smart"
+#~ msgstr "Умный"
+
+#~ msgid "Normal"
+#~ msgstr "Обычный"
+
+#~ msgid "Open thumbnails on click"
+#~ msgstr "Открывать миниатюры по клику"
+
+#~ msgid "Open the thumbnails on click if there is more than one window open."
+#~ msgstr "Открывать миниатюры по клику, если открыто более одного окна."
+
+#~ msgid "Hover Peek Settings"
+#~ msgstr "Настройки наведения"
+
+#~ msgid "Firefox context menu:"
+#~ msgstr "AppMenu для Firefox:"
+
+#~ msgid ""
+#~ "Most Visited: show the sites you visit most, Recent Histor: display the "
+#~ "the last pages you visited, Bookmarks: show your favorite bookmarks"
+#~ msgstr ""
+#~ "Часто посещаемые: показать часто посещаемые сайты; История: показать "
+#~ "последние посещенные сайты; Закладки: показать избранные закладки"
+
+#~ msgid "Bookmarks"
+#~ msgstr "Закладки"
+
+#~ msgid "Most Visited"
+#~ msgstr "Часто посещаемые"
+
+#~ msgid "Recent History"
+#~ msgstr "История"
+
+#~ msgid "Arrange pinned apps"
+#~ msgstr "Перемещать прикрепленные"
+
+#~ msgid "Arrange pinned apps into a different order"
+#~ msgstr "Вкл/Выкл возможность перемещения значков прикрепленных приложений."
+
+#~ msgid "Group apps into single icon"
+#~ msgstr "Группировать окна приложения"
+
+#~ msgid "Group the open app instances into single icon"
+#~ msgstr "Группировать все открытые окна приложения в один значок."
+
+#~ msgid "Icon size:"
+#~ msgstr "Размер значка:"
+
+#~ msgid "Set icon size"
 #~ msgstr "Установить размер значка приложения на панели."
 
+#~ msgid "Adjust icon size independent of Cinnamon's panel scaling."
+#~ msgstr ""
+#~ "Отрегулируйте размер значков независимо от масштабирования панели корицу "
+#~ "в."
+
 #~ msgid "Group Apps"
-#~ msgstr "Agrupar aplicaciones"
+#~ msgstr "групповые приложения"
 
 #~ msgid " "
 #~ msgstr " "
 
 #~ msgid "New Window"
-#~ msgstr "Nueva Ventana"
+#~ msgstr "новое окно"
 
 #~ msgid "Go to Settings"
-#~ msgstr "Ir a configuraciones"
+#~ msgstr "перейдите в настройки"
 
 #~ msgid "Unpin App"
-#~ msgstr "No fijar la aplicación"
+#~ msgstr "открепить приложение"
 
 #~ msgid "Pin App"
-#~ msgstr "Fijar la aplicación"
+#~ msgstr "контактный приложение"

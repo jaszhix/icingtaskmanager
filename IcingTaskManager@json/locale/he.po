@@ -12,411 +12,281 @@ msgstr ""
 "PO-Revision-Date: 2016-01-05 23:04+0800\n"
 "Last-Translator: Elkana Bardugo <ttv200@gmail.com>\n"
 "Language-Team: none\n"
+"Language: he\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: \n"
-
-#: specialMenus.js:74
-#, c-format
-msgid "Move to monitor %d"
-msgstr "העבר לשולחן עבודה %d"
-
-#: specialMenus.js:91
-msgid "Close All"
-msgstr "סגור הכל"
-
-#: specialMenus.js:94
-msgid "Close"
-msgstr "סגור"
-
-#: specialMenus.js:97 specialMenus.js:492
-msgid "Minimize"
-msgstr "מזער"
-
-#: specialMenus.js:100 specialMenus.js:489
-msgid "Maximize"
-msgstr "הגדל"
-
-#: specialMenus.js:103
-msgid "Move to left workspace"
-msgstr "העבר לשולחן עבודה השמאלי"
-
-#: specialMenus.js:106
-msgid "Move to right workspace"
-msgstr "העבר לשולחן עבודה הימני"
-
-#: specialMenus.js:109 specialMenus.js:479
-msgid "Visible on all workspaces"
-msgstr ""
-
-#: specialMenus.js:134
-msgid "Unpin from Panel"
-msgstr "בטל את ההצמדה מהשורת משימות"
-
-#: specialMenus.js:137
-msgid "Pin to Panel"
-msgstr "הצמד לשורת משימות"
-
-#: specialMenus.js:146
-msgid "Settings"
-msgstr "הגדרות"
-
-#: specialMenus.js:149
-msgid "ReArrange"
-msgstr "אפשר שינוי מיקום בסרגל"
-
-#: specialMenus.js:153
-msgid "Show Pinned"
-msgstr "הראה ישומים מחוברים לשורת משימות"
-
-#: specialMenus.js:157
-msgid "Show Thumbs"
-msgstr "הראה חלון ממוזער"
-
-#: specialMenus.js:161
-msgid "Stack Thumbs"
-msgstr ""
-
-#: specialMenus.js:165
-msgid "Hover to Peek"
-msgstr "בעת הצבעה על תמונה חלון הראה אותו"
-
-#. IcingTaskManager@json->settings-schema.json->show-
-#. recent->description
-#: specialMenus.js:169
-msgid "Show Recent"
-msgstr "הראה אחרונים"
-
-#: specialMenus.js:173
-msgid "Vertical Thumbs"
-msgstr "חלונות ממוזערים בצורה אנכית"
-
-#: specialMenus.js:177
-msgid "   Go to Settings"
-msgstr "פתח את ההגדרות"
-
-#: specialMenus.js:263
-msgid "Install Gda"
-msgstr "התקנן Gda"
-
-#: specialMenus.js:475
-msgid "Only on this workspace"
-msgstr "רק בשולחן העבודה הזה"
-
-#: specialMenus.js:487
-msgid "Unmaximize"
-msgstr "הקטן חלון"
-
-#: specialMenus.js:491
-msgid "Restore"
-msgstr "שחזר"
-
-#. IcingTaskManager@json->metadata.json->description
-msgid "Window List with App Grouping and Window Thumbnails"
-msgstr "שורת משימות עם קיבוץ אפליקציות והצגת חלונות ממוזערים תכלס - כמו בווינדוס"
-
-#. IcingTaskManager@json->metadata.json->name
-msgid "Icing Task Manager"
-msgstr "שורת משימות עם קיבוץ אפליקציות"
-
-#. IcingTaskManager@json->settings-schema.json->thumbnail-
-#. size->description
-msgid "Thumbnail Size:"
-msgstr "גודל תמונה ממוזערת"
-
-#. IcingTaskManager@json->settings-schema.json->thumbnail-
-#. size->tooltip
-#. IcingTaskManager@json->settings-schema.json->hover-peek-
-#. opacity->tooltip
-msgid "Opacity of the windows on peek."
-msgstr "שקיפות החלון בתצוגה מקדימה"
-
-#. IcingTaskManager@json->settings-schema.json->thumbnail-
-#. size->units
-msgid "size"
-msgstr "גודל"
-
-#. IcingTaskManager@json->settings-schema.json->closeall-menu-
-#. item->description
-msgid "Close All Menu Items"
-msgstr "סגור את כל פרטי התפריט"
-
-#. IcingTaskManager@json->settings-schema.json->closeall-menu-
-#. item->tooltip
-msgid "Show a 'Close All' menu item to close all windows for an app."
-msgstr "הראה 'סגור הכל' בתפריט"
-
-#. IcingTaskManager@json->settings-schema.json->show-
-#. thumbnails->description
-msgid "Show Thumbnails"
-msgstr "הראה תמונה ממוזערת"
-
-#. IcingTaskManager@json->settings-schema.json->show-
-#. thumbnails->tooltip
-msgid "Show the Thumbnail Windows"
-msgstr "הראה תמונה ממוזערת של חלון פתוח בעת נגיעה בסמל שלו"
-
-#. IcingTaskManager@json->settings-schema.json->hover-peek-
-#. time->description
-msgid "Window fade time:"
-msgstr "זמן לאפקט:"
-
-#. IcingTaskManager@json->settings-schema.json->hover-peek-
-#. time->tooltip
-msgid "The animation time for the windows on hover peek"
-msgstr "תוך כמה זמן מהנגיעה בתמונה הממוזערת תופעל תצוגה מקדימה"
-
-#. IcingTaskManager@json->settings-schema.json->hover-peek-
-#. time->units
-#. IcingTaskManager@json->settings-schema.json->thumbnail-
-#. timeout->units
-msgid "milliseconds"
-msgstr "מילישניות"
-
-#. IcingTaskManager@json->settings-schema.json->appmenu-
-#. number->description
-msgid "Number of Menu Items:"
-msgstr "מספר הפרטים בתפריט"
-
-#. IcingTaskManager@json->settings-schema.json->appmenu-
-#. number->tooltip
-msgid "The number of AppMenu Items"
-msgstr ""
-
-#. IcingTaskManager@json->settings-schema.json->appmenu-
-#. number->units
-#. IcingTaskManager@json->settings-schema.json->appmenu-
-#. width->units
-msgid "number"
-msgstr "מספר"
-
-#. IcingTaskManager@json->settings-schema.json->title-
-#. display->description
-msgid "Title Display:"
-msgstr "הצגת כותרת"
-
-#. IcingTaskManager@json->settings-schema.json->title-
-#. display->tooltip
-msgid ""
-"focused: show focused window title, title: display the window title, app: "
-"diplay app name, none: don't display anything"
-msgstr ""
-
-#. IcingTaskManager@json->settings-schema.json->title-
-#. display->options
-#. IcingTaskManager@json->settings-schema.json->number-
-#. display->options
-msgid "none"
-msgstr "הסתר כותרת"
-
-#. IcingTaskManager@json->settings-schema.json->title-
-#. display->options
-msgid "focused"
-msgstr "רק בחלון שבפוקוס
-
-#. IcingTaskManager@json->settings-schema.json->title-
-#. display->options
-msgid "app"
-msgstr "אפליקציה"
-
-#. IcingTaskManager@json->settings-schema.json->title-
-#. display->options
-msgid "title"
-msgstr "כותרת"
-
-#. IcingTaskManager@json->settings-
-#. schema.json->AppMenu->description
-msgid "AppMenu Settings"
-msgstr "הגדרות שורת משימות"
-
-#. IcingTaskManager@json->settings-schema.json->sort-
-#. thumbnails->description
-msgid "Sort by last Focused"
-msgstr "מיין לפי האחרון שהיה בפוקוס"
-
-#. IcingTaskManager@json->settings-schema.json->sort-
-#. thumbnails->tooltip
-msgid "Show the last focused first"
-msgstr "הראה לראשונה את החלון האחרון שהיה בפוקוס"
-
-#. IcingTaskManager@json->settings-schema.json->hover-peek-
-#. opacity->description
-msgid "Window opacity:"
-msgstr "שקיפות החלון"
-
-#. IcingTaskManager@json->settings-schema.json->hover-peek-
-#. opacity->units
-msgid "percent"
-msgstr "אחוזים"
-
-#. IcingTaskManager@json->settings-schema.json->enable-hover-
-#. peek->description
-msgid "Enable hover peek"
-msgstr "אפשר תצוגה מקדימה בנגיעה"
-
-#. IcingTaskManager@json->settings-schema.json->enable-hover-
-#. peek->tooltip
-msgid "Enable Hover peek when mouse is over thumbnail"
-msgstr "בנגיעה בתמונה ממוזערת יוצג תצוגה מקדימה של החלון"
-
-#. IcingTaskManager@json->settings-schema.json->icon-
-#. padding->description
-msgid "Icon Padding:"
-msgstr "רווח מצדדי האיקונים"
-
-#. IcingTaskManager@json->settings-schema.json->icon-
-#. padding->tooltip
-msgid "How much Padding is between the icons"
-msgstr "כמה רווח יהיה בין האיקונים"
-
-#. IcingTaskManager@json->settings-schema.json->icon-
-#. padding->units
-msgid "padding"
-msgstr "רווח"
-
-#. IcingTaskManager@json->settings-schema.json->show-
-#. pinned->description
-msgid "Show pinned apps"
-msgstr "הראה אפליקציות צמודות (שאינן פועלות)"
-
-#. IcingTaskManager@json->settings-schema.json->show-
-#. pinned->tooltip
-msgid "Show the pinned apps or just show the open windows"
-msgstr "הראה גם את האפליקציות הצמודות או רק את הפועלות"
-
-#. IcingTaskManager@json->settings-
-#. schema.json->WindowList->description
-msgid "Window List Settings"
-msgstr "הגדרות של רשימת החלונות"
-
-#. IcingTaskManager@json->settings-schema.json->appmenu-
-#. width->description
-msgid "Appmenu Width"
-msgstr "רוחב תפריט אפליקציות"
-
-#. IcingTaskManager@json->settings-schema.json->appmenu-
-#. width->tooltip
-msgid "Set the width of the AppMenu."
-msgstr "הגדר את הרוחב של תפריט התוכנות"
-
-#. IcingTaskManager@json->settings-
-#. schema.json->Thumbnails->description
-msgid "Thumbnail Settings"
-msgstr "הגדרת התמונה ממוצערת"
-
-#. IcingTaskManager@json->settings-schema.json->show-
-#. recent->tooltip
-msgid "Show Recent Menu Items"
-msgstr "הראה פרטי תפריט אחרונים"
-
-#. IcingTaskManager@json->settings-schema.json->vertical-
-#. thumbnails->description
-msgid "Vertical Thumbnails"
-msgstr "תמונות ממוזערות אנכית"
-
-#. IcingTaskManager@json->settings-schema.json->vertical-
-#. thumbnails->tooltip
-msgid "Arrange thumbnails vertically or horizontally"
-msgstr ""
-
-#. IcingTaskManager@json->settings-schema.json->thumbnail-
-#. timeout->description
-msgid "Thumbnail timeout:"
-msgstr "פסק זמן של תמונה ממוזערת"
-
-#. IcingTaskManager@json->settings-schema.json->thumbnail-
-#. timeout->tooltip
-msgid "Thumbnail timeout"
-msgstr ""
-
-#. IcingTaskManager@json->settings-schema.json->stack-
-#. thumbnails->description
-msgid "Stack Thumbnails"
-msgstr "Stack Thumbnails"
-
-#. IcingTaskManager@json->settings-schema.json->stack-
-#. thumbnails->tooltip
-msgid ""
-"Stack the Thumbnail Windows if there are to many thumbnails for the screen"
-msgstr ""
-
-#. IcingTaskManager@json->settings-schema.json->number-
-#. display->description
-msgid "Number Display:"
-msgstr "מספר שולחנות עבודה"
-
-#. IcingTaskManager@json->settings-schema.json->number-
-#. display->tooltip
-msgid ""
-"normal: display window number, smart: display window number if more than one "
-"window, none: don't display number, all: display window number for favorites "
-"too"
-msgstr "רגיל: הראה מספר חלון, חכם: הראה מספר חלון אם יש יותר מחלון חכם, כלום: אל תראה מספר חלון, הכל: הראה מספר חלון למועדפים"
-
-#. IcingTaskManager@json->settings-schema.json->number-
-#. display->options
-msgid "all"
-msgstr "הכל"
-
-#. IcingTaskManager@json->settings-schema.json->number-
-#. display->options
-msgid "Smart"
-msgstr "חכם"
-
-#. IcingTaskManager@json->settings-schema.json->number-
-#. display->options
-msgid "normal"
-msgstr "רגיל"
-
-#. IcingTaskManager@json->settings-schema.json->onclick-
-#. thumbnails->description
-msgid "Open Thumbnails OnClick"
-msgstr "הראה תמונות ממוזערות בלחיצה"
-
-#. IcingTaskManager@json->settings-schema.json->onclick-
-#. thumbnails->tooltip
-msgid "Open the thumbnails on click, if there is more than 1 windows open."
-msgstr "הראה תמונות ממוזערות בלחיצה אם יש יותר מחלון אחד פתוח"
-
-#. IcingTaskManager@json->settings-
-#. schema.json->HoverPeek->description
-msgid "Hover Peek Settings"
-msgstr "הגדרות תצוגה מקדימה בנגיעה"
-
-#. IcingTaskManager@json->settings-schema.json->firefox-
-#. menu->description
-msgid "Firefox AppMenu:"
-msgstr "תפריט אפליקציות Firefox"
-
-#. IcingTaskManager@json->settings-schema.json->firefox-
-#. menu->tooltip
-msgid ""
-"Most Visited: show the sites you visit most, Recent Histor: display the the "
-"last pages you visited, Bookmarks: show your favorite bookmarks"
-msgstr "המבוקרים ביותר - האתרים שביקרת בהם הכי הרבה, האחרונים - האתרים האחרונים שביקרת בהם, מועדפים - מראה את המועדפים"
-
-#. IcingTaskManager@json->settings-schema.json->firefox-
-#. menu->options
-msgid "Bookmarks"
-msgstr "מועדפים"
-
-#. IcingTaskManager@json->settings-schema.json->firefox-
-#. menu->options
-msgid "Most Visited"
-msgstr "הכי מבוקרים"
-
-#. IcingTaskManager@json->settings-schema.json->firefox-
-#. menu->options
-msgid "Recent History"
-msgstr "דפים אחרונים"
-
-#. IcingTaskManager@json->settings-schema.json->arrange-
-#. pinnedApps->description
-msgid "Arrange pinned apps"
-msgstr "הזז אפליקציות צמודות"
-
-#. IcingTaskManager@json->settings-schema.json->arrange-
-#. pinnedApps->tooltip
-msgid "Arrange pinned apps into a different order"
-msgstr "שנה את סדר האפליקציות הצמודות"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#~ msgid "Move to monitor %d"
+#~ msgstr "העבר לשולחן עבודה %d"
+
+#~ msgid "Close All"
+#~ msgstr "סגור הכל"
+
+#~ msgid "Close"
+#~ msgstr "סגור"
+
+#~ msgid "Minimize"
+#~ msgstr "מזער"
+
+#~ msgid "Maximize"
+#~ msgstr "הגדל"
+
+#~ msgid "Move to left workspace"
+#~ msgstr "העבר לשולחן עבודה השמאלי"
+
+#~ msgid "Move to right workspace"
+#~ msgstr "העבר לשולחן עבודה הימני"
+
+#~ msgid "Unpin from Panel"
+#~ msgstr "בטל את ההצמדה מהשורת משימות"
+
+#~ msgid "Pin to Panel"
+#~ msgstr "הצמד לשורת משימות"
+
+#~ msgid "Settings"
+#~ msgstr "הגדרות"
+
+#~ msgid "ReArrange"
+#~ msgstr "אפשר שינוי מיקום בסרגל"
+
+#~ msgid "Show Pinned"
+#~ msgstr "הראה ישומים מחוברים לשורת משימות"
+
+#~ msgid "Show Thumbs"
+#~ msgstr "הראה חלון ממוזער"
+
+#~ msgid "Stack Thumbs"
+#~ msgstr "סטאק Thumbs"
+
+#~ msgid "Hover to Peek"
+#~ msgstr "בעת הצבעה על תמונה חלון הראה אותו"
+
+#~ msgid "Show Recent"
+#~ msgstr "הראה אחרונים"
+
+#~ msgid "Vertical Thumbs"
+#~ msgstr "חלונות ממוזערים בצורה אנכית"
+
+#~ msgid "   Go to Settings"
+#~ msgstr "פתח את ההגדרות"
+
+#~ msgid "Install Gda"
+#~ msgstr "התקנן Gda"
+
+#~ msgid "Only on this workspace"
+#~ msgstr "רק בשולחן העבודה הזה"
+
+#~ msgid "Unmaximize"
+#~ msgstr "הקטן חלון"
+
+#~ msgid "Restore"
+#~ msgstr "שחזר"
+
+#~ msgid "Window List with App Grouping and Window Thumbnails"
+#~ msgstr ""
+#~ "שורת משימות עם קיבוץ אפליקציות והצגת חלונות ממוזערים תכלס - כמו בווינדוס"
+
+#~ msgid "Icing Task Manager"
+#~ msgstr "התקרחות מנהל המשימות"
+
+#~ msgid "Thumbnail size:"
+#~ msgstr "גודל תמונה ממוזערת"
+
+#~ msgid "Opacity of the windows on peek."
+#~ msgstr "שקיפות החלון בתצוגה מקדימה"
+
+#~ msgid "size"
+#~ msgstr "גודל"
+
+#~ msgid "Close All Menu Items"
+#~ msgstr "סגור את כל פרטי התפריט"
+
+#~ msgid "Show a 'Close All' menu item to close all windows for an app."
+#~ msgstr "הראה 'סגור הכל' בתפריט"
+
+#~ msgid "Show Thumbnails"
+#~ msgstr "הראה תמונה ממוזערת"
+
+#~ msgid "Show the Thumbnail Windows"
+#~ msgstr "הראה תמונה ממוזערת של חלון פתוח בעת נגיעה בסמל שלו"
+
+#~ msgid "Window fade time:"
+#~ msgstr "זמן לאפקט:"
+
+#~ msgid "The animation time for the windows on hover peek"
+#~ msgstr "תוך כמה זמן מהנגיעה בתמונה הממוזערת תופעל תצוגה מקדימה"
+
+#~ msgid "milliseconds"
+#~ msgstr "מילישניות"
+
+#~ msgid "Number of context menu items:"
+#~ msgstr "מספר הפריטים בתפריט ההקשר:"
+
+#~ msgid "Controls how many items appear in the context menu."
+#~ msgstr "שולט פריטים רבים מופיעים בתפריט ההקשר."
+
+#~ msgid "number"
+#~ msgstr "מספר"
+
+#~ msgid "Title display:"
+#~ msgstr "הצגת כותרת"
+
+#~ msgid ""
+#~ "focused: show focused window title, title: display the window title, app: "
+#~ "diplay app name, none: don't display anything"
+#~ msgstr ""
+#~ "ממוקדת: תכנית ממוקדת כותרת החלון, הכותרת: להציג את כותרת החלון, האפליקציה:"
+#~ "שם יישום תצוגה, בבול: לא יציג דבר"
+
+#~ msgid "None"
+#~ msgstr "הסתר כותרת"
+
+#~ msgid "Focused"
+#~ msgstr "רק בחלון שבפוקוס"
+
+#~ msgid "App"
+#~ msgstr "אפליקציה"
+
+#~ msgid "Title"
+#~ msgstr "כותרת"
+
+#~ msgid "Context Menu Settings"
+#~ msgstr "הגדרות תפריט ההקשר"
+
+#~ msgid "Sort windows for each app by last focused"
+#~ msgstr "חלונות מיין עבור כל יישום על ידי ממוקד האחרון"
+
+#~ msgid ""
+#~ "Controls whether the order windows appear for an app is by last focused, "
+#~ "or the order they were opened."
+#~ msgstr ""
+#~ "הגדרה זו קובע אם ההסדר חלונות להופיע על אפליקציה הוא ממוקד האחרון, או "
+#~ "בסדר פתיחתם."
+
+#~ msgid "Window opacity:"
+#~ msgstr "שקיפות החלון"
+
+#~ msgid "percent"
+#~ msgstr "אחוזים"
+
+#~ msgid "Show windows when hovered over"
+#~ msgstr "הצג חלונות כאשר ריחפה מעל"
+
+#~ msgid "Controls whether or not windows display when hovered over."
+#~ msgstr "הגדרה זו קובעת אם או לא להציג חלונות כאשר ריחפה מעל."
+
+#~ msgid "Icon padding:"
+#~ msgstr "רווח מצדדי האיקונים"
+
+#~ msgid "Controls how much space is between the icons."
+#~ msgstr "בקרת כמה מקום הוא בין הסמלים."
+
+#~ msgid "padding"
+#~ msgstr "רווח"
+
+#~ msgid "Show pinned apps"
+#~ msgstr "הראה אפליקציות צמודות (שאינן פועלות)"
+
+#~ msgid ""
+#~ "Controls whether or not the pinned apps appear in the panel if they are "
+#~ "not open."
+#~ msgstr "קובע אם לאו היישומים המוצמדים מופיעים בלוח אם הם אינם פתוחים."
+
+#~ msgid "Window List Settings"
+#~ msgstr "הגדרות של רשימת החלונות"
+
+#~ msgid "Context Menu Width"
+#~ msgstr "רוחב תפריט ההקשר"
+
+#~ msgid "Set the width of the context menu."
+#~ msgstr "מגדיר רוחב של תפריט ההקשר."
+
+#~ msgid "Thumbnail Settings"
+#~ msgstr "הגדרת התמונה ממוצערת"
+
+#~ msgid "Controls whether recent items will appear in the context menu."
+#~ msgstr "קובע אם הפריטים האחרונים יופיעו בתפריט ההקשר."
+
+#~ msgid "Enable vertical thumbnails"
+#~ msgstr "אפשר תמונות ממוזערות אנכיות"
+
+#~ msgid "If enabled, thumbnails will stack vertically."
+#~ msgstr "אם מאופשר, תמונות ממוזערות תהיינה מחסנית אנכית."
+
+#~ msgid "Thumbnail timeout:"
+#~ msgstr "פסק זמן של תמונה ממוזערת"
+
+#~ msgid ""
+#~ "Controls how quickly an app's set of window thumbnails will fade out when "
+#~ "the mouse leaves the app button."
+#~ msgstr ""
+#~ "Controls כיצד הסט של אפליקציה במהירות של תמונות ממוזערות חלון יהיה לדהות "
+#~ "כאשר העכבר עוזב את כפתור האפליקציה."
+
+#~ msgid "Stack window thumbnails"
+#~ msgstr "תמונות ממוזערות חלון סטאק"
+
+#~ msgid "Stack window thumbnails if they exceed the available screen space."
+#~ msgstr "סטאק ממוזערת חלון אם הן עולות על שטח התצוגה."
+
+#~ msgid "Number display:"
+#~ msgstr "מספר שולחנות עבודה"
+
+#~ msgid ""
+#~ "normal: display window number, smart: display window number if more than "
+#~ "one window, none: don't display number, all: display window number for "
+#~ "favorites too"
+#~ msgstr ""
+#~ "רגיל: הראה מספר חלון, חכם: הראה מספר חלון אם יש יותר מחלון חכם, כלום: אל "
+#~ "תראה מספר חלון, הכל: הראה מספר חלון למועדפים"
+
+#~ msgid "All"
+#~ msgstr "הכל"
+
+#~ msgid "Smart"
+#~ msgstr "חכם"
+
+#~ msgid "Normal"
+#~ msgstr "רגיל"
+
+#~ msgid "Open thumbnails on click"
+#~ msgstr "תמונות ממוזערות דף בלחיצה"
+
+#~ msgid "Open the thumbnails on click if there is more than one window open."
+#~ msgstr "פתח את התמונות הממוזערות על קליק אם יש יותר מאחד חלון פתוח."
+
+#~ msgid "Hover Peek Settings"
+#~ msgstr "הגדרות תצוגה מקדימה בנגיעה"
+
+#~ msgid "Firefox context menu:"
+#~ msgstr "תפריט ההקשר פיירפוקס:"
+
+#~ msgid ""
+#~ "Most Visited: show the sites you visit most, Recent Histor: display the "
+#~ "the last pages you visited, Bookmarks: show your favorite bookmarks"
+#~ msgstr ""
+#~ "המבוקרים ביותר - האתרים שביקרת בהם הכי הרבה, האחרונים - האתרים האחרונים "
+#~ "שביקרת בהם, מועדפים - מראה את המועדפים"
+
+#~ msgid "Bookmarks"
+#~ msgstr "מועדפים"
+
+#~ msgid "Most Visited"
+#~ msgstr "הכי מבוקרים"
+
+#~ msgid "Recent History"
+#~ msgstr "דפים אחרונים"
+
+#~ msgid "Arrange pinned apps"
+#~ msgstr "הזז אפליקציות צמודות"
+
+#~ msgid "Arrange pinned apps into a different order."
+#~ msgstr "שנה את סדר האפליקציות הצמודות."
+
+#~ msgid "Icon size:"
+#~ msgstr "גודל אייקון:"
+
+#~ msgid "Adjust icon size independent of Cinnamon's panel scaling."
+#~ msgstr "התאם גודל סמל עצמאי של אבנית הלוח של הקינמון."
