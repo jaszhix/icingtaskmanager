@@ -12,21 +12,21 @@
     "description" : "Number Display:",
     "options" : {
         "Smart" : 1,
-        "normal" : 2,
-        "none" : 3,
-        "all" : 4
+        "Normal" : 2,
+        "None" : 3,
+        "All" : 4
     },
     "tooltip" : "normal: display window number, smart: display window number if more than one window, none: don't display number, all: display window number for favorites too"
  },
  "title-display" : {
     "type": "combobox",
     "default" : 1,
-    "description" : "Title Display:",
+    "description" : "Title display:",
     "options" : {
-        "none" : 1,
-        "app" : 2,
-        "title" : 3,
-        "focused" : 4
+        "None" : 1,
+        "App" : 2,
+        "Title" : 3,
+        "Focused" : 4
     },
     "tooltip" : "focused: show focused window title, title: display the window title, app: diplay app name, none: don't display anything"
  },
@@ -42,19 +42,19 @@
     "type" : "checkbox",
     "default" : true,
     "description": "Show app alerts and notifications",
-    "tooltip": "Show app alerts and notifications"
+    "tooltip": "If enabled, notifications and alerts will appear."
  },
  "show-pinned" : {
     "type" : "checkbox",
     "default" : true,
     "description": "Show pinned apps",
-    "tooltip": "Show the pinned apps or just show the open windows"
+    "tooltip": "Controls whether or not the pinned apps appear in the panel if they are not open."
  },
  "arrange-pinnedApps" : {
     "type" : "checkbox",
     "default" : false,
     "description": "Arrange pinned apps",
-    "tooltip": "Arrange pinned apps into a different order"
+    "tooltip": "Arrange pinned apps into a different order."
  },
  "icon-padding" : {
     "type": "spinbutton",
@@ -63,14 +63,14 @@
     "max" : 15,
     "step" : 1,
     "units" : "padding",
-    "description" : "Icon Padding:",
-    "tooltip" : "How much Padding is between the icons"
+    "description" : "Icon padding:",
+    "tooltip" : "Controls how much space is between the icons."
  },
  "enable-iconSize" : {
     "type" : "checkbox",
     "default" : false,
     "description": "Adjust icon size",
-    "tooltip": "Adjust icon size independent of Cinnamon's panel scaling"
+    "tooltip": "Adjust icon size independent of Cinnamon's panel scaling."
  },
  "icon-size" : {
    "type": "spinbutton",
@@ -96,8 +96,8 @@
  "enable-hover-peek" : {
     "type" : "checkbox",
     "default" : false,
-    "description": "Enable hover peek",
-    "tooltip": "Enable Hover peek when mouse is over thumbnail"
+    "description": "Show windows when hovered over",
+    "tooltip": "Controls whether or not windows display when hovered over."
  },
  "hover-peek-time" : {
     "type": "spinbutton",
@@ -107,7 +107,7 @@
     "step" : 5,
     "units" : "milliseconds",
     "description" : "Window fade time:",
-    "tooltip" : "The animation time for the windows on hover peek"
+    "tooltip" : "Controls how quickly an app's set of window thumbnails will fade in when the mouse leaves the app button."
  },
  "hover-peek-opacity" : {
     "type": "spinbutton",
@@ -138,7 +138,7 @@
     "step" : 50,
     "units" : "milliseconds",
     "description" : "Thumbnail timeout:",
-    "tooltip" : "Thumbnail timeout"
+    "tooltip" : "Controls how quickly an app's set of window thumbnails will fade out when the mouse leaves the app button."
  },
  "thumbnail-size" : {
     "type": "spinbutton",
@@ -147,38 +147,38 @@
     "max" : 100,
     "step" : 1,
     "units" : "size",
-    "description" : "Thumbnail Size:",
-    "tooltip" : "Opacity of the windows on peek."
+    "description" : "Thumbnail size:",
+    "tooltip" : "Controls the size of the thumbnails."
  },
  "show-thumbnails" : {
     "type" : "checkbox",
     "default" : true,
-    "description": "Show Thumbnails",
-    "tooltip": "Show the Thumbnail Windows"
+    "description": "Show thumbnails",
+    "tooltip": "Show window thumbnails when hovering over an app button."
  },
  "vertical-thumbnails" : {
     "type" : "checkbox",
     "default" : false,
-    "description": "Vertical Thumbnails",
-    "tooltip": "Arrange thumbnails vertically or horizontally"
+    "description": "Enable vertical thumbnails",
+    "tooltip": "If enabled, thumbnails will stack vertically."
  },
  "stack-thumbnails" : {
     "type" : "checkbox",
     "default" : true,
-    "description": "Stack Thumbnails",
-    "tooltip": "Stack the Thumbnail Windows if there are to many thumbnails for the screen"
+    "description": "Stack window thumbnails",
+    "tooltip": "Stack window thumbnails if they exceed the available screen space."
  },
  "sort-thumbnails" : {
     "type" : "checkbox",
     "default" : false,
-    "description": "Sort by last Focused",
-    "tooltip": "Show the last focused first"
+    "description": "Sort windows for each app by last focused",
+    "tooltip": "Controls whether the order windows appear for an app is by last focused, or the order they were opened."
  },
  "onclick-thumbnails" : {
     "type" : "checkbox",
     "default" : false,
-    "description": "Open Thumbnails OnClick",
-    "tooltip": "Open the thumbnails on click, if there is more than 1 windows open."
+    "description": "Open thumbnails on click",
+    "tooltip": "Open the thumbnails on click if there is more than one window open."
  },
  "Space3" : {
     "type" : "header",
@@ -186,7 +186,7 @@
  },
  "AppMenu" : {
     "type" : "header",
-    "description": "AppMenu Settings"
+    "description": "Context Menu Settings"
  },
  "seperator4" : {
     "type" : "separator"
@@ -194,14 +194,14 @@
  "show-recent" : {
     "type" : "checkbox",
     "default" : true,
-    "description": "Show Recent",
-    "tooltip": "Show Recent Menu Items"
+    "description": "Show recent items",
+    "tooltip": "Controls whether recent items will appear in the context menu."
  },
  "closeall-menu-item" : {
     "type" : "checkbox",
     "default" : false,
-    "description": "Close All Menu Items",
-    "tooltip" : "Show a 'Close All' menu item to close all windows for an app."
+    "description": "Enable option to close all windows",
+    "tooltip" : "Show a \"Close All\" context menu item to close all windows for an app."
  },
  "appmenu-width" : {
     "type": "spinbutton",
@@ -210,19 +210,19 @@
     "max" : 500,
     "step" : 10,
     "units" : "number",
-    "description": "Appmenu Width",
-    "tooltip" : "Set the width of the AppMenu."
+    "description": "Context menu width:",
+    "tooltip" : "Set the width of the context menu."
  },
  "firefox-menu" : {
     "type": "combobox",
     "default" : 1,
-    "description" : "Firefox AppMenu:",
+    "description" : "Firefox context menu",
     "options" : {
         "Most Visited" : 1,
         "Recent History" : 2,
         "Bookmarks" : 3
     },
-    "tooltip" : "Most Visited: show the sites you visit most, Recent Histor: display the the last pages you visited, Bookmarks: show your favorite bookmarks"
+    "tooltip" : "Most Visited: show the sites you visit most, Recent History: display the the last pages you visited, Bookmarks: show your favorite bookmarks."
  },
  "appmenu-number" : {
     "type": "spinbutton",
@@ -231,7 +231,7 @@
     "max" : 50,
     "step" : 1,
     "units" : "number",
-    "description" : "Number of Menu Items:",
-    "tooltip" : "The number of AppMenu Items"
+    "description" : "Number of context menu items:",
+    "tooltip" : "Controls how many items appear in the context menu."
  }
 }
