@@ -8,7 +8,7 @@
  },
  "number-display" : {
     "type": "combobox",
-    "default" : 2,
+    "default" : 1,
     "description" : "Number Display:",
     "options" : {
         "Smart" : 1,
