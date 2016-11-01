@@ -12,6 +12,10 @@ This is a fork of the unfinished development branch of [Window List With App Gro
 
 See more changes in the [changelog](https://github.com/jaszhix/icingtaskmanager/blob/master/CHANGELOG.md).
 
+Firefox History
+--------------
+You will need to install the gir1.2-gda-5.0 package to have Firefox's history show up in its context menu.
+
 How to Install
 --------------
 Run the configure.py script.
