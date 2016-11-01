@@ -1,0 +1,9 @@
+{
+    "description": "Window List with App Grouping and Window Thumbnails", 
+    "max-instances": 2, 
+    "dangerous": false, 
+    "name": "Icing Task Manager", 
+    "version": "3.0.3", 
+    "role": "panellauncher", 
+    "uuid": "IcingTaskManager@json"
+}

@@ -1,118 +1,114 @@
-/* jshint moz:true */
-let Gda
-const GLib = imports.gi.GLib
-const Gettext = imports.gettext
+'use strict';
 
-function _ (str) {
-  let resultConf = Gettext.dgettext('IcingTaskManager@json', str)
+/* jshint moz:true */
+var Gda = void 0;
+var GLib = imports.gi.GLib;
+var Gettext = imports.gettext;
+
+function _(str) {
+  var resultConf = Gettext.dgettext('IcingTaskManager@json', str);
   if (resultConf != str) {
-    return resultConf
+    return resultConf;
   }
-  return Gettext.gettext(str)
+  return Gettext.gettext(str);
 }
 
 try {
-  Gda = imports.gi.Gda
-} catch(e) {}
+  Gda = imports.gi.Gda;
+} catch (e) {}
 
-function getFirefoxHistory (applet) {
-  let history = []
+function getFirefoxHistory(applet) {
+  var history = [];
 
   if (!Gda) {
-    log(' Gda Library not found install gir1.2-gda package')
-    return null
+    log(' Gda Library not found install gir1.2-gda package');
+    return null;
   }
 
-  let cfgPath = GLib.build_filenamev(
-    [GLib.get_home_dir(), '.mozilla', 'firefox'])
+  var cfgPath = GLib.build_filenamev([GLib.get_home_dir(), '.mozilla', 'firefox']);
 
-  let iniPath = GLib.build_filenamev([cfgPath, 'profiles.ini'])
+  var iniPath = GLib.build_filenamev([cfgPath, 'profiles.ini']);
 
-  let profilePath
+  var profilePath = void 0;
 
   if (GLib.file_test(iniPath, GLib.FileTest.EXISTS)) {
-    let iniFile = new GLib.KeyFile()
-    let groups, nGroups
+    var iniFile = new GLib.KeyFile();
+    var groups = void 0,
+        nGroups = void 0;
 
-    iniFile.load_from_file(iniPath, GLib.KeyFileFlags.NONE)
+    iniFile.load_from_file(iniPath, GLib.KeyFileFlags.NONE)[(groups, nGroups)] = iniFile.get_groups();
 
-    [groups, nGroups] = iniFile.get_groups()
-
-    for (let i = 0; i < nGroups; i++) {
-      let isRelative, profileName, profileDir
+    for (var i = 0; i < nGroups; i++) {
+      var isRelative = void 0,
+          profileName = void 0,
+          profileDir = void 0;
 
       try {
-        isRelative = iniFile.get_integer(groups[i], 'IsRelative')
-        profileName = iniFile.get_string(groups[i], 'Name')
-        profileDir = iniFile.get_string(groups[i], 'Path')
-      } catch(e) {
-        continue
+        isRelative = iniFile.get_integer(groups[i], 'IsRelative');
+        profileName = iniFile.get_string(groups[i], 'Name');
+        profileDir = iniFile.get_string(groups[i], 'Path');
+      } catch (e) {
+        continue;
       }
 
       if (profileName == 'default') {
         if (isRelative) {
-          profilePath = GLib.build_filenamev(
-            [cfgPath, profileDir])
+          profilePath = GLib.build_filenamev([cfgPath, profileDir]);
         } else {
-          profilePath = profileDir
+          profilePath = profileDir;
         }
       }
     }
   }
 
   if (!profilePath) {
-    return history
+    return history;
   }
 
-  let filePath = GLib.build_filenamev([profilePath, 'places.sqlite'])
+  var filePath = GLib.build_filenamev([profilePath, 'places.sqlite']);
 
-  if (! GLib.file_test(filePath, GLib.FileTest.EXISTS)) {
-    return history
+  if (!GLib.file_test(filePath, GLib.FileTest.EXISTS)) {
+    return history;
   }
 
-  let con, result
+  var con = void 0,
+      result = void 0;
 
   try {
-    con = Gda.Connection.open_from_string(
-      'SQLite', 'DB_DIR=' + profilePath + ';DB_NAME=places.sqlite',
-      null, Gda.ConnectionOptions.READ_ONLY)
-  } catch(e) {
-    logError(e)
-    return history
+    con = Gda.Connection.open_from_string('SQLite', 'DB_DIR=' + profilePath + ';DB_NAME=places.sqlite', null, Gda.ConnectionOptions.READ_ONLY);
+  } catch (e) {
+    logError(e);
+    return history;
   }
 
   try {
-    if (applet.firefoxMenu == 1)
-      result = con.execute_select_command('SELECT title,url FROM moz_places WHERE title IS NOT NULL ORDER BY visit_count DESC')
-    else if (applet.firefoxMenu == 2)
-      result = con.execute_select_command('SELECT title,url FROM moz_places WHERE title IS NOT NULL ORDER BY last_visit_date DESC')
-    else
-      result = con.execute_select_command('SELECT moz_bookmarks.title,moz_places.url FROM (moz_bookmarks INNER JOIN moz_places ON moz_bookmarks.fk=moz_places.id) WHERE moz_bookmarks.parent IS NOT 1 AND moz_bookmarks.parent IS NOT 2 AND moz_bookmarks.title IS NOT NULL ORDER BY moz_bookmarks.lastModified DESC')
-  } catch(e) {
-    log(e)
-    con.close()
-    return history
+    if (applet.firefoxMenu == 1) result = con.execute_select_command('SELECT title,url FROM moz_places WHERE title IS NOT NULL ORDER BY visit_count DESC');else if (applet.firefoxMenu == 2) result = con.execute_select_command('SELECT title,url FROM moz_places WHERE title IS NOT NULL ORDER BY last_visit_date DESC');else result = con.execute_select_command('SELECT moz_bookmarks.title,moz_places.url FROM (moz_bookmarks INNER JOIN moz_places ON moz_bookmarks.fk=moz_places.id) WHERE moz_bookmarks.parent IS NOT 1 AND moz_bookmarks.parent IS NOT 2 AND moz_bookmarks.title IS NOT NULL ORDER BY moz_bookmarks.lastModified DESC');
+  } catch (e) {
+    log(e);
+    con.close();
+    return history;
   }
 
-  let nRows = result.get_n_rows()
-  let num = applet.appMenuNum
+  var nRows = result.get_n_rows();
+  var num = applet.appMenuNum;
   if (nRows > num) {
-    nRows = num
+    nRows = num;
   }
-  
-  for (let row = 0; row < nRows; row++) {
-    let title, uri
+
+  for (var row = 0; row < nRows; row++) {
+    var title = void 0,
+        uri = void 0;
 
     try {
-      title = result.get_value_at(0, row)
-      uri = result.get_value_at(1, row)
-    } catch(e) {
-      logError(e)
-      continue
+      title = result.get_value_at(0, row);
+      uri = result.get_value_at(1, row);
+    } catch (e) {
+      logError(e);
+      continue;
     }
-    history.push({uri: uri, title: title})
+    history.push({ uri: uri, title: title });
   }
 
-  con.close()
-  return history
+  con.close();
+  return history;
 }

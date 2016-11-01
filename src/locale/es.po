@@ -1,0 +1,231 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Window List Group 2.8\n"
+"Report-Msgid-Bugs-To: NA\n"
+"POT-Creation-Date: 2015-07-16 23:04+0800\n"
+"PO-Revision-Date: 2014-09-09 13:31-0600\n"
+"Last-Translator: Lester Carballo Pérez <lestcape@gmail.com>\n"
+"Language-Team: jake-phy <jake.phy@gmail.com>\n"
+"Language: es\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Poedit 1.5.4\n"
+
+#~ msgid "Close All"
+#~ msgstr "Cerrar Todo"
+
+#~ msgid "Close"
+#~ msgstr "Cerrar"
+
+#~ msgid "Minimize"
+#~ msgstr "Minimizar"
+
+#~ msgid "Maximize"
+#~ msgstr "Maximizar"
+
+#~ msgid "Move to left workspace"
+#~ msgstr "Mover al área de trabajo de la izquierda"
+
+#~ msgid "Move to right workspace"
+#~ msgstr "Mover al área de trabajo de la derecha"
+
+#~ msgid "Visible on all workspaces"
+#~ msgstr "Mostrar en todas las áreas de trabajo"
+
+#~ msgid "ReArrange"
+#~ msgstr "Reordenar"
+
+#~ msgid "Show Pinned"
+#~ msgstr "Mostrar Fijadas "
+
+#~ msgid "Show Thumbs"
+#~ msgstr "Mostrar Miniaturas"
+
+#~ msgid "Stack Thumbs"
+#~ msgstr "Aplicar Miniaturas"
+
+#~ msgid "Hover to Peek"
+#~ msgstr "Realizar Vistazo cuando el ratón está encima"
+
+#~ msgid "Vertical Thumbs"
+#~ msgstr "Miniaturas verticales"
+
+#~ msgid "Only on this workspace"
+#~ msgstr "Solo en esta área de trabajo"
+
+#~ msgid "Unmaximize"
+#~ msgstr "No maximizada"
+
+#~ msgid "Restore"
+#~ msgstr "Restaurar"
+
+#~ msgid "Thumbnail Size:"
+#~ msgstr "Tamaño de las Miniaturas:"
+
+#~ msgid "Opacity of the windows on peek."
+#~ msgstr "Opacidad de las ventanas de vistazo."
+
+#~ msgid "size"
+#~ msgstr "Tamaño"
+
+#~ msgid "Show Thumbnails"
+#~ msgstr "Mostrar Miniaturas"
+
+#~ msgid "Show the Thumbnail Windows"
+#~ msgstr "Mostrar Miniaturas de Ventanas"
+
+#~ msgid "Window fade time:"
+#~ msgstr "Tiempo de desvanecimiento de las ventanas:"
+
+#~ msgid "The animation time for the windows on hover peek"
+#~ msgstr "Tiempo de animación de las ventanas, al realizar un vistazo"
+
+#~ msgid "milliseconds"
+#~ msgstr "milisegundos"
+
+#~ msgid "Title Display:"
+#~ msgstr "Título de pantalla:"
+
+#~ msgid ""
+#~ "focused: show focused window title, title: display the window title, app: "
+#~ "diplay app name, none: don't display anything"
+#~ msgstr ""
+#~ "enfocado: muestra el título de la ventana con el foco, título: muestra el "
+#~ "título de la ventana, aplicación: muestra el nombre de la aplicación, "
+#~ "nada: no muestra nada"
+
+#~ msgid "none"
+#~ msgstr "nada"
+
+#~ msgid "focused"
+#~ msgstr "enfocado"
+
+#~ msgid "app"
+#~ msgstr "aplicación"
+
+#~ msgid "title"
+#~ msgstr "título"
+
+#~ msgid "Window opacity:"
+#~ msgstr "Opacidad de la ventana:"
+
+#~ msgid "percent"
+#~ msgstr "porcentaje"
+
+#~ msgid "Enable hover peek"
+#~ msgstr "Habilitar vistazo cuando el ratón se encuentra sobre el área."
+
+#~ msgid "Enable Hover peek when mouse is over thumbnail"
+#~ msgstr "Activar vistazo flotante cuando el ratón está sobre la miniatura"
+
+#~ msgid "Icon Padding:"
+#~ msgstr "Relleno del Icono:"
+
+#~ msgid "How much Padding is between the icons"
+#~ msgstr "Cuanto relleno poner entre los iconos"
+
+#~ msgid "padding"
+#~ msgstr "relleno"
+
+#~ msgid "Show pinned apps"
+#~ msgstr "Mostrar aplicaciones fijas"
+
+#~ msgid "Show the pinned apps or just show the open windows"
+#~ msgstr ""
+#~ "Mostrar las aplicaciones fijas o simplemente mostrar las ventanas abiertas"
+
+#~ msgid "Window List Settings"
+#~ msgstr "Configuración de la Lista de Ventanas"
+
+#~ msgid "Thumbnail Settings"
+#~ msgstr "Configuración de Miniaturas"
+
+#~ msgid "Vertical Thumbnails"
+#~ msgstr "Miniaturas Verticales"
+
+#~ msgid "Arrange thumbnails vertically or horizontally"
+#~ msgstr "Organizar miniaturas vertical u horizontalmente"
+
+#~ msgid "Thumbnail timeout:"
+#~ msgstr "Tiempo de espera de las miniaturas:"
+
+#~ msgid "Thumbnail timeout"
+#~ msgstr "Tiempo de espera de las miniaturas"
+
+#~ msgid "Stack Thumbnails"
+#~ msgstr "Apilar Miniaturas"
+
+#~ msgid ""
+#~ "Stack the Thumbnail Windows if there are to many thumbnails for the screen"
+#~ msgstr ""
+#~ "Apilar Miniaturas de Ventanas, si hay muchas imágenes de miniaturas en la "
+#~ "pantalla"
+
+#~ msgid "Number Display:"
+#~ msgstr "Mostrar Número:"
+
+#~ msgid ""
+#~ "normal: display window number, smart: display window number if more than "
+#~ "one window, none: don't display number, all: display window number for "
+#~ "favorites too"
+#~ msgstr ""
+#~ "normal: muestra el número de la ventana, inteligente: muestra el número "
+#~ "de la ventana, solo si hay más de una, nada: no muestra el número, todos: "
+#~ "muestra el número también para favoritos"
+
+#~ msgid "all"
+#~ msgstr "todos"
+
+#~ msgid "Smart"
+#~ msgstr "inteligente"
+
+#~ msgid "normal"
+#~ msgstr "normal"
+
+#~ msgid "Open Thumbnails OnClick"
+#~ msgstr "Abrir Miniaturas al hacer clic"
+
+#~ msgid "Open the thumbnails on click, if there is more than 1 windows open."
+#~ msgstr ""
+#~ "Abrir las imágenes en miniatura al hacer clic, solo si hay más de 1 "
+#~ "ventana abierta."
+
+#~ msgid "Hover Peek Settings"
+#~ msgstr "Configuración del Vistazo"
+
+#~ msgid "Arrange pinned apps"
+#~ msgstr "Ordenar aplicaciones fijas"
+
+#~ msgid "Arrange pinned apps into a different order"
+#~ msgstr "Ordenar aplicaciones fijas en un orden diferente"
+
+#~ msgid "Group Apps"
+#~ msgstr "Agrupar aplicaciones"
+
+#~ msgid " "
+#~ msgstr " "
+
+#~ msgid "Group apps into single icon"
+#~ msgstr "Agrupar las aplicaciones en un solo icono."
+
+#~ msgid "Group the open app instances into single icon"
+#~ msgstr "Agrupar las instancias de aplicaciones abiertas en un solo icono"
+
+#~ msgid "New Window"
+#~ msgstr "Nueva Ventana"
+
+#~ msgid "Go to Settings"
+#~ msgstr "Ir a configuraciones"
+
+#~ msgid "Unpin App"
+#~ msgstr "No fijar la aplicación"
+
+#~ msgid "Pin App"
+#~ msgstr "Fijar la aplicación"

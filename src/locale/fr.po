@@ -1,0 +1,324 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: NA\n"
+"POT-Creation-Date: 2016-08-22 23:04+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bits\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#~ msgid "Move to monitor %d"
+#~ msgstr "Déplacer vers le moniteur %d"
+
+#~ msgid "Close All"
+#~ msgstr "Tout fermer"
+
+#~ msgid "Close"
+#~ msgstr "Fermer"
+
+#~ msgid "Minimize"
+#~ msgstr "Minimiser"
+
+#~ msgid "Maximize"
+#~ msgstr "Maximiser"
+
+#~ msgid "Move to left workspace"
+#~ msgstr "Déplacer vers l'espace de travail à gauche"
+
+#~ msgid "Move to right workspace"
+#~ msgstr "Déplacer vers l'espace de travail à droite"
+
+#~ msgid "Visible on all workspaces"
+#~ msgstr "Visible dans tous les espaces de travail"
+
+#~ msgid "Unpin from Panel"
+#~ msgstr "Retirer du panneau"
+
+#~ msgid "Pin to Panel"
+#~ msgstr "Epingler au panneau"
+
+#~ msgid "Settings"
+#~ msgstr "Options"
+
+#~ msgid "ReArrange"
+#~ msgstr "Modifier l'ordre des applications"
+
+#~ msgid "Show Pinned"
+#~ msgstr "Afficher les applications épinglées"
+
+#~ msgid "Show Thumbs"
+#~ msgstr "Afficher les miniatures"
+
+#~ msgid "Stack Thumbs"
+#~ msgstr "Empiler les miniatures"
+
+#~ msgid "Hover to Peek"
+#~ msgstr "Mise en évidence des applications"
+
+#~ msgid "Vertical Thumbs"
+#~ msgstr "Miniatures verticales"
+
+#~ msgid "   Go to Settings"
+#~ msgstr "Configurer..."
+
+#~ msgid "Install Gda"
+#~ msgstr "Installer Gda"
+
+#~ msgid "Only on this workspace"
+#~ msgstr "Uniquement sur cet espace de travail"
+
+#~ msgid "Unmaximize"
+#~ msgstr "Restaurer"
+
+#~ msgid "Restore"
+#~ msgstr "Recharger"
+
+#~ msgid "Window List with App Grouping an Window Thumbnails"
+#~ msgstr "Liste des fenêtres avec regroupement et miniatures des applications"
+
+#~ msgid "Icing Task Manager"
+#~ msgstr "Gestionnaire de tâches Icing"
+
+#~ msgid "Thumbnail size:"
+#~ msgstr "Taille des miniatures :"
+
+#~ msgid "Opacity of the windows on hover."
+#~ msgstr "Opacité des fenêtres en vol stationnaire."
+
+#~ msgid "size"
+#~ msgstr "taille"
+
+#~ msgid "Close All Menu Items"
+#~ msgstr "Fermer toutes les instances d'une application via le menu"
+
+#~ msgid ""
+#~ "Show a \"Close All\" context menu item to close all windows for an app."
+#~ msgstr ""
+#~ "Afficher un élément de menu contextuel \"Fermer tout\" pour fermer toutes "
+#~ "les fenêtres d'une application."
+
+#~ msgid "Show thumbnails"
+#~ msgstr "Afficher les miniatures"
+
+#~ msgid "Show window thumbnails when hovering over an app button."
+#~ msgstr ""
+#~ "Afficher les vignettes de la fenêtre en survolant un bouton de "
+#~ "l'application."
+
+#~ msgid "Window fade time:"
+#~ msgstr "Durée de l'animation :"
+
+#~ msgid "Controls how quickly a window will fade on hover."
+#~ msgstr ""
+#~ "Contrôle la vitesse à laquelle une fenêtre se fanera en vol stationnaire."
+
+#~ msgid "milliseconds"
+#~ msgstr "millisecondes"
+
+#~ msgid "Number of context menu items:"
+#~ msgstr "Nombre d'éléments de menu contextuel:"
+
+#~ msgid "Controls how many items appear in the context menu."
+#~ msgstr "Contrôle le nombre d'éléments affichés dans le menu contextuel."
+
+#~ msgid "number"
+#~ msgstr "pixels"
+
+#~ msgid "Title display:"
+#~ msgstr "Affichage du libellé de l'application :"
+
+#~ msgid ""
+#~ "focused: show focused window title, title: display the window title, app: "
+#~ "diplay app name, none: don't display anything"
+#~ msgstr ""
+#~ "Désactivé : N'affiche aucun libellé.\n"
+#~ "Application : Affiche le nom de l'application.\n"
+#~ "Active : Affiche le titre de l'application active.\n"
+#~ "Titre : Affiche le titre de l'application."
+
+#~ msgid "None"
+#~ msgstr "Désactivé"
+
+#~ msgid "Focused"
+#~ msgstr "Active"
+
+#~ msgid "App"
+#~ msgstr "Application"
+
+#~ msgid "Title"
+#~ msgstr "Titre"
+
+#~ msgid "If enabled, notifications and alerts will appear."
+#~ msgstr ""
+#~ "Si cette option est activée, des notifications et des alertes s'affichent."
+
+#~ msgid "Context Menu Settings"
+#~ msgstr "Paramètres du menu contextuel"
+
+#~ msgid "Sort windows for each app by last focused"
+#~ msgstr "Trier les fenêtres pour chaque application en mettant au point"
+
+#~ msgid ""
+#~ "Controls whether the order windows appear for an app is by last focused, "
+#~ "or the order they were opened."
+#~ msgstr ""
+#~ "Détermine si les fenêtres de commande apparaissent pour une application "
+#~ "en dernier, ou dans l'ordre dans lequel elles ont été ouvertes."
+
+#~ msgid "Window opacity:"
+#~ msgstr "Opacité des autres fenêtres :"
+
+#~ msgid "percent"
+#~ msgstr "%"
+
+#~ msgid "Show windows when hovered over"
+#~ msgstr "Afficher les fenêtres en vol stationnaire"
+
+#~ msgid "Controls whether or not windows display when hovered over."
+#~ msgstr "Contrôle si les fenêtres s'affichent ou non lorsque survolé."
+
+#~ msgid "Icon padding:"
+#~ msgstr "Espace supplémentaire entre les icônes :"
+
+#~ msgid "Controls how much space is between the icons."
+#~ msgstr "Contrôle l'espace entre les icônes."
+
+#~ msgid "padding"
+#~ msgstr "pixels"
+
+#~ msgid "Show pinned apps"
+#~ msgstr "Afficher les applications épinglées"
+
+#~ msgid ""
+#~ "Controls whether or not the pinned apps appear in the panel if they are "
+#~ "not open."
+#~ msgstr ""
+#~ "Contrôle si les applications épinglées apparaissent dans le panneau si "
+#~ "elles ne sont pas ouvertes."
+
+#~ msgid "Window List Settings"
+#~ msgstr "Paramètres de la liste des applications"
+
+#~ msgid "Context menu width:"
+#~ msgstr "Largeur du menu contextuel:"
+
+#~ msgid "Set the width of the context menu."
+#~ msgstr "Définir la largeur du menu contextuel."
+
+#~ msgid "Thumbnail Settings"
+#~ msgstr "Paramètres des miniatures"
+
+#~ msgid "Show recent items"
+#~ msgstr "Afficher les locations récentes dans le menu"
+
+#~ msgid "Enable vertical thumbnails"
+#~ msgstr "Activer les vignettes verticales"
+
+#~ msgid "If enabled, thumbnails will stack vertically."
+#~ msgstr ""
+#~ "Si cette option est activée, les vignettes s'empilent verticalement."
+
+#~ msgid "Thumbnail timeout:"
+#~ msgstr "Délai d'affichage et de disparition des miniatures :"
+
+#~ msgid ""
+#~ "Controls how quickly an app's set of window thumbnails will fade out when "
+#~ "the mouse leaves the app button."
+#~ msgstr ""
+#~ "Contrôle la vitesse à laquelle l'ensemble des vignettes de fenêtre d'une "
+#~ "application disparaîtra lorsque la souris quittera le bouton de "
+#~ "l'application."
+
+#~ msgid "Stack window thumbnails"
+#~ msgstr "Miniatures de fenêtre de pile"
+
+#~ msgid "Stack window thumbnails if they exceed the available screen space."
+#~ msgstr ""
+#~ "Empilez les miniatures de la fenêtre si elles dépassent l'espace "
+#~ "disponible."
+
+#~ msgid "Number Display:"
+#~ msgstr "Affichage du nombre d'instances :"
+
+#~ msgid ""
+#~ "normal: display window number, smart: display window number if more than "
+#~ "one window, none: don't display number, all: display window number for "
+#~ "favorites too"
+#~ msgstr ""
+#~ "Intelligent : Afficher le nombre d'instances d'une application si au "
+#~ "moins deux instances existent.\n"
+#~ "Normal : Afficher le nombre d'instances d'une application si au moins une "
+#~ "instance existe.\n"
+#~ "Désactivé : Ne pas afficher le nombre d'instances d'une application.\n"
+#~ "Toujours : Toujours afficher le nombre d'instances d'une application."
+
+#~ msgid "All"
+#~ msgstr "Toujours"
+
+#~ msgid "Smart"
+#~ msgstr "Intelligent"
+
+#~ msgid "Normal"
+#~ msgstr "Normal"
+
+#~ msgid "Open thumbnails on click"
+#~ msgstr "Ouvrir les miniatures via un clic de la souris"
+
+#~ msgid "Open the thumbnails on click if there is more than one window open."
+#~ msgstr ""
+#~ "Ouvrir les miniatures via un clic de la souris, si il y a plus d'une "
+#~ "fenêtre ouverte"
+
+#~ msgid "Hover Peek Settings"
+#~ msgstr "Paramètres de la mise en évidence des applications"
+
+#~ msgid "Firefox context menu:"
+#~ msgstr "Affichage des sites dans le menu de l'application Firefox :"
+
+#~ msgid ""
+#~ "Most Visited: show the sites you visit most, Recent Histor: display the "
+#~ "the last pages you visited, Bookmarks: show your favorite bookmarks"
+#~ msgstr ""
+#~ "Les plus visités : affiche les sites que vous visitez le plus.\n"
+#~ "Les derniers visités : affiche les derniers sites que vous avez visité.\n"
+#~ "Marque-pages : affiche vos marque-pages."
+
+#~ msgid "Bookmarks"
+#~ msgstr "Marque-pages"
+
+#~ msgid "Most Visited"
+#~ msgstr "Les plus visités"
+
+#~ msgid "Recent History"
+#~ msgstr "Les derniers visités"
+
+#~ msgid "Group apps into single icon"
+#~ msgstr "Grouper les multiples instances d'une application"
+
+#~ msgid "Group the open app instances into single icon"
+#~ msgstr "Grouper les multiples instances d'une application"
+
+#~ msgid "Arrange pinned apps"
+#~ msgstr "Pouvoir modifier l'ordre des applications"
+
+#~ msgid "Arrange pinned apps into a different order"
+#~ msgstr "Pouvoir modifier l'ordre des applications"
+
+#~ msgid "Icon size:"
+#~ msgstr "Taille des icônes:"
+
+#~ msgid "Adjust icon size independent of Cinnamon's panel scaling."
+#~ msgstr ""
+#~ "Ajustez la taille de l'icône indépendamment de la mise à l'échelle du "
+#~ "panneau Cinnamon."

@@ -57,7 +57,7 @@ class CinnamonListSettings:
         self.copy_applet = "cp -avrf  IcingTaskManager@json ~/.local/share/cinnamon/applets/ && ./locale.sh"
         self.remove_applet = "rm -rf -v ~/.local/share/cinnamon/applets/IcingTaskManager@json"
 
-        self.install_applet = GTKButton('Install', 'Install the Applet',self.copy_applet, "Install the applet and schema")
+        self.install_applet = GTKButton('Install', 'Install the Applet', self.copy_applet, "Install the applet and schema")
         self.uninstall_applet = GTKButton('Uninstall', 'Uninstall the Applet', self.remove_applet, "Remove the applet and schema")
 
         self.Ivbox = Gtk.VBox()
