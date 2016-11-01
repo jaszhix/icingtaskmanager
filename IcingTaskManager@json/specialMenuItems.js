@@ -36,15 +36,25 @@ PinnedRecentItem.prototype = {
     if (menu.app.get_id() != 'firefox.desktop' && menu.app.get_id() != 'firefox web browser.desktop') {
       this._item = this._menu._applet.recent_items_manager().lookup_item(uri);
       var icon = this._item.get_gicon();
-      this._icon = new St.Icon({ gicon: icon, style_class: 'popup-menu-icon', icon_size: 16 });
+      this._icon = new St.Icon({
+        gicon: icon,
+        style_class: 'popup-menu-icon',
+        icon_size: 16
+      });
       title = this._item.get_short_name();
     } else {
-      this._icon = new St.Icon({ icon_name: 'window-new', icon_size: 16, icon_type: St.IconType.FULLCOLOR });
+      this._icon = new St.Icon({
+        icon_name: "window-new",
+        icon_size: 16,
+        icon_type: St.IconType.FULLCOLOR
+      });
     }
 
     this.uri = uri;
-    this.table = new St.Table({ homogeneous: false,
-      reactive: true });
+    this.table = new St.Table({
+      homogeneous: false,
+      reactive: true
+    });
     this.table.width = this._menu.AppMenuWidth;
 
     this.label = new St.Label();
@@ -71,15 +81,35 @@ PinnedRecentItem.prototype = {
       this.unPinRecent = false;
     }));
 
-    this.table.add(this._icon, { row: 0, col: 0, col_span: 1, x_expand: false, x_align: St.Align.START });
+    this.table.add(this._icon, {
+      row: 0,
+      col: 0,
+      col_span: 1,
+      x_expand: false,
+      x_align: St.Align.START
+    });
 
-    this.table.add(this.label, { row: 0, col: 1, col_span: 1, x_align: St.Align.START });
+    this.table.add(this.label, {
+      row: 0,
+      col: 1,
+      col_span: 1,
+      x_align: St.Align.START
+    });
 
-    this.table.add(bin, { row: 0, col: 2, col_span: 1, x_align: St.Align.END });
+    this.table.add(bin, {
+      row: 0,
+      col: 2,
+      col_span: 1,
+      x_align: St.Align.END
+    });
 
     this.label.set_margin_left(6.0);
 
-    this.addActor(this.table, { expand: true, span: 2, align: St.Align.START });
+    this.addActor(this.table, {
+      expand: true,
+      span: 2,
+      align: St.Align.START
+    });
   },
   activate: function activate(event, keepMenu) {
     if (this.unPinRecent) {
@@ -89,7 +119,7 @@ PinnedRecentItem.prototype = {
         delete stored[appName].infos[this.uri];
       }
       this._menu._applet.pinnedRecent = stored;
-      // this._menu.toggle()
+      //this._menu.toggle();
       return;
     }
     Gio.app_info_launch_default_for_uri(this.uri, global.create_app_launch_context());
@@ -110,10 +140,14 @@ RecentMenuItem.prototype = {
     this._menu = menu;
     this._item = item;
     this.uri = this._item.get_uri();
-    this.table = new St.Table({ homogeneous: false,
-      reactive: true });
+    this.table = new St.Table({
+      homogeneous: false,
+      reactive: true
+    });
 
-    this.label = new St.Label({ text: item.get_short_name() });
+    this.label = new St.Label({
+      text: item.get_short_name()
+    });
     this.label.width = this._menu.AppMenuWidth - 26;
     this.table.width = this._menu.AppMenuWidth;
 
@@ -140,31 +174,61 @@ RecentMenuItem.prototype = {
     this.icon = this._item.get_gicon();
 
     if (this.icon) {
-      this._icon = new St.Icon({ gicon: this.icon, style_class: 'popup-menu-icon', icon_size: 16 });
+      this._icon = new St.Icon({
+        gicon: this.icon,
+        style_class: 'popup-menu-icon',
+        icon_size: 16
+      });
 
-      this.table.add(this._icon, { row: 0, col: 0, col_span: 1, x_expand: false, x_align: St.Align.START });
+      this.table.add(this._icon, {
+        row: 0,
+        col: 0,
+        col_span: 1,
+        x_expand: false,
+        x_align: St.Align.START
+      });
     }
 
-    this.table.add(this.label, { row: 0, col: 1, col_span: 1, x_align: St.Align.START });
+    this.table.add(this.label, {
+      row: 0,
+      col: 1,
+      col_span: 1,
+      x_align: St.Align.START
+    });
 
-    this.table.add(bin, { row: 0, col: 2, col_span: 1, x_align: St.Align.END });
+    this.table.add(bin, {
+      row: 0,
+      col: 2,
+      col_span: 1,
+      x_align: St.Align.END
+    });
 
     this.label.set_margin_left(6.0);
 
-    this.addActor(this.table, { expand: true, span: 2, align: St.Align.START });
+    this.addActor(this.table, {
+      expand: true,
+      span: 2,
+      align: St.Align.START
+    });
   },
   activate: function activate(event, keepMenu) {
     if (this.pinRecent) {
       var stored = this._menu._applet.pinnedRecent;
       var appName = this._menu.app.get_name();
       if (stored[appName]) {
-        stored[appName].infos[this.uri] = { uri: this.uri };
+        stored[appName].infos[this.uri] = {
+          uri: this.uri
+        };
       } else {
-        stored[appName] = { infos: {} };
-        stored[appName].infos[this.uri] = { uri: this.uri };
+        stored[appName] = {
+          infos: {}
+        };
+        stored[appName].infos[this.uri] = {
+          uri: this.uri
+        };
       }
       this._menu._applet.pinnedRecent = stored;
-      // this._menu.toggle()
+      //this._menu.toggle();
       return;
     }
     this._menu.toggle();
@@ -183,22 +247,45 @@ PlaceMenuItem.prototype = {
 
     this._menu = menu;
     this.place = place;
-    this.table = new St.Table({ homogeneous: false,
-      reactive: true });
+    this.table = new St.Table({
+      homogeneous: false,
+      reactive: true
+    });
 
-    this.label = new St.Label({ text: place.name });
+    this.label = new St.Label({
+      text: place.name
+    });
     this.label.width = this._menu.AppMenuWidth - 26;
     this.table.width = this._menu.AppMenuWidth;
 
     this.icon = place.iconFactory(16);
-    if (!this.icon) this.icon = new St.Icon({ icon_name: 'folder', icon_size: 16, icon_type: St.IconType.FULLCOLOR });
-    if (this.icon) this.table.add(this.icon, { row: 0, col: 0, col_span: 1, x_expand: false, x_align: St.Align.START });
+    if (!this.icon) this.icon = new St.Icon({
+      icon_name: "folder",
+      icon_size: 16,
+      icon_type: St.IconType.FULLCOLOR
+    });
+    if (this.icon) this.table.add(this.icon, {
+      row: 0,
+      col: 0,
+      col_span: 1,
+      x_expand: false,
+      x_align: St.Align.START
+    });
 
-    this.table.add(this.label, { row: 0, col: 1, col_span: 1, x_align: St.Align.START });
+    this.table.add(this.label, {
+      row: 0,
+      col: 1,
+      col_span: 1,
+      x_align: St.Align.START
+    });
 
     this.label.set_margin_left(6.0);
 
-    this.addActor(this.table, { expand: true, span: 2, align: St.Align.START });
+    this.addActor(this.table, {
+      expand: true,
+      span: 2,
+      align: St.Align.START
+    });
   },
   activate: function activate(event, keepMenu) {
     this._menu.toggle();
@@ -216,21 +303,38 @@ IconMenuItem.prototype = {
   _init: function _init(menu, text, icon) {
     PopupMenu.PopupBaseMenuItem.prototype._init.call(this, {});
 
-    this.table = new St.Table({ homogeneous: false,
-      reactive: true });
+    this.table = new St.Table({
+      homogeneous: false,
+      reactive: true
+    });
 
     this.label = new St.Label();
     this.label.text = text;
     this.label.width = menu.AppMenuWidth - 26;
     this.table.width = menu.AppMenuWidth;
 
-    this.table.add(icon, { row: 0, col: 0, col_span: 1, x_expand: false, x_align: St.Align.START });
+    this.table.add(icon, {
+      row: 0,
+      col: 0,
+      col_span: 1,
+      x_expand: false,
+      x_align: St.Align.START
+    });
 
-    this.table.add(this.label, { row: 0, col: 1, col_span: 1, x_align: St.Align.START });
+    this.table.add(this.label, {
+      row: 0,
+      col: 1,
+      col_span: 1,
+      x_align: St.Align.START
+    });
 
     this.label.set_margin_left(6.0);
 
-    this.addActor(this.table, { expand: true, span: 2, align: St.Align.START });
+    this.addActor(this.table, {
+      expand: true,
+      span: 2,
+      align: St.Align.START
+    });
   }
 };
 
@@ -247,10 +351,14 @@ FirefoxMenuItem.prototype = {
     this._menu = menu;
     this.uri = info.uri;
     this.title = info.title;
-    this.table = new St.Table({ homogeneous: false,
-      reactive: true });
+    this.table = new St.Table({
+      homogeneous: false,
+      reactive: true
+    });
 
-    this.label = new St.Label({ text: info.title });
+    this.label = new St.Label({
+      text: info.title
+    });
     var tooltip = new Tooltips.Tooltip(this.actor, info.title);
     this.label.width = this._menu.AppMenuWidth - 26;
     this.table.width = this._menu.AppMenuWidth;
@@ -275,29 +383,61 @@ FirefoxMenuItem.prototype = {
       this.pinRecent = false;
     }));
 
-    this.icon = new St.Icon({ icon_name: 'window-new', icon_size: 16, icon_type: St.IconType.FULLCOLOR });
-    if (this.icon) this.table.add(this.icon, { row: 0, col: 0, col_span: 1, x_expand: false, x_align: St.Align.START });
+    this.icon = new St.Icon({
+      icon_name: "window-new",
+      icon_size: 16,
+      icon_type: St.IconType.FULLCOLOR
+    });
+    if (this.icon) this.table.add(this.icon, {
+      row: 0,
+      col: 0,
+      col_span: 1,
+      x_expand: false,
+      x_align: St.Align.START
+    });
 
-    this.table.add(this.label, { row: 0, col: 1, col_span: 1, x_align: St.Align.START });
+    this.table.add(this.label, {
+      row: 0,
+      col: 1,
+      col_span: 1,
+      x_align: St.Align.START
+    });
 
-    this.table.add(bin, { row: 0, col: 2, col_span: 1, x_align: St.Align.END });
+    this.table.add(bin, {
+      row: 0,
+      col: 2,
+      col_span: 1,
+      x_align: St.Align.END
+    });
 
     this.label.set_margin_left(6.0);
 
-    this.addActor(this.table, { expand: true, span: 2, align: St.Align.START });
+    this.addActor(this.table, {
+      expand: true,
+      span: 2,
+      align: St.Align.START
+    });
   },
   activate: function activate(event, keepMenu) {
     if (this.pinRecent) {
       var stored = this._menu._applet.pinnedRecent;
       var appName = this._menu.app.get_name();
       if (stored[appName]) {
-        stored[appName].infos[this.uri] = { uri: this.uri, title: this.title };
+        stored[appName].infos[this.uri] = {
+          uri: this.uri,
+          title: this.title
+        };
       } else {
-        stored[appName] = { infos: {} };
-        stored[appName].infos[this.uri] = { uri: this.uri, title: this.title };
+        stored[appName] = {
+          infos: {}
+        };
+        stored[appName].infos[this.uri] = {
+          uri: this.uri,
+          title: this.title
+        };
       }
       this._menu._applet.pinnedRecent = stored;
-      // this._menu.toggle()
+      //this._menu.toggle();
       return;
     }
     this._menu.toggle();
@@ -315,22 +455,45 @@ IconNameMenuItem.prototype = {
   _init: function _init(menu, text, icon, iconType) {
     PopupMenu.PopupBaseMenuItem.prototype._init.call(this, {});
 
-    this.table = new St.Table({ homogeneous: false,
-      reactive: true });
+    this.table = new St.Table({
+      homogeneous: false,
+      reactive: true
+    });
 
-    this.label = new St.Label({ text: text });
+    this.label = new St.Label({
+      text: text
+    });
     this.label.width = menu.AppMenuWidth - 26;
     this.table.width = menu.AppMenuWidth;
 
     if (icon) {
-      this.icon = new St.Icon({ icon_name: icon, icon_size: 16, icon_type: iconType || St.IconType.FULLCOLOR });
-      this.table.add(this.icon, { row: 0, col: 0, col_span: 1, x_expand: false, x_align: St.Align.START });
+      this.icon = new St.Icon({
+        icon_name: icon,
+        icon_size: 16,
+        icon_type: iconType || St.IconType.FULLCOLOR
+      });
+      this.table.add(this.icon, {
+        row: 0,
+        col: 0,
+        col_span: 1,
+        x_expand: false,
+        x_align: St.Align.START
+      });
       this.label.set_margin_left(6.0);
     }
 
-    this.table.add(this.label, { row: 0, col: 1, col_span: 1, x_align: St.Align.START });
+    this.table.add(this.label, {
+      row: 0,
+      col: 1,
+      col_span: 1,
+      x_align: St.Align.START
+    });
 
-    this.addActor(this.table, { expand: true, span: 2, align: St.Align.START });
+    this.addActor(this.table, {
+      expand: true,
+      span: 2,
+      align: St.Align.START
+    });
   }
 };
 
@@ -344,26 +507,50 @@ SwitchMenuItem.prototype = {
   _init: function _init(menu, text, active) {
     PopupMenu.PopupBaseMenuItem.prototype._init.call(this, {});
 
-    this.label = new St.Label({ text: text });
+    this.label = new St.Label({
+      text: text
+    });
     this._switch = new PopupMenu.Switch(active);
 
-    this.table = new St.Table({ homogeneous: false,
-      reactive: true });
+    this.table = new St.Table({
+      homogeneous: false,
+      reactive: true
+    });
     this.table.width = menu.AppMenuWidth - 14;
 
-    this.label = new St.Label({ text: text });
+    this.label = new St.Label({
+      text: text
+    });
     this.label.width = menu.AppMenuWidth - 74;
 
-    this.table.add(this.label, { row: 0, col: 0, col_span: 1, x_align: St.Align.END });
+    this.table.add(this.label, {
+      row: 0,
+      col: 0,
+      col_span: 1,
+      x_align: St.Align.END
+    });
 
-    this._statusBin = new St.Bin({ x_align: St.Align.END });
-    this.table.add(this._statusBin, { row: 0, col: 1, col_span: 1, x_expand: false, x_align: St.Align.END });
+    this._statusBin = new St.Bin({
+      x_align: St.Align.END
+    });
+    this.table.add(this._statusBin, {
+      row: 0,
+      col: 1,
+      col_span: 1,
+      x_expand: false,
+      x_align: St.Align.END
+    });
 
-    this._statusLabel = new St.Label({ text: '',
+    this._statusLabel = new St.Label({
+      text: '',
       style_class: 'popup-inactive-menu-item'
     });
     this._statusBin.child = this._switch.actor;
-    this.addActor(this.table, { expand: false, span: 2, align: St.Align.END });
+    this.addActor(this.table, {
+      expand: false,
+      span: 2,
+      align: St.Align.END
+    });
   }
 };
 
@@ -376,32 +563,67 @@ SubMenuItem.prototype = {
 
   _init: function _init(menu, text) {
     PopupMenu.PopupBaseMenuItem.prototype._init.call(this, {});
-    var arrow = new St.Icon({ icon_name: 'media-playback-start', style_class: 'popup-menu-icon', icon_size: 16 });
-    var icon = new St.Icon({ icon_name: 'preferences-system', style_class: 'popup-menu-icon', icon_size: 16 });
-    icon.style = 'padding-right: 5px;';
-    this.table = new St.Table({ homogeneous: false,
-      reactive: true });
+    var arrow = new St.Icon({
+      icon_name: "media-playback-start",
+      style_class: 'popup-menu-icon',
+      icon_size: 16
+    });
+    var icon = new St.Icon({
+      icon_name: "preferences-system",
+      style_class: 'popup-menu-icon',
+      icon_size: 16
+    });
+    icon.style = "padding-right: 5px;";
+    this.table = new St.Table({
+      homogeneous: false,
+      reactive: true
+    });
     this.table.width = menu.AppMenuWidth;
 
-    this.label = new St.Label({ text: text });
+    this.label = new St.Label({
+      text: text
+    });
     this.label.width = menu.AppMenuWidth - 26;
     this.menu = new SubMenu(this.actor, arrow);
-    // this.menu.actor.set_style_class_name('menu-context-menu')
+    //this.menu.actor.set_style_class_name('menu-context-menu');
 
-    this.table.add(icon, { row: 0, col: 0, col_span: 1, x_expand: false, x_align: St.Align.START });
 
-    this.table.add(this.label, { row: 0, col: 1, col_span: 1, x_expand: true, x_align: St.Align.START });
+    this.table.add(icon, {
+      row: 0,
+      col: 0,
+      col_span: 1,
+      x_expand: false,
+      x_align: St.Align.START
+    });
 
-    this.table.add(arrow, { row: 0, col: 2, col_span: 1, x_expand: false, x_align: St.Align.END });
+    this.table.add(this.label, {
+      row: 0,
+      col: 1,
+      col_span: 1,
+      x_expand: true,
+      x_align: St.Align.START
+    });
 
-    this.addActor(this.table, { expand: false, span: 2, align: St.Align.START });
+    this.table.add(arrow, {
+      row: 0,
+      col: 2,
+      col_span: 1,
+      x_expand: false,
+      x_align: St.Align.END
+    });
+
+    this.addActor(this.table, {
+      expand: false,
+      span: 2,
+      align: St.Align.START
+    });
   },
   activate: function activate() {
     this.menu.toggle();
   },
   destroy: function destroy() {
     this.actor.destroy();
-    // this.emit('destroy')
+    //this.emit('destroy');
     this.menu.destroy();
   },
   _onButtonReleaseEvent: function _onButtonReleaseEvent(actor, event) {
@@ -411,6 +633,7 @@ SubMenuItem.prototype = {
     return true;
   }
 };
+
 function SubMenu() {
   this._init.apply(this, arguments);
 }
@@ -434,7 +657,8 @@ SubMenu.prototype = {
           naturalHeight = _actor$get_preferred_2[1];
 
       this.actor.height = 0;
-      Tweener.addTween(this.actor, { _arrow_rotation: -90,
+      Tweener.addTween(this.actor, {
+        _arrow_rotation: -90,
         height: naturalHeight,
         time: 0.25,
         onUpdateScope: this,
@@ -460,7 +684,8 @@ SubMenu.prototype = {
     this.actor._arrow_rotation = this._arrow.rotation_angle_z;
 
     if (animate) {
-      Tweener.addTween(this.actor, { _arrow_rotation: 0,
+      Tweener.addTween(this.actor, {
+        _arrow_rotation: 0,
         height: 0,
         time: 0.25,
         onCompleteScope: this,
@@ -483,6 +708,7 @@ SubMenu.prototype = {
     }
   }
 };
+
 function SubSection() {
   this._init.apply(this, arguments);
 }
@@ -490,9 +716,11 @@ function SubSection() {
 SubSection.prototype = {
   __proto__: PopupMenu.PopupBaseMenuItem.prototype,
   _init: function _init() {
-    this.actor = new Cinnamon.GenericContainer({ reactive: false,
+    this.actor = new Cinnamon.GenericContainer({
+      reactive: false,
       track_hover: false,
-      can_focus: false });
+      can_focus: false
+    });
     this.actor.connect('get-preferred-width', Lang.bind(this, this._getPreferredWidth));
     this.actor.connect('get-preferred-height', Lang.bind(this, this._getPreferredHeight));
     this.actor.connect('allocate', Lang.bind(this, this._allocate));
@@ -519,9 +747,11 @@ SubSection.prototype = {
     } else this.actor.remove_style_pseudo_class('active');
   },
   addActor: function addActor(child, params) {
-    params = Params.parse(params, { span: -1,
+    params = Params.parse(params, {
+      span: -1,
       expand: false,
-      align: St.Align.START });
+      align: St.Align.START
+    });
     params.actor = child;
     this._children.push(params);
     this.actor.connect('destroy', Lang.bind(this, function () {
@@ -570,12 +800,20 @@ SubSection.prototype = {
         minWidth = void 0,
         childWidth = void 0;
     for (var i = 0; i < this._children.length; i++) {
-      var child = this._children[i][(minWidth, childWidth)] = child.actor.get_preferred_width(-1);
+      var child = this._children[i];
 
-      var _child$actor$get_pref5 = child.actor.get_preferred_height(childWidth),
-          _child$actor$get_pref6 = _slicedToArray(_child$actor$get_pref5, 2),
-          min = _child$actor$get_pref6[0],
-          natural = _child$actor$get_pref6[1];
+      var _child$actor$get_pref5 = child.actor.get_preferred_width(-1);
+
+      var _child$actor$get_pref6 = _slicedToArray(_child$actor$get_pref5, 2);
+
+      minWidth = _child$actor$get_pref6[0];
+      childWidth = _child$actor$get_pref6[1];
+      ;
+
+      var _child$actor$get_pref7 = child.actor.get_preferred_height(childWidth),
+          _child$actor$get_pref8 = _slicedToArray(_child$actor$get_pref7, 2),
+          min = _child$actor$get_pref8[0],
+          natural = _child$actor$get_pref8[1];
 
       if (natural > height) height = natural;
     }
@@ -594,10 +832,10 @@ SubSection.prototype = {
       var child = this._children[i];
       var childBox = new Clutter.ActorBox();
 
-      var _child$actor$get_pref7 = child.actor.get_preferred_width(-1),
-          _child$actor$get_pref8 = _slicedToArray(_child$actor$get_pref7, 2),
-          minWidth = _child$actor$get_pref8[0],
-          naturalWidth = _child$actor$get_pref8[1];
+      var _child$actor$get_pref9 = child.actor.get_preferred_width(-1),
+          _child$actor$get_pref10 = _slicedToArray(_child$actor$get_pref9, 2),
+          minWidth = _child$actor$get_pref10[0],
+          naturalWidth = _child$actor$get_pref10[1];
 
       var availWidth = void 0;
       if (direction == St.TextDirection.LTR) availWidth = box.x2 - x;else availWidth = x - box.x1;
@@ -611,10 +849,10 @@ SubSection.prototype = {
         childBox.x1 = x - availWidth;
       }
 
-      var _child$actor$get_pref9 = child.actor.get_preferred_height(childBox.x2 - childBox.x1),
-          _child$actor$get_pref10 = _slicedToArray(_child$actor$get_pref9, 2),
-          minHeight = _child$actor$get_pref10[0],
-          naturalHeight = _child$actor$get_pref10[1];
+      var _child$actor$get_pref11 = child.actor.get_preferred_height(childBox.x2 - childBox.x1),
+          _child$actor$get_pref12 = _slicedToArray(_child$actor$get_pref11, 2),
+          minHeight = _child$actor$get_pref12[0],
+          naturalHeight = _child$actor$get_pref12[1];
 
       childBox.y1 = Math.round(box.y1 + (height - naturalHeight) / 2);
       childBox.y2 = childBox.y1 + naturalHeight;
