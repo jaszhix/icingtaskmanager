@@ -23,4 +23,4 @@ See more changes in the [changelog](https://github.com/jaszhix/icingtaskmanager/
 
 ### Firefox history
 
-You will need to install the gir1.2-gda-5.0 package to have Firefox's history show up in its context menu.
+You will need to install the gir1.2-gda-5.0 package to have Firefox's history show up in its context menu. Afterwards, you will need to restart Cinnamon for the changes to come into effect.

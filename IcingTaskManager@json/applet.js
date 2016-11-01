@@ -1071,7 +1071,7 @@ MyApplet.prototype = {
     this.dragInProgress = false
     try {
       this._uuid = metadata.uuid
-      // this.execInstallLanguage()
+      this.execInstallLanguage()
       Gettext.bindtextdomain(this._uuid, GLib.get_home_dir() + '/.local/share/locale')
       this.settings = new Settings.AppletSettings(this, 'IcingTaskManager@json', instance_id)
       this.settings.bindProperty(Settings.BindingDirection.BIDIRECTIONAL, 'show-pinned', 'showPinned', null, null)
@@ -1175,39 +1175,41 @@ MyApplet.prototype = {
       let _shareFolder = GLib.get_home_dir() + '/.local/share/'
       let _localeFolder = Gio.file_new_for_path(_shareFolder + 'locale/')
       let _moFolder = Gio.file_new_for_path(_shareFolder + 'cinnamon/applets/' + this._uuid + '/locale/mo/')
-
       let children = _moFolder.enumerate_children('standard::name,standard::type,time::modified',
         Gio.FileQueryInfoFlags.NONE, null)
-      let info, child, _moFile, _moLocale, _moPath
-
-      while ((info = children.next_file(null)) !== null) {
-        let type = info.get_file_type()
-        let modified = info.get_modification_time().tv_sec
-        if (type == Gio.FileType.REGULAR) {
+      let info, child, _moFile, _moLocale, _moPath, _src, _dest, _modified, _destModified
+      while((info = children.next_file(null)) != null) {
+        _modified = info.get_modification_time().tv_sec
+        if (info.get_file_type() == Gio.FileType.REGULAR) {
           _moFile = info.get_name()
           if (_moFile.substring(_moFile.lastIndexOf('.')) == '.mo') {
             _moLocale = _moFile.substring(0, _moFile.lastIndexOf('.'))
             _moPath = _localeFolder.get_path() + '/' + _moLocale + '/LC_MESSAGES/'
-            let src = Gio.file_new_for_path(String(_moFolder.get_path() + '/' + _moFile))
-            let dest = Gio.file_new_for_path(String(_moPath + this._uuid + '.mo'))
-            let destModified = dest.query_info('time::modified', Gio.FileQueryInfoFlags.NONE, null).get_modification_time().tv_sec
+            _src = Gio.file_new_for_path(String(_moFolder.get_path() + '/' + _moFile))
+            _dest = Gio.file_new_for_path(String(_moPath + this._uuid + '.mo'))
             try {
-              if (dest && modified > destModified) {
-                this._makeDirectoy(dest.get_parent())
-                src.copy(dest, Gio.FileCopyFlags.OVERWRITE, null, null)
-              }else if (!dest) {
-                this._makeDirectoy(dest.get_parent())
-                src.copy(dest, Gio.FileCopyFlags.OVERWRITE, null, null)
+              if (_dest.query_exists(null)) {
+                _destModified = _dest.query_info('time::modified', Gio.FileQueryInfoFlags.NONE, null).get_modification_time().tv_sec
+                if( (_modified > _destModified)) {
+                  _src.copy(_dest, Gio.FileCopyFlags.OVERWRITE, null, null)
+                }
+              } else {
+                this._makeDirectoy(_dest.get_parent())
+                _src.copy(_dest, Gio.FileCopyFlags.OVERWRITE, null, null)
               }
             } catch(e) {
+              Main.notify('Error', e.message)
               global.logError(e)
             }
           }
         }
       }
-    } catch(e) {
+    } catch (e) {
+      Main.notify('Error', e.message)
       global.logError(e)
     }
+
+
   },
 
   _makeDirectoy: function (fDir) {
