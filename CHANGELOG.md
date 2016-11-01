@@ -1,5 +1,9 @@
 Changelog
 
+### 3.0.2
+
+  * Add Russian translation by [magnetx](https://github.com/mswiszcz/WindowIconList/pull/1)
+
 ### 3.0.1
 
   * Disabled hover peek by default. It is a more conservative default setting, and the effect can be overwhelming on multi-monitor setups.

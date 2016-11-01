@@ -10,6 +10,8 @@ This is a fork of the unfinished development branch of [Window List With App Gro
   * Integrated a [pull request](https://github.com/jake-phy/WindowIconList/pull/155) by mswiszcz, added optional icon size control.
   * Formatting of code for readability.
 
+See more changes in the [changelog](https://github.com/jaszhix/icingtaskmanager/blob/master/CHANGELOG.md).
+
 How to Install
 --------------
 Run the configure.py script.
