@@ -23,9 +23,9 @@ const AppletDir = imports.ui.appletManager.applets['IcingTaskManager@json']
 const Applet = AppletDir.applet
 
 const TitleDisplay = {
-  none: 1,
-  app: 2,
-  title: 3
+  None: 1,
+  App: 2,
+  Title: 3
 }
 
 function _ (str) {
@@ -582,7 +582,7 @@ WindowButton.prototype = {
     if (this.isFavapp)[title, appName] = ['', '']
     else [title, appName] = [this.metaWindow.get_title(), this.app.get_name()]
     var titleType = this._applet.settings.getValue('title-display')
-    if (titleType == TitleDisplay.title) {
+    if (titleType === TitleDisplay.Title) {
             // Some apps take a long time to set a valid title.  We don't want to error
             // if title is null
       if (title) {
@@ -591,7 +591,7 @@ WindowButton.prototype = {
         this.setText(appName)
       }
       return
-    } else if (titleType == TitleDisplay.app) {
+    } else if (titleType === TitleDisplay.App) {
       if (appName) {
         this.setText(appName)
         return

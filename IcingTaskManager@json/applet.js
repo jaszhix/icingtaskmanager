@@ -43,16 +43,16 @@ const SpecialMenus = AppletDir.specialMenus
 const SpecialButtons = AppletDir.specialButtons
 
 const TitleDisplay = {
-  none: 1,
-  app: 2,
-  title: 3,
-  focused: 4
+  None: 1,
+  App: 2,
+  Title: 3,
+  Focused: 4
 }
 const NumberDisplay = {
-  smart: 1,
-  normal: 2,
-  none: 3,
-  all: 4
+  Smart: 1,
+  Normal: 2,
+  None: 3,
+  All: 4
 }
 
 // Some functional programming tools
@@ -375,11 +375,11 @@ AppGroup.prototype = {
   on_title_display_changed: function (metaWindow) {
     this._windowTitleChanged(metaWindow)
     let titleType = this._applet.settings.getValue('title-display')
-    if (titleType == TitleDisplay.title) {
+    if (titleType == TitleDisplay.Title) {
       this.showAppButtonLabel(true)
-    } else if (titleType == TitleDisplay.app) {
+    } else if (titleType == TitleDisplay.App) {
       this.showAppButtonLabel(true)
-    } else if (titleType == TitleDisplay.none) {
+    } else if (titleType == TitleDisplay.None) {
       this.hideAppButtonLabel(true)
     }
   },
@@ -696,22 +696,22 @@ AppGroup.prototype = {
 
     let titleType = this._applet.settings.getValue('title-display')
     let [title, appName] = [metaWindow.get_title(), this.app.get_name()]
-    if (titleType == TitleDisplay.title) {
+    if (titleType == TitleDisplay.Title) {
       if (title) {
         this._appButton.setText(title)
         this.showAppButtonLabel(true)
       }
-    } else if (titleType == TitleDisplay.focused) {
+    } else if (titleType == TitleDisplay.Focused) {
       if (title) {
         this._appButton.setText(title)
         this._updateFocusedStatus(true)
       }
-    } else if (titleType == TitleDisplay.app) {
+    } else if (titleType == TitleDisplay.App) {
       if (appName) {
         this._appButton.setText(appName)
         this.showAppButtonLabel(true)
       }
-    } else if (titleType == TitleDisplay.none) {
+    } else if (titleType == TitleDisplay.None) {
       this._appButton.setText('')
     }
   },
@@ -723,7 +723,7 @@ AppGroup.prototype = {
       if (this._applet.sortThumbs == true) this.hoverMenu.setMetaWindow(this.lastFocused)
       this.rightClickMenu.setMetaWindow(this.lastFocused)
     }
-    if (this._applet.settings.getValue('title-display') == TitleDisplay.focused)
+    if (this._applet.settings.getValue('title-display') == TitleDisplay.Focused)
       this._updateFocusedStatus()
   },
 
@@ -772,17 +772,17 @@ AppGroup.prototype = {
       windowNum = this.appList._getNumberOfAppWindowsInWorkspace(this.app, metaWorkspace)
     let numDisplay = this._applet.settings.getValue('number-display')
     this._appButton._numLabel.text = windowNum.toString()
-    if (numDisplay == NumberDisplay.smart) {
+    if (numDisplay == NumberDisplay.Smart) {
       if (windowNum <= 1)
         this._appButton._numLabel.hide()
       else
         this._appButton._numLabel.show()
-    } else if (numDisplay == NumberDisplay.normal) {
+    } else if (numDisplay == NumberDisplay.Normal) {
       if (windowNum <= 0)
         this._appButton._numLabel.hide()
       else
         this._appButton._numLabel.show()
-    } else if (numDisplay == NumberDisplay.all) {
+    } else if (numDisplay == NumberDisplay.All) {
       this._appButton._numLabel.show()
     } else {
       this._appButton._numLabel.hide()
@@ -954,7 +954,7 @@ AppList.prototype = {
       let appGroupNum = this._appGroupNumber(app)
       appGroup._newAppKeyNumber(appGroupNum)
 
-      if (this._applet.settings.getValue('title-display') == TitleDisplay.focused)
+      if (this._applet.settings.getValue('title-display') == TitleDisplay.Focused)
         appGroup.hideAppButtonLabel(false)
     }
   },
