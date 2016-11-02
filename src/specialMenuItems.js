@@ -25,7 +25,7 @@ function PinnedRecentItem(menu, uri, pinIcon, title) {
 PinnedRecentItem.prototype = {
   __proto__: PopupMenu.PopupBaseMenuItem.prototype,
 
-  _init(menu, uri, pinIcon, title) {
+  _init: function (menu, uri, pinIcon, title) {
     PopupMenu.PopupBaseMenuItem.prototype._init.call(this, {});
 
     this._menu = menu;
@@ -108,7 +108,7 @@ PinnedRecentItem.prototype = {
     });
   },
 
-  activate(event, keepMenu) {
+  activate: function (event, keepMenu) {
     if (this.unPinRecent) {
       let stored = this._menu._applet.pinnedRecent;
       let appName = this._menu.app.get_name();
@@ -132,7 +132,7 @@ function RecentMenuItem(menu, item, pinIcon) {
 RecentMenuItem.prototype = {
   __proto__: PopupMenu.PopupBaseMenuItem.prototype,
 
-  _init(menu, item, pinIcon) {
+  _init: function (menu, item, pinIcon) {
     PopupMenu.PopupBaseMenuItem.prototype._init.call(this, {});
 
     this._menu = menu;
@@ -212,7 +212,7 @@ RecentMenuItem.prototype = {
     });
   },
 
-  activate(event, keepMenu) {
+  activate: function (event, keepMenu) {
     if (this.pinRecent) {
       let stored = this._menu._applet.pinnedRecent;
       let appName = this._menu.app.get_name();
@@ -244,7 +244,7 @@ function PlaceMenuItem(menu, place) {
 
 PlaceMenuItem.prototype = {
   __proto__: PopupMenu.PopupBaseMenuItem.prototype,
-  _init(menu, place) {
+  _init: function (menu, place) {
     PopupMenu.PopupBaseMenuItem.prototype._init.call(this, {});
 
     this._menu = menu;
@@ -294,7 +294,7 @@ PlaceMenuItem.prototype = {
     });
   },
 
-  activate(event, keepMenu) {
+  activate: function (event, keepMenu) {
     this._menu.toggle();
     this.place.launch();
   }
@@ -308,7 +308,7 @@ function IconMenuItem(menu, text, icon) {
 IconMenuItem.prototype = {
   __proto__: PopupMenu.PopupBaseMenuItem.prototype,
 
-  _init(menu, text, icon) {
+  _init: function (menu, text, icon) {
     PopupMenu.PopupBaseMenuItem.prototype._init.call(this, {});
 
     this.table = new St.Table({
@@ -354,7 +354,7 @@ function FirefoxMenuItem(menu, info) {
 FirefoxMenuItem.prototype = {
   __proto__: PopupMenu.PopupBaseMenuItem.prototype,
 
-  _init(menu, info) {
+  _init: function (menu, info) {
     PopupMenu.PopupBaseMenuItem.prototype._init.call(this, {});
 
     this._menu = menu;
@@ -429,7 +429,7 @@ FirefoxMenuItem.prototype = {
     });
   },
 
-  activate(event, keepMenu) {
+  activate: function (event, keepMenu) {
     if (this.pinRecent) {
       let stored = this._menu._applet.pinnedRecent;
       let appName = this._menu.app.get_name();
@@ -464,7 +464,7 @@ function IconNameMenuItem(menu, text, icon, iconType) {
 IconNameMenuItem.prototype = {
   __proto__: PopupMenu.PopupBaseMenuItem.prototype,
 
-  _init(menu, text, icon, iconType) {
+  _init: function (menu, text, icon, iconType) {
     PopupMenu.PopupBaseMenuItem.prototype._init.call(this, {});
 
     this.table = new St.Table({
@@ -516,7 +516,7 @@ function SwitchMenuItem(menu, text, active) {
 SwitchMenuItem.prototype = {
   __proto__: PopupMenu.PopupSwitchMenuItem.prototype,
 
-  _init(menu, text, active) {
+  _init: function (menu, text, active) {
     PopupMenu.PopupBaseMenuItem.prototype._init.call(this, {});
 
     this.label = new St.Label({
@@ -574,7 +574,7 @@ function SubMenuItem(menu, text) {
 SubMenuItem.prototype = {
   __proto__: PopupMenu.PopupBaseMenuItem.prototype,
 
-  _init(menu, text) {
+  _init: function (menu, text) {
     PopupMenu.PopupBaseMenuItem.prototype._init.call(this, {});
     let arrow = new St.Icon({
       icon_name: "media-playback-start",
@@ -632,18 +632,18 @@ SubMenuItem.prototype = {
     });
   },
 
-  activate() {
+  activate: function () {
     this.menu.toggle();
   },
 
 
-  destroy() {
+  destroy: function () {
     this.actor.destroy();
     //this.emit('destroy');
     this.menu.destroy();
   },
 
-  _onButtonReleaseEvent(actor, event) {
+  _onButtonReleaseEvent: function (actor, event) {
     if (event.get_button() == 1 | 2) {
       this.activate();
     }
@@ -658,7 +658,7 @@ function SubMenu() {
 SubMenu.prototype = {
   __proto__: PopupMenu.PopupSubMenu.prototype,
 
-  open(animate) {
+  open: function (animate) {
     if (this.isOpen)
       return;
 
@@ -677,11 +677,11 @@ SubMenu.prototype = {
         height: naturalHeight,
         time: 0.25,
         onUpdateScope: this,
-        onUpdate() {
+        onUpdate: function () {
           this._arrow.rotation_angle_z = this.actor._arrow_rotation;
         },
         onCompleteScope: this,
-        onComplete() {
+        onComplete: function () {
           this.actor.set_height(-1);
           this.emit('open-state-changed', true);
         }
@@ -691,7 +691,7 @@ SubMenu.prototype = {
     }
   },
 
-  close(animate) {
+  close: function (animate) {
     if (!this.isOpen)
       return;
 
@@ -705,13 +705,13 @@ SubMenu.prototype = {
         height: 0,
         time: 0.25,
         onCompleteScope: this,
-        onComplete() {
+        onComplete: function () {
           this.actor.hide();
           this.actor.set_height(-1);
           this.emit('open-state-changed', false);
         },
         onUpdateScope: this,
-        onUpdate() {
+        onUpdate: function () {
           this._arrow.rotation_angle_z = this.actor._arrow_rotation;
         }
       });
@@ -731,7 +731,7 @@ function SubSection() {
 
 SubSection.prototype = {
   __proto__: PopupMenu.PopupBaseMenuItem.prototype,
-  _init() {
+  _init: function () {
     this.actor = new Cinnamon.GenericContainer({
       reactive: false,
       track_hover: false,
@@ -753,11 +753,11 @@ SubSection.prototype = {
     this.actor.connect('notify::hover', Lang.bind(this, this._onHoverChanged));
   },
 
-  _onHoverChanged(actor) {
+  _onHoverChanged: function (actor) {
     this.setActive(actor.hover);
   },
 
-  setActive(active) {
+  setActive: function (active) {
     this.active = active;
     if (active) {
       this.actor.add_style_pseudo_class('active');
@@ -766,7 +766,7 @@ SubSection.prototype = {
       this.actor.remove_style_pseudo_class('active');
   },
 
-  addActor(child, params) {
+  addActor: function (child, params) {
     params = Params.parse(params, {
       span: -1,
       expand: false,
@@ -780,7 +780,7 @@ SubSection.prototype = {
     this.actor.add_actor(child);
   },
 
-  _removeChild(child) {
+  _removeChild: function (child) {
     for (let i = 0; i < this._children.length; i++) {
       if (this._children[i].actor == child) {
         this._children.splice(i, 1);
@@ -789,16 +789,16 @@ SubSection.prototype = {
     }
   },
 
-  removeActor(child) {
+  removeActor: function (child) {
     this.actor.remove_actor(child);
     this._removeChild(child);
   },
 
-  getColumnWidths() {
+  getColumnWidths: function () {
     return 0;
   },
 
-  _getPreferredWidth(actor, forHeight, alloc) {
+  _getPreferredWidth: function (actor, forHeight, alloc) {
     let width = 0,
       minHeiht, childHeight;
     for (let i = 0; i < this._children.length; i++) {
@@ -812,7 +812,7 @@ SubSection.prototype = {
     alloc.min_size = alloc.natural_size = width;
   },
 
-  _getPreferredHeight(actor, forWidth, alloc) {
+  _getPreferredHeight: function (actor, forWidth, alloc) {
     let height = 0,
       minWidth, childWidth;
     for (let i = 0; i < this._children.length; i++) {
@@ -826,7 +826,7 @@ SubSection.prototype = {
     alloc.min_size = alloc.natural_size = height;
   },
 
-  _allocate(actor, box, flags) {
+  _allocate: function (actor, box, flags) {
     let height = box.y2 - box.y1;
     let direction = this.actor.get_direction();
 

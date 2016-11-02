@@ -110,7 +110,6 @@ SignalTracker.prototype = {
     this._data = [];
   },
 
-
   // params = {
   //              signalName: Signal Name
   //              callback: Callback Function
@@ -133,7 +132,9 @@ SignalTracker.prototype = {
       bind: bind
     });
   },
+
   disconnect: function disconnect(param) {},
+
   disconnectAll: function disconnectAll() {
     this._data.forEach(function (data) {
       data.object.disconnect(data.signalID);
@@ -158,9 +159,11 @@ PinnedFavs.prototype = {
     }));
     this._reload();
   },
+
   _onFavsChanged: function _onFavsChanged() {
     if (this._reload()) this.emit('changed');
   },
+
   _reload: function _reload() {
     var ids = this._applet.settings.getValue('pinned-apps');
     var appSys = Cinnamon.AppSystem.get_default();
@@ -193,24 +196,29 @@ PinnedFavs.prototype = {
     }
     return needReaload;
   },
+
   _getIds: function _getIds() {
     var ret = [];
     for (var id in this._favorites) {
       ret.push(id);
     }return ret;
   },
+
   getFavoriteMap: function getFavoriteMap() {
     return this._favorites;
   },
+
   getFavorites: function getFavorites() {
     var ret = [];
     for (var id in this._favorites) {
       ret.push(this._favorites[id]);
     }return ret;
   },
+
   isFavorite: function isFavorite(appId) {
     return appId in this._favorites;
   },
+
   _addFavorite: function _addFavorite(appId, pos) {
     if (appId in this._favorites) return false;
 
@@ -225,12 +233,15 @@ PinnedFavs.prototype = {
     this._onFavsChanged();
     return true;
   },
+
   addFavoriteAtPos: function addFavoriteAtPos(appId, pos) {
     this._addFavorite(appId, pos);
   },
+
   addFavorite: function addFavorite(appId) {
     this.addFavoriteAtPos(appId, -1);
   },
+
   moveFavoriteToPos: function moveFavoriteToPos(appId, pos) {
     var ids = this._getIds();
     var old_index = ids.indexOf(appId);
@@ -238,6 +249,7 @@ PinnedFavs.prototype = {
     ids.splice(pos, 0, ids.splice(old_index, 1)[0]);
     this._applet.settings.setValue('pinned-apps', ids);
   },
+
   _removeFavorite: function _removeFavorite(appId) {
     if (!appId in this._favorites) return false;
 
@@ -248,6 +260,7 @@ PinnedFavs.prototype = {
     this._onFavsChanged();
     return true;
   },
+
   removeFavorite: function removeFavorite(appId) {
     this._removeFavorite(appId);
   }
@@ -339,16 +352,20 @@ AppGroup.prototype = {
     global.settings.connect('changed::panel-edit-mode', Lang.bind(this, this.on_panel_edit_mode_changed));
     this._applet.settings.connect('changed::arrange-pinnedApps', Lang.bind(this, this.on_arrange_pinned));
   },
+
   getId: function getId() {
     return this.app.get_id();
   },
+
   on_arrange_pinned: function on_arrange_pinned() {
     this._draggable.inhibit = !this._applet.settings.getValue('arrange-pinnedApps');
   },
+
   on_panel_edit_mode_changed: function on_panel_edit_mode_changed() {
     this._draggable.inhibit = global.settings.get_boolean('panel-edit-mode');
     this.actor.reactive = !global.settings.get_boolean('panel-edit-mode');
   },
+
   on_title_display_changed: function on_title_display_changed(metaWindow) {
     this._windowTitleChanged(metaWindow);
     var titleType = this._applet.settings.getValue('title-display');
@@ -360,16 +377,19 @@ AppGroup.prototype = {
       this.hideAppButtonLabel(true);
     }
   },
+
   _onDragEnd: function _onDragEnd() {
     this.rightClickMenu.close(false);
     this.hoverMenu.close(false);
     this.appList.myactorbox._clearDragPlaceholder();
   },
+
   _onDragCancelled: function _onDragCancelled() {
     this.rightClickMenu.close(false);
     this.hoverMenu.close(false);
     this.appList.myactorbox._clearDragPlaceholder();
   },
+
   handleDragOver: function handleDragOver(source, actor, x, y, time) {
     var IsLauncherDraggable = null;
     if (DND.LauncherDraggable) IsLauncherDraggable = source instanceof DND.LauncherDraggable;
@@ -388,20 +408,20 @@ AppGroup.prototype = {
     }
     return true;
   },
+
   getDragActor: function getDragActor() {
     return this.app.create_icon_texture(this._applet._panelHeight);
   },
-
 
   // Returns the original actor that should align with the actor
   // we show as the item is being dragged.
   getDragActorSource: function getDragActorSource() {
     return this.actor;
   },
+
   _setWatchedWorkspaces: function _setWatchedWorkspaces() {
     this._appButton._setWatchedWorkspaces(this.metaWorkspaces);
   },
-
 
   // Add a workspace to the list of workspaces that are watched for
   // windows being added and removed
@@ -421,7 +441,6 @@ AppGroup.prototype = {
     }));
     this._setWatchedWorkspaces();
   },
-
 
   // Stop monitoring a workspace for added and removed windows.
   // @metaWorkspace: if null, will remove all signals
@@ -446,18 +465,23 @@ AppGroup.prototype = {
     }
     this._setWatchedWorkspaces();
   },
+
   hideAppButton: function hideAppButton() {
     this._appButton.actor.hide();
   },
+
   showAppButton: function showAppButton() {
     this._appButton.actor.show();
   },
+
   hideAppButtonLabel: function hideAppButtonLabel(animate) {
     this._appButton.hideLabel(animate);
   },
+
   showAppButtonLabel: function showAppButtonLabel(animate, targetWidth) {
     this._appButton.showLabel(animate, targetWidth);
   },
+
   _onAppButtonRelease: function _onAppButtonRelease(actor, event) {
 
     //      global.log(event.get_button())
@@ -487,6 +511,7 @@ AppGroup.prototype = {
       } else this._windowHandle(false);
     }
   },
+
   _newAppKeyNumber: function _newAppKeyNumber(number) {
     if (this.hotKeyId) Main.keybindingManager.removeHotKey(this.hotKeyId);
     if (number < 10) {
@@ -495,6 +520,7 @@ AppGroup.prototype = {
       this.hotKeyId = 'launch-app-key-' + number.toString();
     }
   },
+
   _onAppKeyPress: function _onAppKeyPress() {
     if (this.isFavapp) {
       this.app.open_new_window(-1);
@@ -503,11 +529,13 @@ AppGroup.prototype = {
       this._windowHandle(false);
     }
   },
+
   _onNewAppKeyPress: function _onNewAppKeyPress(number) {
     this.app.open_new_window(-1);
     log(this.getId());
     this._animate();
   },
+
   _windowHandle: function _windowHandle(fromDrag) {
     var has_focus = this.lastFocused.has_focus();
     if (!this.lastFocused.minimized && !has_focus) {
@@ -549,7 +577,6 @@ AppGroup.prototype = {
     if (list[0]) return list[0][1];else return null;
   },
 
-
   // updates the internal list of metaWindows
   // to include all windows corresponding to this.app on the workspace
   // metaWorkspace
@@ -581,6 +608,7 @@ AppGroup.prototype = {
       this.rightClickMenu.setMetaWindow(this.lastFocused);
     }
   },
+
   _windowAdded: function _windowAdded(metaWorkspace, metaWindow) {
     var tracker = Cinnamon.WindowTracker.get_default();
     var app = AppFromWMClass(this.appList._appsys, this.appList.specialApps, metaWindow);
@@ -611,6 +639,7 @@ AppGroup.prototype = {
     }
     if (app && app.wmClass && !this.isFavapp) this._calcWindowNumber(metaWorkspace);
   },
+
   _windowRemoved: function _windowRemoved(metaWorkspace, metaWindow) {
     var deleted = void 0;
     if (this.metaWindows[metaWindow]) deleted = this.metaWindows[metaWindow].data;
@@ -641,6 +670,7 @@ AppGroup.prototype = {
     var app = AppFromWMClass(this.appList._appsys, this.appList.specialApps, metaWindow);
     if (app && app.wmClass && !this.isFavapp) this._calcWindowNumber(metaWorkspace);
   },
+
   _windowTitleChanged: function _windowTitleChanged(metaWindow) {
     // We only really want to track title changes of the last focused app
     if (!this._appButton) {
@@ -672,6 +702,7 @@ AppGroup.prototype = {
       this._appButton.setText('');
     }
   },
+
   _focusWindowChange: function _focusWindowChange(metaWindow) {
     if (metaWindow.appears_focused) {
       this.lastFocused = metaWindow;
@@ -681,6 +712,7 @@ AppGroup.prototype = {
     }
     if (this._applet.settings.getValue('title-display') == TitleDisplay.Focused) this._updateFocusedStatus();
   },
+
   _updateFocusedStatus: function _updateFocusedStatus(force) {
     var changed = false;
     var focusState = void 0;
@@ -693,6 +725,7 @@ AppGroup.prototype = {
     if (this.focusState != focusState || force) this._focusedLabel(focusState);
     this.focusState = focusState;
   },
+
   _focusedLabel: function _focusedLabel(focusState) {
     if (focusState) {
       this.showAppButtonLabel(true);
@@ -700,6 +733,7 @@ AppGroup.prototype = {
       this.hideAppButtonLabel(true);
     }
   },
+
   _isFavorite: function _isFavorite(isFav) {
     this.isFavapp = isFav;
     this.wasFavapp = !isFav;
@@ -709,6 +743,7 @@ AppGroup.prototype = {
     this.hoverMenu.appSwitcherItem._isFavorite(isFav);
     this._windowTitleChanged(this.lastFocused);
   },
+
   _calcWindowNumber: function _calcWindowNumber(metaWorkspace) {
     if (!this._appButton) {
       throw 'Error: got a _calcWindowNumber callback but this._appButton is undefined';
@@ -729,6 +764,7 @@ AppGroup.prototype = {
       this._appButton._numLabel.hide();
     }
   },
+
   _animate: function _animate() {
     this.actor.set_z_rotation_from_gravity(0.0, Clutter.Gravity.CENTER);
     Tweener.addTween(this.actor, {
@@ -745,6 +781,7 @@ AppGroup.prototype = {
       }
     });
   },
+
   destroy: function destroy() {
     var _this = this;
 
@@ -795,9 +832,11 @@ AppList.prototype = {
     this._setSignals();
     this._refreshList();
   },
+
   on_panel_edit_mode_changed: function on_panel_edit_mode_changed() {
     this.actor.reactive = global.settings.get_boolean('panel-edit-mode');
   },
+
   on_orientation_changed: function on_orientation_changed(orientation) {
     this._refreshList();
     if (this._applet.orientation == St.Side.TOP) {
@@ -808,6 +847,7 @@ AppList.prototype = {
       this.actor.set_style('margin-bottom: 0px; padding-bottom: 0px;');
     }
   },
+
   _setSignals: function _setSignals() {
     this.signals = [];
     // We use connect_after so that the window-tracker time to identify the app
@@ -818,7 +858,6 @@ AppList.prototype = {
     global.settings.connect('changed::panel-edit-mode', Lang.bind(this, this.on_panel_edit_mode_changed));
   },
 
-
   // Gets a list of every app on the current workspace
   _refreshApps: function _refreshApps() {
     // For each window, let's make sure we add it!
@@ -826,6 +865,7 @@ AppList.prototype = {
       this._windowAdded(this.metaWorkspace, win);
     }));
   },
+
   _getSpecialApps: function _getSpecialApps() {
     this.specialApps = {};
     var apps = Gio.app_info_get_all();
@@ -837,6 +877,7 @@ AppList.prototype = {
       }
     }
   },
+
   _refreshList: function _refreshList() {
     for (var _i11 in this._appList) {
       var list = this._appList[_i11];
@@ -847,6 +888,7 @@ AppList.prototype = {
     this._loadFavorites();
     this._refreshApps();
   },
+
   _appGroupNumber: function _appGroupNumber(parentApp) {
     var i = 0;
     for (var l in this._appList) {
@@ -856,6 +898,7 @@ AppList.prototype = {
     }
     return i;
   },
+
   _refreshAppGroupNumber: function _refreshAppGroupNumber() {
     var i = 0;
     for (var l in this._appList) {
@@ -864,6 +907,7 @@ AppList.prototype = {
       list.appGroup._newAppKeyNumber(i);
     }
   },
+
   _windowAdded: function _windowAdded(metaWorkspace, metaWindow, favapp, isFavapp) {
     // Check to see if the window that was added already has an app group.
     // If it does, then we don't need to do anything.  If not, we need to
@@ -891,6 +935,7 @@ AppList.prototype = {
       if (this._applet.settings.getValue('title-display') == TitleDisplay.Focused) appGroup.hideAppButtonLabel(false);
     }
   },
+
   _onAppWindowsChanged: function _onAppWindowsChanged(app) {
     var numberOfwindows = this._getNumberOfAppWindowsInWorkspace(app, this.metaWorkspace);
     if (numberOfwindows == 0) {
@@ -898,12 +943,14 @@ AppList.prototype = {
       this._calcAllWindowNumbers();
     }
   },
+
   _calcAllWindowNumbers: function _calcAllWindowNumbers() {
     for (var l in this._appList) {
       var list = this._appList[l];
       list.appGroup._calcWindowNumber(this.metaWorkspace);
     }
   },
+
   _getNumberOfAppWindowsInWorkspace: function _getNumberOfAppWindowsInWorkspace(app, workspace) {
     var windows = app.get_windows();
     var result = 0;
@@ -916,6 +963,7 @@ AppList.prototype = {
     }
     return result;
   },
+
   _removeApp: function _removeApp(app) {
     // This function may get called multiple times on the same app and so the app may have already been removed
     var appGroup = this._appList[app];
@@ -935,6 +983,7 @@ AppList.prototype = {
       }));
     }
   },
+
   _loadFavorites: function _loadFavorites() {
     if (!this._applet.settings.getValue('show-pinned')) return;
     var launchers = this._applet.settings.getValue('pinned-apps');
@@ -945,6 +994,7 @@ AppList.prototype = {
       this._windowAdded(this.metaWorkspace, null, app, true);
     }
   },
+
   _windowRemoved: function _windowRemoved(metaWorkspace, metaWindow) {
     // When a window is closed, we need to check if the app it belongs
     // to has no windows left.  If so, we need to remove the corresponding AppGroup
@@ -964,6 +1014,7 @@ AppList.prototype = {
       this._removeApp(app);
     }
   },
+
   destroy: function destroy() {
     this.signals.forEach(Lang.bind(this, function (s) {
       this.metaWorkspace.disconnect(s);
@@ -1093,6 +1144,7 @@ MyApplet.prototype = {
       global.logError(e);
     }
   },
+
   execInstallLanguage: function execInstallLanguage() {
     try {
       var _shareFolder = GLib.get_home_dir() + '/.local/share/';
@@ -1139,10 +1191,12 @@ MyApplet.prototype = {
       global.logError(e);
     }
   },
+
   _makeDirectoy: function _makeDirectoy(fDir) {
     if (!this._isDirectory(fDir)) this._makeDirectoy(fDir.get_parent());
     if (!this._isDirectory(fDir)) fDir.make_directory(null);
   },
+
   _isDirectory: function _isDirectory(fDir) {
     try {
       var info = fDir.query_filesystem_info('standard::type', null);
@@ -1150,10 +1204,13 @@ MyApplet.prototype = {
     } catch (e) {}
     return false;
   },
+
   on_applet_clicked: function on_applet_clicked(event) {},
+
   on_panel_edit_mode_changed: function on_panel_edit_mode_changed() {
     this.actor.reactive = global.settings.get_boolean('panel-edit-mode');
   },
+
   on_orientation_changed: function on_orientation_changed(orientation) {
     this.orientation = orientation;
     for (var workSpace in this.metaWorkspaces) {
@@ -1188,35 +1245,44 @@ MyApplet.prototype = {
       this.actor.set_style('margin-bottom: 0px; padding-bottom: 0px;');
     }
   },
+
   on_panel_height_changed: function on_panel_height_changed() {
     for (var workSpace in this.metaWorkspaces) {
       this.metaWorkspaces[workSpace].appList._refreshList();
     }
   },
+
   pinned_app_contr: function pinned_app_contr() {
     var pinnedAppsContr = this.pinnedAppsContr;
     return pinnedAppsContr;
   },
+
   acceptNewLauncher: function acceptNewLauncher(path) {
     this.pinnedAppsContr.addFavorite(path);
   },
+
   removeLauncher: function removeLauncher(appGroup) {
     // Add code here to remove the launcher if you want.
   },
+
   recent_items_contr: function recent_items_contr() {
     return this.recentItems;
   },
+
   recent_items_manager: function recent_items_manager() {
     return this.recentManager;
   },
+
   _pinnedRecentChanged: function _pinnedRecentChanged() {
     return;
   },
+
   on_recent_items_changed: function on_recent_items_changed() {
     this.recentItems = this.recentManager.get_items().sort(function (a, b) {
       return a.get_modified() - b.get_modified();
     }).reverse();
   },
+
   _onWorkspaceCreatedOrDestroyed: function _onWorkspaceCreatedOrDestroyed() {
     var workspaces = [global.screen.get_workspace_by_index(i), each(i in range(global.screen.n_workspaces))];
     // We'd like to know what workspaces in this.metaWorkspaces have been destroyed and
@@ -1232,6 +1298,7 @@ MyApplet.prototype = {
       delete this.metaWorkspaces[toDelete[_i14]];
     }
   },
+
   _onSwitchWorkspace: function _onSwitchWorkspace(winManager, previousWorkspaceIndex, currentWorkspaceIndex) {
     var metaWorkspace = global.screen.get_workspace_by_index(currentWorkspaceIndex);
     // If the workspace we switched to isn't in our list,
@@ -1251,18 +1318,23 @@ MyApplet.prototype = {
     this._box.set_child(list.actor);
     list._refreshApps();
   },
+
   _onOverviewShow: function _onOverviewShow() {
     this.actor.hide();
   },
+
   _onOverviewHide: function _onOverviewHide() {
     this.actor.show();
   },
+
   _onMoveToNextMonitor: function _onMoveToNextMonitor() {
     this._onMoveToMonitor(1);
   },
+
   _onMoveToPrevMonitor: function _onMoveToPrevMonitor() {
     this._onMoveToMonitor(-1);
   },
+
   _onMoveToMonitor: function _onMoveToMonitor(modifier) {
     // Skip when we don't have multiple monitor.
     var monitors = Main.layoutManager.monitors;
@@ -1286,6 +1358,7 @@ MyApplet.prototype = {
       metaWindow.move_to_monitor(monitorIndex);
     } catch (e) {}
   },
+
   destroy: function destroy() {
     this.signals.disconnectAll();
     this.actor.destroy();

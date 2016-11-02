@@ -101,7 +101,7 @@ function SignalTracker () {
 }
 
 SignalTracker.prototype = {
-  _init() {
+  _init: function () {
     this._data = []
   },
 
@@ -111,7 +111,7 @@ SignalTracker.prototype = {
   //              bind: Context to bind to
   //              object: object to connect to
   // }
-  connect(params) {
+  connect: function (params) {
     let signalName = params.signalName
     let callback = params.callback
     let bind = params.bind
@@ -128,9 +128,9 @@ SignalTracker.prototype = {
     })
   },
 
-  disconnect(param) {},
+  disconnect: function (param) {},
 
-  disconnectAll() {
+  disconnectAll: function () {
     this._data.forEach(function (data) {
       data.object.disconnect(data.signalID)
       for (let prop in data) {
@@ -146,19 +146,19 @@ function PinnedFavs () {
 }
 
 PinnedFavs.prototype = {
-  _init(applet) {
+  _init: function (applet) {
     this._applet = applet
     this._favorites = {}
     this._applet.settings.connect('changed::pinned-apps', Lang.bind(this, function () { this._onFavsChanged(); }))
     this._reload()
   },
 
-  _onFavsChanged() {
+  _onFavsChanged: function () {
     if (this._reload())
       this.emit('changed')
   },
 
-  _reload() {
+  _reload: function () {
     let ids = this._applet.settings.getValue('pinned-apps')
     let appSys = Cinnamon.AppSystem.get_default()
     let apps = ids.map(function (id) {
@@ -193,29 +193,29 @@ PinnedFavs.prototype = {
     return needReaload
   },
 
-  _getIds() {
+  _getIds: function () {
     let ret = []
     for (let id in this._favorites)
       ret.push(id)
     return ret
   },
 
-  getFavoriteMap() {
+  getFavoriteMap: function () {
     return this._favorites
   },
 
-  getFavorites() {
+  getFavorites: function () {
     let ret = []
     for (let id in this._favorites)
       ret.push(this._favorites[id])
     return ret
   },
 
-  isFavorite(appId) {
+  isFavorite: function (appId) {
     return appId in this._favorites
   },
 
-  _addFavorite(appId, pos) {
+  _addFavorite: function (appId, pos) {
     if (appId in this._favorites)
       return false
 
@@ -235,15 +235,15 @@ PinnedFavs.prototype = {
     return true
   },
 
-  addFavoriteAtPos(appId, pos) {
+  addFavoriteAtPos: function (appId, pos) {
     this._addFavorite(appId, pos)
   },
 
-  addFavorite(appId) {
+  addFavorite: function (appId) {
     this.addFavoriteAtPos(appId, -1)
   },
 
-  moveFavoriteToPos(appId, pos) {
+  moveFavoriteToPos: function (appId, pos) {
     let ids = this._getIds()
     let old_index = ids.indexOf(appId)
     if (pos > old_index)
@@ -252,7 +252,7 @@ PinnedFavs.prototype = {
     this._applet.settings.setValue('pinned-apps', ids)
   },
 
-  _removeFavorite(appId) {
+  _removeFavorite: function (appId) {
     if (!appId in this._favorites)
       return false
 
@@ -264,7 +264,7 @@ PinnedFavs.prototype = {
     return true
   },
 
-  removeFavorite(appId) {
+  removeFavorite: function (appId) {
     this._removeFavorite(appId)
   }
 }
@@ -302,7 +302,7 @@ function AppGroup () {
 
 AppGroup.prototype = {
   __proto__: __proto.prototype,
-  _init(applet, appList, app, isFavapp) {
+  _init: function (applet, appList, app, isFavapp) {
     if (DND.LauncherDraggable)
       DND.LauncherDraggable.prototype._init.call(this)
     this._applet = applet
@@ -359,20 +359,20 @@ AppGroup.prototype = {
     this._applet.settings.connect('changed::arrange-pinnedApps', Lang.bind(this, this.on_arrange_pinned))
   },
 
-  getId() {
+  getId: function () {
     return this.app.get_id()
   },
 
-  on_arrange_pinned() {
+  on_arrange_pinned: function () {
     this._draggable.inhibit = !this._applet.settings.getValue('arrange-pinnedApps')
   },
 
-  on_panel_edit_mode_changed() {
+  on_panel_edit_mode_changed: function () {
     this._draggable.inhibit = global.settings.get_boolean('panel-edit-mode')
     this.actor.reactive = !global.settings.get_boolean('panel-edit-mode')
   },
 
-  on_title_display_changed(metaWindow) {
+  on_title_display_changed: function (metaWindow) {
     this._windowTitleChanged(metaWindow)
     let titleType = this._applet.settings.getValue('title-display')
     if (titleType == TitleDisplay.Title) {
@@ -384,19 +384,19 @@ AppGroup.prototype = {
     }
   },
 
-  _onDragEnd() {
+  _onDragEnd: function () {
     this.rightClickMenu.close(false)
     this.hoverMenu.close(false)
     this.appList.myactorbox._clearDragPlaceholder()
   },
 
-  _onDragCancelled() {
+  _onDragCancelled: function () {
     this.rightClickMenu.close(false)
     this.hoverMenu.close(false)
     this.appList.myactorbox._clearDragPlaceholder()
   },
 
-  handleDragOver(source, actor, x, y, time) {
+  handleDragOver: function (source, actor, x, y, time) {
     let IsLauncherDraggable = null
     if (DND.LauncherDraggable)
       IsLauncherDraggable = source instanceof DND.LauncherDraggable
@@ -416,23 +416,23 @@ AppGroup.prototype = {
     return true
   },
 
-  getDragActor() {
+  getDragActor: function () {
     return this.app.create_icon_texture(this._applet._panelHeight)
   },
 
   // Returns the original actor that should align with the actor
   // we show as the item is being dragged.
-  getDragActorSource() {
+  getDragActorSource: function () {
     return this.actor
   },
 
-  _setWatchedWorkspaces() {
+  _setWatchedWorkspaces: function () {
     this._appButton._setWatchedWorkspaces(this.metaWorkspaces)
   },
 
   // Add a workspace to the list of workspaces that are watched for
   // windows being added and removed
-  watchWorkspace(metaWorkspace) {
+  watchWorkspace: function (metaWorkspace) {
     if (!this.metaWorkspaces[metaWorkspace]) {
       // We use connect_after so that the window-tracker time to identify the app, otherwise get_window_app might return null!
       let windowAddedSignal = metaWorkspace.connect_after('window-added', Lang.bind(this, this._windowAdded))
@@ -451,7 +451,7 @@ AppGroup.prototype = {
 
   // Stop monitoring a workspace for added and removed windows.
   // @metaWorkspace: if null, will remove all signals
-  unwatchWorkspace(metaWorkspace) {
+  unwatchWorkspace: function (metaWorkspace) {
     function removeSignals (obj) {
       let signals = obj.signals
       for (let i = 0; i < signals.length; i++) {
@@ -473,23 +473,23 @@ AppGroup.prototype = {
     this._setWatchedWorkspaces()
   },
 
-  hideAppButton() {
+  hideAppButton: function () {
     this._appButton.actor.hide()
   },
 
-  showAppButton() {
+  showAppButton: function () {
     this._appButton.actor.show()
   },
 
-  hideAppButtonLabel(animate) {
+  hideAppButtonLabel: function (animate) {
     this._appButton.hideLabel(animate)
   },
 
-  showAppButtonLabel(animate, targetWidth) {
+  showAppButtonLabel: function (animate, targetWidth) {
     this._appButton.showLabel(animate, targetWidth)
   },
 
-  _onAppButtonRelease(actor, event) {
+  _onAppButtonRelease: function (actor, event) {
 
     //      global.log(event.get_button())
     if ((event.get_button() == 0x01) && this.isFavapp) {
@@ -521,7 +521,7 @@ AppGroup.prototype = {
     }
   },
 
-  _newAppKeyNumber(number) {
+  _newAppKeyNumber: function (number) {
     if (this.hotKeyId)
       Main.keybindingManager.removeHotKey(this.hotKeyId)
     if (number < 10) {
@@ -531,7 +531,7 @@ AppGroup.prototype = {
     }
   },
 
-  _onAppKeyPress() {
+  _onAppKeyPress: function () {
     if (this.isFavapp) {
       this.app.open_new_window(-1)
       this._animate()
@@ -540,13 +540,13 @@ AppGroup.prototype = {
     }
   },
 
-  _onNewAppKeyPress(number) {
+  _onNewAppKeyPress: function (number) {
     this.app.open_new_window(-1)
     log(this.getId())
     this._animate()
   },
 
-  _windowHandle(fromDrag) {
+  _windowHandle: function (fromDrag) {
     let has_focus = this.lastFocused.has_focus()
     if (!this.lastFocused.minimized && !has_focus) {
       this.lastFocused.foreach_transient(function (child) {
@@ -574,7 +574,7 @@ AppGroup.prototype = {
     // this._removeAlerts(this.metaWindow)
     }
   },
-  _getLastFocusedWindow() {
+  _getLastFocusedWindow: function () {
     // Get a list of windows and sort it in order of last access
     let list = []
     for (let win in this.metaWindows) {
@@ -591,7 +591,7 @@ AppGroup.prototype = {
   // updates the internal list of metaWindows
   // to include all windows corresponding to this.app on the workspace
   // metaWorkspace
-  _updateMetaWindows(metaWorkspace) {
+  _updateMetaWindows: function (metaWorkspace) {
     let tracker = Cinnamon.WindowTracker.get_default()
     // Get a list of all interesting windows that are part of this app on the current workspace
     let windowList = metaWorkspace.list_windows().filter(Lang.bind(this, function (metaWindow) {
@@ -621,7 +621,7 @@ AppGroup.prototype = {
     }
   },
 
-  _windowAdded(metaWorkspace, metaWindow) {
+  _windowAdded: function (metaWorkspace, metaWindow) {
     let tracker = Cinnamon.WindowTracker.get_default()
     let app = AppFromWMClass(this.appList._appsys, this.appList.specialApps, metaWindow)
     if (!app)
@@ -654,7 +654,7 @@ AppGroup.prototype = {
       this._calcWindowNumber(metaWorkspace)
   },
 
-  _windowRemoved(metaWorkspace, metaWindow) {
+  _windowRemoved: function (metaWorkspace, metaWindow) {
     let deleted
     if (this.metaWindows[metaWindow])
       deleted = this.metaWindows[metaWindow].data
@@ -687,7 +687,7 @@ AppGroup.prototype = {
       this._calcWindowNumber(metaWorkspace)
   },
 
-  _windowTitleChanged(metaWindow) {
+  _windowTitleChanged: function (metaWindow) {
     // We only really want to track title changes of the last focused app
     if (!this._appButton) {
       throw 'Error: got a _windowTitleChanged callback but this._appButton is undefined'
@@ -716,7 +716,7 @@ AppGroup.prototype = {
     }
   },
 
-  _focusWindowChange(metaWindow) {
+  _focusWindowChange: function (metaWindow) {
     if (metaWindow.appears_focused) {
       this.lastFocused = metaWindow
       this._windowTitleChanged(this.lastFocused)
@@ -727,7 +727,7 @@ AppGroup.prototype = {
       this._updateFocusedStatus()
   },
 
-  _updateFocusedStatus(force) {
+  _updateFocusedStatus: function (force) {
     let changed = false
     let focusState
     for ( let win in this.metaWindows) {
@@ -741,7 +741,7 @@ AppGroup.prototype = {
     this.focusState = focusState
   },
 
-  _focusedLabel(focusState) {
+  _focusedLabel: function (focusState) {
     if (focusState) {
       this.showAppButtonLabel(true)
     } else {
@@ -749,7 +749,7 @@ AppGroup.prototype = {
     }
   },
 
-  _isFavorite(isFav) {
+  _isFavorite: function (isFav) {
     this.isFavapp = isFav
     this.wasFavapp = !(isFav)
     this._appButton._isFavorite(isFav)
@@ -759,7 +759,7 @@ AppGroup.prototype = {
     this._windowTitleChanged(this.lastFocused)
   },
 
-  _calcWindowNumber(metaWorkspace) {
+  _calcWindowNumber: function (metaWorkspace) {
     if (!this._appButton) {
       throw 'Error: got a _calcWindowNumber callback but this._appButton is undefined'
     }
@@ -789,14 +789,14 @@ AppGroup.prototype = {
     }
   },
 
-  _animate() {
+  _animate: function () {
     this.actor.set_z_rotation_from_gravity(0.0, Clutter.Gravity.CENTER)
     Tweener.addTween(this.actor, {
       opacity: 70,
       time: 1.0,
       transition: 'linear',
       onCompleteScope: this,
-      onComplete() {
+      onComplete: function () {
         Tweener.addTween(this.actor, {
           opacity: 255,
           time: 0.5,
@@ -806,7 +806,7 @@ AppGroup.prototype = {
     })
   },
 
-  destroy() {
+  destroy: function () {
     // Unwatch all workspaces before we destroy all our actors
     // that callbacks depend on
 
@@ -837,7 +837,7 @@ function AppList () {
 }
 
 AppList.prototype = {
-  _init(applet, metaWorkspace) {
+  _init: function (applet, metaWorkspace) {
     this._applet = applet
     this.metaWorkspace = metaWorkspace
     this.myactorbox = new SpecialButtons.MyAppletBox(this._applet)
@@ -851,11 +851,11 @@ AppList.prototype = {
     this._refreshList()
   },
 
-  on_panel_edit_mode_changed() {
+  on_panel_edit_mode_changed: function () {
     this.actor.reactive = global.settings.get_boolean('panel-edit-mode')
   },
 
-  on_orientation_changed(orientation) {
+  on_orientation_changed: function (orientation) {
     this._refreshList()
     if (this._applet.orientation == St.Side.TOP) {
       this.actor.set_style_class_name('window-list-item-box window-list-box-top')
@@ -866,7 +866,7 @@ AppList.prototype = {
     }
   },
 
-  _setSignals() {
+  _setSignals: function () {
     this.signals = []
     // We use connect_after so that the window-tracker time to identify the app
     this.signals.push(this.metaWorkspace.connect_after('window-added', Lang.bind(this, this._windowAdded)))
@@ -877,14 +877,14 @@ AppList.prototype = {
   },
 
   // Gets a list of every app on the current workspace
-  _refreshApps() {
+  _refreshApps: function () {
     // For each window, let's make sure we add it!
     this.metaWorkspace.list_windows().forEach(Lang.bind(this, function (win) {
       this._windowAdded(this.metaWorkspace, win)
     }))
   },
 
-  _getSpecialApps() {
+  _getSpecialApps: function () {
     this.specialApps = {}
     let apps = Gio.app_info_get_all()
     for (let i = 0; i < apps.length;i++) {
@@ -896,7 +896,7 @@ AppList.prototype = {
     }
   },
 
-  _refreshList() {
+  _refreshList: function () {
     for (let i in this._appList) {
       let list = this._appList[i]
       list.appGroup.destroy()
@@ -907,7 +907,7 @@ AppList.prototype = {
     this._refreshApps()
   },
 
-  _appGroupNumber(parentApp) {
+  _appGroupNumber: function (parentApp) {
     let i = 0
     for (let l in this._appList) {
       let list = this._appList[l]
@@ -918,7 +918,7 @@ AppList.prototype = {
     return i
   },
 
-  _refreshAppGroupNumber() {
+  _refreshAppGroupNumber: function () {
     let i = 0
     for (let l in this._appList) {
       let list = this._appList[l]
@@ -927,7 +927,7 @@ AppList.prototype = {
     }
   },
 
-  _windowAdded(metaWorkspace, metaWindow, favapp, isFavapp) {
+  _windowAdded: function (metaWorkspace, metaWindow, favapp, isFavapp) {
     // Check to see if the window that was added already has an app group.
     // If it does, then we don't need to do anything.  If not, we need to
     // create an app group.
@@ -959,7 +959,7 @@ AppList.prototype = {
     }
   },
 
-  _onAppWindowsChanged(app) {
+  _onAppWindowsChanged: function (app) {
     let numberOfwindows = this._getNumberOfAppWindowsInWorkspace(app, this.metaWorkspace)
     if (numberOfwindows == 0) {
       this._removeApp(app)
@@ -967,14 +967,14 @@ AppList.prototype = {
     }
   },
 
-  _calcAllWindowNumbers() {
+  _calcAllWindowNumbers: function () {
     for (let l in this._appList) {
       let list = this._appList[l]
       list.appGroup._calcWindowNumber(this.metaWorkspace)
     }
   },
 
-  _getNumberOfAppWindowsInWorkspace(app, workspace) {
+  _getNumberOfAppWindowsInWorkspace: function (app, workspace) {
     var windows = app.get_windows()
     let result = 0
 
@@ -987,7 +987,7 @@ AppList.prototype = {
     return result
   },
 
-  _removeApp(app) {
+  _removeApp: function (app) {
     // This function may get called multiple times on the same app and so the app may have already been removed
     let appGroup = this._appList[app]
     if (appGroup) {
@@ -1007,7 +1007,7 @@ AppList.prototype = {
     }
   },
 
-  _loadFavorites() {
+  _loadFavorites: function () {
     if (!this._applet.settings.getValue('show-pinned')) return
     let launchers = this._applet.settings.getValue('pinned-apps')
     for (let i = 0; i < launchers.length; ++i) {
@@ -1018,7 +1018,7 @@ AppList.prototype = {
     }
   },
 
-  _windowRemoved(metaWorkspace, metaWindow) {
+  _windowRemoved: function (metaWorkspace, metaWindow) {
     // When a window is closed, we need to check if the app it belongs
     // to has no windows left.  If so, we need to remove the corresponding AppGroup
     // let tracker = Cinnamon.WindowTracker.get_default()
@@ -1042,7 +1042,7 @@ AppList.prototype = {
     }
   },
 
-  destroy() {
+  destroy: function () {
     this.signals.forEach(Lang.bind(this, function (s) {
       this.metaWorkspace.disconnect(s)
     }))
@@ -1064,7 +1064,7 @@ function MyApplet (metadata, orientation, panel_height, instance_id) {
 MyApplet.prototype = {
   __proto__: Applet.Applet.prototype,
 
-  _init(metadata, orientation, panel_height, instance_id) {
+  _init: function (metadata, orientation, panel_height, instance_id) {
     Applet.Applet.prototype._init.call(this, orientation, panel_height, instance_id)
     this.actor.set_track_hover(false)
     this.orientation = orientation
@@ -1170,7 +1170,7 @@ MyApplet.prototype = {
     }
   },
 
-  execInstallLanguage() {
+  execInstallLanguage: function () {
     try {
       let _shareFolder = GLib.get_home_dir() + '/.local/share/'
       let _localeFolder = Gio.file_new_for_path(_shareFolder + 'locale/')
@@ -1212,14 +1212,14 @@ MyApplet.prototype = {
 
   },
 
-  _makeDirectoy(fDir) {
+  _makeDirectoy: function (fDir) {
     if (!this._isDirectory(fDir))
       this._makeDirectoy(fDir.get_parent())
     if (!this._isDirectory(fDir))
       fDir.make_directory(null)
   },
 
-  _isDirectory(fDir) {
+  _isDirectory: function (fDir) {
     try {
       let info = fDir.query_filesystem_info('standard::type', null)
       if ((info) && (info.get_file_type() != Gio.FileType.DIRECTORY))
@@ -1228,13 +1228,13 @@ MyApplet.prototype = {
     return false
   },
 
-  on_applet_clicked(event) {},
+  on_applet_clicked: function (event) {},
 
-  on_panel_edit_mode_changed() {
+  on_panel_edit_mode_changed: function () {
     this.actor.reactive = global.settings.get_boolean('panel-edit-mode')
   },
 
-  on_orientation_changed(orientation) {
+  on_orientation_changed: function (orientation) {
     this.orientation = orientation
     for (let workSpace in this.metaWorkspaces) {
       this.metaWorkspaces[workSpace].appList._refreshList()
@@ -1247,42 +1247,42 @@ MyApplet.prototype = {
     }
   },
 
-  on_panel_height_changed() {
+  on_panel_height_changed: function () {
     for (let workSpace in this.metaWorkspaces) {
       this.metaWorkspaces[workSpace].appList._refreshList()
     }
   },
 
-  pinned_app_contr() {
+  pinned_app_contr: function () {
     let pinnedAppsContr = this.pinnedAppsContr
     return pinnedAppsContr
   },
 
-  acceptNewLauncher(path) {
+  acceptNewLauncher: function (path) {
     this.pinnedAppsContr.addFavorite(path)
   },
 
-  removeLauncher(appGroup) {
+  removeLauncher: function (appGroup) {
     // Add code here to remove the launcher if you want.
   },
 
-  recent_items_contr() {
+  recent_items_contr: function () {
     return this.recentItems
   },
 
-  recent_items_manager() {
+  recent_items_manager: function () {
     return this.recentManager
   },
 
-  _pinnedRecentChanged() {
+  _pinnedRecentChanged: function () {
     return
   },
 
-  on_recent_items_changed() {
+  on_recent_items_changed: function () {
     this.recentItems = this.recentManager.get_items().sort(function (a, b) { return a.get_modified() - b.get_modified(); }).reverse()
   },
 
-  _onWorkspaceCreatedOrDestroyed() {
+  _onWorkspaceCreatedOrDestroyed: function () {
     let workspaces = [global.screen.get_workspace_by_index(i), each(i in range(global.screen.n_workspaces))];
     // We'd like to know what workspaces in this.metaWorkspaces have been destroyed and
     // so are no longer in the workspaces list.  For each of those, we should destroy them
@@ -1298,7 +1298,7 @@ MyApplet.prototype = {
     }
   },
 
-  _onSwitchWorkspace(winManager, previousWorkspaceIndex, currentWorkspaceIndex) {
+  _onSwitchWorkspace: function (winManager, previousWorkspaceIndex, currentWorkspaceIndex) {
     let metaWorkspace = global.screen.get_workspace_by_index(currentWorkspaceIndex)
     // If the workspace we switched to isn't in our list,
     // we need to create an AppList for it
@@ -1318,23 +1318,23 @@ MyApplet.prototype = {
     list._refreshApps()
   },
 
-  _onOverviewShow() {
+  _onOverviewShow: function () {
     this.actor.hide()
   },
 
-  _onOverviewHide() {
+  _onOverviewHide: function () {
     this.actor.show()
   },
 
-  _onMoveToNextMonitor() {
+  _onMoveToNextMonitor: function () {
     this._onMoveToMonitor(1)
   },
 
-  _onMoveToPrevMonitor() {
+  _onMoveToPrevMonitor: function () {
     this._onMoveToMonitor(-1)
   },
 
-  _onMoveToMonitor(modifier) {
+  _onMoveToMonitor: function (modifier) {
     // Skip when we don't have multiple monitor.
     let monitors = Main.layoutManager.monitors
     if (monitors.length <= 1) {
@@ -1361,7 +1361,7 @@ MyApplet.prototype = {
     } catch(e) {}
   },
 
-  destroy() {
+  destroy: function () {
     this.signals.disconnectAll()
     this.actor.destroy()
     this.actor = null

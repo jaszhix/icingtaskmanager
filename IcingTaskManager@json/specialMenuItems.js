@@ -111,6 +111,7 @@ PinnedRecentItem.prototype = {
       align: St.Align.START
     });
   },
+
   activate: function activate(event, keepMenu) {
     if (this.unPinRecent) {
       var stored = this._menu._applet.pinnedRecent;
@@ -125,6 +126,7 @@ PinnedRecentItem.prototype = {
     Gio.app_info_launch_default_for_uri(this.uri, global.create_app_launch_context());
     this._menu.toggle();
   }
+
 };
 
 function RecentMenuItem(menu, item, pinIcon) {
@@ -211,6 +213,7 @@ RecentMenuItem.prototype = {
       align: St.Align.START
     });
   },
+
   activate: function activate(event, keepMenu) {
     if (this.pinRecent) {
       var stored = this._menu._applet.pinnedRecent;
@@ -234,6 +237,7 @@ RecentMenuItem.prototype = {
     this._menu.toggle();
     Gio.app_info_launch_default_for_uri(this.uri, global.create_app_launch_context());
   }
+
 };
 
 function PlaceMenuItem(menu, place) {
@@ -287,10 +291,12 @@ PlaceMenuItem.prototype = {
       align: St.Align.START
     });
   },
+
   activate: function activate(event, keepMenu) {
     this._menu.toggle();
     this.place.launch();
   }
+
 };
 
 function IconMenuItem(menu, text, icon) {
@@ -418,6 +424,7 @@ FirefoxMenuItem.prototype = {
       align: St.Align.START
     });
   },
+
   activate: function activate(event, keepMenu) {
     if (this.pinRecent) {
       var stored = this._menu._applet.pinnedRecent;
@@ -443,6 +450,7 @@ FirefoxMenuItem.prototype = {
     this._menu.toggle();
     Gio.app_info_launch_default_for_uri(this.uri, global.create_app_launch_context());
   }
+
 };
 
 function IconNameMenuItem(menu, text, icon, iconType) {
@@ -618,14 +626,17 @@ SubMenuItem.prototype = {
       align: St.Align.START
     });
   },
+
   activate: function activate() {
     this.menu.toggle();
   },
+
   destroy: function destroy() {
     this.actor.destroy();
     //this.emit('destroy');
     this.menu.destroy();
   },
+
   _onButtonReleaseEvent: function _onButtonReleaseEvent(actor, event) {
     if (event.get_button() == 1 | 2) {
       this.activate();
@@ -665,7 +676,6 @@ SubMenu.prototype = {
         onUpdate: function onUpdate() {
           this._arrow.rotation_angle_z = this.actor._arrow_rotation;
         },
-
         onCompleteScope: this,
         onComplete: function onComplete() {
           this.actor.set_height(-1);
@@ -676,6 +686,7 @@ SubMenu.prototype = {
       this.emit('open-state-changed', true);
     }
   },
+
   close: function close(animate) {
     if (!this.isOpen) return;
 
@@ -694,7 +705,6 @@ SubMenu.prototype = {
           this.actor.set_height(-1);
           this.emit('open-state-changed', false);
         },
-
         onUpdateScope: this,
         onUpdate: function onUpdate() {
           this._arrow.rotation_angle_z = this.actor._arrow_rotation;
@@ -707,6 +717,7 @@ SubMenu.prototype = {
       this.emit('open-state-changed', false);
     }
   }
+
 };
 
 function SubSection() {
@@ -736,9 +747,11 @@ SubSection.prototype = {
     this.focusOnHover = true;
     this.actor.connect('notify::hover', Lang.bind(this, this._onHoverChanged));
   },
+
   _onHoverChanged: function _onHoverChanged(actor) {
     this.setActive(actor.hover);
   },
+
   setActive: function setActive(active) {
     this.active = active;
     if (active) {
@@ -746,6 +759,7 @@ SubSection.prototype = {
       if (this.focusOnHover) this.actor.grab_key_focus();
     } else this.actor.remove_style_pseudo_class('active');
   },
+
   addActor: function addActor(child, params) {
     params = Params.parse(params, {
       span: -1,
@@ -759,6 +773,7 @@ SubSection.prototype = {
     }));
     this.actor.add_actor(child);
   },
+
   _removeChild: function _removeChild(child) {
     for (var i = 0; i < this._children.length; i++) {
       if (this._children[i].actor == child) {
@@ -767,13 +782,16 @@ SubSection.prototype = {
       }
     }
   },
+
   removeActor: function removeActor(child) {
     this.actor.remove_actor(child);
     this._removeChild(child);
   },
+
   getColumnWidths: function getColumnWidths() {
     return 0;
   },
+
   _getPreferredWidth: function _getPreferredWidth(actor, forHeight, alloc) {
     var width = 0,
         minHeiht = void 0,
@@ -795,6 +813,7 @@ SubSection.prototype = {
     }
     alloc.min_size = alloc.natural_size = width;
   },
+
   _getPreferredHeight: function _getPreferredHeight(actor, forWidth, alloc) {
     var height = 0,
         minWidth = void 0,
@@ -819,6 +838,7 @@ SubSection.prototype = {
     }
     alloc.min_size = alloc.natural_size = height;
   },
+
   _allocate: function _allocate(actor, box, flags) {
     var height = box.y2 - box.y1;
     var direction = this.actor.get_direction();
