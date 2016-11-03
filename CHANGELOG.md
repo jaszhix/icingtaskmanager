@@ -1,5 +1,9 @@
 Changelog
 
+### 3.0.6
+
+  * Added ability to toggle an application's window by clicking on its app button.
+
 ### 3.0.5
 
   * German translation added by [Pandiora](https://github.com/jaszhix/icingtaskmanager/pull/4)
