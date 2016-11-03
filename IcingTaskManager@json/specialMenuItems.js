@@ -13,6 +13,7 @@ var Clutter = imports.gi.Clutter;
 var Tweener = imports.ui.tweener;
 var Tooltips = imports.ui.tooltips;
 var Params = imports.misc.params;
+var clog = imports.applet.clog;
 
 function _(str) {
   var resultConf = Gettext.dgettext('IcingTaskManager@json', str);

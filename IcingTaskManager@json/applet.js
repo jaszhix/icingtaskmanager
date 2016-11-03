@@ -30,6 +30,8 @@ var Gettext = imports.gettext;
 var Gio = imports.gi.Gio;
 var Gtk = imports.gi.Gtk;
 var GLib = imports.gi.GLib;
+//const Panel = imports.ui.panel
+var clog = imports.applet.clog;
 
 function _(str) {
   var resultConf = Gettext.dgettext('IcingTaskManager@json', str);
@@ -573,7 +575,7 @@ AppGroup.prototype = {
     list.sort(function (a, b) {
       return a[0] - b[0];
     });
-    // log(list[0])
+
     if (list[0]) return list[0][1];else return null;
   },
 
@@ -581,6 +583,8 @@ AppGroup.prototype = {
   // to include all windows corresponding to this.app on the workspace
   // metaWorkspace
   _updateMetaWindows: function _updateMetaWindows(metaWorkspace) {
+    var _this = this;
+
     var tracker = Cinnamon.WindowTracker.get_default();
     // Get a list of all interesting windows that are part of this app on the current workspace
     var windowList = metaWorkspace.list_windows().filter(Lang.bind(this, function (metaWindow) {
@@ -594,9 +598,9 @@ AppGroup.prototype = {
       }
     }));
     this.metaWindows = {};
-    windowList.forEach(Lang.bind(this, function (win) {
-      this._windowAdded(metaWorkspace, win);
-    }));
+    windowList.forEach(function (win) {
+      _this._windowAdded(metaWorkspace, win);
+    });
 
     // When we first populate we need to decide which window
     // will be triggered when the app button is pressed
@@ -783,10 +787,10 @@ AppGroup.prototype = {
   },
 
   destroy: function destroy() {
-    var _this = this;
+    var _this2 = this;
 
     var _loop = function _loop(_i9) {
-      var metaWindow = _this.metaWindows[_i9];
+      var metaWindow = _this2.metaWindows[_i9];
       metaWindow.data.signals.forEach(function (s) {
         metaWindow.win.disconnect(s);
       });
@@ -953,6 +957,7 @@ AppList.prototype = {
 
   _getNumberOfAppWindowsInWorkspace: function _getNumberOfAppWindowsInWorkspace(app, workspace) {
     var windows = app.get_windows();
+
     var result = 0;
 
     for (var i = 0; i < windows.length; i++) {
@@ -996,6 +1001,7 @@ AppList.prototype = {
   },
 
   _windowRemoved: function _windowRemoved(metaWorkspace, metaWindow) {
+
     // When a window is closed, we need to check if the app it belongs
     // to has no windows left.  If so, we need to remove the corresponding AppGroup
     // let tracker = Cinnamon.WindowTracker.get_default()

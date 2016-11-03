@@ -18,6 +18,7 @@ var Meta = imports.gi.Meta;
 var DND = imports.ui.dnd;
 var Gettext = imports.gettext;
 var Mainloop = imports.mainloop;
+var clog = imports.applet.clog;
 
 var BUTTON_BOX_ANIMATION_TIME = 0.5;
 var MAX_BUTTON_WIDTH = 150; // Pixels
@@ -91,6 +92,7 @@ IconLabelButton.prototype = {
 
     this._applet.settings.connect('changed::icon-padding', Lang.bind(this, this.setIconPadding));
   },
+
 
   setIconPadding: function setIconPadding() {
     this.actor.style = 'padding-bottom: 0px;padding-top:0px; padding-left: ' + this._applet.iconPadding + 'px;padding-right:' + this._applet.iconPadding + 'px;';
