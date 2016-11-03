@@ -39,4 +39,5 @@ sudo apt-get install -y nodejs
 *  Install node modules: ```npm install```
 *  Install gulp globally if you haven't already. ```sudo npm install -g gulp```
 *  Start transpile watch task: ```gulp spawn-watch```
+*  Monitor logging output: ```tail -f -n100 ~/.cinnamon/glass.log```
 *  Open the run dialogue with ALT+F2 and type ```lg``` to open the Looking Glass. After you make an edit, go to the Extensions tab, right-click Icing Task Manager, and click "Reload Code".
