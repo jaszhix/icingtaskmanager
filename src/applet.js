@@ -467,9 +467,9 @@ AppGroup.prototype = {
       }
     }
     this._calcWindowNumber(metaWorkspace)
-    this._applet.settings.connect('changed::number-display', Lang.bind(this, function () {
+    this._applet.settings.connect('changed::number-display', ()=>{
       this._calcWindowNumber(metaWorkspace)
-    }))
+    })
     this._setWatchedWorkspaces()
   },
 
@@ -514,37 +514,44 @@ AppGroup.prototype = {
   },
 
   _onAppButtonRelease: function (actor, event) {
-
-    //      global.log(event.get_button())
-    if ((event.get_button() == 0x01) && this.isFavapp) {
-      //        global.log('create window'); 
+    var button = event.get_button();
+    if ((button === 1) && this.isFavapp) {
       this.app.open_new_window(-1)
       this._animate()
       return
     }
-    let workspaces = [global.screen.get_workspace_by_index(i), each(i in range(global.screen.n_workspaces))];
-    let windowNum = this.app.get_windows().filter(function (win) {
-      for (let i = 0; i < workspaces.length; i++) {
-        if (win.get_workspace() == workspaces[i]) {
-          return workspaces[i]
+    var appWindows = this.app.get_windows();
+
+    var handleMinimizeToggle = (win)=>{
+      if (win.minimized) {
+        this.app.activate()
+        win.maximize()
+      } else {
+        win.minimize()
+      }
+    };
+
+    if (button === 1) {
+      this.hoverMenu.shouldOpen = false;
+      if (appWindows.length === 1) {
+        handleMinimizeToggle(appWindows[0]);
+      } else {
+        var actionTaken = false
+        for (let i = appWindows.length - 1; i >= 0; i--) {
+          if (this.lastFocused && appWindows[i]._lgId === this.lastFocused._lgId) {
+            handleMinimizeToggle(appWindows[i])
+            actionTaken = true
+            break
+          }
+        }
+        if (!actionTaken) {
+          handleMinimizeToggle(appWindows[0]);
         }
       }
-      return false
-    }).length
-
-    if (!this.lastFocused) {
-      return
-    }
-
-    if ((event.get_button() == 0x02) && !this.isFavapp) {
-      this.app.open_new_window(-1)
-    } else if (event.get_button() == 0x01) {
-      if (this._applet.onclickThumbs && windowNum > 1) {
-        this.hoverMenu.shouldOpen = true
-        this.hoverMenu.shouldClose = false
-        this.hoverMenu.hoverOpen()
-      } else {
-        this._windowHandle(false)
+      
+    } else if (button === 2) {
+      for (let i = appWindows.length - 1; i >= 0; i--) {
+        handleMinimizeToggle(appWindows[i])
       }
     }
   },
@@ -571,7 +578,6 @@ AppGroup.prototype = {
 
   _onNewAppKeyPress: function (number) {
     this.app.open_new_window(-1)
-    log(this.getId())
     this._animate()
   },
 
@@ -584,6 +590,7 @@ AppGroup.prototype = {
         }
       })
     }
+
     if (has_focus) {
       if (fromDrag) {
         return
@@ -683,14 +690,16 @@ AppGroup.prototype = {
     // log(metaWindow.get_wm_class())
     // log(metaWindow.get_wm_class_instance())
     }
-    if (app && app.wmClass && !this.isFavapp)
+    if (app && app.wmClass && !this.isFavapp) {
       this._calcWindowNumber(metaWorkspace)
+    }
   },
 
   _windowRemoved: function (metaWorkspace, metaWindow) {
     let deleted
-    if (this.metaWindows[metaWindow])
+    if (this.metaWindows[metaWindow]) {
       deleted = this.metaWindows[metaWindow].data
+    }
     if (deleted) {
       let signals = deleted.signals
       // Clean up all the signals we've connected
@@ -1344,7 +1353,7 @@ MyApplet.prototype = {
   },
 
   _onWorkspaceCreatedOrDestroyed: function () {
-    let workspaces = [global.screen.get_workspace_by_index(i), each(i in range(global.screen.n_workspaces))]; //TBD
+    let workspaces = [global.screen.get_workspace_by_index(i).forEach(i in range(global.screen.n_workspaces))]; //TBD
     // We'd like to know what workspaces in this.metaWorkspaces have been destroyed and
     // so are no longer in the workspaces list.  For each of those, we should destroy them
     let toDelete = []
@@ -1418,7 +1427,6 @@ MyApplet.prototype = {
     else if (monitorIndex > monitors.length - 1) {
       monitorIndex = 0
     }
-    clog(monitorIndex + '  ' + monitors.length)
     try {
       metaWindow.move_to_monitor(monitorIndex)
     } catch(e) {}
