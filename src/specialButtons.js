@@ -310,20 +310,23 @@ AppButton.prototype = {
       return workspaceIds.indexOf(win.get_workspace().index()) >= 0
     })
     var hasTransient = false
-    for (var w in windows) {
+    var handleTransient = (transient)=>{
+      if (transient.has_focus()) {
+        hasTransient = true
+        return false
+      }
+      return true
+    };
+    for (let w in windows) {
       var window = windows[w]
-      if (window.minimized)
+      if (window.minimized) {
         continue
-      if (window.has_focus())
+      }
+      if (window.has_focus()) {
         return true
+      }
 
-      window.foreach_transient(function (transient) {
-        if (transient.has_focus()) {
-          hasTransient = true
-          return false
-        }
-        return true
-      })
+      window.foreach_transient(handleTransient)
     }
     return hasTransient
   },
@@ -544,20 +547,18 @@ WindowButton.prototype = {
   },
 
   _hasFocus: function () {
-    if (this.metaWindow.minimized)
+    if (this.metaWindow.minimized) {
       return false
+    }
 
-    if (this.metaWindow.has_focus())
+    if (this.metaWindow.has_focus()) {
       return true
+    }
 
     var transientHasFocus = false
-    this.metaWindow.foreach_transient(function (transient) {
-      if (transient.has_focus()) {
-        transientHasFocus = true
-        return false
-      }
-      return true
-    })
+
+    var handleTransient
+    this.metaWindow.foreach_transient(handleTransient)
     return transientHasFocus
   },
 
