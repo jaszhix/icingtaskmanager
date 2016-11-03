@@ -458,9 +458,9 @@ WindowButton.prototype = {
 
   destroy: function () {
     if (this.metaWindow) {
-      this.signals.forEach(Lang.bind(this, function (s) {
+      this.signals.forEach((s)=>{
         this.metaWindow.disconnect(s)
-      }))
+      })
       if (this._urgent_signal) {
         global.display.disconnect(this._urgent_signal)
       }

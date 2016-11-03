@@ -52,7 +52,7 @@
  },
  "arrange-pinnedApps" : {
     "type" : "checkbox",
-    "default" : false,
+    "default" : true,
     "description": "Arrange pinned apps",
     "tooltip": "Arrange pinned apps into a different order."
  },

@@ -625,10 +625,8 @@ AppMenuButtonRightClickMenu.prototype = {
 
   _toggleFav: function (actor, event) {
     if (this.isFav) {
-      // this.close(false)
       this.favs.removeFavorite(this.favId)
     } else {
-      // this.close(false)
       this.favs.addFavorite(this.favId)
     }
   },
@@ -957,17 +955,16 @@ PopupMenuAppSwitcherItem.prototype = {
       return {}
     }
     var windows
-    if (this.app.wmClass && metaWorkspace) {
-      windows = this.metaWorkspace.list_windows().filter(Lang.bind(this, function (win) {
+    if (this.app.wmClass && this.metaWorkspace) {
+      windows = this.metaWorkspace.list_windows().filter((win)=>{
         return this.app.wmClass == win.get_wm_class_instance()
-      })).reverse()
-    }
-    else {
-      windows = this.app.get_windows().filter(Lang.bind(this, function (win) {
+      }).reverse()
+    } else {
+      windows = this.app.get_windows().filter((win)=>{
         // var isDifferent = (win != this.metaWindow)
         var isSameWorkspace = (win.get_workspace() == this.metaWorkspace) && Main.isInteresting(win)
         return isSameWorkspace
-      })).reverse()
+      }).reverse()
     }
     return windows
   },
@@ -1106,7 +1103,6 @@ PopupMenuAppSwitcherItem.prototype = {
     if (windows === null) {
       return
     }
-    var winLength = windows.length
     for (var i in this.appThumbnails) {
       if (this.appThumbnails[i].thumbnail) {
         this.appThumbnails[i].thumbnail.thumbnailIconSize()
@@ -1485,8 +1481,8 @@ WindowThumbnail.prototype = {
         opacity: target_opacity
       })
     }
+    global.get_window_actors().forEach(function (wa, i) {
 
-    global.get_window_actors().forEach(function (wa) {
       var meta_win = wa.get_meta_window()
       if (metaWin === meta_win) {
         return
