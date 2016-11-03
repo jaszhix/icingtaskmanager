@@ -12,7 +12,7 @@ msgstr ""
 "Last-Translator: DL\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=iso-8859-1\n"
+"Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: de\n"
 "X-Generator: Poedit 1.8.7.1\n"
@@ -24,11 +24,11 @@ msgstr "Verschieben auf Monitor %d"
 
 #: specialMenus.js:91
 msgid "Close All"
-msgstr "Alles schließen"
+msgstr "Alles schlieÃŸen"
 
 #: specialMenus.js:94
 msgid "Close"
-msgstr "Schließen"
+msgstr "SchlieÃŸen"
 
 #: specialMenus.js:97 specialMenus.js:492
 msgid "Minimize"
@@ -48,7 +48,7 @@ msgstr "Auf rechten Arbeitsplatz verschieben"
 
 #: specialMenus.js:109 specialMenus.js:479
 msgid "Visible on all workspaces"
-msgstr "Auf allen Arbeitsplätzen anzeigen"
+msgstr "Auf allen ArbeitsplÃ¤tzen anzeigen"
 
 #: specialMenus.js:134
 msgid "Unpin from Panel"
@@ -80,7 +80,7 @@ msgstr "Vorschaubilder stapeln"
 
 #: specialMenus.js:165
 msgid "Hover to Peek"
-msgstr "Hover für Vorschau"
+msgstr "Hover fÃ¼r Vorschau"
 
 #. IcingTaskManager@json->settings-schema.json->show-
 #. recent->description
@@ -106,7 +106,7 @@ msgstr "Nur auf diesem Arbeitsplatz"
 
 #: specialMenus.js:487
 msgid "Unmaximize"
-msgstr "Zurücksetzen"
+msgstr "ZurÃ¼cksetzen"
 
 #: specialMenus.js:491
 msgid "Restore"
@@ -123,31 +123,31 @@ msgstr "Icing Task Manager"
 #. IcingTaskManager@json->settings-schema.json->thumbnail-
 #. size->description
 msgid "Thumbnail size:"
-msgstr "Vorschaubild Größe:"
+msgstr "Vorschaubild GrÃ¶ÃŸe:"
 
 #. IcingTaskManager@json->settings-schema.json->thumbnail-
 #. size->tooltip
 #. IcingTaskManager@json->settings-schema.json->hover-peek-
 #. opacity->tooltip
 msgid "Opacity of the windows on hover."
-msgstr "Steuert die Größe der Vorschaubilder."
+msgstr "Steuert die GrÃ¶ÃŸe der Vorschaubilder."
 
 #. IcingTaskManager@json->settings-schema.json->thumbnail-
 #. size->units
 msgid "size"
-msgstr "Größe"
+msgstr "GrÃ¶ÃŸe"
 
 #. IcingTaskManager@json->settings-schema.json->closeall-menu-
 #. item->description
 msgid "Enable option to close all windows"
-msgstr "Option aktivieren um alle Fenster zu schließen"
+msgstr "Option aktivieren um alle Fenster zu schlieÃŸen"
 
 #. IcingTaskManager@json->settings-schema.json->closeall-menu-
 #. item->tooltip
 msgid "Show a \"Close All\" context menu item to close all windows for an app."
 msgstr ""
-"Zeige \"Alles schließen\" als Kontextmenüeintrag an um alle Fenster einer "
-"Anwendung zu schließen."
+"Zeige \"Alles schlieÃŸen\" als KontextmenÃ¼eintrag an um alle Fenster einer "
+"Anwendung zu schlieÃŸen."
 
 #. IcingTaskManager@json->settings-schema.json->show-
 #. thumbnails->description
@@ -157,7 +157,7 @@ msgstr "Zeige Vorschaubilder"
 #. IcingTaskManager@json->settings-schema.json->show-
 #. thumbnails->tooltip
 msgid "Show window thumbnails when hovering over an app button."
-msgstr "Zeigt Fenster-Vorschaubilder beim Hovern über einen Anwendungsbutton an"
+msgstr "Zeigt Fenster-Vorschaubilder beim Hovern Ã¼ber einen Anwendungsbutton an"
 
 #. IcingTaskManager@json->settings-schema.json->hover-peek-
 #. time->description
@@ -179,12 +179,12 @@ msgstr "Millisekunden"
 #. IcingTaskManager@json->settings-schema.json->appmenu-
 #. number->description
 msgid "Number of context menu items:"
-msgstr "Anzahl von Kontextmenü-Einträgen:"
+msgstr "Anzahl von KontextmenÃ¼-EintrÃ¤gen:"
 
 #. IcingTaskManager@json->settings-schema.json->appmenu-
 #. number->tooltip
 msgid "Controls how many items appear in the context menu."
-msgstr "Steuert die Anzahl der Kontextmenü-Einträge."
+msgstr "Steuert die Anzahl der KontextmenÃ¼-EintrÃ¤ge."
 
 #. IcingTaskManager@json->settings-schema.json->appmenu-
 #. number->units
@@ -232,7 +232,7 @@ msgstr "Titel"
 #. IcingTaskManager@json->settings-
 #. schema.json->AppMenu->description
 msgid "Context Menu Settings"
-msgstr "Kontextmenü-Einstellungen"
+msgstr "KontextmenÃ¼-Einstellungen"
 
 #. IcingTaskManager@json->settings-schema.json->sort-
 #. thumbnails->description
@@ -246,7 +246,7 @@ msgid ""
 "the order they were opened."
 msgstr ""
 "Steuert die Reihenfolge der Anzeige von Fenstern, anhand der Reihenfolge "
-"zuletzt fokussierter oder geöffneter Anwendungen."
+"zuletzt fokussierter oder geÃ¶ffneter Anwendungen."
 
 #. IcingTaskManager@json->settings-schema.json->hover-peek-
 #. opacity->description
@@ -294,7 +294,7 @@ msgid ""
 "Controls whether or not the pinned apps appear in the panel if they are not "
 "open."
 msgstr ""
-"Steuert ob angedockte Anwendungen angezeigt werden wenn sie nicht geöffnet "
+"Steuert ob angedockte Anwendungen angezeigt werden wenn sie nicht geÃ¶ffnet "
 "sind."
 
 #. IcingTaskManager@json->settings-
@@ -305,12 +305,12 @@ msgstr "Fensterlisten-Einstellungen"
 #. IcingTaskManager@json->settings-schema.json->appmenu-
 #. width->description
 msgid "Context menu width:"
-msgstr "Kontextmenü-Breite:"
+msgstr "KontextmenÃ¼-Breite:"
 
 #. IcingTaskManager@json->settings-schema.json->appmenu-
 #. width->tooltip
 msgid "Set the width of the context menu."
-msgstr "Legt die Breite des Kontextmenüs fest."
+msgstr "Legt die Breite des KontextmenÃ¼s fest."
 
 #. IcingTaskManager@json->settings-
 #. schema.json->Thumbnails->description
@@ -320,7 +320,7 @@ msgstr "Vorschaubild Einstellungen"
 #. IcingTaskManager@json->settings-schema.json->show-
 #. recent->tooltip
 msgid "Show recent items"
-msgstr "Zeige neueste Einträge"
+msgstr "Zeige neueste EintrÃ¤ge"
 
 #. IcingTaskManager@json->settings-schema.json->vertical-
 #. thumbnails->description
@@ -343,7 +343,7 @@ msgid ""
 "Controls how quickly an app's set of window thumbnails will fade out when the "
 "mouse leaves the app button."
 msgstr ""
-"Steuert wie schnell die zu einer Anwendung gehörenden Vorschaubilder "
+"Steuert wie schnell die zu einer Anwendung gehÃ¶renden Vorschaubilder "
 "ausgeblendet werden beim Verlassen mit der Maus."
 
 #. IcingTaskManager@json->settings-schema.json->stack-
@@ -355,7 +355,7 @@ msgstr "Fenster-Vorschaubilder stapeln"
 #. thumbnails->tooltip
 msgid "Stack window thumbnails if they exceed the available screen space."
 msgstr ""
-"Fenster-Vorschaubilder stapeln, wenn sie den vorhandenen Platz überschreiten."
+"Fenster-Vorschaubilder stapeln, wenn sie den vorhandenen Platz Ã¼berschreiten."
 
 #. IcingTaskManager@json->settings-schema.json->number-
 #. display->description
@@ -391,24 +391,24 @@ msgstr "Normal"
 #. IcingTaskManager@json->settings-schema.json->onclick-
 #. thumbnails->description
 msgid "Open thumbnails on click"
-msgstr "Öffnen der Vorschaubilder durch Klicken"
+msgstr "Ã–ffnen der Vorschaubilder durch Klicken"
 
 #. IcingTaskManager@json->settings-schema.json->onclick-
 #. thumbnails->tooltip
 msgid "Open the thumbnails on click if there is more than one window open."
 msgstr ""
-"Öffnen der Vorschaubilder durch Klicken, wenn bereits mehr als ein Fenster "
-"geöffnet ist."
+"Ã–ffnen der Vorschaubilder durch Klicken, wenn bereits mehr als ein Fenster "
+"geÃ¶ffnet ist."
 
 #. IcingTaskManager@json->settings-
 #. schema.json->HoverPeek->description
 msgid "Hover Peek Settings"
-msgstr "Hovern für Vorschau-Einstellungen"
+msgstr "Hovern fÃ¼r Vorschau-Einstellungen"
 
 #. IcingTaskManager@json->settings-schema.json->firefox-
 #. menu->description
 msgid "Firefox context menu:"
-msgstr "Firefox Kontextmenü:"
+msgstr "Firefox KontextmenÃ¼:"
 
 #. IcingTaskManager@json->settings-schema.json->firefox-
 #. menu->tooltip
@@ -417,7 +417,7 @@ msgid ""
 "last pages you visited, Bookmarks: show your favorite bookmarks"
 msgstr ""
 "Meiste Aufrufe: Zeigt Seiten die du oft besucht hast, Aktueller Verlauf: "
-"Zeigt Seiten die du kürzlich besucht hast, Lesezeichen: Zeigt nur deine "
+"Zeigt Seiten die du kÃ¼rzlich besucht hast, Lesezeichen: Zeigt nur deine "
 "Lesezeichen"
 
 #. IcingTaskManager@json->settings-schema.json->firefox-
@@ -458,9 +458,9 @@ msgstr "Gruppiere offene Anwendungen in einem Symbol"
 #. IcingTaskManager@json->settings-schema.json->icon-
 #. size->description
 msgid "Icon size:"
-msgstr "Symbolgröße:"
+msgstr "SymbolgrÃ¶ÃŸe:"
 
 #. IcingTaskManager@json->settings-schema.json->icon-
 #. size->tooltip
 msgid "Adjust icon size independent of Cinnamon's panel scaling."
-msgstr "Symbolgröße unabhängig von der Cinnamon-Taskleiste anpassen."
+msgstr "SymbolgrÃ¶ÃŸe unabhÃ¤ngig von der Cinnamon-Taskleiste anpassen."
