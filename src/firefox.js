@@ -2,6 +2,7 @@
 let Gda
 const GLib = imports.gi.GLib
 const Gettext = imports.gettext
+const clog = imports.applet.clog
 
 function _ (str) {
   let resultConf = Gettext.dgettext('IcingTaskManager@json', str)
@@ -19,7 +20,7 @@ function getFirefoxHistory (applet) {
   let history = []
 
   if (!Gda) {
-    log(' Gda Library not found install gir1.2-gda package')
+    clog(' Gda Library not found install gir1.2-gda package')
     return null
   }
 
@@ -77,19 +78,22 @@ function getFirefoxHistory (applet) {
       'SQLite', 'DB_DIR=' + profilePath + ';DB_NAME=places.sqlite',
       null, Gda.ConnectionOptions.READ_ONLY)
   } catch(e) {
-    logError(e)
+    clog(e)
     return history
   }
 
   try {
-    if (applet.firefoxMenu == 1)
+    if (applet.firefoxMenu == 1) {
       result = con.execute_select_command('SELECT title,url FROM moz_places WHERE title IS NOT NULL ORDER BY visit_count DESC')
-    else if (applet.firefoxMenu == 2)
+    }
+    else if (applet.firefoxMenu == 2) {
       result = con.execute_select_command('SELECT title,url FROM moz_places WHERE title IS NOT NULL ORDER BY last_visit_date DESC')
-    else
+    }
+    else {
       result = con.execute_select_command('SELECT moz_bookmarks.title,moz_places.url FROM (moz_bookmarks INNER JOIN moz_places ON moz_bookmarks.fk=moz_places.id) WHERE moz_bookmarks.parent IS NOT 1 AND moz_bookmarks.parent IS NOT 2 AND moz_bookmarks.title IS NOT NULL ORDER BY moz_bookmarks.lastModified DESC')
+    }
   } catch(e) {
-    log(e)
+    clog(e)
     con.close()
     return history
   }
@@ -107,7 +111,7 @@ function getFirefoxHistory (applet) {
       title = result.get_value_at(0, row)
       uri = result.get_value_at(1, row)
     } catch(e) {
-      logError(e)
+      clog(e)
       continue
     }
     history.push({uri: uri, title: title})

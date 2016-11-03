@@ -151,8 +151,11 @@ AppMenuButtonRightClickMenu.prototype = {
         this.itemtoggleFav.connect('activate', Lang.bind(this, this._toggleFav))
       }
     }
-    if (this.isFavapp) this._isFavorite(true)
-    else this._isFavorite(false)
+    if (this.isFavapp) {
+      this._isFavorite(true)
+    } else {
+      this._isFavorite(false)
+    }
   },
 
   _settingsMenu: function () {
@@ -231,31 +234,33 @@ AppMenuButtonRightClickMenu.prototype = {
   _appMenu_width_changed: function () {
     this.AppMenuWidth = this._applet.settings.getValue('appmenu-width') || 295
     var children = this.RecentMenuItems.filter(Lang.bind(this, function (child) {
-      if (child instanceof PopupMenu.PopupSeparatorMenuItem)
+      if (child instanceof PopupMenu.PopupSeparatorMenuItem) {
         return false
-      else
+      } else {
         return true
+      }
     }))
-    for (var i = 0; i < children.length; i++) {
-      var item = children[i]
+    for (let i = 0; i < children.length; i++) {
+      let item = children[i]
       item.table.width = this.AppMenuWidth
       item.label.width = this.AppMenuWidth - 26
     }
     children = this.subMenuItem.menu.box.get_children().map(function (actor) {
       return actor._delegate
     })
-    for (var i = 0; i < children.length; i++) {
-      var item = children[i]
+    for (let i = 0; i < children.length; i++) {
+      let item = children[i]
       item.table.width = this.AppMenuWidth - 14
       item.label.width = this.AppMenuWidth - 74
     }
     children = this.box.get_children().map(function (actor) {
       return actor._delegate
     }).filter(Lang.bind(this, function (child) {
-      if (child instanceof SpecialMenuItems.IconNameMenuItem || child instanceof SpecialMenuItems.IconMenuItem || child instanceof SpecialMenuItems.SubMenuItem)
+      if (child instanceof SpecialMenuItems.IconNameMenuItem || child instanceof SpecialMenuItems.IconMenuItem || child instanceof SpecialMenuItems.SubMenuItem) {
         return true
-      else
+      } else {
         return false
+      }
     }))
     for (var i = 0; i < children.length; i++) {
       var item = children[i]
@@ -266,8 +271,9 @@ AppMenuButtonRightClickMenu.prototype = {
 
   addSpecialItems: function () {
     this.RecentMenuItems = []
-    if (!this._applet.showRecent)
+    if (!this._applet.showRecent) {
       return
+    }
 
     // Load Pinned
     var pinnedLength = this._listPinned() || 0
@@ -295,11 +301,12 @@ AppMenuButtonRightClickMenu.prototype = {
       } else if (historys.length) {
         try {
           historys.length = historys.length
-          for (var i = 0; i < historys.length; i++) {
+          for (let i = 0; i < historys.length; i++) {
             var history = historys[i]
-            if (this.pinnedItemsUris.indexOf(history.uri) != -1)
+            if (this.pinnedItemsUris.indexOf(history.uri) != -1) {
               continue
-            var item = new SpecialMenuItems.FirefoxMenuItem(this, history)
+            }
+            let item = new SpecialMenuItems.FirefoxMenuItem(this, history)
             this.specialSection.add(item.actor)
             this.RecentMenuItems.push(item)
           }
@@ -315,7 +322,9 @@ AppMenuButtonRightClickMenu.prototype = {
   },
 
   _loadActions: function () {
-    if (!this.appInfo) return
+    if (!this.appInfo) {
+      return
+    }
     var actions
     try {
       actions = this.appInfo.list_actions()
@@ -354,10 +363,11 @@ AppMenuButtonRightClickMenu.prototype = {
         var item = this.pinnedItems[i]
         // log(item.title)
         var recentMenuItem
-        if (item.title)
+        if (item.title) {
           recentMenuItem = new SpecialMenuItems.PinnedRecentItem(this, item.uri, 'list-remove', item.title)
-        else
+        } else {
           recentMenuItem = new SpecialMenuItems.PinnedRecentItem(this, item.uri, 'list-remove')
+        }
         this.specialSection.add(recentMenuItem.actor)
         this.pinnedItemsUris.push(recentMenuItem.uri)
         this.RecentMenuItems.push(recentMenuItem)
@@ -373,13 +383,15 @@ AppMenuButtonRightClickMenu.prototype = {
       var itemInfo = recentItems[id]
       var mimeType = itemInfo.get_mime_type()
       var appInfo = Gio.app_info_get_default_for_type(mimeType, false)
-      if (appInfo && this.appInfo && appInfo.get_id() == this.appInfo.get_id() && this.pinnedItemsUris.indexOf(itemInfo.get_uri()) == -1)
+      if (appInfo && this.appInfo && appInfo.get_id() == this.appInfo.get_id() && this.pinnedItemsUris.indexOf(itemInfo.get_uri()) == -1) {
         items.push(itemInfo)
+      }
     }
     var itemsLength = items.length
     var num = this._applet.appMenuNum - pinnedLength
-    if (itemsLength > num)
+    if (itemsLength > num) {
       itemsLength = num
+    }
     for (var i = 0; i < itemsLength; i++) {
       var item = items[i]
       var recentMenuItem = new SpecialMenuItems.RecentMenuItem(this, item, 'list-add')
@@ -392,7 +404,9 @@ AppMenuButtonRightClickMenu.prototype = {
     var defaultPlaces = Main.placesManager.getDefaultPlaces()
     var res = []
     for (var id = 0; id < defaultPlaces.length; id++) {
-      if (!pattern || defaultPlaces[id].name.toLowerCase().indexOf(pattern) != -1) res.push(defaultPlaces[id])
+      if (!pattern || defaultPlaces[id].name.toLowerCase().indexOf(pattern) != -1) {
+        res.push(defaultPlaces[id])
+      }
     }
     return res
   },
@@ -401,7 +415,9 @@ AppMenuButtonRightClickMenu.prototype = {
     var bookmarks = Main.placesManager.getBookmarks()
     var res = []
     for (var id = 0; id < bookmarks.length; id++) {
-      if (!pattern || bookmarks[id].name.toLowerCase().indexOf(pattern) != -1) res.push(bookmarks[id])
+      if (!pattern || bookmarks[id].name.toLowerCase().indexOf(pattern) != -1) {
+        res.push(bookmarks[id])
+      }
     }
     return res
   },
@@ -410,7 +426,9 @@ AppMenuButtonRightClickMenu.prototype = {
     var devices = Main.placesManager.getMounts()
     var res = []
     for (var id = 0; id < devices.length; id++) {
-      if (!pattern || devices[id].name.toLowerCase().indexOf(pattern) != -1) res.push(devices[id])
+      if (!pattern || devices[id].name.toLowerCase().indexOf(pattern) != -1) {
+        res.push(devices[id])
+      }
     }
     return res
   },
@@ -445,8 +463,11 @@ AppMenuButtonRightClickMenu.prototype = {
       }
       this.addMenuItem(new PopupMenu.PopupSeparatorMenuItem())
       this.addMenuItem(this.launchItem)
-      if (showFavs) this.addMenuItem(this.itemtoggleFav)
-      else this.addMenuItem(this.settingItem)
+      if (showFavs) {
+        this.addMenuItem(this.itemtoggleFav)
+      } else {
+        this.addMenuItem(this.settingItem)
+      }
       // this.addMenuItem(new PopupMenu.PopupSeparatorMenuItem())
       // this.addMenuItem(this.itemMinimizeWindow)
       // this.addMenuItem(this.itemMaximizeWindow)
@@ -463,8 +484,11 @@ AppMenuButtonRightClickMenu.prototype = {
       // this.addMenuItem(this.itemMaximizeWindow)
       // this.addMenuItem(this.itemMinimizeWindow)
       // this.addMenuItem(new PopupMenu.PopupSeparatorMenuItem())
-      if (showFavs) this.addMenuItem(this.itemtoggleFav)
-      else this.addMenuItem(this.settingItem)
+      if (showFavs) {
+        this.addMenuItem(this.itemtoggleFav)
+      } else {
+        this.addMenuItem(this.settingItem)
+      }
       this.addMenuItem(this.launchItem)
       this.addMenuItem(new PopupMenu.PopupSeparatorMenuItem())
       if (this.RecentMenuItems.length) {
@@ -498,7 +522,9 @@ AppMenuButtonRightClickMenu.prototype = {
   },
 
   _onToggled: function (actor, event) {
-    if (!event || !this.metaWindow || !this.metaWindow.get_workspace()) return
+    if (!event || !this.metaWindow || !this.metaWindow.get_workspace()) {
+      return
+    }
 
     if (this.metaWindow.is_on_all_workspaces()) {
       this.itemOnAllWorkspaces.label.text = _('Only on this workspace')
@@ -506,32 +532,44 @@ AppMenuButtonRightClickMenu.prototype = {
       this.itemMoveToRightWorkspace.actor.hide()
     } else {
       this.itemOnAllWorkspaces.label.text = _('Visible on all workspaces')
-      if (this.metaWindow.get_workspace().get_neighbor(Meta.MotionDirection.LEFT) != this.metaWindow.get_workspace()) this.itemMoveToLeftWorkspace.actor.show()
-      else this.itemMoveToLeftWorkspace.actor.hide()
+      if (this.metaWindow.get_workspace().get_neighbor(Meta.MotionDirection.LEFT) != this.metaWindow.get_workspace()) {
+        this.itemMoveToLeftWorkspace.actor.show()
+      } else {
+        this.itemMoveToLeftWorkspace.actor.hide()
+      } 
+        
 
-      if (this.metaWindow.get_workspace().get_neighbor(Meta.MotionDirection.RIGHT) != this.metaWindow.get_workspace()) this.itemMoveToRightWorkspace.actor.show()
-      else this.itemMoveToRightWorkspace.actor.hide()
+      if (this.metaWindow.get_workspace().get_neighbor(Meta.MotionDirection.RIGHT) != this.metaWindow.get_workspace()) {
+        this.itemMoveToRightWorkspace.actor.show()
+      } else {
+        this.itemMoveToRightWorkspace.actor.hide()
+      }
     }
     if (this.metaWindow.get_maximized()) {
       this.itemMaximizeWindow.label.text = _('Unmaximize')
     } else {
       this.itemMaximizeWindow.label.text = _('Maximize')
     }
-    if (this.metaWindow.minimized) this.itemMinimizeWindow.label.text = _('Restore')
-    else this.itemMinimizeWindow.label.text = _('Minimize')
+    if (this.metaWindow.minimized) {
+      this.itemMinimizeWindow.label.text = _('Restore')
+    } else {
+      this.itemMinimizeWindow.label.text = _('Minimize')
+    }
   },
 
   _onWindowMinimized: function (actor, event) {},
 
   _onCloseAllActivate: function (actor, event) {
-    var workspace = this.metaWindow.get_workspace()
+    //var workspace = this.metaWindow.get_workspace()
     var windows
-    if (this.app.wmClass)
+    if (this.app.wmClass) {
       windows = metaWorkspace.list_windows().filter(Lang.bind(this, function (win) {
         return this.app.wmClass == win.get_wm_class_instance()
       }))
-    else
+    }
+    else {
       windows = this.app.get_windows()
+    }
     for (var i = 0; i < windows.length; i++) {
       windows[i].delete(global.get_current_time())
     }
@@ -578,8 +616,11 @@ AppMenuButtonRightClickMenu.prototype = {
   },
 
   _toggleOnAllWorkspaces: function (actor, event) {
-    if (this.metaWindow.is_on_all_workspaces()) this.metaWindow.unstick()
-    else this.metaWindow.stick()
+    if (this.metaWindow.is_on_all_workspaces()) {
+      this.metaWindow.unstick()
+    } else {
+      this.metaWindow.stick()
+    }
   },
 
   _toggleFav: function (actor, event) {
@@ -612,15 +653,15 @@ AppMenuButtonRightClickMenu.prototype = {
       items[i].destroy()
     }
     var children = this.subMenuItem.menu._getMenuItems()
-    for (var i = 0; i < children.length; i++) {
+    for (let i = 0; i < children.length; i++) {
       var item = children[i]
       this.box.remove_actor(item.actor)
       item.destroy()
     }
     this.subMenuItem.menu.destroy()
     children = this._getMenuItems()
-    for (var i = 0; i < children.length; i++) {
-      var item = children[i]
+    for (let i = 0; i < children.length; i++) {
+      let item = children[i] // TBD
     // this.box.remove_actor(item.actor)
     // item.destroy()
     }
@@ -640,7 +681,9 @@ AppMenuButtonRightClickMenu.prototype = {
       if (!this.menu.isOpen) this.menu.toggle()
       this.menu.actor.navigate_focus(this.actor, Gtk.DirectionType.DOWN, false)
       return true
-    } else return false
+    } else {
+      return false
+    } 
   },
 
   setMetaWindow: function (metaWindow) {
@@ -701,7 +744,9 @@ AppThumbnailHoverMenu.prototype = {
   },
 
   _onButtonPress: function (actor, event) {
-    if (this._applet.onclickThumbs && this.appSwitcherItem.appContainer.get_children().length > 1) return
+    if (this._applet.onclickThumbs && this.appSwitcherItem.appContainer.get_children().length > 1) {
+      return
+    }
     this.shouldOpen = false
     this.shouldClose = true
     Mainloop.timeout_add(this.hoverTime, Lang.bind(this, this.hoverClose))
@@ -906,19 +951,24 @@ PopupMenuAppSwitcherItem.prototype = {
   },
 
   getMetaWindows: function () {
-    if (this.metaWindow) this.metaWorkspace = this.metaWindow.get_workspace()
-    else if (!this.metaWorkspace) return {}
+    if (this.metaWindow) {
+      this.metaWorkspace = this.metaWindow.get_workspace()
+    } else if (!this.metaWorkspace) {
+      return {}
+    }
     var windows
-    if (this.app.wmClass && metaWorkspace)
+    if (this.app.wmClass && metaWorkspace) {
       windows = this.metaWorkspace.list_windows().filter(Lang.bind(this, function (win) {
         return this.app.wmClass == win.get_wm_class_instance()
       })).reverse()
-    else
+    }
+    else {
       windows = this.app.get_windows().filter(Lang.bind(this, function (win) {
         // var isDifferent = (win != this.metaWindow)
         var isSameWorkspace = (win.get_workspace() == this.metaWorkspace) && Main.isInteresting(win)
         return isSameWorkspace
       })).reverse()
+    }
     return windows
   },
 
@@ -928,8 +978,9 @@ PopupMenuAppSwitcherItem.prototype = {
     // Get a list of all windows of our app that are running in the current workspace
     var windows = this.getMetaWindows()
 
-    if (this.metaWindowThumbnail && this.metaWindowThumbnail.needs_refresh())
+    if (this.metaWindowThumbnail && this.metaWindowThumbnail.needs_refresh()) {
       this.metaWindowThumbnail = null
+    }
     if (this.metaWindowThumbnail && this.metaWindowThumbnail.metaWindow == this.metaWindow) {
       this.metaWindowThumbnail._isFavorite(this.isFavapp)
     } else {
@@ -962,8 +1013,9 @@ PopupMenuAppSwitcherItem.prototype = {
   addNewWindows: function (windows) {
     var ThumbnailWidth = Math.floor((Main.layoutManager.primaryMonitor.width / 70) * this._applet.thumbSize) + 16
     var ThumbnailHeight = Math.floor((Main.layoutManager.primaryMonitor.height / 70) * this._applet.thumbSize) + 16
-    if (!this._applet.showThumbs)
+    if (!this._applet.showThumbs) {
       ThumbnailHeight /= 3
+    }
 
     var moniterSize, thumbnailSize
     if (this._applet.settings.getValue('vertical-thumbnails')) {
@@ -977,15 +1029,18 @@ PopupMenuAppSwitcherItem.prototype = {
       this.thumbnailsSpace = Math.floor((moniterSize - 100) / thumbnailSize)
       var firstLoop = this.thumbnailsSpace
       var nextLoop = firstLoop + this.thumbnailsSpace
-      if (windows.length < firstLoop)
+      if (windows.length < firstLoop) {
         firstLoop = windows.length
+      }
       this.addWindowsLoop(0, firstLoop, this.appContainer, windows, 1)
       if (windows.length > nextLoop) {
         this.addWindowsLoop(firstLoop, nextLoop, this.appContainer2, windows, 2)
-      } else if (windows.length > firstLoop)
+      } else if (windows.length > firstLoop) {
         this.addWindowsLoop(firstLoop, windows.length, this.appContainer2, windows, 2)
-      if (windows.length > nextLoop)
+      }
+      if (windows.length > nextLoop) {
         this.addWindowsLoop(nextLoop, windows.length, this.appContainer3, windows, 3)
+      }
     } else {
       this.addWindowsLoop(0, windows.length, this.appContainer, windows, 1)
     }
@@ -1007,10 +1062,12 @@ PopupMenuAppSwitcherItem.prototype = {
       if (this.appThumbnails[metaWindow]) {
         this.appThumbnails[metaWindow].thumbnail._isFavorite(this.isFavapp)
         if (this.reAdd) {
-          if (this._applet.sortThumbs)
+          if (this._applet.sortThumbs) {
             actor.insert_actor(this.appThumbnails[metaWindow].thumbnail.actor, 0)
-          else
+          }
+          else {
             actor.add_actor(this.appThumbnails[metaWindow].thumbnail.actor)
+          }
         }
       } else {
         var thumbnail = new WindowThumbnail(this, metaWindow)
@@ -1019,10 +1076,12 @@ PopupMenuAppSwitcherItem.prototype = {
           thumbnail: thumbnail,
           cont: containerNum
         }
-        if (this._applet.sortThumbs)
+        if (this._applet.sortThumbs) {
           actor.insert_actor(this.appThumbnails[metaWindow].thumbnail.actor, 0)
-        else
+        }
+        else {
           actor.add_actor(this.appThumbnails[metaWindow].thumbnail.actor)
+        }
       }
     }
     actor.show()
@@ -1044,8 +1103,9 @@ PopupMenuAppSwitcherItem.prototype = {
       this.metaWindowThumbnail.thumbnailIconSize()
       return
     }
-    if (windows == null)
+    if (windows === null) {
       return
+    }
     var winLength = windows.length
     for (var i in this.appThumbnails) {
       if (this.appThumbnails[i].thumbnail) {
@@ -1080,12 +1140,13 @@ PopupMenuAppSwitcherItem.prototype = {
     }
 
     if (appContLength < this.thumbnailsSpace && appContLength2 > 0) {
-      var children = this.appContainer2.get_children()
-      var thumbsToMove = (this.thumbnailsSpace - appContLength)
-      for (var i = 0; i < thumbsToMove; i++) {
-        var actor = children[i] ? children[i] : null
-        if (actor == null)
+      let children = this.appContainer2.get_children()
+      let thumbsToMove = (this.thumbnailsSpace - appContLength)
+      for (let i = 0; i < thumbsToMove; i++) {
+        let actor = children[i] ? children[i] : null
+        if (actor === null) {
           break
+        }
         this.appContainer2.remove_actor(actor)
         this.appContainer.add_actor(actor)
         this.appThumbnails[actor._delegate.metaWindow].cont = 1
@@ -1095,24 +1156,27 @@ PopupMenuAppSwitcherItem.prototype = {
     appContLength2 = this.appContainer2.get_children().length
     var appContLength3 = this.appContainer3.get_children().length
 
-    if (appContLength2 <= 0)
+    if (appContLength2 <= 0) {
       this.appContainer2.hide()
+    }
 
     if (appContLength2 < this.thumbnailsSpace && appContLength3 > 0) {
-      var children = this.appContainer3.get_children()
-      var thumbsToMove = (this.thumbnailsSpace - appContLength2)
-      for (var i = 0; i < thumbsToMove; i++) {
-        var actor = children[i] ? children[i] : null
-        if (actor == null)
+      let children = this.appContainer3.get_children()
+      let thumbsToMove = (this.thumbnailsSpace - appContLength2)
+      for (let i = 0; i < thumbsToMove; i++) {
+        let actor = children[i] ? children[i] : null
+        if (actor === null) {
           break
+        }
         this.appContainer3.remove_actor(actor)
         this.appContainer2.add_actor(actor)
         this.appThumbnails[actor._delegate.metaWindow].cont = 2
       }
     }
 
-    if (this.appContainer3.get_children().length <= 0)
+    if (this.appContainer3.get_children().length <= 0) {
       this.appContainer3.hide()
+    }
   }
 }
 
@@ -1172,8 +1236,11 @@ WindowThumbnail.prototype = {
     this.actor.add_actor(bin)
     this.actor.add_actor(this.thumbnailActor)
 
-    if (this.isFavapp) this._isFavorite(true)
-    else this._isFavorite(false)
+    if (this.isFavapp) {
+      this._isFavorite(true)
+    } else {
+      this._isFavorite(false)
+    }
 
     if (this.metaWindow) {
       this.metaWindow.connect('notify::title', ()=> {
@@ -1195,10 +1262,13 @@ WindowThumbnail.prototype = {
         this.button.show()
         if (this.metaWindow.minimized && this._applet.enablePeek) {
           this.metaWindow.unminimize()
-          if (this.metaWindow.is_fullscreen())
+          if (this.metaWindow.is_fullscreen()) {
             this.metaWindow.unmaximize(global.get_current_time())
+          }
           this.wasMinimized = true
-        } else this.wasMinimized = false
+        } else {
+          this.wasMinimized = false
+        }
       }
     })
     this.actor.connect('leave-event', Lang.bind(this, function () {
@@ -1232,8 +1302,9 @@ WindowThumbnail.prototype = {
   },
 
   _onWindowDemandsAttention: function (display, window) {
-    if (this._needsAttention)
+    if (this._needsAttention) {
       return false
+    }
     this._needsAttention = true
     if (this.metaWindow == window) {
       this.actor.add_style_class_name('thumbnail-alerts')
@@ -1249,11 +1320,13 @@ WindowThumbnail.prototype = {
   },
 
   _hasFocus: function () {
-    if (this.metaWindow.minimized)
+    if (this.metaWindow.minimized) {
       return false
+    }
 
-    if (this.metaWindow.has_focus())
+    if (this.metaWindow.has_focus()) {
       return true
+    }
 
     var transientHasFocus = false
     this.metaWindow.foreach_transient(function (transient) {
@@ -1401,7 +1474,9 @@ WindowThumbnail.prototype = {
 
   _hoverPeek: function (opacity, metaWin) {
     var applet = this._applet
-    if (!applet.enablePeek) return
+    if (!applet.enablePeek) {
+      return
+    }
 
     function setOpacity (window_actor, target_opacity) {
       Tweener.addTween(window_actor, {
@@ -1411,13 +1486,15 @@ WindowThumbnail.prototype = {
       })
     }
 
-    var above_current = []
-
     global.get_window_actors().forEach(function (wa) {
       var meta_win = wa.get_meta_window()
-      if (metaWin == meta_win) return
+      if (metaWin === meta_win) {
+        return
+      }
 
-      if (meta_win.get_window_type() != Meta.WindowType.DESKTOP) setOpacity(wa, opacity)
+      if (meta_win.get_window_type() != Meta.WindowType.DESKTOP) {
+        setOpacity(wa, opacity)
+      }
     })
   }
 }

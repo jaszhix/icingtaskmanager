@@ -263,21 +263,22 @@ PlaceMenuItem.prototype = {
 
 
     this.icon = place.iconFactory(16);
-    if (!this.icon)
+    if (!this.icon) {
       this.icon = new St.Icon({
         icon_name: "folder",
         icon_size: 16,
         icon_type: St.IconType.FULLCOLOR
       });
-    if (this.icon)
-
+    }
+    if (this.icon) {
       this.table.add(this.icon, {
-      row: 0,
-      col: 0,
-      col_span: 1,
-      x_expand: false,
-      x_align: St.Align.START
-    });
+        row: 0,
+        col: 0,
+        col_span: 1,
+        x_expand: false,
+        x_align: St.Align.START
+      });
+    }
 
     this.table.add(this.label, {
       row: 0,
@@ -398,7 +399,7 @@ FirefoxMenuItem.prototype = {
       icon_size: 16,
       icon_type: St.IconType.FULLCOLOR
     });
-    if (this.icon)
+    if (this.icon) {
       this.table.add(this.icon, {
         row: 0,
         col: 0,
@@ -406,6 +407,7 @@ FirefoxMenuItem.prototype = {
         x_expand: false,
         x_align: St.Align.START
       });
+    }
 
     this.table.add(this.label, {
       row: 0,
@@ -660,8 +662,9 @@ SubMenu.prototype = {
   __proto__: PopupMenu.PopupSubMenu.prototype,
 
   open: function (animate) {
-    if (this.isOpen)
+    if (this.isOpen) {
       return;
+    }
 
     this.isOpen = true;
 
@@ -693,8 +696,9 @@ SubMenu.prototype = {
   },
 
   close: function (animate) {
-    if (!this.isOpen)
+    if (!this.isOpen) {
       return;
+    }
 
     this.isOpen = false;
 
@@ -763,8 +767,9 @@ SubSection.prototype = {
     if (active) {
       this.actor.add_style_pseudo_class('active');
       if (this.focusOnHover) this.actor.grab_key_focus();
-    } else
+    } else {
       this.actor.remove_style_pseudo_class('active');
+    }
   },
 
   addActor: function (child, params) {
@@ -807,8 +812,9 @@ SubSection.prototype = {
       let [minHeiht, childHeight] = child.actor.get_preferred_height(-1);
 
       let [min, natural] = child.actor.get_preferred_width(childHeight);
-      if (natural > width)
+      if (natural > width) {
         width = natural;
+      }
     }
     alloc.min_size = alloc.natural_size = width;
   },
@@ -821,8 +827,9 @@ SubSection.prototype = {
       [minWidth, childWidth] = child.actor.get_preferred_width(-1);;
 
       let [min, natural] = child.actor.get_preferred_height(childWidth);
-      if (natural > height)
+      if (natural > height) {
         height = natural;
+      }
     }
     alloc.min_size = alloc.natural_size = height;
   },
@@ -832,10 +839,11 @@ SubSection.prototype = {
     let direction = this.actor.get_direction();
 
     let x;
-    if (direction == St.TextDirection.LTR)
+    if (direction == St.TextDirection.LTR) {
       x = box.x1;
-    else
+    } else {
       x = box.x2;
+    }
     // if direction is ltr, x is the right edge of the last added
     // actor, and it's constantly increasing, whereas if rtl, x is
     // the left edge and it decreases
@@ -845,10 +853,11 @@ SubSection.prototype = {
 
       let [minWidth, naturalWidth] = child.actor.get_preferred_width(-1);
       let availWidth;
-      if (direction == St.TextDirection.LTR)
+      if (direction == St.TextDirection.LTR) {
         availWidth = box.x2 - x;
-      else
+      } else {
         availWidth = x - box.x1;
+      }
 
       if (direction == St.TextDirection.LTR) {
         childBox.x1 = x;
