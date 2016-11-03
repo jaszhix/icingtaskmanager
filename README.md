@@ -24,3 +24,19 @@ See more changes in the [changelog](https://github.com/jaszhix/icingtaskmanager/
 ### Firefox history
 
 You will need to install the gir1.2-gda-5.0 package to have Firefox's history show up in its context menu. Afterwards, you will need to restart Cinnamon for the changes to come into effect.
+
+### Usage
+
+You can install the applet from the [Cinnamon Spices](https://cinnamon-spices.linuxmint.com/applets/view/269) website.
+
+### Contributing
+
+*  Use [Node 6.x](https://github.com/nodesource/distributions).
+```sh
+curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
+sudo apt-get install -y nodejs
+```
+*  Install node modules: ```npm install```
+*  Install gulp globally if you haven't already. ```sudo npm install -g gulp```
+*  Start transpile watch task: ```gulp spawn-watch```
+*  Open the run dialogue with ALT+F2 and type ```lg``` to open the Looking Glass. After you make an edit, go to the Extensions tab, right-click Icing Task Manager, and click "Reload Code".
