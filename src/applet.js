@@ -28,6 +28,8 @@ const Gettext = imports.gettext
 const Gio = imports.gi.Gio
 const Gtk = imports.gi.Gtk
 const GLib = imports.gi.GLib
+//const Panel = imports.ui.panel
+const clog = imports.applet.clog
 
 function _ (str) {
   let resultConf = Gettext.dgettext('IcingTaskManager@json', str)
@@ -583,7 +585,7 @@ AppGroup.prototype = {
     list.sort(function (a, b) {
       return a[0] - b[0]
     })
-    // log(list[0])
+
     if (list[0]) return list[0][1]
     else return null
   },
@@ -606,9 +608,9 @@ AppGroup.prototype = {
       }
     }))
     this.metaWindows = {}
-    windowList.forEach(Lang.bind(this, function (win) {
+    windowList.forEach((win)=>{
       this._windowAdded(metaWorkspace, win)
-    }))
+    })
 
     // When we first populate we need to decide which window
     // will be triggered when the app button is pressed
@@ -976,6 +978,7 @@ AppList.prototype = {
 
   _getNumberOfAppWindowsInWorkspace: function (app, workspace) {
     var windows = app.get_windows()
+
     let result = 0
 
     for (var i = 0; i < windows.length; i++) {
@@ -1019,6 +1022,7 @@ AppList.prototype = {
   },
 
   _windowRemoved: function (metaWorkspace, metaWindow) {
+    
     // When a window is closed, we need to check if the app it belongs
     // to has no windows left.  If so, we need to remove the corresponding AppGroup
     // let tracker = Cinnamon.WindowTracker.get_default()

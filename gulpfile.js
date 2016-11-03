@@ -20,7 +20,8 @@ gulp.task('copy', ()=> {
 gulp.task('transpile', ['copy'], () =>
   gulp.src('./src/*.js')
     .pipe(babel({
-      presets: ['es2015', 'es2016', 'es2017']
+      presets: ['es2015', 'es2016', 'es2017'],
+      ast: false
     }))
     .pipe(gulp.dest('IcingTaskManager@json'))
 );
