@@ -15,6 +15,7 @@ const GLib = imports.gi.GLib
 const Gettext = imports.gettext
 const Tweener = imports.ui.tweener
 const Tooltips = imports.ui.tooltips
+const clog = imports.applet.clog
 
 const AppletDir = imports.ui.appletManager.applets['IcingTaskManager@json']
 const MainApplet = AppletDir.applet
@@ -1175,15 +1176,15 @@ WindowThumbnail.prototype = {
     else this._isFavorite(false)
 
     if (this.metaWindow) {
-      this.metaWindow.connect('notify::title', Lang.bind(this, function () {
+      this.metaWindow.connect('notify::title', ()=> {
         this._label.text = this.metaWindow.get_title()
-      }))
+      })
       this._updateAttentionGrabber(null, null, this._applet.showAlerts)
       this._applet.settings.connect('changed::show-alerts', Lang.bind(this, this._updateAttentionGrabber))
       var tracker = Cinnamon.WindowTracker.get_default()
       this._trackerSignal = tracker.connect('notify::focus-app', Lang.bind(this, this._onFocusChange))
     }
-    this.actor.connect('enter-event', Lang.bind(this, function () {
+    this.actor.connect('enter-event', ()=>{
       if (!this.isFavapp) {
         var parent = this._parent._parentContainer
         parent.shouldOpen = true
@@ -1199,7 +1200,7 @@ WindowThumbnail.prototype = {
           this.wasMinimized = true
         } else this.wasMinimized = false
       }
-    }))
+    })
     this.actor.connect('leave-event', Lang.bind(this, function () {
       if (!this.isFavapp) {
         this._hoverPeek(OPACITY_OPAQUE, this.metaWindow)

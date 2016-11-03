@@ -19,6 +19,7 @@ var GLib = imports.gi.GLib;
 var Gettext = imports.gettext;
 var Tweener = imports.ui.tweener;
 var Tooltips = imports.ui.tooltips;
+var clog = imports.applet.clog;
 
 var AppletDir = imports.ui.appletManager.applets['IcingTaskManager@json'];
 var MainApplet = AppletDir.applet;
@@ -1084,6 +1085,8 @@ function WindowThumbnail() {
 
 WindowThumbnail.prototype = {
   _init: function _init(parent, metaWindow) {
+    var _this2 = this;
+
     this._applet = parent._applet;
     this.metaWindow = metaWindow || null;
     this.app = parent.app;
@@ -1137,30 +1140,30 @@ WindowThumbnail.prototype = {
     if (this.isFavapp) this._isFavorite(true);else this._isFavorite(false);
 
     if (this.metaWindow) {
-      this.metaWindow.connect('notify::title', Lang.bind(this, function () {
-        this._label.text = this.metaWindow.get_title();
-      }));
+      this.metaWindow.connect('notify::title', function () {
+        _this2._label.text = _this2.metaWindow.get_title();
+      });
       this._updateAttentionGrabber(null, null, this._applet.showAlerts);
       this._applet.settings.connect('changed::show-alerts', Lang.bind(this, this._updateAttentionGrabber));
       var tracker = Cinnamon.WindowTracker.get_default();
       this._trackerSignal = tracker.connect('notify::focus-app', Lang.bind(this, this._onFocusChange));
     }
-    this.actor.connect('enter-event', Lang.bind(this, function () {
-      if (!this.isFavapp) {
-        var parent = this._parent._parentContainer;
+    this.actor.connect('enter-event', function () {
+      if (!_this2.isFavapp) {
+        var parent = _this2._parent._parentContainer;
         parent.shouldOpen = true;
         parent.shouldClose = false;
-        this._hoverPeek(this._applet.peekOpacity, this.metaWindow);
-        this.actor.add_style_pseudo_class('outlined');
-        this.actor.add_style_pseudo_class('selected');
-        this.button.show();
-        if (this.metaWindow.minimized && this._applet.enablePeek) {
-          this.metaWindow.unminimize();
-          if (this.metaWindow.is_fullscreen()) this.metaWindow.unmaximize(global.get_current_time());
-          this.wasMinimized = true;
-        } else this.wasMinimized = false;
+        _this2._hoverPeek(_this2._applet.peekOpacity, _this2.metaWindow);
+        _this2.actor.add_style_pseudo_class('outlined');
+        _this2.actor.add_style_pseudo_class('selected');
+        _this2.button.show();
+        if (_this2.metaWindow.minimized && _this2._applet.enablePeek) {
+          _this2.metaWindow.unminimize();
+          if (_this2.metaWindow.is_fullscreen()) _this2.metaWindow.unmaximize(global.get_current_time());
+          _this2.wasMinimized = true;
+        } else _this2.wasMinimized = false;
       }
-    }));
+    });
     this.actor.connect('leave-event', Lang.bind(this, function () {
       if (!this.isFavapp) {
         this._hoverPeek(OPACITY_OPAQUE, this.metaWindow);

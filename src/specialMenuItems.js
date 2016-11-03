@@ -9,6 +9,7 @@ const Clutter = imports.gi.Clutter;
 const Tweener = imports.ui.tweener;
 const Tooltips = imports.ui.tooltips;
 const Params = imports.misc.params;
+const clog = imports.applet.clog
 
 function _(str) {
   let resultConf = Gettext.dgettext('IcingTaskManager@json', str);

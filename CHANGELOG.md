@@ -1,5 +1,13 @@
 Changelog
 
+### 3.0.5
+
+  * German translation added by [Pandiora](https://github.com/jaszhix/icingtaskmanager/pull/4)
+
+### 3.0.4
+
+  * Fixed number display regression.
+
 ### 3.0.3
 
   * Added French translation by [ncelerier](https://github.com/jake-phy/WindowIconList/pull/165)

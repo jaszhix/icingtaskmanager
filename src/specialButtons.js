@@ -14,6 +14,7 @@ const Meta = imports.gi.Meta
 const DND = imports.ui.dnd
 const Gettext = imports.gettext
 const Mainloop = imports.mainloop
+const clog = imports.applet.clog
 
 const BUTTON_BOX_ANIMATION_TIME = 0.5
 const MAX_BUTTON_WIDTH = 150 // Pixels
@@ -45,7 +46,7 @@ function IconLabelButton () {
 }
 
 IconLabelButton.prototype = {
-  _init: function (parent) {
+  _init(parent) {
     if (parent.icon === null) throw 'IconLabelButton icon argument must be non-null'
     this._parent = parent
     this._applet = parent._applet
