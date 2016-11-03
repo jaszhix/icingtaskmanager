@@ -46,10 +46,8 @@ function IconLabelButton () {
 }
 
 IconLabelButton.prototype = {
-  _init(parent) {
-    if (parent.icon === null) {
-      throw 'IconLabelButton icon argument must be non-null'
-    }
+  _init: function (parent) {
+    if (parent.icon === null) throw 'IconLabelButton icon argument must be non-null'
     this._parent = parent
     this._applet = parent._applet
     this._icon = parent.icon
@@ -322,13 +320,6 @@ AppButton.prototype = {
       return workspaceIds.indexOf(win.get_workspace().index()) >= 0
     })
     var hasTransient = false
-    var handleTransient = (transient)=>{
-      if (transient.has_focus()) {
-        hasTransient = true
-        return false
-      }
-      return true
-    };
     for (let w in windows) {
       var window = windows[w]
       if (window.minimized) {
@@ -338,7 +329,13 @@ AppButton.prototype = {
         return true
       }
 
-      window.foreach_transient(handleTransient)
+      window.foreach_transient(function (transient) {
+        if (transient.has_focus()) {
+          hasTransient = true
+          return false
+        }
+        return true
+      })
     }
     return hasTransient
   },
@@ -375,11 +372,10 @@ AppButton.prototype = {
       this._label.text = ''
     } else {
       this.setStyle('window-list-item-box app-list-item-box')
-      if (this._applet.orientation == St.Side.TOP) {
+      if (this._applet.orientation == St.Side.TOP)
         this.actor.add_style_class_name('window-list-item-box-top')
-      } else {
-        this.actor.add_style_class_name('window-list-item-box-bottom')
-      }
+      else
+                this.actor.add_style_class_name('window-list-item-box-bottom')
     }
   },
 
@@ -423,17 +419,15 @@ WindowButton.prototype = {
     this.isFavapp = params.isFavapp
     this.orientation = parent.orientation
     if (!this.app) {
-      var tracker = Cinnamon.WindowTracker.get_default()
-      this.app = tracker.get_window_app(this.metaWindow)
+      var tracker = Cinnamom.WindowTracker.get_default()
+      this.app = tracker.get_window_app(metaWindow)
     }
     this.icon_size = Math.floor(this._applet._panelHeight - 4)
     this.icon = this.app.create_icon_texture(this.icon_size)
     IconLabelButton.prototype._init.call(this, this)
     this.signals = []
     this._numLabel.hide()
-    if (this.isFavapp) {
-      this.setStyle('panel-launcher')
-    }
+    if (this.isFavapp) this.setStyle('panel-launcher')
 
     this.actor.connect('button-release-event', Lang.bind(this, this._onButtonRelease))
         // We need to keep track of the signals we add to metaWindow so we can delete them when we are
@@ -443,9 +437,9 @@ WindowButton.prototype = {
       this.signals.push(this.metaWindow.connect('notify::title', Lang.bind(this, this._onTitleChange)))
       this._updateAttentionGrabber(null, null, this._applet.showAlerts)
       this._applet.settings.connect('changed::show-alerts', Lang.bind(this, this._updateAttentionGrabber))
-      this._applet.settings.connect('changed::title-display', ()=>{
+      this._applet.settings.connect('changed::title-display', Lang.bind(this, function () {
         this._onTitleChange()
-      })
+      }))
 
       this._onFocusChange()
     }
@@ -509,18 +503,15 @@ WindowButton.prototype = {
       if (this.rightClickMenu && this.rightClickMenu.isOpen) {
         this.rightClickMenu.toggle()
       }
-
       this.app.open_new_window(-1)
     }
   },
 
   handleDragOver: function (source, actor, x, y, time) {
-    if (this.isFavapp) {
+    if (this.isFavapp)
       return false
-    }
-    else if (source instanceof WindowButton) {
+    else if (source instanceof WindowButton)
       return DND.DragMotionResult.CONTINUE
-    }
 
     if (typeof (this.appList.dragEnterTime) == 'undefined') {
       this.appList.dragEnterTime = time
@@ -574,13 +565,19 @@ WindowButton.prototype = {
     }
 
     var transientHasFocus = false
-
-    var handleTransient
+    var handleTransient = (transient)=>{
+      if (transient.has_focus()) {
+        transientHasFocus = true
+        return false
+      }
+      return true
+    };
     this.metaWindow.foreach_transient(handleTransient)
     return transientHasFocus
   },
 
   _animate: function () {
+        // this.actor.set_z_rotation_from_gravity(0.0, Clutter.Gravity.CENTER)
     Tweener.addTween(this.actor, {
       opacity: 70,
       time: 1.0,
@@ -598,11 +595,8 @@ WindowButton.prototype = {
 
   _onTitleChange: function () {
     let [title, appName] = [null, null]
-    if (this.isFavapp) {
-      [title, appName] = ['', '']
-    } else {
-      [title, appName] = [this.metaWindow.get_title(), this.app.get_name()]
-    }
+    if (this.isFavapp)[title, appName] = ['', '']
+    else [title, appName] = [this.metaWindow.get_title(), this.app.get_name()]
     var titleType = this._applet.settings.getValue('title-display')
     if (titleType === TitleDisplay.Title) {
             // Some apps take a long time to set a valid title.  We don't want to error
@@ -618,9 +612,8 @@ WindowButton.prototype = {
         this.setText(appName)
         return
       }
-    } else {
-      this.setText('')
-    }
+    } else
+            this.setText('')
   }
 }
 
@@ -707,9 +700,7 @@ MyAppletBox.prototype = {
   },
 
   handleDragOver: function (source, actor, x, y, time) {
-    if (!(source.isDraggableApp || (source instanceof DND.LauncherDraggable))) {
-      return DND.DragMotionResult.NO_DROP
-    }
+    if (!(source.isDraggableApp || (source instanceof DND.LauncherDraggable))) return DND.DragMotionResult.NO_DROP
 
     var children = this.actor.get_children()
     var windowPos = children.indexOf(source.actor)
@@ -717,9 +708,7 @@ MyAppletBox.prototype = {
     var pos = 0
 
     for (var i in children) {
-      if (x > children[i].get_allocation_box().x1 + children[i].width / 2) {
-        pos = i
-      }
+      if (x > children[i].get_allocation_box().x1 + children[i].width / 2) pos = i
     }
 
     if (pos != this._dragPlaceholderPos) {
@@ -763,9 +752,7 @@ MyAppletBox.prototype = {
       this._dragPlaceholder.child.width = childWidth
       this._dragPlaceholder.child.height = childHeight
       this.actor.insert_actor(this._dragPlaceholder.actor, this._dragPlaceholderPos)
-      if (fadeIn) {
-        this._dragPlaceholder.animateIn()
-      }
+      if (fadeIn) this._dragPlaceholder.animateIn()
     }
 
     return DND.DragMotionResult.MOVE_DROP
@@ -789,11 +776,8 @@ MyAppletBox.prototype = {
     }
 
     var id
-    if (source instanceof DND.LauncherDraggable) {
-      id = source.getId()
-    } else {
-      id = app.get_id()
-    }
+    if (source instanceof DND.LauncherDraggable) id = source.getId()
+    else id = app.get_id()
     var favorites = this._applet.pinned_app_contr().getFavoriteMap()
     var srcIsFavorite = (id in favorites)
     var favPos = this._dragPlaceholderPos
@@ -801,11 +785,8 @@ MyAppletBox.prototype = {
     Meta.later_add(Meta.LaterType.BEFORE_REDRAW, Lang.bind(this, function () {
       var appFavorites = this._applet.pinned_app_contr()
       this._clearDragPlaceholder()
-      if (srcIsFavorite) {
-        appFavorites.moveFavoriteToPos(id, favPos)
-      } else {
-        appFavorites.addFavoriteAtPos(id, favPos)
-      } 
+      if (srcIsFavorite) appFavorites.moveFavoriteToPos(id, favPos)
+      else appFavorites.addFavoriteAtPos(id, favPos)
       return false
     }))
     this._clearDragPlaceholder()
