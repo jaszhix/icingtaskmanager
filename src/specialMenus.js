@@ -71,10 +71,17 @@ AppMenuButtonRightClickMenu.prototype = {
 
     this.monitorItems = []
     var monitors = Main.layoutManager.monitors
+    var windows = this.app.get_windows()
 
     var setupMonitorMoveEvent = (itemChangeMonitor)=>{
       itemChangeMonitor.connect('activate', ()=> {
-        this.metaWindow.move_to_monitor(itemChangeMonitor.index)
+        if (windows.length === 1) {
+          this.metaWindow.move_to_monitor(itemChangeMonitor.index)
+        } else {
+          for (let i = windows.length - 1; i >= 0; i--) {
+            windows[i].move_to_monitor(itemChangeMonitor.index)
+          }
+        }
       })
     }
 
