@@ -1,5 +1,11 @@
 Changelog
 
+### 3.0.7
+
+  * Improved the behavior of app button window toggling.
+  * Clicking "Move to monitor" now will move all of an app's windows to the specified monitor if more than one is open.
+  * Removed option to move an app's windows to the monitor its already on.
+
 ### 3.0.6
 
   * Added ability to toggle an application's window by clicking on its app button.

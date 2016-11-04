@@ -69,100 +69,119 @@ AppMenuButtonRightClickMenu.prototype = {
 
     var PinnedFavorites = this._applet.pinned_app_contr()
 
-    this.monitorItems = []
-    var monitors = Main.layoutManager.monitors
-    var windows = this.app.get_windows()
+    var menuSetup = (init)=>{
+      this.monitorItems = []
 
-    var setupMonitorMoveEvent = (itemChangeMonitor)=>{
-      itemChangeMonitor.connect('activate', ()=> {
-        if (windows.length === 1) {
-          this.metaWindow.move_to_monitor(itemChangeMonitor.index)
-        } else {
-          for (let i = windows.length - 1; i >= 0; i--) {
-            windows[i].move_to_monitor(itemChangeMonitor.index)
+      this.setupMonitorMoveEvent = (itemChangeMonitor, windows)=>{
+        itemChangeMonitor.connect('activate', ()=> {
+          this.toggle()
+          if (windows.length === 1) {
+            this.metaWindow.move_to_monitor(itemChangeMonitor.index)
+          } else {
+            for (let i = windows.length - 1; i >= 0; i--) {
+              windows[i].move_to_monitor(itemChangeMonitor.index)
+            }
+          }
+          this.removeAll()
+          menuSetup(false)
+        })
+      }
+      
+      this.createMonitorMoveOptions = ()=>{
+        var monitors = Main.layoutManager.monitors
+        if (this.monitorItems.length > 0) {
+          for (var i = this.monitorItems.length - 1; i >= 0; i--) {
+            this.monitorItems[i].destroy()
+          }
+          this.monitorItems = []
+        }
+        var windows = this.app.get_windows()
+        if (monitors.length > 1) {
+          for (let i = 0; i < monitors.length; i++) {
+            if (windows[0] !== undefined && windows[0].get_monitor() !== i) {
+              var itemChangeMonitor = new SpecialMenuItems.IconNameMenuItem(this, _(`Move to monitor ${i+1}`), 'view-fullscreen')
+              itemChangeMonitor.index = i
+              this.setupMonitorMoveEvent(itemChangeMonitor, windows)
+              this.monitorItems.push(itemChangeMonitor)
+            }
           }
         }
+      };
+
+      this.createMonitorMoveOptions()
+
+      this.appInfo = this.app.get_app_info()
+
+      // Pause for refresh of SpecialItems.
+      this._applet.recentManager.connect('changed', Lang.bind(this, function () {
+        Mainloop.timeout_add(15, Lang.bind(this, this._recent_items_changed))
+      }))
+      this._applet.settings.connect('changed::pinned-recent', Lang.bind(this, this._recent_items_changed))
+      this._applet.settings.connect('changed::show-recent', Lang.bind(this, this._recent_items_changed))
+      this._applet.settings.connect('changed::appmenu-width', Lang.bind(this, this._appMenu_width_changed))
+
+      this.itemCloseAllWindow = new SpecialMenuItems.IconNameMenuItem(this, _('Close All'), 'window-close')
+      this.itemCloseAllWindow.connect('activate', Lang.bind(this, this._onCloseAllActivate))
+
+      this.itemCloseWindow = new SpecialMenuItems.IconNameMenuItem(this, _('Close'), 'window-close')
+      this.itemCloseWindow.connect('activate', Lang.bind(this, this._onCloseWindowActivate))
+
+      this.itemMinimizeWindow = new SpecialMenuItems.IconNameMenuItem(this, _('Minimize'))
+      this.itemMinimizeWindow.connect('activate', Lang.bind(this, this._onMinimizeWindowActivate))
+
+      this.itemMaximizeWindow = new SpecialMenuItems.IconNameMenuItem(this, _('Maximize'))
+      this.itemMaximizeWindow.connect('activate', Lang.bind(this, this._onMaximizeWindowActivate))
+
+      this.itemMoveToLeftWorkspace = new SpecialMenuItems.IconNameMenuItem(this, _('Move to left workspace'), 'back')
+      this.itemMoveToLeftWorkspace.connect('activate', Lang.bind(this, this._onMoveToLeftWorkspace))
+
+      this.itemMoveToRightWorkspace = new SpecialMenuItems.IconNameMenuItem(this, _('Move to right workspace'), 'next')
+      this.itemMoveToRightWorkspace.connect('activate', Lang.bind(this, this._onMoveToRightWorkspace))
+
+      this.itemOnAllWorkspaces = new SpecialMenuItems.IconNameMenuItem(this, _('Visible on all workspaces'), 'edit-copy')
+      this.itemOnAllWorkspaces.connect('activate', Lang.bind(this, this._toggleOnAllWorkspaces))
+
+      this.launchItem = new SpecialMenuItems.IconMenuItem(this, this.app.get_name(), this.app.create_icon_texture(16))
+      this.launchItem.connect('activate', Lang.bind(this, function () {
+        this.appInfo.launch([], null)
+      }))
+      // Settings in pinned apps menu
+      this._settingsMenu()
+      this.specialCont = new SpecialMenuItems.SubSection()
+      this.specialCont.box = new St.BoxLayout({
+        vertical: true
       })
-    }
 
-    if (monitors.length > 1) {
-      for (var i = 0; i < monitors.length; i++) {
-        var itemChangeMonitor = new SpecialMenuItems.IconNameMenuItem(this, _('Move to monitor %d').format(i + 1), 'view-fullscreen')
-        itemChangeMonitor.index = i
-        setupMonitorMoveEvent(itemChangeMonitor)
-        this.monitorItems.push(itemChangeMonitor)
+      this.specialSection = new St.BoxLayout({
+        vertical: true
+      })
+      this.specialCont.box.add(this.specialSection)
+      this.specialCont.addActor(this.specialCont.box, {
+        span: -1
+      })
+      this.addSpecialItems()
+
+      this.favs = PinnedFavorites
+      this.favId = this.app.get_id()
+      this.isFav = this.favs.isFavorite(this.favId)
+
+      if (this._applet.showPinned != FavType.none) {
+        if (this.isFav) {
+          this.itemtoggleFav = new SpecialMenuItems.IconNameMenuItem(this, _('Unpin from Panel'), 'remove')
+          this.itemtoggleFav.connect('activate', Lang.bind(this, this._toggleFav))
+        } else {
+          this.itemtoggleFav = new SpecialMenuItems.IconNameMenuItem(this, _('Pin to Panel'), 'bookmark-new')
+          this.itemtoggleFav.connect('activate', Lang.bind(this, this._toggleFav))
+        }
       }
-    }
-
-    this.appInfo = this.app.get_app_info()
-
-    // Pause for refresh of SpecialItems.
-    this._applet.recentManager.connect('changed', Lang.bind(this, function () {
-      Mainloop.timeout_add(15, Lang.bind(this, this._recent_items_changed))
-    }))
-    this._applet.settings.connect('changed::pinned-recent', Lang.bind(this, this._recent_items_changed))
-    this._applet.settings.connect('changed::show-recent', Lang.bind(this, this._recent_items_changed))
-    this._applet.settings.connect('changed::appmenu-width', Lang.bind(this, this._appMenu_width_changed))
-
-    this.itemCloseAllWindow = new SpecialMenuItems.IconNameMenuItem(this, _('Close All'), 'window-close')
-    this.itemCloseAllWindow.connect('activate', Lang.bind(this, this._onCloseAllActivate))
-
-    this.itemCloseWindow = new SpecialMenuItems.IconNameMenuItem(this, _('Close'), 'window-close')
-    this.itemCloseWindow.connect('activate', Lang.bind(this, this._onCloseWindowActivate))
-
-    this.itemMinimizeWindow = new SpecialMenuItems.IconNameMenuItem(this, _('Minimize'))
-    this.itemMinimizeWindow.connect('activate', Lang.bind(this, this._onMinimizeWindowActivate))
-
-    this.itemMaximizeWindow = new SpecialMenuItems.IconNameMenuItem(this, _('Maximize'))
-    this.itemMaximizeWindow.connect('activate', Lang.bind(this, this._onMaximizeWindowActivate))
-
-    this.itemMoveToLeftWorkspace = new SpecialMenuItems.IconNameMenuItem(this, _('Move to left workspace'), 'back')
-    this.itemMoveToLeftWorkspace.connect('activate', Lang.bind(this, this._onMoveToLeftWorkspace))
-
-    this.itemMoveToRightWorkspace = new SpecialMenuItems.IconNameMenuItem(this, _('Move to right workspace'), 'next')
-    this.itemMoveToRightWorkspace.connect('activate', Lang.bind(this, this._onMoveToRightWorkspace))
-
-    this.itemOnAllWorkspaces = new SpecialMenuItems.IconNameMenuItem(this, _('Visible on all workspaces'), 'edit-copy')
-    this.itemOnAllWorkspaces.connect('activate', Lang.bind(this, this._toggleOnAllWorkspaces))
-
-    this.launchItem = new SpecialMenuItems.IconMenuItem(this, this.app.get_name(), this.app.create_icon_texture(16))
-    this.launchItem.connect('activate', Lang.bind(this, function () {
-      this.appInfo.launch([], null)
-    }))
-    // Settings in pinned apps menu
-    this._settingsMenu()
-    this.specialCont = new SpecialMenuItems.SubSection()
-    this.specialCont.box = new St.BoxLayout({
-      vertical: true
-    })
-
-    this.specialSection = new St.BoxLayout({
-      vertical: true
-    })
-    this.specialCont.box.add(this.specialSection)
-    this.specialCont.addActor(this.specialCont.box, {
-      span: -1
-    })
-    this.addSpecialItems()
-
-    this.favs = PinnedFavorites
-    this.favId = this.app.get_id()
-    this.isFav = this.favs.isFavorite(this.favId)
-
-    if (this._applet.showPinned != FavType.none) {
-      if (this.isFav) {
-        this.itemtoggleFav = new SpecialMenuItems.IconNameMenuItem(this, _('Unpin from Panel'), 'remove')
-        this.itemtoggleFav.connect('activate', Lang.bind(this, this._toggleFav))
+      if (this.isFavapp) {
+        this._isFavorite(true)
       } else {
-        this.itemtoggleFav = new SpecialMenuItems.IconNameMenuItem(this, _('Pin to Panel'), 'bookmark-new')
-        this.itemtoggleFav.connect('activate', Lang.bind(this, this._toggleFav))
+        this._isFavorite(false)
       }
     }
-    if (this.isFavapp) {
-      this._isFavorite(true)
-    } else {
-      this._isFavorite(false)
-    }
+
+    menuSetup(true)
   },
 
   _settingsMenu: function () {
