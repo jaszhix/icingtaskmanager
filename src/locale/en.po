@@ -2,397 +2,433 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-11-03 00:10+0100\n"
-"PO-Revision-Date: 2016-11-04 02:56+0100\n"
-"Last-Translator: USER <user@domain.tld>\n"
+"POT-Creation-Date: 2016-11-04 08:04+0100\n"
+"PO-Revision-Date: 2016-11-04 09:10+0100\n"
 "Language-Team: \n"
-"Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 1.8.7.1\n"
 "X-Poedit-Basepath: .\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Last-Translator: Pandiora <Pandiora@github.com>\n"
+"Language: en_US\n"
 
 # Icing Task Manager
 msgid "%app_name%"
-msgstr ""
+msgstr "Icing Task Manager"
 
 # Window List with App Grouping and Window Thumbnails
 msgid "%app_description%"
 msgstr ""
+"Window List with App Grouping and Window \n"
+"Thumbnails"
 
 # Window List Settings
 msgid "%window_list_settings%"
-msgstr ""
+msgstr "Window List Settings"
 
 # Number Display:
 msgid "%ctrl_number_display%"
-msgstr ""
+msgstr "Number Display:"
 
 # normal: display window number, smart: display window number if more than one window, none: don't display number, all: display window number for favorites too
 msgid "%ctrl_number_display_desc%"
 msgstr ""
+"normal: display window number, smart: display \n"
+"window number if more than one window, none: \n"
+"don't display number, all: display window \n"
+"number for favorites too"
 
 # All
 msgid "%ctrl_number_display_all%"
-msgstr ""
+msgstr "All"
 
 # Smart
 msgid "%ctrl_number_display_smart%"
-msgstr ""
+msgstr "Smart"
 
 # Normal
 msgid "%ctrl_number_display_normal%"
-msgstr ""
+msgstr "Normal"
 
 # None
 msgid "%ctrl_number_display_none%"
-msgstr ""
+msgstr "None"
 
 # Title display:
 msgid "%ctrl_title_display%"
-msgstr ""
+msgstr "Title display:"
 
 # focused: show focused window title, title: display the window title, app: diplay app name, none: don't display anything
 msgid "%ctrl_title_display_desc%"
 msgstr ""
+"focused: show focused window title, title: display \n"
+"the window title, app: diplay app name, none: \n"
+"don't display anything"
 
 # None
 msgid "%ctrl_title_display_none%"
-msgstr ""
+msgstr "None"
 
 # Focused
 msgid "%ctrl_title_display_focused%"
-msgstr ""
+msgstr "Focused"
 
 # App
 msgid "%ctrl_title_display_app%"
-msgstr ""
+msgstr "App"
 
 # Title
 msgid "%ctrl_title_display_title%"
-msgstr ""
+msgstr "Title"
 
 # Show app alerts and notifications
 msgid "%ctrl_show_alerts%"
-msgstr ""
+msgstr "Show app alerts and notifications"
 
 # If enabled, notifications and alerts will appear.
 msgid "%ctrl_show_alerts_desc%"
-msgstr ""
+msgstr "If enabled, notifications and alerts will appear."
 
 # Show pinned apps
 msgid "%ctrl_show_pinned%"
-msgstr ""
+msgstr "Show pinned apps"
 
 # Controls whether or not the pinned apps appear in the panel if they are not open.
 msgid "%ctrl_show_pinned_desc%"
 msgstr ""
+"Controls whether or not the pinned apps appear \n"
+"in the panel if they are not open."
 
 # Arrange pinned apps
 msgid "%ctrl_arrange_pinned_apps%"
-msgstr ""
+msgstr "Arrange pinned apps"
 
 # Arrange pinned apps into a different order.
 msgid "%ctrl_arrange_pinned_apps_desc%"
-msgstr ""
+msgstr "Arrange pinned apps into a different order."
 
 # Icon padding:
 msgid "%ctrl_icon_padding%"
-msgstr ""
+msgstr "Icon padding:"
 
 # Controls how much space is between the icons.
 msgid "%ctrl_icon_padding_desc%"
-msgstr ""
+msgstr "Controls how much space is between the icons."
 
 # px
 msgid "%ctrl_icon_padding_unit%"
-msgstr ""
+msgstr "px"
 
 # Adjust icon size
 msgid "%ctrl_icon_size%"
-msgstr ""
+msgstr "Adjust icon size"
 
 # Adjust icon size independent of Cinnamon's panel scaling.
 msgid "%ctrl_icon_size_desc%"
 msgstr ""
+"Adjust icon size independent of Cinnamon's \n"
+"panel scaling."
 
 # Icon Size:
 msgid "%ctrl_set_icon_size%"
-msgstr ""
+msgstr "Icon Size:"
 
 # Set icon size
 msgid "%set_icon_size_desc%"
-msgstr ""
+msgstr "Set icon size"
 
 # Hover Peek Settings
 msgid "%hover_peek_settings%"
-msgstr ""
+msgstr "Hover Peek Settings"
 
 # Show windows when hovered over
 msgid "%ctrl_show_windows_hovered%"
-msgstr ""
+msgstr "Show windows when hovered over"
 
 # Controls whether or not windows display when hovered over.
 msgid "%ctrl_show_windows_hovered_desc%"
 msgstr ""
+"Controls whether or not windows display when \n"
+"hovered over."
 
 # Window fade time:
 msgid "%ctrl_window_fade_time%"
-msgstr ""
+msgstr "Window fade time:"
 
 # Controls how quickly a window will fade on hover.
 msgid "%ctrl_window_fade_time_desc%"
-msgstr ""
+msgstr "Controls how quickly a window will fade on hover."
 
 # milliseconds
 msgid "%ctrl_window_fade_time_unit%"
-msgstr ""
+msgstr "milliseconds"
 
 # Window opacity:
 msgid "%ctrl_window_opacity%"
-msgstr ""
+msgstr "Window opacity:"
 
 # Opacity of the windows on hover.
 msgid "%ctrl_window_opacity_desc%"
-msgstr ""
+msgstr "Opacity of the windows on hover."
 
 # percent
 msgid "%ctrl_window_opacity_unit%"
-msgstr ""
+msgstr "percent"
 
 # Thumbnail Settings
 msgid "%thumb_settings%"
-msgstr ""
+msgstr "Thumbnail Settings"
 
 # Thumbnail timeout:
 msgid "%ctrl_thumb_timeout%"
-msgstr ""
+msgstr "Thumbnail timeout:"
 
 # Controls how quickly an app's set of window thumbnails will fade out when the mouse leaves the app button.
 msgid "%ctrl_thumb_timeout_desc%"
 msgstr ""
+"Controls how quickly an app's set of window \n"
+"thumbnails will fade out when the mouse leaves \n"
+"the app button."
 
 # milliseconds
 msgid "%ctrl_thumb_timeout_unit%"
-msgstr ""
+msgstr "milliseconds"
 
 # Thumbnail size:
 msgid "%ctrl_thumb_size%"
-msgstr ""
+msgstr "Thumbnail size:"
 
 # Controls the size of the thumbnails.
 msgid "%ctrl_thumb_size_desc%"
-msgstr ""
+msgstr "Controls the size of the thumbnails."
 
-#removed this one "size", due to not being a unit (obv)
-#also there is no information about which unit is used
-#just add one whitespace-character
+# removed this one "size", due to not being a unit (obv)
+# also there is no information about which unit is used
+#
 msgid "%ctrl_thumb_unit%"
-msgstr ""
+msgstr " "
 
 # Show thumbnails
 msgid "%ctrl_show_thumbs%"
-msgstr ""
+msgstr "Show thumbnails"
 
 # Show window thumbnails when hovering over an app button.
 msgid "%ctrl_show_thumbs_desc%"
 msgstr ""
+"Show window thumbnails when hovering over an \n"
+"app button."
 
 # Enable vertical thumbnails
 msgid "%ctrl_vertical_thumbs%"
-msgstr ""
+msgstr "Enable vertical thumbnails"
 
 # If enabled, thumbnails will stack vertically.
 msgid "%ctrl_vertical_thumbs_desc%"
-msgstr ""
+msgstr "If enabled, thumbnails will stack vertically."
 
 # Stack window thumbnails
 msgid "%ctrl_stack_windows%"
-msgstr ""
+msgstr "Stack window thumbnails"
 
 # Stack window thumbnails if they exceed the available screen space.
 msgid "%ctrl_stack_windows_desc%"
 msgstr ""
+"Stack window thumbnails if they exceed the \n"
+"available screen space."
 
 # Sort windows for each app by last focused
 msgid "%ctrl_windows_sort_app%"
-msgstr ""
+msgstr "Sort windows for each app by last focused"
 
 # Controls whether the order windows appear for an app is by last focused, or the order they were opened.
 msgid "%ctrl_windows_sort_app_desc%"
 msgstr ""
+"Controls whether the order windows appear for \n"
+"an app is by last focused, or the order they were \n"
+"opened."
 
 # Open thumbnails on click
 msgid "%ctrl_thumbnails_on_click%"
-msgstr ""
+msgstr "Open thumbnails on click"
 
 # Open the thumbnails on click if there is more than one window open.
 msgid "%ctrl_thumbnails_on_click_desc%"
 msgstr ""
+"Open the thumbnails on click if there is more \n"
+"than one window open."
 
 # Context Menu Settings
 msgid "%context_menu_settings%"
-msgstr ""
+msgstr "Context Menu Settings"
 
 # Show recent items
 msgid "%ctrl_recent_context_items%"
-msgstr ""
+msgstr "Show recent items"
 
 # Controls whether recent items will appear in the context menu.
 msgid "%ctrl_recent_context_items_desc%"
 msgstr ""
+"Controls whether recent items will appear in the \n"
+"context menu."
 
 # Enable option to close all windows
 msgid "%ctrl_close_all_windows%"
-msgstr ""
+msgstr "Enable option to close all windows"
 
 # Show a \"Close All\" context menu item to close all windows for an app.
 msgid "%ctrl_close_all_windows_desc%"
 msgstr ""
+"Show a \\\"Close All\\\" context menu item to close \n"
+"all windows for an app."
 
 # Context menu width:
 msgid "%ctrl_context_menu_width%"
-msgstr ""
+msgstr "Context menu width:"
 
 # Set the width of the context menu.
 msgid "%ctrl_context_menu_width_desc%"
-msgstr ""
+msgstr "Set the width of the context menu."
 
 # px
 msgid "%ctrl_context_menu_width_unit%"
-msgstr ""
+msgstr "px"
 
 # Firefox context menu:
 msgid "%ctrl_ff_context_menu%"
-msgstr ""
+msgstr "Firefox context menu:"
 
 # Most Visited: show the sites you visit most, Recent History: display the the last pages you visited, Bookmarks: show your favorite bookmarks.
 msgid "%ctrl_ff_context_menu_desc%"
 msgstr ""
+"Most Visited: show the sites you visit most, \n"
+"Recent History: display the the last pages you \n"
+"visited, Bookmarks: show your favorite \n"
+"bookmarks."
 
 # Bookmarks
 msgid "%ctrl_ff_context_menu_bookmark%"
-msgstr ""
+msgstr "Bookmarks"
 
 # Most Visited
 msgid "%ctrl_ff_context_menu_visited%"
-msgstr ""
+msgstr "Most Visited"
 
 # Recent History
 msgid "%ctrl_ff_context_menu_recent%"
-msgstr ""
+msgstr "Recent History"
 
 # Number of context menu items:
 msgid "%ctrl_context_menu_number%"
-msgstr ""
+msgstr "Number of context menu items:"
 
 # Controls how many items appear in the context menu.
 msgid "%ctrl_context_menu_number_desc%"
 msgstr ""
+"Controls how many items appear in the context \n"
+"menu."
 
-#removed this one "number", due to not being a unit (obv)
-#just add one whitespace-character
+# removed this one "number", due to not being a unit (obv)
 msgid "%ctrl_context_menu_number_unit%"
-msgstr ""
+msgstr " "
 
 # Install Gda
 msgid "%ctx_install_gda%"
-msgstr ""
+msgstr "Install Gda"
 
 # Visible on all workspaces
 msgid "%ctx_visible_workspace%"
-msgstr ""
+msgstr "Visible on all workspaces"
 
 # Only on this workspace
 msgid "%ctx_on_this_workspace%"
-msgstr ""
+msgstr "Only on this workspace"
 
 # Move to left workspace
 msgid "%ctx_move_left%"
-msgstr ""
+msgstr "Move to left workspace"
 
 # Move to right workspace
 msgid "%ctx_move_right%"
-msgstr ""
+msgstr "Move to right workspace"
 
 # Move to monitor
 msgid "%ctx_move_monitor%"
-msgstr ""
+msgstr "Move to monitor"
 
 # Unpin from Panel
 msgid "%ctx_unpin%"
-msgstr ""
+msgstr "Unpin from Panel"
 
 # Pin to Panel
 msgid "%ctx_pin%"
-msgstr ""
+msgstr "Pin to Panel"
 
 # Close
 msgid "%ctx_close%"
-msgstr ""
+msgstr "Close"
 
 # Close All
 msgid "%ctx_close_all%"
-msgstr ""
+msgstr "Close All"
 
 # Settings
 msgid "%ctx_settings%"
-msgstr ""
+msgstr "Settings"
 
 # ReArrange
 msgid "%ctx_rearrange%"
-msgstr ""
+msgstr "ReArrange"
 
 # Show Pinned
 msgid "%ctx_show_pinned%"
-msgstr ""
+msgstr "Show Pinned"
 
 # Show Thumbs
 msgid "%ctx_show_thumbs%"
-msgstr ""
+msgstr "Show Thumbs"
 
 # Stack Thumbs
 msgid "%ctx_stack_thumbs%"
-msgstr ""
+msgstr "Stack Thumbs"
 
 # Hover to Peek
 msgid "%ctx_hover_peek%"
-msgstr ""
+msgstr "Hover to Peek"
 
 # Show Recent
 msgid "%ctx_show_recent%"
-msgstr ""
+msgstr "Show Recent"
 
 # Vertical Thumbs
 msgid "%ctx_vertical_thumbs%"
-msgstr ""
+msgstr "Vertical Thumbs"
 
 #    Go to Settings (3 spaces in front of it)
 msgid "%ctx_go_settings%"
-msgstr ""
+msgstr "   Go to Settings"
 
 # Group apps into single icon
 msgid "%ctx_app_grouping%"
-msgstr ""
+msgstr "Group apps into single icon"
 
 # Group the open app instances into single icon
 msgid "%ctx_app_grouping_desc%"
-msgstr ""
+msgstr "Group the open app instances into single icon"
 
 # Minimize
 msgid "%ctx_minimize%"
-msgstr ""
+msgstr "Minimize"
 
 # Maximize
 msgid "%ctx_maximize%"
-msgstr ""
+msgstr "Maximize"
 
 # Unmaximize
 msgid "%ctx_unmaximize%"
-msgstr ""
+msgstr "Unmaximize"
 
 # Restore
 msgid "%ctx_restore%"
-msgstr ""
+msgstr "Restore"

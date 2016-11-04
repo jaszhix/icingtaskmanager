@@ -1,309 +1,397 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-11-03 00:10+0100\n"
-"PO-Revision-Date: 2016-11-03 00:28+0100\n"
-"Last-Translator: \n"
+"POT-Creation-Date: 2016-11-04 08:41+0100\n"
+"PO-Revision-Date: 2016-11-04 09:06+0100\n"
 "Language-Team: \n"
-"Language: de_DE\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 1.8.7.1\n"
+"X-Poedit-Basepath: .\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-
-#~ msgid "Move to monitor %d"
-#~ msgstr "Verschieben auf Monitor %d"
-
-#~ msgid "Close All"
-#~ msgstr "Alles schließen"
-
-#~ msgid "Close"
-#~ msgstr "Schließen"
-
-#~ msgid "Minimize"
-#~ msgstr "Minimieren"
-
-#~ msgid "Maximize"
-#~ msgstr "Maximieren"
-
-#~ msgid "Move to left workspace"
-#~ msgstr "Auf linken Arbeitsplatz verschieben"
-
-#~ msgid "Move to right workspace"
-#~ msgstr "Auf rechten Arbeitsplatz verschieben"
-
-#~ msgid "Visible on all workspaces"
-#~ msgstr "Auf allen Arbeitsplätzen anzeigen"
-
-#~ msgid "Unpin from Panel"
-#~ msgstr "Abdocken"
-
-#~ msgid "Pin to Panel"
-#~ msgstr "Andocken"
-
-#~ msgid "Settings"
-#~ msgstr "Einstellungen"
-
-#~ msgid "ReArrange"
-#~ msgstr "Neu anordnen"
-
-#~ msgid "Show Pinned"
-#~ msgstr "Zeige Angedockte"
-
-#~ msgid "Show Thumbs"
-#~ msgstr "Vorschaubilder anzeigen"
-
-#~ msgid "Stack Thumbs"
-#~ msgstr "Vorschaubilder stapeln"
-
-#~ msgid "Show Recent"
-#~ msgstr "Neueste anzeigen"
-
-#~ msgid "Vertical Thumbs"
-#~ msgstr "Vertikal stapeln"
-
-#~ msgid "   Go to Settings"
-#~ msgstr "   Gehe zu Einstellungen"
-
-#~ msgid "Install Gda"
-#~ msgstr "Installiere Gda"
-
-#~ msgid "Only on this workspace"
-#~ msgstr "Nur auf diesem Arbeitsplatz"
-
-#~ msgid "Unmaximize"
-#~ msgstr "Zurücksetzen"
-
-#~ msgid "Restore"
-#~ msgstr "Wiederherstellen"
-
-#~ msgid "Window List with App Grouping and Window Thumbnails"
-#~ msgstr "Fensterliste mit Anwendungsgruppierung und Vorschaubildern"
-
-#~ msgid "Icing Task Manager"
-#~ msgstr "Icing Task Manager"
-
-#~ msgid "Thumbnail size:"
-#~ msgstr "Vorschaubild Größe:"
-
-#~ msgid "Opacity of the windows on hover."
-#~ msgstr "Steuert die Größe der Vorschaubilder."
-
-#~ msgid "size"
-#~ msgstr "Größe"
-
-#~ msgid "Enable option to close all windows"
-#~ msgstr "Option aktivieren um alle Fenster zu schließen"
-
-#~ msgid ""
-#~ "Show a \"Close All\" context menu item to close all windows for an app."
-#~ msgstr ""
-#~ "Zeige \"Alles schließen\" als Kontextmenüeintrag an um alle Fenster einer "
-#~ "Anwendung zu schließen."
-
-#~ msgid "Show thumbnails"
-#~ msgstr "Zeige Vorschaubilder"
-
-#~ msgid "Show window thumbnails when hovering over an app button."
-#~ msgstr ""
-#~ "Zeigt Fenster-Vorschaubilder beim Hovern über einen Anwendungsbutton an"
-
-#~ msgid "Window fade time:"
-#~ msgstr "Fenster Einblenddauer:"
-
-#~ msgid "Controls how quickly a window will fade on hover."
-#~ msgstr "Steuert die Geschwindigkeit einblendender Fenster bei Hover."
-
-#~ msgid "milliseconds"
-#~ msgstr "Millisekunden"
-
-#~ msgid "Number of context menu items:"
-#~ msgstr "Anzahl von Kontextmenü-Einträgen:"
-
-#~ msgid "Controls how many items appear in the context menu."
-#~ msgstr "Steuert die Anzahl der Kontextmenü-Einträge."
-
-#~ msgid "number"
-#~ msgstr "Nummer"
-
-#~ msgid "Title display:"
-#~ msgstr "Titel-Anzeige:"
-
-#~ msgid ""
-#~ "focused: show focused window title, title: display the window title, app: "
-#~ "diplay app name, none: don't display anything"
-#~ msgstr ""
-#~ "Fokussiert: Zeigt fokussierten Fenstertitel, Titel: Zeigt Fenstertitel, "
-#~ "Anwendung: Zeigt Anwendungsnamen, keine: Zeigt nichts an"
-
-#~ msgid "None"
-#~ msgstr "keine"
-
-#~ msgid "Focused"
-#~ msgstr "Fokussiert"
-
-#~ msgid "App"
-#~ msgstr "Anwendung"
-
-#~ msgid "Title"
-#~ msgstr "Titel"
-
-#~ msgid "Context Menu Settings"
-#~ msgstr "Kontextmenü-Einstellungen"
-
-#~ msgid "Sort windows for each app by last focused"
-#~ msgstr "Sortiert Fenster anhand zuletzt fokussierter Anwendungen"
-
-#~ msgid ""
-#~ "Controls whether the order windows appear for an app is by last focused, "
-#~ "or the order they were opened."
-#~ msgstr ""
-#~ "Steuert die Reihenfolge der Anzeige von Fenstern, anhand der Reihenfolge "
-#~ "zuletzt fokussierter oder geöffneter Anwendungen."
-
-#~ msgid "Window opacity:"
-#~ msgstr "Fenster-Transparenz:"
-
-#~ msgid "percent"
-#~ msgstr "Prozent"
-
-#~ msgid "Show windows when hovered over"
-#~ msgstr "Zeige Fenster beim Hovern"
-
-#~ msgid "Controls whether or not windows display when hovered over."
-#~ msgstr "Steuert ob Fenster-Vorschaubilder beim Hovern angezeigt werden."
-
-#~ msgid "Icon padding:"
-#~ msgstr "Symbol-Abstand:"
-
-#~ msgid "Controls how much space is between the icons."
-#~ msgstr "Steuert den Abstand zwischen den Symbolen."
-
-#~ msgid "padding"
-#~ msgstr "Abstand"
-
-#~ msgid "Show pinned apps"
-#~ msgstr "Zeige angedockte Anwendungen"
-
-#~ msgid ""
-#~ "Controls whether or not the pinned apps appear in the panel if they are "
-#~ "not open."
-#~ msgstr ""
-#~ "Steuert ob angedockte Anwendungen angezeigt werden wenn sie nicht "
-#~ "geöffnet sind."
-
-#~ msgid "Window List Settings"
-#~ msgstr "Fensterlisten-Einstellungen"
-
-#~ msgid "Context menu width:"
-#~ msgstr "Kontextmenü-Breite:"
-
-#~ msgid "Set the width of the context menu."
-#~ msgstr "Legt die Breite des Kontextmenüs fest."
-
-#~ msgid "Thumbnail Settings"
-#~ msgstr "Vorschaubild Einstellungen"
-
-#~ msgid "Show recent items"
-#~ msgstr "Zeige neueste Einträge"
-
-#~ msgid "Enable vertical thumbnails"
-#~ msgstr "Aktiviere vertikale Vorschaubilder"
-
-#~ msgid "If enabled, thumbnails will stack vertically."
-#~ msgstr "Wenn aktiviert, werden Vorschaubilder vertikal gestapelt."
-
-#~ msgid "Thumbnail timeout:"
-#~ msgstr "Vorschaubild Anzeigedauer:"
-
-#~ msgid ""
-#~ "Controls how quickly an app's set of window thumbnails will fade out when "
-#~ "the mouse leaves the app button."
-#~ msgstr ""
-#~ "Steuert wie schnell die zu einer Anwendung gehörenden Vorschaubilder "
-#~ "ausgeblendet werden beim Verlassen mit der Maus."
-
-#~ msgid "Stack window thumbnails"
-#~ msgstr "Fenster-Vorschaubilder stapeln"
-
-#~ msgid "Stack window thumbnails if they exceed the available screen space."
-#~ msgstr ""
-#~ "Fenster-Vorschaubilder stapeln, wenn sie den vorhandenen Platz "
-#~ "überschreiten."
-
-#~ msgid "Number display:"
-#~ msgstr "Nummern-Anzeige:"
-
-#~ msgid ""
-#~ "normal: display window number, smart: display window number if more than "
-#~ "one window, none: don't display number, all: display window number for "
-#~ "favorites too"
-#~ msgstr ""
-#~ "Normal: Zeige Fensteranzahl, Smart: Zeige Fensteranzahl, wenn mehr als "
-#~ "ein Fenster vorhanden ist, Keine: Verberge die Fensteranzahl, Alle: Zeige "
-#~ "die Fensteranzahl auch bei Favoriten an"
-
-#~ msgid "All"
-#~ msgstr "Alle"
-
-#~ msgid "Smart"
-#~ msgstr "Smart"
-
-#~ msgid "Normal"
-#~ msgstr "Normal"
-
-#~ msgid "Open thumbnails on click"
-#~ msgstr "Öffnen der Vorschaubilder durch Klicken"
-
-#~ msgid "Open the thumbnails on click if there is more than one window open."
-#~ msgstr ""
-#~ "Öffnen der Vorschaubilder durch Klicken, wenn bereits mehr als ein "
-#~ "Fenster geöffnet ist."
-
-#~ msgid "Hover Peek Settings"
-#~ msgstr "Hovern für Vorschau-Einstellungen"
-
-#~ msgid "Firefox context menu:"
-#~ msgstr "Firefox Kontextmenü:"
-
-#~ msgid ""
-#~ "Most Visited: show the sites you visit most, Recent Histor: display the "
-#~ "the last pages you visited, Bookmarks: show your favorite bookmarks"
-#~ msgstr ""
-#~ "Meiste Aufrufe: Zeigt Seiten die du oft besucht hast, Aktueller Verlauf: "
-#~ "Zeigt Seiten die du kürzlich besucht hast, Lesezeichen: Zeigt nur deine "
-#~ "Lesezeichen"
-
-#~ msgid "Bookmarks"
-#~ msgstr "Lesezeichen"
-
-#~ msgid "Most Visited"
-#~ msgstr "Meiste Aufrufe"
-
-#~ msgid "Recent History"
-#~ msgstr "Aktueller Verlauf"
-
-#~ msgid "Arrange pinned apps"
-#~ msgstr "Angedockte Anwendungen anordnen"
-
-#~ msgid "Arrange pinned apps into a different order."
-#~ msgstr "Angedockte Anwendungen neu anordnen"
-
-#~ msgid "Group apps into single icon"
-#~ msgstr "Gruppiere Anwendungen in einem Symbol"
-
-#~ msgid "Group the open app instances into single icon"
-#~ msgstr "Gruppiere offene Anwendungen in einem Symbol"
-
-#~ msgid "Icon size:"
-#~ msgstr "Symbolgröße:"
-
-#~ msgid "Adjust icon size independent of Cinnamon's panel scaling."
-#~ msgstr "Symbolgröße unabhängig von der Cinnamon-Taskleiste anpassen."
+"Last-Translator: Pandiora <Pandiora@github.com>\n"
+"Language: de\n"
+
+# Icing Task Manager
+msgid "%app_name%"
+msgstr "Icing Task Manager"
+
+# Window List with App Grouping and Window Thumbnails
+msgid "%app_description%"
+msgstr "Fensterliste mit Anwendungsgruppierung und Vorschaubildern"
+
+# Window List Settings
+msgid "%window_list_settings%"
+msgstr "Fensterlisten-Einstellungen"
+
+# Number Display:
+msgid "%ctrl_number_display%"
+msgstr "Fensteranzahl anzeigen:"
+
+# normal: display window number, smart: display window number if more than one window, none: don't display number, all: display window number for favorites too
+msgid "%ctrl_number_display_desc%"
+msgstr "Normal: Zeige Fensteranzahl, Smart: Zeige Fensteranzahl, wenn mehr als ein Fenster vorhanden ist, Keine: Verberge die Fensteranzahl, Alle: Zeige die Fensteranzahl auch bei angedockten Fenstern an"
+
+# All
+msgid "%ctrl_number_display_all%"
+msgstr "Alle"
+
+# Smart
+msgid "%ctrl_number_display_smart%"
+msgstr "Smart"
+
+# Normal
+msgid "%ctrl_number_display_normal%"
+msgstr "Normal"
+
+# None
+msgid "%ctrl_number_display_none%"
+msgstr "Keine"
+
+# Title display:
+msgid "%ctrl_title_display%"
+msgstr "Titel-Anzeige:"
+
+# focused: show focused window title, title: display the window title, app: diplay app name, none: don't display anything
+msgid "%ctrl_title_display_desc%"
+msgstr "Fokussiert: Zeigt fokussierten Fenstertitel, Titel: Zeigt Fenstertitel, Anwendung: Zeigt Anwendungsnamen, keine: Zeigt nichts an"
+
+# None
+msgid "%ctrl_title_display_none%"
+msgstr "Keine"
+
+# Focused
+msgid "%ctrl_title_display_focused%"
+msgstr "Fokussiert"
+
+# App
+msgid "%ctrl_title_display_app%"
+msgstr "Anwendung"
+
+# Title
+msgid "%ctrl_title_display_title%"
+msgstr "Titel"
+
+# Show app alerts and notifications
+msgid "%ctrl_show_alerts%"
+msgstr "Zeige Nachrichten und Fehler von Anwendungen"
+
+# If enabled, notifications and alerts will appear.
+msgid "%ctrl_show_alerts_desc%"
+msgstr "Zeigt Anwendungsmeldungen & -fehler in der Anwendungsleiste an."
+
+# Show pinned apps
+msgid "%ctrl_show_pinned%"
+msgstr "Zeige angedockte Anwendungen"
+
+# Controls whether or not the pinned apps appear in the panel if they are not open.
+msgid "%ctrl_show_pinned_desc%"
+msgstr "Steuert ob angedockte Anwendungen angezeigt werden wenn sie nicht geöffnet sind."
+
+# Arrange pinned apps
+msgid "%ctrl_arrange_pinned_apps%"
+msgstr "Angedockte Anwendungen anordnen"
+
+# Arrange pinned apps into a different order.
+msgid "%ctrl_arrange_pinned_apps_desc%"
+msgstr "Angedockte Anwendungen neu anordnen"
+
+# Icon padding:
+msgid "%ctrl_icon_padding%"
+msgstr "Symbol-Abstand:"
+
+# Controls how much space is between the icons.
+msgid "%ctrl_icon_padding_desc%"
+msgstr "Legt den Abstand zwischen den Symbolen der Anwendungsleiste fest."
+
+# px
+msgid "%ctrl_icon_padding_unit%"
+msgstr "px"
+
+# Adjust icon size
+msgid "%ctrl_icon_size%"
+msgstr "Symbolgröße anpassen"
+
+# Adjust icon size independent of Cinnamon's panel scaling.
+msgid "%ctrl_icon_size_desc%"
+msgstr "Symbolgröße unabhängig von der Cinnamon-Taskleiste anpassen."
+
+# Icon Size:
+msgid "%ctrl_set_icon_size%"
+msgstr "Symbolgröße:"
+
+# Set icon size
+msgid "%set_icon_size_desc%"
+msgstr "Symbolgröße anpassen"
+
+# Hover Peek Settings
+msgid "%hover_peek_settings%"
+msgstr "Hovern für Vorschau-Einstellungen"
+
+# Show windows when hovered over
+msgid "%ctrl_show_windows_hovered%"
+msgstr "Zeige Fenster beim Hovern"
+
+# Controls whether or not windows display when hovered over.
+msgid "%ctrl_show_windows_hovered_desc%"
+msgstr "Steuert ob Fenster-Vorschaubilder beim Hovern angezeigt werden."
+
+# Window fade time:
+msgid "%ctrl_window_fade_time%"
+msgstr "Fenster Einblendungsverzögerung:"
+
+# Controls how quickly a window will fade on hover.
+msgid "%ctrl_window_fade_time_desc%"
+msgstr "Steuert die Geschwindigkeit einblendender Fenster bei Hover."
+
+# milliseconds
+msgid "%ctrl_window_fade_time_unit%"
+msgstr "Millisekunden"
+
+# Window opacity:
+msgid "%ctrl_window_opacity%"
+msgstr "Fenster-Transparenz:"
+
+# Opacity of the windows on hover.
+msgid "%ctrl_window_opacity_desc%"
+msgstr "Steuert die Größe der Vorschaubilder."
+
+# percent
+msgid "%ctrl_window_opacity_unit%"
+msgstr "Prozent"
+
+# Thumbnail Settings
+msgid "%thumb_settings%"
+msgstr "Vorschaubild Einstellungen"
+
+# Thumbnail timeout:
+msgid "%ctrl_thumb_timeout%"
+msgstr "Vorschaubild Einblendungsverzögerung:"
+
+# Controls how quickly an app's set of window thumbnails will fade out when the mouse leaves the app button.
+msgid "%ctrl_thumb_timeout_desc%"
+msgstr "Steuert wie schnell die zu einer Anwendung gehörenden Vorschaubilder ausgeblendet werden beim Verlassen mit der Maus."
+
+# milliseconds
+msgid "%ctrl_thumb_timeout_unit%"
+msgstr "Millisekunden"
+
+# Thumbnail size:
+msgid "%ctrl_thumb_size%"
+msgstr "Vorschaubild Größe:"
+
+# Controls the size of the thumbnails.
+msgid "%ctrl_thumb_size_desc%"
+msgstr "Steuert die Größe der Vorschaubilder."
+
+# removed this one "size", due to not being a unit (obv)
+# also there is no information about which unit is used
+#
+msgid "%ctrl_thumb_unit%"
+msgstr " "
+
+# Show thumbnails
+msgid "%ctrl_show_thumbs%"
+msgstr "Zeige Vorschaubilder"
+
+# Show window thumbnails when hovering over an app button.
+msgid "%ctrl_show_thumbs_desc%"
+msgstr "Zeigt Fenster-Vorschaubilder beim Hovern über einen Anwendungsbutton an."
+
+# Enable vertical thumbnails
+msgid "%ctrl_vertical_thumbs%"
+msgstr "Aktiviere vertikale Vorschaubilder"
+
+# If enabled, thumbnails will stack vertically.
+msgid "%ctrl_vertical_thumbs_desc%"
+msgstr "Wenn aktiviert, werden Vorschaubilder vertikal gestapelt."
+
+# Stack window thumbnails
+msgid "%ctrl_stack_windows%"
+msgstr "Fenster-Vorschaubilder stapeln"
+
+# Stack window thumbnails if they exceed the available screen space.
+msgid "%ctrl_stack_windows_desc%"
+msgstr "Fenster-Vorschaubilder stapeln, wenn sie den vorhandenen Platz überschreiten."
+
+# Sort windows for each app by last focused
+msgid "%ctrl_windows_sort_app%"
+msgstr "Sortiert Fenster anhand zuletzt fokussierter Anwendungen."
+
+# Controls whether the order windows appear for an app is by last focused, or the order they were opened.
+msgid "%ctrl_windows_sort_app_desc%"
+msgstr "Steuert die Reihenfolge der Anzeige von Fenstern, anhand der Reihenfolge zuletzt fokussierter oder geöffneter Anwendungen."
+
+# Open thumbnails on click
+msgid "%ctrl_thumbnails_on_click%"
+msgstr "Öffnen der Vorschaubilder durch Klicken"
+
+# Open the thumbnails on click if there is more than one window open.
+msgid "%ctrl_thumbnails_on_click_desc%"
+msgstr "Öffnen der Vorschaubilder durch Klicken, wenn bereits mehr als ein Fenster geöffnet ist."
+
+# Context Menu Settings
+msgid "%context_menu_settings%"
+msgstr "Kontextmenü-Einstellungen"
+
+# Show recent items
+msgid "%ctrl_recent_context_items%"
+msgstr "Zeige neueste Einträge"
+
+# Controls whether recent items will appear in the context menu.
+msgid "%ctrl_recent_context_items_desc%"
+msgstr "Steuert ob aktualisierte Einträge im Kontextmenü angezeigt werden."
+
+# Enable option to close all windows
+msgid "%ctrl_close_all_windows%"
+msgstr "Option aktivieren um alle Fenster zu schließen"
+
+# Show a \"Close All\" context menu item to close all windows for an app.
+msgid "%ctrl_close_all_windows_desc%"
+msgstr "Zeige \"Alles schließen\" als Kontextmenüeintrag an um alle Fenster einer Anwendung zu schließen."
+
+# Context menu width:
+msgid "%ctrl_context_menu_width%"
+msgstr "Kontextmenü-Breite:"
+
+# Set the width of the context menu.
+msgid "%ctrl_context_menu_width_desc%"
+msgstr "Legt die Breite des Kontextmenüs fest."
+
+# px
+msgid "%ctrl_context_menu_width_unit%"
+msgstr "px"
+
+# Firefox context menu:
+msgid "%ctrl_ff_context_menu%"
+msgstr "Firefox Kontextmenü:"
+
+# Most Visited: show the sites you visit most, Recent History: display the the last pages you visited, Bookmarks: show your favorite bookmarks.
+msgid "%ctrl_ff_context_menu_desc%"
+msgstr "Meiste Aufrufe: Zeigt Seiten die du oft besucht hast, Aktueller Verlauf: Zeigt Seiten die du kürzlich besucht hast, Lesezeichen: Zeigt nur deine Lesezeichen."
+
+# Bookmarks
+msgid "%ctrl_ff_context_menu_bookmark%"
+msgstr "Lesezeichen"
+
+# Most Visited
+msgid "%ctrl_ff_context_menu_visited%"
+msgstr "Meiste Aufrufe"
+
+# Recent History
+msgid "%ctrl_ff_context_menu_recent%"
+msgstr "Aktueller Verlauf"
+
+# Number of context menu items:
+msgid "%ctrl_context_menu_number%"
+msgstr "Anzahl von Kontextmenü-Einträgen:"
+
+# Controls how many items appear in the context menu.
+msgid "%ctrl_context_menu_number_desc%"
+msgstr "Steuert die Anzahl der Kontextmenü-Einträge."
+
+# removed this one "number", due to not being a unit (obv)
+msgid "%ctrl_context_menu_number_unit%"
+msgstr " "
+
+# Install Gda
+msgid "%ctx_install_gda%"
+msgstr "Installiere Gda"
+
+# Visible on all workspaces
+msgid "%ctx_visible_workspace%"
+msgstr "Auf allen Arbeitsplätzen anzeigen"
+
+# Only on this workspace
+msgid "%ctx_on_this_workspace%"
+msgstr "Nur auf diesem Arbeitsplatz"
+
+# Move to left workspace
+msgid "%ctx_move_left%"
+msgstr "Auf linken Arbeitsplatz verschieben"
+
+# Move to right workspace
+msgid "%ctx_move_right%"
+msgstr "Auf rechten Arbeitsplatz verschieben"
+
+# Move to monitor
+msgid "%ctx_move_monitor%"
+msgstr "Verschieben auf Monitor"
+
+# Unpin from Panel
+msgid "%ctx_unpin%"
+msgstr "Abdocken"
+
+# Pin to Panel
+msgid "%ctx_pin%"
+msgstr "Andocken"
+
+# Close
+msgid "%ctx_close%"
+msgstr "Schließen"
+
+# Close All
+msgid "%ctx_close_all%"
+msgstr "Alles Schließen"
+
+# Settings
+msgid "%ctx_settings%"
+msgstr "Einstellungen"
+
+# ReArrange
+msgid "%ctx_rearrange%"
+msgstr "Neu anordnen"
+
+# Show Pinned
+msgid "%ctx_show_pinned%"
+msgstr "Zeige Angedockte"
+
+# Show Thumbs
+msgid "%ctx_show_thumbs%"
+msgstr "Vorschaubilder anzeigen"
+
+# Stack Thumbs
+msgid "%ctx_stack_thumbs%"
+msgstr "Vorschaubilder stapeln"
+
+# Hover to Peek
+msgid "%ctx_hover_peek%"
+msgstr "Hovern für Vorschau"
+
+# Show Recent
+msgid "%ctx_show_recent%"
+msgstr "Neueste anzeigen"
+
+# Vertical Thumbs
+msgid "%ctx_vertical_thumbs%"
+msgstr "Vertikal stapeln"
+
+#    Go to Settings (3 spaces in front of it)
+msgid "%ctx_go_settings%"
+msgstr "   Gehe zu Einstellungen"
+
+# Group apps into single icon
+msgid "%ctx_app_grouping%"
+msgstr "Gruppiere Anwendungen in einem Symbol"
+
+# Group the open app instances into single icon
+msgid "%ctx_app_grouping_desc%"
+msgstr "Gruppiere offene Anwendungen in einem Symbol"
+
+# Minimize
+msgid "%ctx_minimize%"
+msgstr "Minimieren"
+
+# Maximize
+msgid "%ctx_maximize%"
+msgstr "Maximieren"
+
+# Unmaximize
+msgid "%ctx_unmaximize%"
+msgstr "Zurücksetzen"
+
+# Restore
+msgid "%ctx_restore%"
+msgstr "Wiederherstellen"
