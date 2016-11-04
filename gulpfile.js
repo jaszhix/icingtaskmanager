@@ -20,8 +20,7 @@ gulp.task('copy', ()=> {
 gulp.task('transpile', ['copy'], () =>
   gulp.src('./src/*.js')
     .pipe(babel({
-      presets: ['es2015', 'es2016', 'es2017'],
-      ast: false
+      presets: ['es2015', 'es2016', 'es2017']
     }))
     .pipe(gulp.dest('IcingTaskManager@json'))
 );
@@ -36,7 +35,7 @@ gulp.task('install', ['transpile'], (cb)=>{
 
 gulp.task('watch', ()=> {
   //gulp.watch('./app/scripts/components/**/*.{js,jsx,es6}', ['build']);
-  gulp.watch('./src/*.js', ['install']);
+  gulp.watch('./src/*.{js,css,md,po}', ['install']);
 });
 
 gulp.task('clear-terminal', ()=> {
