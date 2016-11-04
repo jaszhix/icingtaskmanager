@@ -524,8 +524,7 @@ AppGroup.prototype = {
 
     var handleMinimizeToggle = (win)=>{
       if (win.minimized) {
-        this.app.activate()
-        win.maximize()
+        this.app.activate(win, global.get_current_time())
       } else {
         win.minimize()
       }
