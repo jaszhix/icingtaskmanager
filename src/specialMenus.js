@@ -494,22 +494,22 @@ AppMenuButtonRightClickMenu.prototype = {
       } else {
         this.addMenuItem(this.settingItem)
       }
-      // this.addMenuItem(new PopupMenu.PopupSeparatorMenuItem())
-      // this.addMenuItem(this.itemMinimizeWindow)
-      // this.addMenuItem(this.itemMaximizeWindow)
-      this.addMenuItem(this.itemCloseWindow)
+      this.addMenuItem(new PopupMenu.PopupSeparatorMenuItem())
+      this.addMenuItem(this.itemMinimizeWindow)
+      this.addMenuItem(this.itemMaximizeWindow)
       if (this.showCloseAll) {
         this.addMenuItem(this.itemCloseAllWindow)
       }
+      this.addMenuItem(this.itemCloseWindow)
       this.isFavapp = false
     } else {
-      this.addMenuItem(this.itemCloseWindow)
       if (this.showCloseAll) {
         this.addMenuItem(this.itemCloseAllWindow)
       }
-      // this.addMenuItem(this.itemMaximizeWindow)
-      // this.addMenuItem(this.itemMinimizeWindow)
-      // this.addMenuItem(new PopupMenu.PopupSeparatorMenuItem())
+      this.addMenuItem(this.itemCloseWindow)
+      this.addMenuItem(this.itemMaximizeWindow)
+      this.addMenuItem(this.itemMinimizeWindow)
+      this.addMenuItem(new PopupMenu.PopupSeparatorMenuItem())
       if (showFavs) {
         this.addMenuItem(this.itemtoggleFav)
       } else {
@@ -653,7 +653,7 @@ AppMenuButtonRightClickMenu.prototype = {
     if (this.isFav) {
       this.favs.removeFavorite(this.favId)
     } else {
-      this.favs.addFavorite(this.favId)
+      this.favs._addFavorite(this.favId, -1)
     }
   },
 
