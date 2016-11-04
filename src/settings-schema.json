@@ -32,7 +32,7 @@
  },
  "pinned-apps" : {
     "type": "generic",
-    "default": ["firefox.desktop","mintInstall.desktop","cinnamon-settings.desktop","xchat.desktop","gnome-terminal.desktop","nautilus.desktop","gedit.desktop"]
+    "default": []
  },
  "pinned-recent" : {
     "type": "generic",

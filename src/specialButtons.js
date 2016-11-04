@@ -777,7 +777,9 @@ MyAppletBox.prototype = {
   },
 
   acceptDrop: function (source, actor, x, y, time) {
-    if (!(source.isDraggableApp || (source instanceof DND.LauncherDraggable))) return false
+    if (!(source.isDraggableApp || (source instanceof DND.LauncherDraggable))) {
+      return false
+    }
 
     if (!(source.isFavapp || source.wasFavapp || source.isDraggableApp || (source instanceof DND.LauncherDraggable)) || source.isNotFavapp) {
       this.actor.move_child(source.actor, this._dragPlaceholderPos)
@@ -800,16 +802,16 @@ MyAppletBox.prototype = {
       id = app.get_id()
     }
     var favorites = this._applet.pinned_app_contr().getFavoriteMap()
-    var srcIsFavorite = (id in favorites)
+    var srcIsFavorite = favorites.hasOwnProperty(id)
     var favPos = this._dragPlaceholderPos
 
     Meta.later_add(Meta.LaterType.BEFORE_REDRAW, Lang.bind(this, function () {
       var appFavorites = this._applet.pinned_app_contr()
-      this._clearDragPlaceholder()
+      //this._clearDragPlaceholder()
       if (srcIsFavorite) {
         appFavorites.moveFavoriteToPos(id, favPos)
       } else {
-        appFavorites.addFavoriteAtPos(id, favPos)
+        appFavorites._addFavorite(id, favPos)
       } 
       return false
     }))

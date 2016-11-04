@@ -136,12 +136,13 @@ SignalTracker.prototype = {
   disconnect: function (param) {},
 
   disconnectAll: function () {
-    this._data.forEach(function (data) {
-      data.object.disconnect(data.signalID)
-      for (let prop in data) {
-        data[prop] = null
+    for (var i = this._data.length - 1; i >= 0; i--) {
+      this._data[i]
+      this._data[i].object.disconnect(this._data[i].signalID)
+      for (let prop in this._data[i]) {
+        this._data[i][prop] = null
       }
-    })
+    }
     this._data = []
   }
 }
@@ -154,14 +155,8 @@ PinnedFavs.prototype = {
   _init: function (applet) {
     this._applet = applet
     this._favorites = {}
-    this._applet.settings.connect('changed::pinned-apps', Lang.bind(this, function () { this._onFavsChanged(); }))
+    this._applet.settings.connect('changed::pinned-apps', ()=>this.emit('changed'))
     this._reload()
-  },
-
-  _onFavsChanged: function () {
-    if (this._reload()) {
-      this.emit('changed')
-    }
   },
 
   _reload: function () {
@@ -173,24 +168,21 @@ PinnedFavs.prototype = {
     }).filter(function (app) {
       return app !== undefined && app !== null
     })
-    let needReaload = false
     let keys = Object.keys(this._favorites)
 
-    for (let i = 0; i < apps.length; i++) {
+    for (let i = 0, len = apps.length; i < len; i++) {
       let app = apps[i]
       let id = app.get_id()
       if (!this._favorites[id]) {
         this._favorites[id] = app
-        needReaload = true
       } else {
         let index = keys.indexOf(id)
-        if (index != -1) {
+        if (index !== -1) {
           keys.splice(index, 1)
         }
       }
     }
     if (keys.length > 0) {
-      needReaload = true
       for (let i = 0; i < keys.length; i++) {
         let key = keys[i]
         if (keys in this._favorites) {
@@ -198,7 +190,6 @@ PinnedFavs.prototype = {
         }
       }
     }
-    return needReaload
   },
 
   _getIds: function () {
@@ -247,16 +238,8 @@ PinnedFavs.prototype = {
       ids.splice(pos, 0, appId)
     }
     this._applet.settings.setValue('pinned-apps', ids)
-    this._onFavsChanged()
+    this._reload()
     return true
-  },
-
-  addFavoriteAtPos: function (appId, pos) {
-    this._addFavorite(appId, pos)
-  },
-
-  addFavorite: function (appId) {
-    this.addFavoriteAtPos(appId, -1)
   },
 
   moveFavoriteToPos: function (appId, pos) {
@@ -270,7 +253,7 @@ PinnedFavs.prototype = {
   },
 
   _removeFavorite: function (appId) {
-    if (!appId in this._favorites) {
+    if (!this._favorites.hasOwnProperty(appId)) {
       return false
     }
 
@@ -278,7 +261,7 @@ PinnedFavs.prototype = {
       return id != appId
     })
     this._applet.settings.setValue('pinned-apps', ids)
-    this._onFavsChanged()
+    this._reload()
     return true
   },
 
@@ -523,10 +506,10 @@ AppGroup.prototype = {
     var appWindows = this.app.get_windows();
 
     var handleMinimizeToggle = (win)=>{
-      if (win.minimized) {
-        this.app.activate(win, global.get_current_time())
-      } else {
+      if (win.appears_focused) {
         win.minimize()
+      } else {
+        this.app.activate(win, global.get_current_time())
       }
     };
 
@@ -663,8 +646,9 @@ AppGroup.prototype = {
   _windowAdded: function (metaWorkspace, metaWindow) {
     let tracker = Cinnamon.WindowTracker.get_default()
     let app = AppFromWMClass(this.appList._appsys, this.appList.specialApps, metaWindow)
-    if (!app)
+    if (!app) {
       app = tracker.get_window_app(metaWindow)
+    }
     if (app == this.app && !this.metaWindows[metaWindow] && tracker.is_window_interesting(metaWindow)) {
       if (metaWindow) {
         this.lastFocused = metaWindow
@@ -1328,7 +1312,7 @@ MyApplet.prototype = {
   },
 
   acceptNewLauncher: function (path) {
-    this.pinnedAppsContr.addFavorite(path)
+    this.pinnedAppsContr._addFavorite(path, -1)
   },
 
   removeLauncher: function (appGroup) {

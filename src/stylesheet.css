@@ -76,7 +76,7 @@
 /*App List Padding is set in the the applet settings
 use to override window-list-item-box */
 .app-list-item-box{
-	z-index: -9999;
+	z-index: -1;
 }
 /* use to override panel-launcher */
 .app-is-favorite {
