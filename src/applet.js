@@ -117,6 +117,16 @@ function PinnedFavs () {
   this._init.apply(this, arguments)
 }
 
+/*
+
+
+
+MyApplet._init -> PinnedFavs
+
+
+
+*/
+
 PinnedFavs.prototype = {
   _init: function (applet) {
     this._applet = applet
@@ -217,14 +227,14 @@ PinnedFavs.prototype = {
 }
 Signals.addSignalMethods(PinnedFavs.prototype)
 
-function AppFromWMClass (appsys, applist, metaWindow) {
+function appFromWMClass (appsys, specialApps, metaWindow) {
   function startup_class (wmclass) {
     let app_final = null
-    for (var key in applist) {
-      if (applist[key].wmClass == wmclass) {
-        app_final = appsys.lookup_app(applist[key].id)
+    for (let i = 0, len = specialApps.length; i < len; i++) {
+      if (specialApps[i].wmClass == wmclass) {
+        app_final = appsys.lookup_app(specialApps[i].id)
         if (!app_final) {
-          app_final = appsys.lookup_settings_app(applist[key].id)
+          app_final = appsys.lookup_settings_app(specialApps[i].id)
         }
         app_final.wmClass = wmclass
       }
@@ -240,7 +250,7 @@ function AppFromWMClass (appsys, applist, metaWindow) {
 // of all windows of @app (all windows on workspaces
 // that are watched, that is).
 
-var __proto = Object // This is needed to support the old cinnamon implementation
+var __proto = Object // This is needed to support the old cinnamon implementation // TBD
 if (DND.LauncherDraggable) {
   __proto = DND.LauncherDraggable
 }
@@ -248,6 +258,16 @@ if (DND.LauncherDraggable) {
 function AppGroup () {
   this._init.apply(this, arguments)
 }
+
+/*
+
+
+
+MyApplet._init, signal (switch-workspace) -> _onSwitchWorkspace -> AppList._init, on_orientation_changed  -> _refreshList -> _loadFavorites, _refreshApps -> _windowAdded -> AppGroup
+
+
+
+*/
 
 AppGroup.prototype = {
   __proto__: __proto.prototype,
@@ -259,8 +279,9 @@ AppGroup.prototype = {
     this.appList = appList
 
     this._deligate = this
-    this.launchersBox = applet; // This convert the applet class in a launcherBox(is requiere to be a launcher dragable object)
-    // but you have duplicate object this._applet then...
+    // This convert the applet class in a launcherBox (is requiered to be a launcher dragable object)
+    // but you have duplicate object this._applet then... // TBD
+    this.launchersBox = applet;
     this.app = app
     this.isFavapp = isFavapp
     this.isNotFavapp = !isFavapp
@@ -286,8 +307,7 @@ AppGroup.prototype = {
     this.myactor.add(this._appButton.actor)
 
     this._appButton.actor.connect('button-press-event', Lang.bind(this, this._onAppButtonRelease))
-    // global.screen.connect('event', Lang.bind(this, this._onAppKeyPress))
-    //        global.screen.connect('key-release-event', Lang.bind(this, this._onAppKeyReleased))
+
     // Set up the right click menu for this._appButton
     this.rightClickMenu = new SpecialMenus.AppMenuButtonRightClickMenu(this, this._appButton.actor)
     this._menuManager = new PopupMenu.PopupMenuManager(this)
@@ -563,13 +583,12 @@ AppGroup.prototype = {
     // Get a list of all interesting windows that are part of this app on the current workspace
     let windowList = metaWorkspace.list_windows().filter(Lang.bind(this, function (metaWindow) {
       try {
-        let app = AppFromWMClass(this.appList._appsys, this.appList.specialApps, metaWindow)
+        let app = appFromWMClass(this.appList._appsys, this.appList.specialApps, metaWindow)
         if (!app) {
           app = tracker.get_window_app(metaWindow)
         }
         return app == this.app && tracker.is_window_interesting(metaWindow) && Main.isInteresting(metaWindow)
       } catch (e) {
-        log(e.name + ': ' + e.message)
         return false
       }
     }))
@@ -591,7 +610,7 @@ AppGroup.prototype = {
 
   _windowAdded: function (metaWorkspace, metaWindow) {
     let tracker = Cinnamon.WindowTracker.get_default()
-    let app = AppFromWMClass(this.appList._appsys, this.appList.specialApps, metaWindow)
+    let app = appFromWMClass(this.appList._appsys, this.appList.specialApps, metaWindow)
     if (!app) {
       app = tracker.get_window_app(metaWindow)
     }
@@ -616,8 +635,6 @@ AppGroup.prototype = {
         this._isFavorite(false)
       }
       this._calcWindowNumber(metaWorkspace)
-    // log(metaWindow.get_wm_class())
-    // log(metaWindow.get_wm_class_instance())
     }
     if (app && app.wmClass && !this.isFavapp) {
       this._calcWindowNumber(metaWorkspace)
@@ -652,7 +669,7 @@ AppGroup.prototype = {
       }
       this._calcWindowNumber(metaWorkspace)
     }
-    let app = AppFromWMClass(this.appList._appsys, this.appList.specialApps, metaWindow)
+    let app = appFromWMClass(this.appList._appsys, this.appList.specialApps, metaWindow)
     if (app && app.wmClass && !this.isFavapp) {
       this._calcWindowNumber(metaWorkspace)
     }
@@ -800,10 +817,6 @@ AppGroup.prototype = {
     this._appButton.destroy()
     this.myactor.destroy()
     this.actor.destroy()
-  /*this._appButton = null
-  this.actor = null
-  this.rightClickMenu = null
-  this.hoverMenu = null;*/
   }
 }
 Signals.addSignalMethods(AppGroup.prototype)
@@ -814,19 +827,30 @@ function AppList () {
   this._init.apply(this, arguments)
 }
 
+/*
+
+
+
+MyApplet._init, signal (switch-workspace) -> _onSwitchWorkspace -> AppList
+
+
+
+*/
+
 AppList.prototype = {
   _init: function (applet, metaWorkspace) {
     this._applet = applet
     this.metaWorkspace = metaWorkspace
     this.myactorbox = new SpecialButtons.MyAppletBox(this._applet)
     this.actor = this.myactorbox.actor
-    this._appList = {}
+    this._appList = []
     this._tracker = Cinnamon.WindowTracker.get_default()
     this._appsys = Cinnamon.AppSystem.get_default()
-    this.registeredApps = this._getSpecialApps()
+    this.registeredApps = []
+    //this.registeredApps = this._getSpecialApps()
     // Connect all the signals
     this._setSignals()
-    this._refreshList()
+    this._refreshList(true)
   },
 
   on_panel_edit_mode_changed: function () {
@@ -855,54 +879,54 @@ AppList.prototype = {
   },
 
   // Gets a list of every app on the current workspace
-  _refreshApps: function () {
-    // For each window, let's make sure we add it!
-    this.metaWorkspace.list_windows().forEach((win)=>{
-      this._windowAdded(this.metaWorkspace, win)
-    })
-  },
 
   _getSpecialApps: function () {
-    this.specialApps = {}
+    this.specialApps = []
     let apps = Gio.app_info_get_all()
-    for (let i = 0; i < apps.length;i++) {
+
+    for (let i = 0, len = apps.length; i < len; i++) {
       let wmClass = apps[i].get_startup_wm_class()
       if (wmClass) {
         let id = apps[i].get_id()
-        this.specialApps[id] = { id: id, wmClass: wmClass }
+        this.specialApps.push({ id: id, wmClass: wmClass })
       }
     }
   },
 
-  _refreshList: function () {
-    for (let i in this._appList) {
-      let list = this._appList[i]
-      list.appGroup.destroy()
+  _refreshList: function (init=null) {
+    for (let i = 0, len = this._appList.length; i < len; i++) {
+      this._appList[i].appGroup.destroy()
     }
-    this._appList = {}
+
+    this._appList = []
     this.registeredApps = this._getSpecialApps()
-    this._loadFavorites()
-    this._refreshApps()
+    this._loadFavorites(init)
+    this._refreshApps(init)
   },
 
-  _appGroupNumber: function (parentApp) {
-    let i = 0
-    for (let l in this._appList) {
-      let list = this._appList[l]
-      ++i
-      if (list.appGroup.app == parentApp) {
-        break
-      }
+  _loadFavorites: function (init) {
+    if (!this._applet.settings.getValue('show-pinned')) {
+      return
     }
-    return i
+    let launchers =  this._applet.pinned_app_contr()._getIds()
+
+    for (let i = 0, len = launchers.length; i < len; i++) {
+      let app = this._appsys.lookup_app(launchers[i])
+      if (!app) {
+        app = this._appsys.lookup_settings_app(launchers[i])
+      }
+      if (!app) {
+        continue
+      }
+      this._windowAdded(this.metaWorkspace, null, app, true, init)
+    }
   },
 
-  _refreshAppGroupNumber: function () {
-    let i = 0
-    for (let l in this._appList) {
-      let list = this._appList[l]
-      i = i + 1
-      list.appGroup._newAppKeyNumber(i)
+  _refreshApps: function (init) {
+    var windows = this.metaWorkspace.list_windows()
+
+    for (let i = 0, len = windows.length; i < len; i++) {
+      this._windowAdded(this.metaWorkspace, windows[i], null, null, init)
     }
   },
 
@@ -910,13 +934,12 @@ AppList.prototype = {
     // Check to see if the window that was added already has an app group.
     // If it does, then we don't need to do anything.  If not, we need to
     // create an app group.
-    // let tracker = Cinnamon.WindowTracker.get_default()
-    let tracker = this._tracker
+    let tracker = Cinnamon.WindowTracker.get_default()
     let app
     if (favapp) {
       app = favapp
     } else {
-      app = AppFromWMClass(this._appsys, this.specialApps, metaWindow)
+      app = appFromWMClass(this._appsys, this.specialApps, metaWindow)
     }
     if (!app) {
       app = tracker.get_window_app(metaWindow)
@@ -924,7 +947,11 @@ AppList.prototype = {
     if (!app) {
       return
     }
-    if (!this._appList[app]) {
+
+    var appId = app.get_id()
+    var refApp = _.findIndex(this._appList, {id: appId})
+
+    if (refApp === -1) {
       let appGroup = new AppGroup(this._applet, this, app, isFavapp)
       appGroup._updateMetaWindows(metaWorkspace)
       appGroup.watchWorkspace(metaWorkspace)
@@ -932,9 +959,11 @@ AppList.prototype = {
 
       app.connect('windows-changed', Lang.bind(this, this._onAppWindowsChanged, app))
 
-      this._appList[app] = {
+      this._appList.push({
+        id: appId,
         appGroup: appGroup
-      }
+      })
+
       let appGroupNum = this._appGroupNumber(app)
       appGroup._newAppKeyNumber(appGroupNum)
 
@@ -944,18 +973,28 @@ AppList.prototype = {
     }
   },
 
+  _appGroupNumber: function (parentApp) {
+    var result
+    for (let i = 0, len = this._appList.length; i < len; i++) {
+      if (this._appList[i].appGroup.app === parentApp) {
+        result = i
+        break
+      }
+    }
+    return result
+  },
+
   _onAppWindowsChanged: function (app) {
     let numberOfwindows = this._getNumberOfAppWindowsInWorkspace(app, this.metaWorkspace)
-    if (numberOfwindows === 0) {
+    if (!numberOfwindows || numberOfwindows === 0) {
       this._removeApp(app)
       this._calcAllWindowNumbers()
     }
   },
 
   _calcAllWindowNumbers: function () {
-    for (let l in this._appList) {
-      let list = this._appList[l]
-      list.appGroup._calcWindowNumber(this.metaWorkspace)
+    for (let i = 0, len = this._appList.length; i < len; i++) {
+      this._appList[i].appGroup._calcWindowNumber(this.metaWorkspace)
     }
   },
 
@@ -966,47 +1005,16 @@ AppList.prototype = {
 
     for (var i = 0; i < windows.length; i++) {
       let windowWorkspace = windows[i].get_workspace()
-      if (windowWorkspace.index() == workspace.index()) {
+      if (windowWorkspace.index() === workspace.index()) {
         ++result
       }
     }
     return result
   },
 
-  _removeApp: function (app) {
-    // This function may get called multiple times on the same app and so the app may have already been removed
-    let appGroup = this._appList[app]
-    if (appGroup) {
-      if (appGroup.appGroup.wasFavapp || appGroup.appGroup.isFavapp) {
-        appGroup.appGroup._isFavorite(true)
-        appGroup.appGroup.hideAppButtonLabel(true)
-        // have to delay to fix openoffice start-center bug 
-        Mainloop.timeout_add(0, Lang.bind(this, this._refreshApps))
-        return
-      }
-      delete this._appList[app]
-      appGroup.appGroup.destroy()
-      Mainloop.timeout_add(15, Lang.bind(this, function () {
-        this._refreshApps()
-        this._refreshAppGroupNumber()
-      }))
-    }
-  },
-
-  _loadFavorites: function () {
-    if (!this._applet.settings.getValue('show-pinned')) {
-      return
-    }
-    let launchers = this._applet.settings.getValue('pinned-apps')
-    for (let i = 0; i < launchers.length; ++i) {
-      let app = this._appsys.lookup_app(launchers[i])
-      if (!app) {
-        app = this._appsys.lookup_settings_app(launchers[i])
-      }
-      if (!app) {
-        continue
-      }
-      this._windowAdded(this.metaWorkspace, null, app, true)
+  _refreshAppGroupNumber: function () {
+    for (let i = 0, len = this._appList.length; i < len; i++) {
+      this._appList[i].appGroup._newAppKeyNumber(i+1)
     }
   },
 
@@ -1014,16 +1022,15 @@ AppList.prototype = {
     
     // When a window is closed, we need to check if the app it belongs
     // to has no windows left.  If so, we need to remove the corresponding AppGroup
-    // let tracker = Cinnamon.WindowTracker.get_default()
-    let tracker = this._tracker
-    let app = AppFromWMClass(this._appsys, this.specialApps, metaWindow)
+    let tracker = Cinnamon.WindowTracker.get_default()
+    let app = appFromWMClass(this._appsys, this.specialApps, metaWindow)
+
     if (!app){
       app = tracker.get_window_app(metaWindow)
     }
     if (!app) {
       return
     }
-
     let hasWindowsOnWorkspace
     if (app.wmClass) {
       hasWindowsOnWorkspace = metaWorkspace.list_windows().some(function (win) {
@@ -1040,11 +1047,33 @@ AppList.prototype = {
     }
   },
 
+  _removeApp: function (app) {
+    // This function may get called multiple times on the same app and so the app may have already been removed
+    var refApp = _.findIndex(this._appList, {id: app.get_id()})
+    if (refApp !== -1) {
+      if (this._appList[refApp].appGroup.wasFavapp || this._appList[refApp].appGroup.isFavapp) {
+        this._appList[refApp].appGroup._isFavorite(true)
+        this._appList[refApp].appGroup.hideAppButtonLabel(true)
+        // have to delay to fix openoffice start-center bug // TBD 
+        Mainloop.timeout_add(0, Lang.bind(this, this._refreshApps))
+        return
+      }
+
+      this._appList[refApp].appGroup.destroy()
+      _.pullAt(this._appList, refApp)
+
+      Mainloop.timeout_add(15, Lang.bind(this, function () {
+        //this._refreshApps()
+        this._refreshAppGroupNumber()
+      }))
+    }
+  },
+
   destroy: function () {
     this.signals.forEach(Lang.bind(this, function (s) {
       this.metaWorkspace.disconnect(s)
     }))
-    for (let i in this._appList) {
+    for (let i = 0, len = this._appList.length; i < len; i++) {
       this._appList[i].appGroup.destroy()
     }
     this._appList.destroy()
@@ -1118,10 +1147,7 @@ MyApplet.prototype = {
       Main.keybindingManager.addHotKey('move-app-to-prev-monitor', '<Shift><Super>Left', Lang.bind(this, this._onMoveToPrevMonitor))
 
       // Use a signal tracker so we don't have to keep track of all these id's manually!
-      //  global.window_manager.connect('switch-workspace', Lang.bind(this, this._onSwitchWorkspace))
-      //  global.screen.connect('notify::n-workspaces', Lang.bind(this, this._onWorkspaceCreatedOrDestroyed))
-      //  Main.overview.connect('showing', Lang.bind(this, this._onOverviewShow))
-      //  Main.overview.connect('hiding', Lang.bind(this, this._onOverviewHide))
+
       this.signals = new SignalTracker()
       this.signals.connect({
         object: global.window_manager,
@@ -1231,24 +1257,6 @@ MyApplet.prototype = {
 
   on_panel_edit_mode_changed: function () {
     this.actor.reactive = global.settings.get_boolean('panel-edit-mode')
-  },
-
-  on_orientation_changed: function (orientation) {
-    this.orientation = orientation
-    for (let workSpace in this.metaWorkspaces) {
-      this.metaWorkspaces[workSpace].appList._refreshList()
-    }
-    if (orientation == St.Side.TOP) {
-      this.actor.set_style('margin-top: 0px; padding-top: 0px;')
-    } else {
-      this.actor.set_style('margin-bottom: 0px; padding-bottom: 0px;')
-    }
-  },
-
-  on_panel_height_changed: function () {
-    for (let workSpace in this.metaWorkspaces) {
-      this.metaWorkspaces[workSpace].appList._refreshList()
-    }
   },
 
   pinned_app_contr: function () {
