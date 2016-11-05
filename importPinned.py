@@ -22,6 +22,7 @@ def importConfig():
                         oldPinned = config['pinned-apps']
                     else:
                         config['pinned-apps'] = oldPinned
+                        config['pinned-apps']['default'] = []
 
                         with open(configPath, 'wb') as data: 
                             data.write(json.dumps(config))
