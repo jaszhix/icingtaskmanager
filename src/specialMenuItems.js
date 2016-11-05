@@ -11,14 +11,6 @@ const Tooltips = imports.ui.tooltips;
 const Params = imports.misc.params;
 const clog = imports.applet.clog
 
-function _(str) {
-  let resultConf = Gettext.dgettext('IcingTaskManager@json', str);
-  if (resultConf != str) {
-    return resultConf;
-  }
-  return Gettext.gettext(str);
-}
-
 function PinnedRecentItem(menu, uri, pinIcon, title) {
   this._init(menu, uri, pinIcon, title);
 }
@@ -30,7 +22,7 @@ PinnedRecentItem.prototype = {
     PopupMenu.PopupBaseMenuItem.prototype._init.call(this, {});
 
     this._menu = menu;
-    if (menu.app.get_id() != 'firefox.desktop' && menu.app.get_id() != 'firefox web browser.desktop') {
+    if (menu.app.get_id().indexOf('firefox') !== -1) {
       this._item = this._menu._applet.recent_items_manager().lookup_item(uri);
       let icon = this._item.get_gicon();
       this._icon = new St.Icon({
