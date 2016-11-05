@@ -14,12 +14,12 @@ See more changes in the [changelog](https://github.com/jaszhix/icingtaskmanager/
 
 ### Importing pinned apps from the Window List With App Grouping applet
 
-  #### Automatic
+**Automatic**
 
   * Clone this repository or download ```importPinned.py```.
   * Run ```python importPinned.py```
 
-  #### Manual
+**Manual**
 
   * Go to directory: ~/.cinnamon/configs/WindowListGroup@jake.phy@gmail.com
   * Open the JSON file with a text editor.
