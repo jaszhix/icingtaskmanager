@@ -121,7 +121,7 @@ PinnedFavs.prototype = {
   _init: function (applet) {
     this._applet = applet
     this._favorites = []
-    this._applet.settings.connect('changed::pinned-apps', ()=>this.emit('changed'))
+    this._applet.settings.connect('changed::pinned-apps', ()=>this.emit('refreshList'))
     this._reload()
   },
 
@@ -165,9 +165,11 @@ PinnedFavs.prototype = {
       return false
     }
 
-    let app = Cinnamon.AppSystem.get_default().lookup_app(appId)
+    var appSystem = Cinnamon.AppSystem.get_default()
+
+    let app = appSystem.lookup_app(appId)
     if (!app) {
-      app = Cinnamon.AppSystem.get_default().lookup_settings_app(appId)
+      app = appSystem.lookup_settings_app(appId)
     }
 
     if (!app) {
@@ -847,7 +849,7 @@ AppList.prototype = {
     // We use connect_after so that the window-tracker time to identify the app
     this.signals.push(this.metaWorkspace.connect_after('window-added', Lang.bind(this, this._windowAdded)))
     this.signals.push(this.metaWorkspace.connect_after('window-removed', Lang.bind(this, this._windowRemoved)))
-    this._applet.pinned_app_contr().connect('changed', Lang.bind(this, this._refreshList))
+    this._applet.pinned_app_contr().connect('refreshList', Lang.bind(this, this._refreshList))
     this._applet.settings.connect('changed::show-pinned', Lang.bind(this, this._refreshList))
     global.settings.connect('changed::panel-edit-mode', Lang.bind(this, this.on_panel_edit_mode_changed))
   },
