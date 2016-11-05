@@ -1,5 +1,13 @@
 Changelog
 
+### 3.0.8
+
+  * Partial rewrite of app list and pinned app handling.
+  * Added minimize and maximize menu options.
+  * Moving windows to monitors through the context menu now brings them to the foreground.
+  * Hover Peek now only opacifies windows on the primary monitor.
+  * Added a utility to the repository allowing users to import their pinned apps automatically from the original fork.
+
 ### 3.0.7
 
   * Improved the behavior of app button window toggling.

@@ -16,7 +16,7 @@ See more changes in the [changelog](https://github.com/jaszhix/icingtaskmanager/
 
 **Automatic**
 
-  * Clone this repository or download ```importPinned.py```.
+  * Clone the repository or download ```importPinned.py```.
   * Run ```python importPinned.py```
 
 **Manual**
@@ -27,10 +27,6 @@ See more changes in the [changelog](https://github.com/jaszhix/icingtaskmanager/
   * Select and copy the block beginning with "pinned-apps" and all of its contents between the brackets.
   * Go to directory: ~/.cinnamon/configs/IcingTaskManager@json
   * Open the JSON file, replace Icing configuration's "pinned-apps" block with the one you copied. Ensure only the key ("pinned-apps"), its brackets, and its contents are replaced. Make sure the ending bracket has a trailing comma. Do not change the filename.
-
-### Firefox history
-
-You will need to install the gir1.2-gda-5.0 package to have Firefox's history show up in its context menu. Afterwards, you will need to restart Cinnamon for the changes to come into effect.
 
 ### Usage
 
