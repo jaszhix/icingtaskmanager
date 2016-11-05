@@ -247,7 +247,6 @@ IconLabelButton.prototype = {
 
     Tweener.addTween(this._label, {
       width: 1,
-            // FIXME: if this is set to 0, a whole bunch of "Clutter-CRITICAL **: clutter_paint_volume_set_width: assertion `width >= 0.0f' failed" messages appear
       time: BUTTON_BOX_ANIMATION_TIME,
       transition: 'easeOutQuad',
       onCompleteScope: this,

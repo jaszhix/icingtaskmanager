@@ -1350,7 +1350,7 @@ MyApplet.prototype = {
     let metaWorkspace = global.screen.get_active_workspace()
     let metaWindow = null
     metaWorkspace.list_windows().forEach(Lang.bind(this, function (win) {
-      if (win.appears_focused) {
+      if (win.has_focus()) {
         metaWindow = win
       }
     }))
