@@ -1,9 +1,5 @@
 const Main = imports.ui.main
 
-const clog = (input)=>{
-  Main._logInfo(JSON.stringify(input))
-};
-
 /**
 * @license
 * lodash 3.10.2 (Custom Build) <https://lodash.com/>
@@ -12529,3 +12525,30 @@ function runInContext(context) {
 
 // Export lodash.
 var lo = runInContext();
+
+
+/*
+
+Logging utility
+
+*/
+
+const clog = (label='LOG', input='...')=>{
+  try {
+    if (lo.isObject(label)) {
+      Main._logInfo(JSON.stringify(label))
+    } else {
+      if (label === undefined || !label) {
+        Main._logInfo('NULL: ')
+        Main._logTrace(label)
+      } else if (input === undefined || !input) {
+        Main._logInfo(`${label ? label : 'NULL'}: `)
+        Main._logTrace(input)
+      } else {
+        Main._logInfo(`${label}: ${JSON.stringify(input)}`)
+      }
+    }
+  } catch (e) {
+    Main._logInfo(`Could not parse logging input: ${e}`)
+  }
+};
