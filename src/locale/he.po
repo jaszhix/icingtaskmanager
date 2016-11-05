@@ -48,7 +48,7 @@ msgstr ""
 #~ msgid "Settings"
 #~ msgstr "הגדרות"
 
-#~ msgid "ReArrange"
+#~ msgid "Rearrange"
 #~ msgstr "אפשר שינוי מיקום בסרגל"
 
 #~ msgid "Show Pinned"
@@ -60,7 +60,7 @@ msgstr ""
 #~ msgid "Stack Thumbs"
 #~ msgstr "סטאק Thumbs"
 
-#~ msgid "Hover to Peek"
+#~ msgid "Peek on Hover"
 #~ msgstr "בעת הצבעה על תמונה חלון הראה אותו"
 
 #~ msgid "Show Recent"
@@ -69,8 +69,8 @@ msgstr ""
 #~ msgid "Vertical Thumbs"
 #~ msgstr "חלונות ממוזערים בצורה אנכית"
 
-#~ msgid "   Go to Settings"
-#~ msgstr "פתח את ההגדרות"
+#~ msgid "     Go to Settings"
+#~ msgstr "     פתח את ההגדרות"
 
 #~ msgid "Install Gda"
 #~ msgstr "התקנן Gda"

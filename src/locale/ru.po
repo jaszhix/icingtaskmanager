@@ -51,7 +51,7 @@ msgstr ""
 #~ msgid "Settings"
 #~ msgstr "Настройки"
 
-#~ msgid "ReArrange"
+#~ msgid "Rearrange"
 #~ msgstr "Перемещение"
 
 #~ msgid "Show Pinned"
@@ -63,7 +63,7 @@ msgstr ""
 #~ msgid "Stack Thumbs"
 #~ msgstr "Стек миниатюр"
 
-#~ msgid "Hover to Peek"
+#~ msgid "Peek on Hover"
 #~ msgstr "При наведении"
 
 #~ msgid "Show Recent"
@@ -72,8 +72,8 @@ msgstr ""
 #~ msgid "Vertical Thumbs"
 #~ msgstr "Миниатюры верт."
 
-#~ msgid "   Go to Settings"
-#~ msgstr "   Открыть настройки"
+#~ msgid "     Go to Settings"
+#~ msgstr "     Открыть настройки"
 
 #~ msgid "Install Gda"
 #~ msgstr "Установить GDA"

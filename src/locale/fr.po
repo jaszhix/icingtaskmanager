@@ -51,7 +51,7 @@ msgstr ""
 #~ msgid "Settings"
 #~ msgstr "Options"
 
-#~ msgid "ReArrange"
+#~ msgid "Rearrange"
 #~ msgstr "Modifier l'ordre des applications"
 
 #~ msgid "Show Pinned"
@@ -63,14 +63,14 @@ msgstr ""
 #~ msgid "Stack Thumbs"
 #~ msgstr "Empiler les miniatures"
 
-#~ msgid "Hover to Peek"
+#~ msgid "Peek on Hover"
 #~ msgstr "Mise en évidence des applications"
 
 #~ msgid "Vertical Thumbs"
 #~ msgstr "Miniatures verticales"
 
-#~ msgid "   Go to Settings"
-#~ msgstr "Configurer..."
+#~ msgid "     Go to Settings"
+#~ msgstr "     Configurer..."
 
 #~ msgid "Install Gda"
 #~ msgstr "Installer Gda"

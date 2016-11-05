@@ -122,22 +122,22 @@ AppMenuButtonRightClickMenu.prototype = {
       this._applet.settings.connect('changed::show-recent', Lang.bind(this, this._recent_items_changed))
       this._applet.settings.connect('changed::appmenu-width', Lang.bind(this, this._appMenu_width_changed))
 
-      this.itemCloseAllWindow = new SpecialMenuItems.IconNameMenuItem(this, _('Close All'), 'window-close')
+      this.itemCloseAllWindow = new SpecialMenuItems.IconNameMenuItem(this, _('Close All'), 'process-stop')
       this.itemCloseAllWindow.connect('activate', Lang.bind(this, this._onCloseAllActivate))
 
       this.itemCloseWindow = new SpecialMenuItems.IconNameMenuItem(this, _('Close'), 'window-close')
       this.itemCloseWindow.connect('activate', Lang.bind(this, this._onCloseWindowActivate))
 
-      this.itemMinimizeWindow = new SpecialMenuItems.IconNameMenuItem(this, _('Minimize'))
+      this.itemMinimizeWindow = new SpecialMenuItems.IconNameMenuItem(this, _('Minimize'), 'go-bottom')
       this.itemMinimizeWindow.connect('activate', Lang.bind(this, this._onMinimizeWindowActivate))
 
-      this.itemMaximizeWindow = new SpecialMenuItems.IconNameMenuItem(this, _('Maximize'))
+      this.itemMaximizeWindow = new SpecialMenuItems.IconNameMenuItem(this, _('Maximize'), 'go-up')
       this.itemMaximizeWindow.connect('activate', Lang.bind(this, this._onMaximizeWindowActivate))
 
-      this.itemMoveToLeftWorkspace = new SpecialMenuItems.IconNameMenuItem(this, _('Move to left workspace'), 'back')
+      this.itemMoveToLeftWorkspace = new SpecialMenuItems.IconNameMenuItem(this, _('Move to left workspace'), 'go-previous')
       this.itemMoveToLeftWorkspace.connect('activate', Lang.bind(this, this._onMoveToLeftWorkspace))
 
-      this.itemMoveToRightWorkspace = new SpecialMenuItems.IconNameMenuItem(this, _('Move to right workspace'), 'next')
+      this.itemMoveToRightWorkspace = new SpecialMenuItems.IconNameMenuItem(this, _('Move to right workspace'), 'go-next')
       this.itemMoveToRightWorkspace.connect('activate', Lang.bind(this, this._onMoveToRightWorkspace))
 
       this.itemOnAllWorkspaces = new SpecialMenuItems.IconNameMenuItem(this, _('Visible on all workspaces'), 'edit-copy')
@@ -190,7 +190,7 @@ AppMenuButtonRightClickMenu.prototype = {
     this.subMenuItem = new SpecialMenuItems.SubMenuItem(this, _('Settings'))
     var subMenu = this.subMenuItem.menu
 
-    this.reArrange = new SpecialMenuItems.SwitchMenuItem(this, _('ReArrange'), this._applet.arrangePinned)
+    this.reArrange = new SpecialMenuItems.SwitchMenuItem(this, _('Rearrange'), this._applet.arrangePinned)
     this.reArrange.connect('toggled', Lang.bind(this, function (item) {
       this._applet.arrangePinned = item.state
     }))
@@ -214,7 +214,7 @@ AppMenuButtonRightClickMenu.prototype = {
     }))
     this.subMenuItem.menu.addMenuItem(this.stackThumbs)
 
-    this.enablePeek = new SpecialMenuItems.SwitchMenuItem(this, _('Hover to Peek'), this._applet.enablePeek)
+    this.enablePeek = new SpecialMenuItems.SwitchMenuItem(this, _('Peek on Hover'), this._applet.enablePeek)
     this.enablePeek.connect('toggled', Lang.bind(this, function (item) {
       this._applet.enablePeek = item.state
     }))
@@ -232,7 +232,7 @@ AppMenuButtonRightClickMenu.prototype = {
     }))
     this.subMenuItem.menu.addMenuItem(this.verticalThumbs)
 
-    this.settingItem = new SpecialMenuItems.IconNameMenuItem(this, _('   Go to Settings'))
+    this.settingItem = new SpecialMenuItems.IconNameMenuItem(this, _('     Go to Settings'))
     this.settingItem.connect('activate', Lang.bind(this, this._settingMenu))
     subMenu.addMenuItem(this.settingItem)
   },
@@ -389,7 +389,6 @@ AppMenuButtonRightClickMenu.prototype = {
     if (this.pinnedItems) {
       for (var i in this.pinnedItems) {
         var item = this.pinnedItems[i]
-        // log(item.title)
         var recentMenuItem
         if (item.title) {
           recentMenuItem = new SpecialMenuItems.PinnedRecentItem(this, item.uri, 'list-remove', item.title)

@@ -39,7 +39,7 @@ msgstr ""
 #~ msgid "Visible on all workspaces"
 #~ msgstr "Mostrar en todas las áreas de trabajo"
 
-#~ msgid "ReArrange"
+#~ msgid "Rearrange"
 #~ msgstr "Reordenar"
 
 #~ msgid "Show Pinned"
@@ -51,7 +51,7 @@ msgstr ""
 #~ msgid "Stack Thumbs"
 #~ msgstr "Aplicar Miniaturas"
 
-#~ msgid "Hover to Peek"
+#~ msgid "Peek on Hover"
 #~ msgstr "Realizar Vistazo cuando el ratón está encima"
 
 #~ msgid "Vertical Thumbs"
@@ -221,8 +221,8 @@ msgstr ""
 #~ msgid "New Window"
 #~ msgstr "Nueva Ventana"
 
-#~ msgid "Go to Settings"
-#~ msgstr "Ir a configuraciones"
+#~ msgid "     Go to Settings"
+#~ msgstr "     Ir a configuraciones"
 
 #~ msgid "Unpin App"
 #~ msgstr "No fijar la aplicación"

@@ -51,7 +51,7 @@ msgstr ""
 #~ msgid "Settings"
 #~ msgstr "Einstellungen"
 
-#~ msgid "ReArrange"
+#~ msgid "Rearrange"
 #~ msgstr "Neu anordnen"
 
 #~ msgid "Show Pinned"
@@ -69,8 +69,8 @@ msgstr ""
 #~ msgid "Vertical Thumbs"
 #~ msgstr "Vertikal stapeln"
 
-#~ msgid "   Go to Settings"
-#~ msgstr "   Gehe zu Einstellungen"
+#~ msgid "     Go to Settings"
+#~ msgstr "     Gehe zu Einstellungen"
 
 #~ msgid "Install Gda"
 #~ msgstr "Installiere Gda"
