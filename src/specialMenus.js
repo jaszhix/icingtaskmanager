@@ -80,9 +80,11 @@ AppMenuButtonRightClickMenu.prototype = {
           this.toggle()
           if (windows.length === 1) {
             this.metaWindow.move_to_monitor(itemChangeMonitor.index)
+            this.app.activate(this.metaWindow, global.get_current_time())
           } else {
             for (let i = windows.length - 1; i >= 0; i--) {
               windows[i].move_to_monitor(itemChangeMonitor.index)
+              this.app.activate(windows[i], global.get_current_time())
             }
           }
           this.menuSetup(false)
@@ -92,14 +94,14 @@ AppMenuButtonRightClickMenu.prototype = {
       this.createMonitorMoveOptions = ()=>{
         var monitors = Main.layoutManager.monitors
         if (this.monitorItems.length > 0) {
-          for (var i = this.monitorItems.length - 1; i >= 0; i--) {
+          for (let i = 0, len = this.monitorItems.length; i < len; i++) {
             this.monitorItems[i].destroy()
           }
           this.monitorItems = []
         }
         var windows = this.app.get_windows()
         if (monitors.length > 1) {
-          for (let i = 0; i < monitors.length; i++) {
+          for (let i = 0, len = monitors.length; i < len; i++) {
             if (windows[0] !== undefined && windows[0].get_monitor() !== i) {
               var itemChangeMonitor = new SpecialMenuItems.IconNameMenuItem(this, _(`Move to monitor ${i+1}`), 'view-fullscreen')
               itemChangeMonitor.index = i
@@ -1511,7 +1513,7 @@ WindowThumbnail.prototype = {
     global.get_window_actors().forEach(function (wa, i) {
 
       var meta_win = wa.get_meta_window()
-      if (metaWin === meta_win) {
+      if (metaWin === meta_win || !meta_win.is_on_primary_monitor()) {
         return
       }
 
