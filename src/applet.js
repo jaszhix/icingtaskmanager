@@ -29,15 +29,8 @@ const Gio = imports.gi.Gio
 const Gtk = imports.gi.Gtk
 const GLib = imports.gi.GLib
 //const Panel = imports.ui.panel
+const _ = imports.applet.lo
 const clog = imports.applet.clog
-
-function _ (str) {
-  let resultConf = Gettext.dgettext('IcingTaskManager@json', str)
-  if (resultConf != str) {
-    return resultConf
-  }
-  return Gettext.gettext(str)
-}
 
 // Load our applet so we can access other files in our extensions dir as libraries
 const AppletDir = imports.ui.appletManager.applets['IcingTaskManager@json']
@@ -58,14 +51,6 @@ const NumberDisplay = {
 }
 
 // Some functional programming tools
-const dir = function (obj) {
-  var props = [];
-  for (var key in obj) {
-    props.push(key);
-  }
-  props.concat(Object.getOwnPropertyNames(obj))
-  return props
-}
 
 const range = function (a, b) {
   let ret = []
@@ -77,25 +62,6 @@ const range = function (a, b) {
     ret.push(i)
   }
   return ret
-}
-
-const zip = function (a, b) {
-  let ret = []
-  for (let i = 0; i < Math.min(a.length, b.length); i++) {
-    ret.push([a[i], b[i]])
-  }
-  return ret
-}
-
-const unzip = function (a) {
-  let ret1 = [],
-    ret2 = []
-  a.forEach(function (tuple) {
-    ret1.push(tuple[0])
-    ret2.push(tuple[1])
-  })
-
-  return [ret1, ret2]
 }
 
 // Connects and keeps track of signal IDs so that signals
@@ -154,7 +120,7 @@ function PinnedFavs () {
 PinnedFavs.prototype = {
   _init: function (applet) {
     this._applet = applet
-    this._favorites = {}
+    this._favorites = []
     this._applet.settings.connect('changed::pinned-apps', ()=>this.emit('changed'))
     this._reload()
   },
@@ -162,42 +128,23 @@ PinnedFavs.prototype = {
   _reload: function () {
     let ids = this._applet.settings.getValue('pinned-apps')
     let appSys = Cinnamon.AppSystem.get_default()
-    let apps = ids.map(function (id) {
-      let app = appSys.lookup_app(id)
-      return app
-    }).filter(function (app) {
-      return app !== undefined && app !== null
-    })
-    let keys = Object.keys(this._favorites)
-
-    for (let i = 0, len = apps.length; i < len; i++) {
-      let app = apps[i]
-      let id = app.get_id()
-      if (!this._favorites[id]) {
-        this._favorites[id] = app
-      } else {
-        let index = keys.indexOf(id)
-        if (index !== -1) {
-          keys.splice(index, 1)
-        }
-      }
-    }
-    if (keys.length > 0) {
-      for (let i = 0; i < keys.length; i++) {
-        let key = keys[i]
-        if (keys in this._favorites) {
-          delete this._favorites[key]
-        }
-      }
+    for (let i = 0, len = ids.length; i < len; i++) {
+      var refFav = _.findIndex(this._favorites, {id: ids[i]})
+      if (refFav === -1) {
+        let app = appSys.lookup_app(ids[i])
+        if (app !== undefined 
+          && app !== null) {
+          this._favorites.push({
+            id: ids[i],
+            app: appSys.lookup_app(ids[i])
+          })
+        }  
+      }  
     }
   },
 
   _getIds: function () {
-    let ret = []
-    for (let id in this._favorites) {
-      ret.push(id)
-    }
-    return ret
+    return _.map(this._favorites, 'id')
   },
 
   getFavoriteMap: function () {
@@ -205,19 +152,16 @@ PinnedFavs.prototype = {
   },
 
   getFavorites: function () {
-    let ret = []
-    for (let id in this._favorites) {
-      ret.push(this._favorites[id])
-    }
-    return ret
+    return _.map(this._favorites, 'app')
   },
 
   isFavorite: function (appId) {
-    return appId in this._favorites
+    var refFav = _.findIndex(this._favorites, {id: appId})
+    return refFav !== -1
   },
 
   _addFavorite: function (appId, pos) {
-    if (appId in this._favorites) {
+    if (this.isFavorite(appId)) {
       return false
     }
 
@@ -230,38 +174,38 @@ PinnedFavs.prototype = {
       return false
     }
 
-    let ids = this._getIds()
-    if (pos == -1) {
-      ids.push(appId)
+    var newFav = {
+      id: appId,
+      app: app
     }
-    else {
-      ids.splice(pos, 0, appId)
+
+    if (pos === -1) {
+      this._favorites.push(newFav)
+    } else {
+      this._favorites.splice(pos, 0, newFav)
     }
-    this._applet.settings.setValue('pinned-apps', ids)
-    this._reload()
+
+    this._applet.settings.setValue('pinned-apps', _.map(this._favorites, 'id'))
     return true
   },
 
   moveFavoriteToPos: function (appId, pos) {
-    let ids = this._getIds()
-    let old_index = ids.indexOf(appId)
-    if (pos > old_index) {
+    let oldIndex = _.findIndex(this._favorites, {id: appId})
+    if (oldIndex !== -1 && pos > oldIndex) {
       pos = pos - 1
     }
-    ids.splice(pos, 0, ids.splice(old_index, 1)[0])
-    this._applet.settings.setValue('pinned-apps', ids)
+    this._favorites.splice(pos, 0, this._favorites.splice(oldIndex, 1)[0])
+    this._applet.settings.setValue('pinned-apps', _.map(this._favorites, 'id'))
   },
 
   _removeFavorite: function (appId) {
-    if (!this._favorites.hasOwnProperty(appId)) {
+    var refFav = _.findIndex(this._favorites, {id: appId})
+    if (refFav === -1) {
       return false
     }
 
-    let ids = this._getIds().filter(function (id) {
-      return id != appId
-    })
-    this._applet.settings.setValue('pinned-apps', ids)
-    this._reload()
+    _.pullAt(this._favorites, refFav)
+    this._applet.settings.setValue('pinned-apps', _.map(this._favorites, 'id'))
     return true
   },
 
@@ -1295,7 +1239,6 @@ MyApplet.prototype = {
     if (orientation == St.Side.TOP) {
       this.actor.set_style('margin-top: 0px; padding-top: 0px;')
     } else {
-      for (let child of this.actor.get_children()) {} // TBD
       this.actor.set_style('margin-bottom: 0px; padding-bottom: 0px;')
     }
   },

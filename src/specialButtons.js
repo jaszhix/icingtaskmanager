@@ -14,6 +14,7 @@ const Meta = imports.gi.Meta
 const DND = imports.ui.dnd
 const Gettext = imports.gettext
 const Mainloop = imports.mainloop
+const _ = imports.applet.lo
 const clog = imports.applet.clog
 
 const BUTTON_BOX_ANIMATION_TIME = 0.5
@@ -27,14 +28,6 @@ const TitleDisplay = {
   None: 1,
   App: 2,
   Title: 3
-}
-
-function _ (str) {
-  var resultConf = Gettext.dgettext('IcingTaskManager@json', str)
-  if (resultConf != str) {
-    return resultConf
-  }
-  return Gettext.gettext(str)
 }
 
 // Creates a button with an icon and a label.
@@ -802,13 +795,13 @@ MyAppletBox.prototype = {
       id = app.get_id()
     }
     var favorites = this._applet.pinned_app_contr().getFavoriteMap()
-    var srcIsFavorite = favorites.hasOwnProperty(id)
+    var refFav = _.findIndex(favorites, {id: id})
     var favPos = this._dragPlaceholderPos
 
     Meta.later_add(Meta.LaterType.BEFORE_REDRAW, Lang.bind(this, function () {
       var appFavorites = this._applet.pinned_app_contr()
       //this._clearDragPlaceholder()
-      if (srcIsFavorite) {
+      if (refFav !== -1) {
         appFavorites.moveFavoriteToPos(id, favPos)
       } else {
         appFavorites._addFavorite(id, favPos)

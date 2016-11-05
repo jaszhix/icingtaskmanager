@@ -69,7 +69,10 @@ AppMenuButtonRightClickMenu.prototype = {
 
     var PinnedFavorites = this._applet.pinned_app_contr()
 
-    var menuSetup = (init)=>{
+    this.menuSetup = (init)=>{
+      if (!init) {
+        this.removeAll()
+      }
       this.monitorItems = []
 
       this.setupMonitorMoveEvent = (itemChangeMonitor, windows)=>{
@@ -82,8 +85,7 @@ AppMenuButtonRightClickMenu.prototype = {
               windows[i].move_to_monitor(itemChangeMonitor.index)
             }
           }
-          this.removeAll()
-          menuSetup(false)
+          this.menuSetup(false)
         })
       }
       
@@ -181,7 +183,7 @@ AppMenuButtonRightClickMenu.prototype = {
       }
     }
 
-    menuSetup(true)
+    this.menuSetup(true)
   },
 
   _settingsMenu: function () {
@@ -355,7 +357,7 @@ AppMenuButtonRightClickMenu.prototype = {
     try {
       actions = this.appInfo.list_actions()
     } catch (e) {
-      log('Error:  This version of cinnamon does not support actions.')
+      clog('Error:  This version of cinnamon does not support actions.')
       return
     }
     if (actions.length && this.RecentMenuItems.length) {
