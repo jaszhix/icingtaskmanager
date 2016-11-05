@@ -306,7 +306,7 @@ AppGroup.prototype = {
 
     this.myactor.add(this._appButton.actor)
 
-    this._appButton.actor.connect('button-press-event', Lang.bind(this, this._onAppButtonRelease))
+    this._appButton.actor.connect('button-release-event', Lang.bind(this, this._onAppButtonRelease))
 
     // Set up the right click menu for this._appButton
     this.rightClickMenu = new SpecialMenus.AppMenuButtonRightClickMenu(this, this._appButton.actor)
