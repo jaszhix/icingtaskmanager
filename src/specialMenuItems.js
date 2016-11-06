@@ -572,7 +572,7 @@ SubMenuItem.prototype = {
   _init: function (menu, text) {
     PopupMenu.PopupBaseMenuItem.prototype._init.call(this, {});
     let arrow = new St.Icon({
-      icon_name: "media-playback-start",
+      icon_name: 'go-next',
       style_class: 'popup-menu-icon',
       icon_size: 16
     });
@@ -581,7 +581,7 @@ SubMenuItem.prototype = {
       style_class: 'popup-menu-icon',
       icon_size: 16
     });
-    icon.style = "padding-right: 5px;";
+    icon.style = 'padding-right: 5px;';
     this.table = new St.Table({
       homogeneous: false,
       reactive: true
@@ -664,12 +664,13 @@ SubMenu.prototype = {
 
 
     this.actor._arrow_rotation = this._arrow.rotation_angle_z;
+    this._arrow.set_icon_name('go-up')
 
     if (animate) {
       let [minHeight, naturalHeight] = this.actor.get_preferred_height(-1);
       this.actor.height = 0;
       Tweener.addTween(this.actor, {
-        _arrow_rotation: -90,
+        _arrow_rotation: 0,
         height: naturalHeight,
         time: 0.25,
         onUpdateScope: this,
@@ -695,6 +696,7 @@ SubMenu.prototype = {
     this.isOpen = false;
 
     this.actor._arrow_rotation = this._arrow.rotation_angle_z;
+    this._arrow.set_icon_name('go-next')
 
     if (animate) {
       Tweener.addTween(this.actor, {

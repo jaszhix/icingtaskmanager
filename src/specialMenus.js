@@ -705,7 +705,9 @@ AppMenuButtonRightClickMenu.prototype = {
       this.menu.close()
       return true
     } else if (symbol == Clutter.KEY_Down) {
-      if (!this.menu.isOpen) this.menu.toggle()
+      if (!this.menu.isOpen) {
+        this.menu.toggle()
+      }
       this.menu.actor.navigate_focus(this.actor, Gtk.DirectionType.DOWN, false)
       return true
     } else {
