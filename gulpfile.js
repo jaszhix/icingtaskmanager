@@ -34,7 +34,6 @@ gulp.task('install', ['transpile'], (cb)=>{
 })
 
 gulp.task('watch', ()=> {
-  //gulp.watch('./app/scripts/components/**/*.{js,jsx,es6}', ['build']);
   gulp.watch('./src/*.{js,css,md,po}', ['install']);
 });
 

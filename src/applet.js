@@ -977,7 +977,7 @@ AppList.prototype = {
     var result
     for (let i = 0, len = this._appList.length; i < len; i++) {
       if (this._appList[i].appGroup.app === parentApp) {
-        result = i
+        result = i+1
         break
       }
     }
