@@ -11,15 +11,11 @@ const Util = imports.misc.util
 const St = imports.gi.St
 const Gtk = imports.gi.Gtk
 const Gio = imports.gi.Gio
-const GLib = imports.gi.GLib
 const Gettext = imports.gettext
 const Tweener = imports.ui.tweener
-const Tooltips = imports.ui.tooltips
 const clog = imports.applet.clog
 
 const AppletDir = imports.ui.appletManager.applets['IcingTaskManager@json']
-const MainApplet = AppletDir.applet
-const SpecialButtons = AppletDir.specialButtons
 const SpecialMenuItems = AppletDir.specialMenuItems
 const FireFox = AppletDir.firefox
 
@@ -169,7 +165,7 @@ AppMenuButtonRightClickMenu.prototype = {
       this.favId = this.app.get_id()
       this.isFav = this.favs.isFavorite(this.favId)
 
-      if (this._applet.showPinned != FavType.none) {
+      if (this._applet.showPinned !== FavType.none && !this.app.is_window_backed()) {
         if (this.isFav) {
           this.itemtoggleFav = new SpecialMenuItems.IconNameMenuItem(this, _('Unpin from Panel'), 'remove')
           this.itemtoggleFav.connect('activate', Lang.bind(this, this._toggleFav))
@@ -474,7 +470,11 @@ AppMenuButtonRightClickMenu.prototype = {
       }
       this.addMenuItem(new PopupMenu.PopupSeparatorMenuItem())
       this.addMenuItem(this.launchItem)
-      this.addMenuItem(this.itemtoggleFav)
+
+      if (!this.app.is_window_backed()) {
+        this.addMenuItem(this.itemtoggleFav)
+      }
+
       this.isFavapp = true
     } else if (this.orientation == St.Side.BOTTOM) {
       if (this.monitorItems.length) {
@@ -492,7 +492,8 @@ AppMenuButtonRightClickMenu.prototype = {
       }
       this.addMenuItem(new PopupMenu.PopupSeparatorMenuItem())
       this.addMenuItem(this.launchItem)
-      if (showFavs) {
+      
+      if (showFavs && !this.app.is_window_backed()) {
         this.addMenuItem(this.itemtoggleFav)
       } else {
         this.addMenuItem(this.settingItem)
