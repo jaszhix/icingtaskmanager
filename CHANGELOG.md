@@ -1,5 +1,15 @@
 Changelog
 
+### 3.0.9
+
+  * Fixed app button notification indication.
+  * Fixed text not showing beside the app button icons when title display is enabled.
+  * Fixed super key + 1 command opening the second pinned app.
+  * Quick setting sub-menu icon no longer leaves its allocated area.
+  * Changing the icon size setting now updates the applet, and no longer requires restarting Cinnamon.
+  * Adjusted the icon padding so icons are more centered.
+  * Transient windows that cannot be pinned do not have a pinned option anymore. This may be changed later.
+
 ### 3.0.8
 
   * Partial rewrite of app list and pinned app handling.
