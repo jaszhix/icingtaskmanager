@@ -20,7 +20,25 @@ gulp.task('copy', ()=> {
 gulp.task('transpile', ['copy'], () =>
   gulp.src('./src/*.js')
     .pipe(babel({
-      presets: ['es2015', 'es2016', 'es2017']
+      presets: ['es2015'],
+      ignore: './src/specialButtons.js',
+      plugins: [
+        [
+          'transform-es2015-classes',
+          {
+            loose: true
+          }
+        ],
+        [
+          'babel-plugin-transform-builtin-extend',
+          {
+            globals: ['Error', 'Array'],
+            approximate: true
+          }
+        ],
+        'transform-es2015-parameters',
+        'transform-es2015-destructuring'
+      ]
     }))
     .pipe(gulp.dest('IcingTaskManager@json'))
 );

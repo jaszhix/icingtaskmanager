@@ -76,18 +76,22 @@
 /*App List Padding is set in the the applet settings
 use to override window-list-item-box */
 .app-list-item-box{
-	z-index: -1;
+	z-index: -9;
 }
 /* use to override panel-launcher */
 .app-is-favorite {
-	/* set to make consistant with default theme hover effect */
-	border-bottom-width: 1px;
 }
 /* NumLabel */
 .window-icon-list-numlabel {
+	z-index: 99;
   text-shadow: black 1px 0px 2px
 }
 /* Non grouped container */
 .window-icon-list-buttonbox {
   spacing: 2px;
+}
+.window-list-item-demands-attention {
+}
+.app-button-label {
+	padding-left: 4px;
 }

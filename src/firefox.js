@@ -20,7 +20,6 @@ function getFirefoxHistory (applet) {
   let history = []
 
   if (!Gda) {
-    clog(' Gda Library not found install gir1.2-gda package')
     return null
   }
 

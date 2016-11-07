@@ -1,8 +1,8 @@
-// vim: expandtab shiftwidth=4 tabstop=8 softtabstop=4 encoding=utf-8 textwidth=99
-/* -*- mode: js2; js2-basic-offset: 4; indent-tabs-mode: nil -*- */
-// Some app-buttons that display an icon
-// and an label
-/* jshint moz:true */
+/*
+
+/!\ File is babel-ignored and ES5 only due to babel transpiler causing app button labels to not show.
+
+*/
 const Clutter = imports.gi.Clutter
 const Lang = imports.lang
 const Params = imports.misc.params

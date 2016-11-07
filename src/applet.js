@@ -345,11 +345,11 @@ AppGroup.prototype = {
   on_title_display_changed: function (metaWindow) {
     this._windowTitleChanged(metaWindow)
     let titleType = this._applet.settings.getValue('title-display')
-    if (titleType == TitleDisplay.Title) {
+    if (titleType === TitleDisplay.Title) {
       this.showAppButtonLabel(true)
-    } else if (titleType == TitleDisplay.App) {
+    } else if (titleType === TitleDisplay.App) {
       this.showAppButtonLabel(true)
-    } else if (titleType == TitleDisplay.None) {
+    } else if (titleType === TitleDisplay.None) {
       this.hideAppButtonLabel(true)
     }
   },
@@ -683,9 +683,11 @@ AppGroup.prototype = {
     if (metaWindow != this.lastFocused || this.isFavapp) {
       return
     }
-
     let titleType = this._applet.settings.getValue('title-display')
-    let [title, appName] = [metaWindow.get_title(), this.app.get_name()]
+
+    var title = metaWindow.get_title()
+    var appName = this.app.get_name()
+
     if (titleType == TitleDisplay.Title) {
       if (title) {
         this._appButton.setText(title)
@@ -710,10 +712,12 @@ AppGroup.prototype = {
     if (metaWindow.appears_focused) {
       this.lastFocused = metaWindow
       this._windowTitleChanged(this.lastFocused)
-      if (this._applet.sortThumbs == true) this.hoverMenu.setMetaWindow(this.lastFocused)
+      if (this._applet.sortThumbs === true) {
+        this.hoverMenu.setMetaWindow(this.lastFocused)
+      }
       this.rightClickMenu.setMetaWindow(this.lastFocused)
     }
-    if (this._applet.settings.getValue('title-display') == TitleDisplay.Focused) {
+    if (this._applet.settings.getValue('title-display') === TitleDisplay.Focused) {
       this._updateFocusedStatus()
     }
   },
