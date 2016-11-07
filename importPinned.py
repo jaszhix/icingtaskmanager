@@ -19,7 +19,6 @@ def importConfig():
             with open(configPath) as data:    
                 config = json.load(data)
 
-                
                 try:
                     if 'WindowListGroup' in applet:
                         oldPinned = config['pinned-apps']
@@ -62,7 +61,6 @@ def importConfig():
                             ('appmenu-number', config['appmenu-number']),
                             ('__md5__', config['__md5__']),
                             ])
-
 
                         orderedConfig['pinned-apps'] = oldPinned
                         orderedConfig['pinned-apps']['default'] = []

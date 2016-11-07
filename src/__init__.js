@@ -12538,10 +12538,10 @@ const clog = (label='LOG', input='...')=>{
     if (lo.isObject(label)) {
       Main._logInfo(JSON.stringify(label))
     } else {
-      if (label === undefined || !label) {
+      if (label === undefined || label === null) {
         Main._logInfo('NULL: ')
         Main._logTrace(label)
-      } else if (input === undefined || !input) {
+      } else if (input === undefined || input === null) {
         Main._logInfo(`${label ? label : 'NULL'}: `)
         Main._logTrace(input)
       } else {
@@ -12549,6 +12549,10 @@ const clog = (label='LOG', input='...')=>{
       }
     }
   } catch (e) {
-    Main._logInfo(`Could not parse logging input: ${e}`)
+    try {
+      Main._logInfo(label)
+    } catch (e) {
+      Main._logInfo(`Could not parse logging input: ${e}`)
+    }
   }
 };
