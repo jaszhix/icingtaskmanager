@@ -756,10 +756,10 @@ MyAppletBox.prototype = {
     }
 
     if (!(source.isFavapp || source.wasFavapp || source.isDraggableApp || (source instanceof DND.LauncherDraggable)) || source.isNotFavapp) {
-      this.actor.move_child(source.actor, this._dragPlaceholderPos)
+      if (this._dragPlaceholderPos !== -1) {
+        this.actor.move_child(source.actor, this._dragPlaceholderPos)
+      }
       this._clearDragPlaceholder()
-      actor.destroy()
-      return true
     }
     this.actor.move_child(source.actor, this._dragPlaceholderPos)
     var app = source.app
@@ -772,12 +772,30 @@ MyAppletBox.prototype = {
     var id
     if (source instanceof DND.LauncherDraggable) {
       id = source.getId()
+    } else if (app.is_window_backed()) {
+      id = app.get_name().toLowerCase() + '.desktop'
     } else {
       id = app.get_id()
     }
     var favorites = this._applet.pinned_app_contr().getFavoriteMap()
     var refFav = _.findIndex(favorites, {id: id})
     var favPos = this._dragPlaceholderPos
+
+    if (favPos === -1) {
+      var children = this.actor.get_children()
+
+      var pos = 0
+
+      for (var i in children) {
+        if (x > children[i].get_allocation_box().x1 + children[i].width / 2) {
+          pos = i
+        }
+      }
+      if (pos != this._dragPlaceholderPos) {
+        favPos = pos
+      }
+      this.actor.move_child(source.actor, favPos)
+    }
 
     Meta.later_add(Meta.LaterType.BEFORE_REDRAW, Lang.bind(this, function () {
       var appFavorites = this._applet.pinned_app_contr()
