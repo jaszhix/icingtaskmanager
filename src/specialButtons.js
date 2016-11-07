@@ -27,7 +27,8 @@ const Applet = AppletDir.applet
 const TitleDisplay = {
   None: 1,
   App: 2,
-  Title: 3
+  Title: 3,
+  Focused: 4
 }
 
 // Creates a button with an icon and a label.
@@ -39,7 +40,7 @@ function IconLabelButton () {
 }
 
 IconLabelButton.prototype = {
-  _init(parent) {
+  _init: function (parent) {
     if (parent.icon === null) {
       throw 'IconLabelButton icon argument must be non-null'
     }
@@ -73,11 +74,13 @@ IconLabelButton.prototype = {
     this._container.connect('get-preferred-height', Lang.bind(this, this._getPreferredHeight))
     this._container.connect('allocate', Lang.bind(this, this._allocate))
 
-        // this._icon.set_child(parent.icon);
-    this._label = new St.Label()
+    this._label = new St.Label({
+      style_class: 'app-button-label'
+    })
     this._numLabel = new St.Label({
       style_class: 'window-list-item-label window-icon-list-numlabel'
     })
+
 
     this._container.add_actor(this._icon)
     this._container.add_actor(this._label)
@@ -314,7 +317,7 @@ AppButton.prototype = {
       return workspaceIds.indexOf(win.get_workspace().index()) >= 0
     })
     var hasTransient = false
-    var handleTransient = (transient)=>{
+    var handleTransient = function(transient){
       if (transient.has_focus()) {
         hasTransient = true
         return false
@@ -350,10 +353,12 @@ AppButton.prototype = {
   },
 
   _onWindowDemandsAttention: function (display, window) {
-    var windows = this._parent.metaWindows
-    for (var w in windows) {
-      if (windows[w].win == window) {
+    var windows = this.app.get_windows()
+    for (let i = 0, len = windows.length; i < len; i++) {
+      if (windows[i].get_pid() === window.get_pid()) {
         this.getAttention()
+        this._needsAttention = true
+        this._flashButton(0)
         return true
       }
     }
@@ -420,7 +425,7 @@ WindowButton.prototype = {
     }
     this.icon_size = Math.floor(this._applet._panelHeight - 4)
     this.icon = this.app.create_icon_texture(this.icon_size)
-    IconLabelButton.prototype._init.call(this, this)
+    this.iconLabelButton = IconLabelButton.prototype._init.call(this, this)
     this.signals = []
     this._numLabel.hide()
     if (this.isFavapp) {
@@ -433,14 +438,13 @@ WindowButton.prototype = {
     if (this.metaWindow) {
       this.signals.push(this.metaWindow.connect('notify::appears-focused', Lang.bind(this, this._onFocusChange)))
       this.signals.push(this.metaWindow.connect('notify::title', Lang.bind(this, this._onTitleChange)))
-      this._updateAttentionGrabber(null, null, this._applet.showAlerts)
-      this._applet.settings.connect('changed::show-alerts', Lang.bind(this, this._updateAttentionGrabber))
-      this._applet.settings.connect('changed::title-display', ()=>{
-        this._onTitleChange()
-      })
+      this._applet.settings.connect('changed::title-display', Lang.bind(this, function () {
+          this._onTitleChange();
+      }));
 
       this._onFocusChange()
     }
+
     this._onTitleChange()
         // Set up the right click menu
     this.rightClickMenu = new AppletDir.specialMenus.AppMenuButtonRightClickMenu(this, this.actor)
@@ -450,9 +454,9 @@ WindowButton.prototype = {
 
   destroy: function () {
     if (this.metaWindow) {
-      this.signals.forEach((s)=>{
+      this.signals.forEach(Lang.bind(this, function (s) {
         this.metaWindow.disconnect(s)
-      })
+      }))
       if (this._urgent_signal) {
         global.display.disconnect(this._urgent_signal)
       }
@@ -464,28 +468,6 @@ WindowButton.prototype = {
     this._container.destroy_children()
     this._container.destroy()
     this.actor.destroy()
-  },
-
-  _updateAttentionGrabber: function (obj, oldVal, newVal) {
-    if (newVal) {
-      this._urgent_signal = global.display.connect('window-marked-urgent', Lang.bind(this, this._onWindowDemandsAttention))
-      this._attention_signal = global.display.connect('window-demands-attention', Lang.bind(this, this._onWindowDemandsAttention))
-    } else {
-      if (this._urgent_signal) {
-        global.display.disconnect(this._urgent_signal)
-      }
-      if (this._attention_signal) {
-        global.display.disconnect(this._attention_signal)
-      }
-    }
-  },
-
-  _onWindowDemandsAttention: function (display, window) {
-    if (this.metaWindow == window) {
-      this.getAttention()
-      return true
-    }
-    return false
   },
 
   _onButtonRelease: function (actor, event) {
@@ -566,7 +548,7 @@ WindowButton.prototype = {
     }
 
     var transientHasFocus = false
-    var handleTransient = (transient)=>{
+    var handleTransient = function(transient){
       if (transient.has_focus()) {
         transientHasFocus = true
         return false
@@ -594,16 +576,16 @@ WindowButton.prototype = {
   },
 
   _onTitleChange: function () {
-    let [title, appName] = [null, null]
-    if (this.isFavapp) {
-      [title, appName] = ['', '']
-    } else {
-      [title, appName] = [this.metaWindow.get_title(), this.app.get_name()]
+    var title = ''
+    var appName = ''
+    if (!this.isFavapp) {
+      title = this.metaWindow.get_title()
+      appName = this.app.get_name()
     }
     var titleType = this._applet.settings.getValue('title-display')
     if (titleType === TitleDisplay.Title) {
-            // Some apps take a long time to set a valid title.  We don't want to error
-            // if title is null
+      // Some apps take a long time to set a valid title.  We don't want to error
+      // if title is null
       if (title) {
         this.setText(title)
       } else {
