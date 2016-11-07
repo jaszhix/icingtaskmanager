@@ -248,7 +248,7 @@ msgstr ""
 #~ "Empilez les miniatures de la fenêtre si elles dépassent l'espace "
 #~ "disponible."
 
-#~ msgid "Number Display:"
+#~ msgid "Number display:"
 #~ msgstr "Affichage du nombre d'instances :"
 
 #~ msgid ""

@@ -168,7 +168,7 @@ msgstr ""
 #~ "Apilar Miniaturas de Ventanas, si hay muchas imágenes de miniaturas en la "
 #~ "pantalla"
 
-#~ msgid "Number Display:"
+#~ msgid "Number display:"
 #~ msgstr "Mostrar Número:"
 
 #~ msgid ""

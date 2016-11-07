@@ -237,7 +237,7 @@ msgstr ""
 #~ msgstr ""
 #~ "Расположить миниатюры в несколько строк при достижении границы экрана."
 
-#~ msgid "Number Display:"
+#~ msgid "Number display:"
 #~ msgstr "Число окон:"
 
 #~ msgid "Stack window thumbnails if they exceed the available screen space."

@@ -94,7 +94,7 @@ IconLabelButton.prototype = {
   },
 
   setIconPadding: function () {
-    this.actor.style = 'padding-bottom: 0px;padding-top:0px; padding-left: ' + this._applet.iconPadding + 'px;padding-right:' + this._applet.iconPadding + 'px;'
+    this.actor.style = 'padding-bottom: 0px;padding-top:0px; padding-left: ' + this._applet.iconPadding + 'px;padding-right:' + (this._applet.iconPadding - 5) + 'px;'
   },
 
   setIconSize: function () {
