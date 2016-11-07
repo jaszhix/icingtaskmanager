@@ -87,18 +87,20 @@ IconLabelButton.prototype = {
     this._container.add_actor(this._numLabel)
 
     this.setIconPadding()
-    this.setIconSize(this._applet.iconSize)
+    this.setIconSize()
 
     this._applet.settings.connect('changed::icon-padding', Lang.bind(this, this.setIconPadding))
+    this._applet.settings.connect('changed::icon-size', Lang.bind(this, this.setIconSize))
   },
 
   setIconPadding: function () {
     this.actor.style = 'padding-bottom: 0px;padding-top:0px; padding-left: ' + this._applet.iconPadding + 'px;padding-right:' + this._applet.iconPadding + 'px;'
   },
 
-  setIconSize: function (val) {
+  setIconSize: function () {
+    var size = this._applet.iconSize
     if (this._applet.enableIconSize) {
-      this._icon.set_size(val, val)
+      this._icon.set_size(size, size)
     }
   },
 
@@ -357,8 +359,6 @@ AppButton.prototype = {
     for (let i = 0, len = windows.length; i < len; i++) {
       if (windows[i].get_pid() === window.get_pid()) {
         this.getAttention()
-        this._needsAttention = true
-        this._flashButton(0)
         return true
       }
     }
