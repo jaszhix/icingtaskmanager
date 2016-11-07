@@ -657,7 +657,16 @@ AppMenuButtonRightClickMenu.prototype = {
     if (this.isFav) {
       this.favs.removeFavorite(this.favId)
     } else {
-      this.favs._addFavorite(this.favId, -1)
+      if (this.app.is_window_backed()) {
+
+        // TBD
+        var proc = this.app.get_windows()[0].get_pid()
+        var cmd = 'bash -c "python ~/.local/share/cinnamon/applets/IcingTaskManager@json/utils.py get_process '+proc.toString()+'"'
+        Util.trySpawnCommandLine(cmd)
+        
+      } else {
+        this.favs._addFavorite(this.favId, -1)
+      }
     }
   },
 
