@@ -3,7 +3,7 @@ const Cinnamon = imports.gi.Cinnamon
 const St = imports.gi.St
 const Mainloop = imports.mainloop
 const Gio = imports.gi.Gio
-const _ = imports.applet.lo
+const _ = imports.applet._
 const clog = imports.applet.clog
 
 const AppletDir = imports.ui.appletManager.applets['IcingTaskManager@json']

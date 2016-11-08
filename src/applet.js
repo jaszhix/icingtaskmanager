@@ -23,7 +23,7 @@ const Gio = imports.gi.Gio
 const Gtk = imports.gi.Gtk
 const GLib = imports.gi.GLib
 
-const _ = imports.applet.lo
+const _ = imports.applet._
 const clog = imports.applet.clog
 
 const AppletDir = imports.ui.appletManager.applets['IcingTaskManager@json']
