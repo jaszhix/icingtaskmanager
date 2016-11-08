@@ -20,8 +20,17 @@ gulp.task('copy', ()=> {
 gulp.task('transpile', ['copy'], () =>
   gulp.src('./src/*.js')
     .pipe(babel({
-      presets: ['es2015'],
-      ignore: './src/specialButtons.js',
+      presets: [
+        'es2015',
+        [
+          'env', 
+          {
+            targets: {
+              firefox: 31 
+            }
+          }
+        ]
+      ],
       plugins: [
         [
           'transform-es2015-classes',
@@ -32,8 +41,8 @@ gulp.task('transpile', ['copy'], () =>
         [
           'babel-plugin-transform-builtin-extend',
           {
-            globals: ['Error', 'Array'],
-            approximate: true
+            globals: ['Error', 'Array', 'Set', 'Object'],
+            approximate: false
           }
         ],
         'transform-es2015-parameters',

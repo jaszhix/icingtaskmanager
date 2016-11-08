@@ -1,8 +1,3 @@
-/*
-
-/!\ File is babel-ignored and ES5 only due to babel transpiler causing app button labels to not show.
-
-*/
 const Clutter = imports.gi.Clutter
 const Lang = imports.lang
 const Params = imports.misc.params
@@ -12,9 +7,8 @@ const St = imports.gi.St
 const Tweener = imports.ui.tweener
 const Meta = imports.gi.Meta
 const DND = imports.ui.dnd
-const Gettext = imports.gettext
 const Mainloop = imports.mainloop
-const _ = imports.applet.lo
+const _ = imports.applet._
 const clog = imports.applet.clog
 
 const BUTTON_BOX_ANIMATION_TIME = 0.5
@@ -22,7 +16,6 @@ const MAX_BUTTON_WIDTH = 150 // Pixels
 const FLASH_INTERVAL = 500
 
 const AppletDir = imports.ui.appletManager.applets['IcingTaskManager@json']
-const Applet = AppletDir.applet
 
 const TitleDisplay = {
   None: 1,
@@ -182,7 +175,7 @@ IconLabelButton.prototype = {
     var direction = this.actor.get_text_direction()
 
         // Set the icon to be left-justified (or right-justified) and centered vertically
-    let [iconMinWidth, iconMinHeight, iconNaturalWidth, iconNaturalHeight] = this._icon.get_preferred_size();
+    let [iconNaturalWidth, iconNaturalHeight] = this._icon.get_preferred_size();
     [childBox.y1, childBox.y2] = center(allocHeight, iconNaturalHeight)
     if (direction == Clutter.TextDirection.LTR) {
       [childBox.x1, childBox.x2] = [0, Math.min(iconNaturalWidth, allocWidth)]
@@ -193,7 +186,7 @@ IconLabelButton.prototype = {
         //        log('allocateA ' + [childBox.x1<0, childBox.x2<0, childBox.y1, childBox.y2] + ' ' + [childBox.x2-childBox.x1, childBox.y2-childBox.y1])
         // Set the label to start its text in the left of the icon
     var iconWidth = childBox.x2 - childBox.x1;
-    [minWidth, minHeight, naturalWidth, naturalHeight] = this._label.get_preferred_size();
+    var [naturalWidth, naturalHeight] = this._label.get_preferred_size();
     [childBox.y1, childBox.y2] = center(allocHeight, naturalHeight)
     if (direction == Clutter.TextDirection.LTR) {
       childBox.x1 = iconWidth
@@ -226,7 +219,7 @@ IconLabelButton.prototype = {
     } else if (this._label.width < (this._label.text.length * 7) - 5 || this._label.width > (this._label.text.length * 7) + 5) {
       this._label.set_width(-1)
     }
-    let [minWidth, naturalWidth] = this._label.get_preferred_width(-1)
+    let naturalWidth = this._label.get_preferred_width(-1)
     var width = Math.min(targetWidth || naturalWidth, 150)
     if (setToZero) {
       this._label.width = 1
@@ -281,6 +274,7 @@ AppButton.prototype = {
     this._parent = parent
     this.isFavapp = parent.isFavapp
     IconLabelButton.prototype._init.call(this, this)
+
     if (this.isFavapp) {
       this._isFavorite(true)
     }
@@ -312,12 +306,15 @@ AppButton.prototype = {
 
   _hasFocus: function () {
     var workspaceIds = []
-    for (let w in this.metaWorkspaces) {
-      workspaceIds.push(this.metaWorkspaces[w].workspace.index())
-    }
-    var windows = this.app.get_windows().filter(function (win) {
+
+    _.each(this.metaWorkspaces, function(metaWorkspace){
+      workspaceIds.push(metaWorkspace.workspace.index())
+    })
+
+    var windows = _.filter(this.app.get_windows(), function(win){
       return workspaceIds.indexOf(win.get_workspace().index()) >= 0
     })
+
     var hasTransient = false
     var handleTransient = function(transient){
       if (transient.has_focus()) {
@@ -326,15 +323,14 @@ AppButton.prototype = {
       }
       return true
     };
-    for (let w in windows) {
-      var window = windows[w]
-      if (window.minimized) {
+
+    for (let i = 0, len = windows.length; i < len; i++) {
+      if (windows[i].minimized) {
         continue
       }
-      if (window.has_focus()) {
+      if (windows[i].has_focus()) {
         return true
       }
-
       window.foreach_transient(handleTransient)
     }
     return hasTransient
