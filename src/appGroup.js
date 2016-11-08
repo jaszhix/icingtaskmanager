@@ -7,7 +7,7 @@ const Tweener = imports.ui.tweener
 const PopupMenu = imports.ui.popupMenu
 const Signals = imports.signals
 const DND = imports.ui.dnd
-//const _ = imports.applet.lo
+const _ = imports.applet._
 const clog = imports.applet.clog
 
 // Load our applet so we can access other files in our extensions dir as libraries
@@ -47,7 +47,7 @@ AppGroup.prototype = {
     this.isFavapp = isFavapp
     this.isNotFavapp = !isFavapp
     this.orientation = applet.orientation
-    this.metaWindows = {}
+    this.metaWindows = []
     this.metaWorkspaces = {}
     this.actor = new St.Bin({
       reactive: true,
@@ -316,14 +316,13 @@ AppGroup.prototype = {
       }
       Main.activateWindow(this.lastFocused, global.get_current_time())
       this.actor.add_style_pseudo_class('focus')
-    // this._removeAlerts(this.metaWindow)
     }
   },
   _getLastFocusedWindow: function () {
     // Get a list of windows and sort it in order of last access
-    let list = []
-    for (let win in this.metaWindows) {
-      list.push([ this.metaWindows[win].win.user_time, this.metaWindows[win].win])
+    /*let list = []
+    for (let i = 0, len = this.metaWindows.length; i < len; i++) {
+      list.push([ this.metaWindows[i].win.user_time, this.metaWindows[i].win])
     }
     list.sort(function (a, b) {
       return a[0] - b[0]
@@ -333,7 +332,8 @@ AppGroup.prototype = {
       return list[0][1]
     } else {
       return null
-    }
+    }*/
+    return _.orderBy(this.metaWindows, 'win.user_time')
   },
 
   // updates the internal list of metaWindows
@@ -342,21 +342,25 @@ AppGroup.prototype = {
   _updateMetaWindows: function (metaWorkspace) {
     let tracker = Cinnamon.WindowTracker.get_default()
     // Get a list of all interesting windows that are part of this app on the current workspace
-    let windowList = metaWorkspace.list_windows().filter(Lang.bind(this, function (metaWindow) {
+    var windowList = _.filter(metaWorkspace.list_windows(), (win)=>{
       try {
-        let app = App.appFromWMClass(this.appList._appsys, this.appList.specialApps, metaWindow)
+        let app = App.appFromWMClass(this.appList._appsys, this.appList.specialApps, win)
         if (!app) {
-          app = tracker.get_window_app(metaWindow)
+          app = tracker.get_window_app(win)
         }
-        return app == this.app && tracker.is_window_interesting(metaWindow) && Main.isInteresting(metaWindow)
+        return app == this.app && tracker.is_window_interesting(win) && Main.isInteresting(win)
       } catch (e) {
         return false
       }
-    }))
-    this.metaWindows = {}
-    windowList.forEach((win)=>{
-      this._windowAdded(metaWorkspace, win)
     })
+
+    this.metaWindows = []
+
+
+
+    for (let i = 0, len = windowList.length; i < len; i++) {
+      this._windowAdded(metaWorkspace, windowList[i])
+    }
 
     // When we first populate we need to decide which window
     // will be triggered when the app button is pressed
@@ -375,23 +379,38 @@ AppGroup.prototype = {
     if (!app) {
       app = tracker.get_window_app(metaWindow)
     }
-    if (app == this.app && !this.metaWindows[metaWindow] && tracker.is_window_interesting(metaWindow)) {
+
+
+    var refWindow = _.findIndex(this.metaWindows, (win)=>{
+      return _.isEqual(win.win, metaWindow)
+    })
+
+    if (app == this.app && refWindow === -1 && tracker.is_window_interesting(metaWindow)) {
       if (metaWindow) {
         this.lastFocused = metaWindow
         this.rightClickMenu.setMetaWindow(this.lastFocused)
         this.hoverMenu.setMetaWindow(this.lastFocused)
       }
+
       let signals = []
-      this._applet.settings.connect('changed::title-display', Lang.bind(this, function () {
+
+      this._applet.settings.connect('changed::title-display', ()=>{
         this.on_title_display_changed(metaWindow)
         this._windowTitleChanged(metaWindow)
-      }))
+      })
+
       signals.push(metaWindow.connect('notify::title', Lang.bind(this, this._windowTitleChanged)))
       signals.push(metaWindow.connect('notify::appears-focused', Lang.bind(this, this._focusWindowChange)))
+
       let data = {
         signals: signals
       }
-      this.metaWindows[metaWindow] = {win: metaWindow, data: data}
+
+      this.metaWindows.push({
+        win: metaWindow, 
+        data: data
+      })
+
       if (this.isFavapp) {
         this._isFavorite(false)
       }
@@ -404,31 +423,32 @@ AppGroup.prototype = {
 
   _windowRemoved: function (metaWorkspace, metaWindow) {
     let deleted
-    if (this.metaWindows[metaWindow]) {
-      deleted = this.metaWindows[metaWindow].data
+
+    var refWindow = _.findIndex(this.metaWindows, (win)=>{
+      return _.isEqual(win.win, metaWindow)
+    })
+
+    if (refWindow !== -1) {
+      deleted = this.metaWindows[refWindow].data
     }
     if (deleted) {
       let signals = deleted.signals
       // Clean up all the signals we've connected
-      for (let i = 0; i < signals.length; i++) {
+      for (let i = 0, len = signals.length; i < len; i++) {
         metaWindow.disconnect(signals[i])
       }
-      delete this.metaWindows[metaWindow]
 
-      // Make sure we don't leave our appButton hanging!
-      // That is, we should no longer display the old app in our title
-      let nextWindow
-      for (let i in this.metaWindows) {
-        nextWindow = this.metaWindows[i].win
-        break
-      }
-      if (nextWindow) {
-        this.lastFocused = nextWindow
+      this.metaWindows = _.without(this.metaWindows, refWindow)
+      _.pullAt(this.metaWindows, refWindow)
+
+      if (this.metaWindows.length > 0) {
+        this.lastFocused = _.last(this.metaWindows).win
         this._windowTitleChanged(this.lastFocused)
         this.hoverMenu.setMetaWindow(this.lastFocused)
         this.rightClickMenu.setMetaWindow(this.lastFocused)
+
+        this._calcWindowNumber(metaWorkspace)
       }
-      this._calcWindowNumber(metaWorkspace)
     }
     let app = App.appFromWMClass(this.appList._appsys, this.appList.specialApps, metaWindow)
     if (app && app.wmClass && !this.isFavapp) {
@@ -485,9 +505,9 @@ AppGroup.prototype = {
 
   _updateFocusedStatus: function (force) {
     let focusState
-    for ( let win in this.metaWindows) {
-      if (this.metaWindows[win].win.appears_focused) {
-        focusState = this.metaWindows[win].win
+    for (let i = 0, len = this.metaWindows.length; i < len; i++) {
+      if (this.metaWindows[i].win.appears_focused) {
+        focusState = this.metaWindows[i].win
         break
       }
     }
@@ -517,16 +537,10 @@ AppGroup.prototype = {
 
   _calcWindowNumber: function (metaWorkspace) {
     if (!this._appButton) {
-      throw 'Error: got a _calcWindowNumber callback but this._appButton is undefined'
+      clog('Error: got a _calcWindowNumber callback but this._appButton is undefined')
     }
-    let windowNum
-    if (this.app.wmClass) {
-      windowNum = metaWorkspace.list_windows().filter(Lang.bind(this, function (win) {
-        return this.app.wmClass == win.get_wm_class_instance() && Main.isInteresting(win)
-      })).length
-    } else {
-      windowNum = this.appList._getNumberOfAppWindowsInWorkspace(this.app, metaWorkspace)
-    }
+    let windowNum = this.metaWindows.length
+    //windowNum = this.appList._getNumberOfAppWindowsInWorkspace(this.app, metaWorkspace)
     let numDisplay = this._applet.settings.getValue('number-display')
     this._appButton._numLabel.text = windowNum.toString()
     if (numDisplay === App.NumberDisplay.Smart) {
@@ -570,12 +584,16 @@ AppGroup.prototype = {
     // Unwatch all workspaces before we destroy all our actors
     // that callbacks depend on
 
-    for (let i in this.metaWindows) {
-      let metaWindow = this.metaWindows[i]
-      metaWindow.data.signals.forEach(function (s) {
-        metaWindow.win.disconnect(s)
-      })
+    var destroyWindowSignal = (metaWindow)=>{
+      for (let i = 0, len = metaWindow.data.signals.length; i < len; i++) {
+        metaWindow.win.disconnect(metaWindow.data.signals[i])
+      }
     }
+
+    for (let i = 0, len = this.metaWindows.length; i < len; i++) {
+      destroyWindowSignal(this.metaWindows[i])
+    }
+
     this.unwatchWorkspace(null)
     this.rightClickMenu.destroy()
     this.hoverMenu.destroy()

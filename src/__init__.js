@@ -14,7 +14,7 @@ switch(r.length){case 0:return new n;case 1:return new n(r[0]);case 2:return new
 const Main = imports.ui.main
 const clog = (label='LOG', input='...')=>{
   try {
-    if (lo.isObject(label)) {
+    if (_.isObject(label)) {
       Main._logInfo(JSON.stringify(label))
     } else {
       if (label === undefined || label === null) {
