@@ -33,7 +33,6 @@ AppList.prototype = {
     this.metaWorkspace = metaWorkspace
     this.myactorbox = new SpecialButtons.MyAppletBox(this._applet)
     this.actor = this.myactorbox.actor
-    this._appList = []
     this._tracker = Cinnamon.WindowTracker.get_default()
     this._appsys = Cinnamon.AppSystem.get_default()
     this.registeredApps = []
@@ -84,11 +83,11 @@ AppList.prototype = {
   },
 
   _refreshList: function (init=null) {
-    for (let i = 0, len = this._appList.length; i < len; i++) {
-      this._appList[i].appGroup.destroy()
+    for (let i = 0, len = this._applet.appList.length; i < len; i++) {
+      this._applet.appList[i].appGroup.destroy()
     }
 
-    this._appList = []
+    this._applet.appList = []
     this.registeredApps = this._getSpecialApps()
     this._loadFavorites(init)
     this._refreshApps(init)
@@ -139,7 +138,7 @@ AppList.prototype = {
     }
 
     var appId = app.get_id()
-    var refApp = _.findIndex(this._appList, {id: appId})
+    var refApp = _.findIndex(this._applet.appList, {id: appId})
 
     if (refApp === -1) {
       let appGroup = new AppGroup.AppGroup(this._applet, this, app, isFavapp)
@@ -149,11 +148,11 @@ AppList.prototype = {
 
       app.connect('windows-changed', Lang.bind(this, this._onAppWindowsChanged, app))
 
-      this._appList.push({
+      this._applet.appList.push({
         id: appId,
         appGroup: appGroup
       })
-      this._applet.appList = this._appList
+      this._applet.appList = this._applet.appList
 
       let appGroupNum = this._appGroupNumber(app)
       appGroup._newAppKeyNumber(appGroupNum)
@@ -166,8 +165,8 @@ AppList.prototype = {
 
   _appGroupNumber: function (parentApp) {
     var result
-    for (let i = 0, len = this._appList.length; i < len; i++) {
-      if (this._appList[i].appGroup.app === parentApp) {
+    for (let i = 0, len = this._applet.appList.length; i < len; i++) {
+      if (this._applet.appList[i].appGroup.app === parentApp) {
         result = i+1
         break
       }
@@ -184,8 +183,8 @@ AppList.prototype = {
   },
 
   _calcAllWindowNumbers: function () {
-    for (let i = 0, len = this._appList.length; i < len; i++) {
-      this._appList[i].appGroup._calcWindowNumber(this.metaWorkspace)
+    for (let i = 0, len = this._applet.appList.length; i < len; i++) {
+      this._applet.appList[i].appGroup._calcWindowNumber(this.metaWorkspace)
     }
   },
 
@@ -204,8 +203,8 @@ AppList.prototype = {
   },
 
   _refreshAppGroupNumber: function () {
-    for (let i = 0, len = this._appList.length; i < len; i++) {
-      this._appList[i].appGroup._newAppKeyNumber(i+1)
+    for (let i = 0, len = this._applet.appList.length; i < len; i++) {
+      this._applet.appList[i].appGroup._newAppKeyNumber(i+1)
     }
   },
 
@@ -240,18 +239,18 @@ AppList.prototype = {
 
   _removeApp: function (app) {
     // This function may get called multiple times on the same app and so the app may have already been removed
-    var refApp = _.findIndex(this._appList, {id: app.get_id()})
+    var refApp = _.findIndex(this._applet.appList, {id: app.get_id()})
     if (refApp !== -1) {
-      if (this._appList[refApp].appGroup.wasFavapp || this._appList[refApp].appGroup.isFavapp) {
-        this._appList[refApp].appGroup._isFavorite(true)
-        this._appList[refApp].appGroup.hideAppButtonLabel(true)
+      if (this._applet.appList[refApp].appGroup.wasFavapp || this._applet.appList[refApp].appGroup.isFavapp) {
+        this._applet.appList[refApp].appGroup._isFavorite(true)
+        this._applet.appList[refApp].appGroup.hideAppButtonLabel(true)
         // have to delay to fix openoffice start-center bug // TBD 
         Mainloop.timeout_add(0, Lang.bind(this, this._refreshApps))
         return
       }
 
-      this._appList[refApp].appGroup.destroy()
-      _.pullAt(this._appList, refApp)
+      this._applet.appList[refApp].appGroup.destroy()
+      _.pullAt(this._applet.appList, refApp)
 
       Mainloop.timeout_add(15, Lang.bind(this, function () {
         //this._refreshApps()
@@ -264,10 +263,10 @@ AppList.prototype = {
     this.signals.forEach(Lang.bind(this, function (s) {
       this.metaWorkspace.disconnect(s)
     }))
-    for (let i = 0, len = this._appList.length; i < len; i++) {
-      this._appList[i].appGroup.destroy()
+    for (let i = 0, len = this._applet.appList.length; i < len; i++) {
+      this._applet.appList[i].appGroup.destroy()
     }
-    this._appList.destroy()
-    this._appList = null
+    this._applet.appList.destroy()
+    this._applet.appList = null
   }
 }

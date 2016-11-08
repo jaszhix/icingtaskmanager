@@ -299,6 +299,7 @@ MyApplet.prototype = {
       Main.keybindingManager.addHotKey('move-app-to-next-monitor', '<Shift><Super>Right', Lang.bind(this, this._onMoveToNextMonitor))
       Main.keybindingManager.addHotKey('move-app-to-prev-monitor', '<Shift><Super>Left', Lang.bind(this, this._onMoveToPrevMonitor))
 
+      // Cached in the root class so PinnedFavs has access.
       this.appList = []
 
       // Use a signal tracker so we don't have to keep track of all these id's manually!
