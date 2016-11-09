@@ -353,7 +353,7 @@ AppButton.prototype = {
   _onWindowDemandsAttention: function (display, window) {
     var windows = this.app.get_windows()
     for (let i = 0, len = windows.length; i < len; i++) {
-      if (windows[i].get_pid() === window.get_pid()) {
+      if (_.isEqual(windows[i], window)) {
         this.getAttention()
         return true
       }
