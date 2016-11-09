@@ -1,231 +1,316 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
 msgid ""
 msgstr ""
-"Project-Id-Version: Window List Group 2.8\n"
-"Report-Msgid-Bugs-To: NA\n"
-"POT-Creation-Date: 2015-07-16 23:04+0800\n"
-"PO-Revision-Date: 2014-09-09 13:31-0600\n"
-"Last-Translator: Lester Carballo Pérez <lestcape@gmail.com>\n"
-"Language-Team: jake-phy <jake.phy@gmail.com>\n"
-"Language: es\n"
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Poedit 1.5.4\n"
+"X-Generator: Poedit 1.8.7.1\n"
+"Last-Translator: Pandiora <Pandiora@github.com>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language: es\n"
 
-#~ msgid "Close All"
-#~ msgstr "Cerrar Todo"
+msgid "Icing Task Manager"
+msgstr "Icing Task Manager"
 
-#~ msgid "Close"
-#~ msgstr "Cerrar"
+msgid "Window List with App Grouping and Window Thumbnails"
+msgstr ""
 
-#~ msgid "Minimize"
-#~ msgstr "Minimizar"
+msgid "Window List Settings"
+msgstr "Configuración de la Lista de Ventanas"
 
-#~ msgid "Maximize"
-#~ msgstr "Maximizar"
+msgid "Number Display:"
+msgstr "Mostrar Número:"
 
-#~ msgid "Move to left workspace"
-#~ msgstr "Mover al área de trabajo de la izquierda"
+msgid ""
+"normal: display window number, smart: display window number if more than one "
+"window, none: don't display number, all: display window number for favorites "
+"too"
+msgstr ""
+"normal: muestra el número de la ventana, inteligente: muestra el número de "
+"la ventana, solo si hay más de una, nada: no muestra el número, todos: "
+"muestra el número también para favoritos"
 
-#~ msgid "Move to right workspace"
-#~ msgstr "Mover al área de trabajo de la derecha"
+msgid "All"
+msgstr "todos"
 
-#~ msgid "Visible on all workspaces"
-#~ msgstr "Mostrar en todas las áreas de trabajo"
+msgid "Smart"
+msgstr "inteligente"
 
-#~ msgid "Rearrange"
-#~ msgstr "Reordenar"
+msgid "Normal"
+msgstr "normal"
 
-#~ msgid "Show Pinned"
-#~ msgstr "Mostrar Fijadas "
+msgid "None"
+msgstr "nada"
 
-#~ msgid "Show Thumbs"
-#~ msgstr "Mostrar Miniaturas"
+msgid "Title display:"
+msgstr "Título de pantalla:"
 
-#~ msgid "Stack Thumbs"
-#~ msgstr "Aplicar Miniaturas"
+msgid ""
+"focused: show focused window title, title: display the window title, app: "
+"diplay app name, none: don't display anything"
+msgstr ""
+"enfocado: muestra el título de la ventana con el foco, título: muestra el "
+"título de la ventana, aplicación: muestra el nombre de la aplicación, nada: "
+"no muestra nada"
 
-#~ msgid "Peek on Hover"
-#~ msgstr "Realizar Vistazo cuando el ratón está encima"
+msgid "Focused"
+msgstr "enfocado"
 
-#~ msgid "Vertical Thumbs"
-#~ msgstr "Miniaturas verticales"
+msgid "App"
+msgstr "aplicación"
 
-#~ msgid "Only on this workspace"
-#~ msgstr "Solo en esta área de trabajo"
+msgid "Title"
+msgstr "título"
 
-#~ msgid "Unmaximize"
-#~ msgstr "No maximizada"
+msgid "Show app alerts and notifications"
+msgstr ""
 
-#~ msgid "Restore"
-#~ msgstr "Restaurar"
+msgid "If enabled, notifications and alerts will appear."
+msgstr ""
 
-#~ msgid "Thumbnail Size:"
-#~ msgstr "Tamaño de las Miniaturas:"
+msgid "Show pinned apps"
+msgstr "Mostrar aplicaciones fijas"
 
-#~ msgid "Opacity of the windows on peek."
-#~ msgstr "Opacidad de las ventanas de vistazo."
+msgid ""
+"Controls whether or not the pinned apps appear in the panel if they are not "
+"open."
+msgstr ""
+"Mostrar las aplicaciones fijas o simplemente mostrar las ventanas abiertas"
 
-#~ msgid "size"
-#~ msgstr "Tamaño"
+msgid "Arrange pinned apps"
+msgstr "Ordenar aplicaciones fijas"
 
-#~ msgid "Show Thumbnails"
-#~ msgstr "Mostrar Miniaturas"
+msgid "Arrange pinned apps into a different order."
+msgstr "Ordenar aplicaciones fijas en un orden diferente"
 
-#~ msgid "Show the Thumbnail Windows"
-#~ msgstr "Mostrar Miniaturas de Ventanas"
+msgid "Icon padding:"
+msgstr "Relleno del Icono:"
 
-#~ msgid "Window fade time:"
-#~ msgstr "Tiempo de desvanecimiento de las ventanas:"
+msgid "Controls how much space is between the icons."
+msgstr "Cuanto relleno poner entre los iconos"
 
-#~ msgid "The animation time for the windows on hover peek"
-#~ msgstr "Tiempo de animación de las ventanas, al realizar un vistazo"
+msgid "px"
+msgstr ""
 
-#~ msgid "milliseconds"
-#~ msgstr "milisegundos"
+msgid "Adjust icon size"
+msgstr ""
 
-#~ msgid "Title Display:"
-#~ msgstr "Título de pantalla:"
+msgid "Adjust icon size independent of Cinnamon's panel scaling."
+msgstr ""
 
-#~ msgid ""
-#~ "focused: show focused window title, title: display the window title, app: "
-#~ "diplay app name, none: don't display anything"
-#~ msgstr ""
-#~ "enfocado: muestra el título de la ventana con el foco, título: muestra el "
-#~ "título de la ventana, aplicación: muestra el nombre de la aplicación, "
-#~ "nada: no muestra nada"
+msgid "Icon Size:"
+msgstr ""
 
-#~ msgid "none"
-#~ msgstr "nada"
+msgid "Set icon size"
+msgstr ""
 
-#~ msgid "focused"
-#~ msgstr "enfocado"
+msgid "Hover Peek Settings"
+msgstr "Configuración del Vistazo"
 
-#~ msgid "app"
-#~ msgstr "aplicación"
+msgid "Show windows when hovered over"
+msgstr "Habilitar vistazo cuando el ratón se encuentra sobre el área."
 
-#~ msgid "title"
-#~ msgstr "título"
+msgid "Controls whether or not windows display when hovered over."
+msgstr "Activar vistazo flotante cuando el ratón está sobre la miniatura"
 
-#~ msgid "Window opacity:"
-#~ msgstr "Opacidad de la ventana:"
+msgid "Window fade time:"
+msgstr "Tiempo de desvanecimiento de las ventanas:"
 
-#~ msgid "percent"
-#~ msgstr "porcentaje"
+msgid "Controls how quickly a window will fade on hover."
+msgstr "Tiempo de animación de las ventanas, al realizar un vistazo"
 
-#~ msgid "Enable hover peek"
-#~ msgstr "Habilitar vistazo cuando el ratón se encuentra sobre el área."
+msgid "milliseconds"
+msgstr "milisegundos"
 
-#~ msgid "Enable Hover peek when mouse is over thumbnail"
-#~ msgstr "Activar vistazo flotante cuando el ratón está sobre la miniatura"
+msgid "Window opacity:"
+msgstr "Opacidad de la ventana:"
 
-#~ msgid "Icon Padding:"
-#~ msgstr "Relleno del Icono:"
+msgid "Opacity of the windows on hover."
+msgstr "Opacidad de las ventanas de vistazo."
 
-#~ msgid "How much Padding is between the icons"
-#~ msgstr "Cuanto relleno poner entre los iconos"
+msgid "percent"
+msgstr "porcentaje"
 
-#~ msgid "padding"
-#~ msgstr "relleno"
+msgid "Thumbnail Settings"
+msgstr "Configuración de Miniaturas"
 
-#~ msgid "Show pinned apps"
-#~ msgstr "Mostrar aplicaciones fijas"
+msgid "Thumbnail timeout:"
+msgstr "Tiempo de espera de las miniaturas:"
 
-#~ msgid "Show the pinned apps or just show the open windows"
-#~ msgstr ""
-#~ "Mostrar las aplicaciones fijas o simplemente mostrar las ventanas abiertas"
+msgid ""
+"Controls how quickly an app's set of window thumbnails will fade out when "
+"the mouse leaves the app button."
+msgstr "Tiempo de espera de las miniaturas"
 
-#~ msgid "Window List Settings"
-#~ msgstr "Configuración de la Lista de Ventanas"
+msgid "Thumbnail size:"
+msgstr "Tamaño de las Miniaturas:"
 
-#~ msgid "Thumbnail Settings"
-#~ msgstr "Configuración de Miniaturas"
+msgid "Controls the size of the thumbnails."
+msgstr ""
 
-#~ msgid "Vertical Thumbnails"
-#~ msgstr "Miniaturas Verticales"
+# should not be set, just leave it blank and insert one white-space character
+msgid "size"
+msgstr " "
 
-#~ msgid "Arrange thumbnails vertically or horizontally"
-#~ msgstr "Organizar miniaturas vertical u horizontalmente"
+msgid "Show thumbnails"
+msgstr "Mostrar Miniaturas"
 
-#~ msgid "Thumbnail timeout:"
-#~ msgstr "Tiempo de espera de las miniaturas:"
+msgid "Show window thumbnails when hovering over an app button."
+msgstr "Mostrar Miniaturas de Ventanas"
 
-#~ msgid "Thumbnail timeout"
-#~ msgstr "Tiempo de espera de las miniaturas"
+msgid "Enable vertical thumbnails"
+msgstr "Miniaturas Verticales"
 
-#~ msgid "Stack Thumbnails"
-#~ msgstr "Apilar Miniaturas"
+msgid "If enabled, thumbnails will stack vertically."
+msgstr "Organizar miniaturas vertical u horizontalmente"
 
-#~ msgid ""
-#~ "Stack the Thumbnail Windows if there are to many thumbnails for the screen"
-#~ msgstr ""
-#~ "Apilar Miniaturas de Ventanas, si hay muchas imágenes de miniaturas en la "
-#~ "pantalla"
+msgid "Stack window thumbnails"
+msgstr "Apilar Miniaturas"
 
-#~ msgid "Number display:"
-#~ msgstr "Mostrar Número:"
+msgid "Stack window thumbnails if they exceed the available screen space."
+msgstr ""
+"Apilar Miniaturas de Ventanas, si hay muchas imágenes de miniaturas en la "
+"pantalla"
 
-#~ msgid ""
-#~ "normal: display window number, smart: display window number if more than "
-#~ "one window, none: don't display number, all: display window number for "
-#~ "favorites too"
-#~ msgstr ""
-#~ "normal: muestra el número de la ventana, inteligente: muestra el número "
-#~ "de la ventana, solo si hay más de una, nada: no muestra el número, todos: "
-#~ "muestra el número también para favoritos"
+msgid "Sort windows for each app by last focused"
+msgstr ""
 
-#~ msgid "all"
-#~ msgstr "todos"
+msgid ""
+"Controls whether the order windows appear for an app is by last focused, or "
+"the order they were opened."
+msgstr ""
 
-#~ msgid "Smart"
-#~ msgstr "inteligente"
+msgid "Open thumbnails on click"
+msgstr "Abrir Miniaturas al hacer clic"
 
-#~ msgid "normal"
-#~ msgstr "normal"
+msgid "Open the thumbnails on click if there is more than one window open."
+msgstr ""
+"Abrir las imágenes en miniatura al hacer clic, solo si hay más de 1 ventana "
+"abierta."
 
-#~ msgid "Open Thumbnails OnClick"
-#~ msgstr "Abrir Miniaturas al hacer clic"
+msgid "Context Menu Settings"
+msgstr ""
 
-#~ msgid "Open the thumbnails on click, if there is more than 1 windows open."
-#~ msgstr ""
-#~ "Abrir las imágenes en miniatura al hacer clic, solo si hay más de 1 "
-#~ "ventana abierta."
+msgid "Show recent items"
+msgstr ""
 
-#~ msgid "Hover Peek Settings"
-#~ msgstr "Configuración del Vistazo"
+msgid "Controls whether recent items will appear in the context menu."
+msgstr ""
 
-#~ msgid "Arrange pinned apps"
-#~ msgstr "Ordenar aplicaciones fijas"
+msgid "Enable option to close all windows"
+msgstr ""
 
-#~ msgid "Arrange pinned apps into a different order"
-#~ msgstr "Ordenar aplicaciones fijas en un orden diferente"
+msgid "Show a \"Close All\" context menu item to close all windows for an app."
+msgstr ""
 
-#~ msgid "Group Apps"
-#~ msgstr "Agrupar aplicaciones"
+msgid "Context menu width:"
+msgstr ""
 
-#~ msgid " "
-#~ msgstr " "
+msgid "Set the width of the context menu."
+msgstr ""
 
-#~ msgid "Group apps into single icon"
-#~ msgstr "Agrupar las aplicaciones en un solo icono."
+msgid "Firefox context menu:"
+msgstr ""
 
-#~ msgid "Group the open app instances into single icon"
-#~ msgstr "Agrupar las instancias de aplicaciones abiertas en un solo icono"
+msgid ""
+"Most Visited: show the sites you visit most, Recent History: display the the "
+"last pages you visited, Bookmarks: show your favorite bookmarks."
+msgstr ""
 
-#~ msgid "New Window"
-#~ msgstr "Nueva Ventana"
+msgid "Bookmarks"
+msgstr ""
 
-#~ msgid "     Go to Settings"
-#~ msgstr "     Ir a configuraciones"
+msgid "Most Visited"
+msgstr ""
 
-#~ msgid "Unpin App"
-#~ msgstr "No fijar la aplicación"
+msgid "Recent History"
+msgstr ""
 
-#~ msgid "Pin App"
-#~ msgstr "Fijar la aplicación"
+msgid "Number of context menu items:"
+msgstr ""
+
+msgid "Controls how many items appear in the context menu."
+msgstr ""
+
+# Should not be set, just leave it blank by setting one white-space character
+msgid "number"
+msgstr " "
+
+msgid "Install Gda"
+msgstr ""
+
+msgid "Visible on all workspaces"
+msgstr "Mostrar en todas las áreas de trabajo"
+
+msgid "Only on this workspace"
+msgstr "Solo en esta área de trabajo"
+
+msgid "Move to left workspace"
+msgstr "Mover al área de trabajo de la izquierda"
+
+msgid "Move to right workspace"
+msgstr "Mover al área de trabajo de la derecha"
+
+msgid "Move to monitor %d"
+msgstr ""
+
+msgid "Unpin from Panel"
+msgstr "No fijar la aplicación"
+
+msgid "Pin to Panel"
+msgstr "Fijar la aplicación"
+
+msgid "Close"
+msgstr "Cerrar"
+
+msgid "Close All"
+msgstr "Cerrar Todo"
+
+msgid "Settings"
+msgstr ""
+
+msgid "ReArrange"
+msgstr "Reordenar"
+
+msgid "Show Pinned"
+msgstr "Mostrar Fijadas"
+
+msgid "Show Thumbs"
+msgstr "Mostrar Miniaturas"
+
+msgid "Stack Thumbs"
+msgstr "Aplicar Miniaturas"
+
+msgid "Hover to Peek"
+msgstr "Realizar Vistazo cuando el ratón está encima"
+
+msgid "Show Recent"
+msgstr ""
+
+msgid "Vertical Thumbs"
+msgstr "Miniaturas verticales"
+
+# 5 spaces in front of it
+msgid "     Go to Settings"
+msgstr "     Ir a configuraciones"
+
+msgid "Group apps into single icon"
+msgstr "Agrupar las aplicaciones en un solo icono."
+
+msgid "Group the open app instances into single icon"
+msgstr "Agrupar las instancias de aplicaciones abiertas en un solo icono"
+
+msgid "Minimize"
+msgstr "Minimizar"
+
+msgid "Maximize"
+msgstr "Maximizar"
+
+msgid "Unmaximize"
+msgstr "No maximizada"
+
+msgid "Restore"
+msgstr "Restaurar"

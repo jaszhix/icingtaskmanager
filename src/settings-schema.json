@@ -62,7 +62,7 @@
     "min" : 0,
     "max" : 15,
     "step" : 1,
-    "units" : "padding",
+    "units" : "px",
     "description" : "Icon padding:",
     "tooltip" : "Controls how much space is between the icons."
  },
@@ -209,7 +209,7 @@
     "min" : 100,
     "max" : 500,
     "step" : 10,
-    "units" : "number",
+    "units" : "px",
     "description": "Context menu width:",
     "tooltip" : "Set the width of the context menu."
  },
