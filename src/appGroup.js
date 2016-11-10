@@ -319,20 +319,6 @@ AppGroup.prototype = {
     }
   },
   _getLastFocusedWindow: function () {
-    // Get a list of windows and sort it in order of last access
-    /*let list = []
-    for (let i = 0, len = this.metaWindows.length; i < len; i++) {
-      list.push([ this.metaWindows[i].win.user_time, this.metaWindows[i].win])
-    }
-    list.sort(function (a, b) {
-      return a[0] - b[0]
-    })
-
-    if (list[0]) {
-      return list[0][1]
-    } else {
-      return null
-    }*/
     return _.orderBy(this.metaWindows, 'win.user_time')
   },
 
@@ -438,7 +424,6 @@ AppGroup.prototype = {
         metaWindow.disconnect(signals[i])
       }
 
-      this.metaWindows = _.without(this.metaWindows, refWindow)
       _.pullAt(this.metaWindows, refWindow)
 
       if (this.metaWindows.length > 0) {

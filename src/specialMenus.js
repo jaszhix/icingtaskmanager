@@ -13,6 +13,7 @@ const Gtk = imports.gi.Gtk
 const Gio = imports.gi.Gio
 const Gettext = imports.gettext
 const Tweener = imports.ui.tweener
+const _ = imports.applet._
 const clog = imports.applet.clog
 
 const AppletDir = imports.ui.appletManager.applets['IcingTaskManager@json']
@@ -28,7 +29,7 @@ const FavType = {
   none: 2
 }
 
-function _ (str) {
+function t (str) {
   var resultConf = Gettext.dgettext('IcingTaskManager@json', str)
   if (resultConf != str) {
     return resultConf
@@ -99,7 +100,7 @@ AppMenuButtonRightClickMenu.prototype = {
         if (monitors.length > 1) {
           for (let i = 0, len = monitors.length; i < len; i++) {
             if (windows[0] !== undefined && windows[0].get_monitor() !== i) {
-              var itemChangeMonitor = new SpecialMenuItems.IconNameMenuItem(this, _(`Move to monitor ${i+1}`), 'view-fullscreen')
+              var itemChangeMonitor = new SpecialMenuItems.IconNameMenuItem(this, t(`Move to monitor ${i+1}`), 'view-fullscreen')
               itemChangeMonitor.index = i
               this.setupMonitorMoveEvent(itemChangeMonitor, windows)
               this.monitorItems.push(itemChangeMonitor)
@@ -120,25 +121,25 @@ AppMenuButtonRightClickMenu.prototype = {
       this._applet.settings.connect('changed::show-recent', Lang.bind(this, this._recent_items_changed))
       this._applet.settings.connect('changed::appmenu-width', Lang.bind(this, this._appMenu_width_changed))
 
-      this.itemCloseAllWindow = new SpecialMenuItems.IconNameMenuItem(this, _('Close All'), 'process-stop')
+      this.itemCloseAllWindow = new SpecialMenuItems.IconNameMenuItem(this, t('Close All'), 'process-stop')
       this.itemCloseAllWindow.connect('activate', Lang.bind(this, this._onCloseAllActivate))
 
-      this.itemCloseWindow = new SpecialMenuItems.IconNameMenuItem(this, _('Close'), 'window-close')
+      this.itemCloseWindow = new SpecialMenuItems.IconNameMenuItem(this, t('Close'), 'window-close')
       this.itemCloseWindow.connect('activate', Lang.bind(this, this._onCloseWindowActivate))
 
-      this.itemMinimizeWindow = new SpecialMenuItems.IconNameMenuItem(this, _('Minimize'), 'go-bottom')
+      this.itemMinimizeWindow = new SpecialMenuItems.IconNameMenuItem(this, t('Minimize'), 'go-bottom')
       this.itemMinimizeWindow.connect('activate', Lang.bind(this, this._onMinimizeWindowActivate))
 
-      this.itemMaximizeWindow = new SpecialMenuItems.IconNameMenuItem(this, _('Maximize'), 'go-up')
+      this.itemMaximizeWindow = new SpecialMenuItems.IconNameMenuItem(this, t('Maximize'), 'go-up')
       this.itemMaximizeWindow.connect('activate', Lang.bind(this, this._onMaximizeWindowActivate))
 
-      this.itemMoveToLeftWorkspace = new SpecialMenuItems.IconNameMenuItem(this, _('Move to left workspace'), 'go-previous')
+      this.itemMoveToLeftWorkspace = new SpecialMenuItems.IconNameMenuItem(this, t('Move to left workspace'), 'go-previous')
       this.itemMoveToLeftWorkspace.connect('activate', Lang.bind(this, this._onMoveToLeftWorkspace))
 
-      this.itemMoveToRightWorkspace = new SpecialMenuItems.IconNameMenuItem(this, _('Move to right workspace'), 'go-next')
+      this.itemMoveToRightWorkspace = new SpecialMenuItems.IconNameMenuItem(this, t('Move to right workspace'), 'go-next')
       this.itemMoveToRightWorkspace.connect('activate', Lang.bind(this, this._onMoveToRightWorkspace))
 
-      this.itemOnAllWorkspaces = new SpecialMenuItems.IconNameMenuItem(this, _('Visible on all workspaces'), 'edit-copy')
+      this.itemOnAllWorkspaces = new SpecialMenuItems.IconNameMenuItem(this, t('Visible on all workspaces'), 'edit-copy')
       this.itemOnAllWorkspaces.connect('activate', Lang.bind(this, this._toggleOnAllWorkspaces))
 
       this.launchItem = new SpecialMenuItems.IconMenuItem(this, this.app.get_name(), this.app.create_icon_texture(16))
@@ -167,10 +168,10 @@ AppMenuButtonRightClickMenu.prototype = {
 
       if (this._applet.showPinned !== FavType.none && !this.app.is_window_backed()) {
         if (this.isFav) {
-          this.itemtoggleFav = new SpecialMenuItems.IconNameMenuItem(this, _('Unpin from Panel'), 'remove')
+          this.itemtoggleFav = new SpecialMenuItems.IconNameMenuItem(this, t('Unpin from Panel'), 'remove')
           this.itemtoggleFav.connect('activate', Lang.bind(this, this._toggleFav))
         } else {
-          this.itemtoggleFav = new SpecialMenuItems.IconNameMenuItem(this, _('Pin to Panel'), 'bookmark-new')
+          this.itemtoggleFav = new SpecialMenuItems.IconNameMenuItem(this, t('Pin to Panel'), 'bookmark-new')
           this.itemtoggleFav.connect('activate', Lang.bind(this, this._toggleFav))
         }
       }
@@ -180,57 +181,56 @@ AppMenuButtonRightClickMenu.prototype = {
         this._isFavorite(false)
       }
     }
-
     this.menuSetup(true)
   },
 
   _settingsMenu: function () {
-    this.subMenuItem = new SpecialMenuItems.SubMenuItem(this, _('Settings'))
+    this.subMenuItem = new SpecialMenuItems.SubMenuItem(this, t('Settings'))
     var subMenu = this.subMenuItem.menu
 
-    this.reArrange = new SpecialMenuItems.SwitchMenuItem(this, _('Rearrange'), this._applet.arrangePinned)
+    this.reArrange = new SpecialMenuItems.SwitchMenuItem(this, t('Rearrange'), this._applet.arrangePinned)
     this.reArrange.connect('toggled', Lang.bind(this, function (item) {
       this._applet.arrangePinned = item.state
     }))
     subMenu.addMenuItem(this.reArrange)
 
-    this.showPinned = new SpecialMenuItems.SwitchMenuItem(this, _('Show Pinned'), this._applet.showPinned)
+    this.showPinned = new SpecialMenuItems.SwitchMenuItem(this, t('Show Pinned'), this._applet.showPinned)
     this.showPinned.connect('toggled', Lang.bind(this, function (item) {
       this._applet.showPinned = item.state
     }))
     subMenu.addMenuItem(this.showPinned)
 
-    this.showThumbs = new SpecialMenuItems.SwitchMenuItem(this, _('Show Thumbs'), this._applet.showThumbs)
+    this.showThumbs = new SpecialMenuItems.SwitchMenuItem(this, t('Show Thumbs'), this._applet.showThumbs)
     this.showThumbs.connect('toggled', Lang.bind(this, function (item) {
       this._applet.showThumbs = item.state
     }))
     subMenu.addMenuItem(this.showThumbs)
 
-    this.stackThumbs = new SpecialMenuItems.SwitchMenuItem(this, _('Stack Thumbs'), this._applet.stackThumbs)
+    this.stackThumbs = new SpecialMenuItems.SwitchMenuItem(this, t('Stack Thumbs'), this._applet.stackThumbs)
     this.stackThumbs.connect('toggled', Lang.bind(this, function (item) {
       this._applet.stackThumbs = item.state
     }))
     this.subMenuItem.menu.addMenuItem(this.stackThumbs)
 
-    this.enablePeek = new SpecialMenuItems.SwitchMenuItem(this, _('Peek on Hover'), this._applet.enablePeek)
+    this.enablePeek = new SpecialMenuItems.SwitchMenuItem(this, t('Peek on Hover'), this._applet.enablePeek)
     this.enablePeek.connect('toggled', Lang.bind(this, function (item) {
       this._applet.enablePeek = item.state
     }))
     this.subMenuItem.menu.addMenuItem(this.enablePeek)
 
-    this.showRecent = new SpecialMenuItems.SwitchMenuItem(this, _('Show Recent'), this._applet.showRecent)
+    this.showRecent = new SpecialMenuItems.SwitchMenuItem(this, t('Show Recent'), this._applet.showRecent)
     this.showRecent.connect('toggled', Lang.bind(this, function (item) {
       this._applet.showRecent = item.state
     }))
     this.subMenuItem.menu.addMenuItem(this.showRecent)
 
-    this.verticalThumbs = new SpecialMenuItems.SwitchMenuItem(this, _('Vertical Thumbs'), this._applet.verticalThumbs)
+    this.verticalThumbs = new SpecialMenuItems.SwitchMenuItem(this, t('Vertical Thumbs'), this._applet.verticalThumbs)
     this.verticalThumbs.connect('toggled', Lang.bind(this, function (item) {
       this._applet.verticalThumbs = item.state
     }))
     this.subMenuItem.menu.addMenuItem(this.verticalThumbs)
 
-    this.settingItem = new SpecialMenuItems.IconNameMenuItem(this, _('     Go to Settings'))
+    this.settingItem = new SpecialMenuItems.IconNameMenuItem(this, t('     Go to Settings'))
     this.settingItem.connect('activate', Lang.bind(this, this._settingMenu))
     subMenu.addMenuItem(this.settingItem)
   },
@@ -319,7 +319,7 @@ AppMenuButtonRightClickMenu.prototype = {
       var historys = FireFox.getFirefoxHistory(this._applet)
 
       if (historys === null) {
-        var install = new SpecialMenuItems.IconNameMenuItem(this, _('Install Gda'))
+        var install = new SpecialMenuItems.IconNameMenuItem(this, t('Install Gda'))
         install.connect('activate', Lang.bind(this, function () {
           Util.spawnCommandLine('gnome-terminal -x bash -c "sudo apt-get install gir1.2-gda-5.0; echo "press enter and restart cinnamon"; read n1"')
         }))
@@ -557,11 +557,11 @@ AppMenuButtonRightClickMenu.prototype = {
     }
 
     if (this.metaWindow.is_on_all_workspaces()) {
-      this.itemOnAllWorkspaces.label.text = _('Only on this workspace')
+      this.itemOnAllWorkspaces.label.text = t('Only on this workspace')
       this.itemMoveToLeftWorkspace.actor.hide()
       this.itemMoveToRightWorkspace.actor.hide()
     } else {
-      this.itemOnAllWorkspaces.label.text = _('Visible on all workspaces')
+      this.itemOnAllWorkspaces.label.text = t('Visible on all workspaces')
       if (this.metaWindow.get_workspace().get_neighbor(Meta.MotionDirection.LEFT) != this.metaWindow.get_workspace()) {
         this.itemMoveToLeftWorkspace.actor.show()
       } else {
@@ -576,14 +576,14 @@ AppMenuButtonRightClickMenu.prototype = {
       }
     }
     if (this.metaWindow.get_maximized()) {
-      this.itemMaximizeWindow.label.text = _('Unmaximize')
+      this.itemMaximizeWindow.label.text = t('Unmaximize')
     } else {
-      this.itemMaximizeWindow.label.text = _('Maximize')
+      this.itemMaximizeWindow.label.text = t('Maximize')
     }
     if (this.metaWindow.minimized) {
-      this.itemMinimizeWindow.label.text = _('Restore')
+      this.itemMinimizeWindow.label.text = t('Restore')
     } else {
-      this.itemMinimizeWindow.label.text = _('Minimize')
+      this.itemMinimizeWindow.label.text = t('Minimize')
     }
   },
 

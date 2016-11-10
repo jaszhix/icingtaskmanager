@@ -3,7 +3,7 @@
     "max-instances": 2, 
     "dangerous": false, 
     "name": "Icing Task Manager", 
-    "version": "3.0.9", 
+    "version": "3.0.10", 
     "role": "panellauncher", 
     "uuid": "IcingTaskManager@json"
 }

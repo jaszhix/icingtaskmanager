@@ -1,5 +1,11 @@
 Changelog
 
+### 3.0.10
+
+  * Rewrote parts of the window list handling. 
+  * Performance improvements.
+  * Localization fixes by [Pandiora](https://github.com/jaszhix/icingtaskmanager/pull/27)
+
 ### 3.0.9
 
   * Fixed app button notification indication.
