@@ -34,10 +34,6 @@
     "type": "generic",
     "default": []
  },
- "pinned-recent" : {
-    "type": "generic",
-    "default": {}
- },
  "show-alerts" : {
     "type" : "checkbox",
     "default" : true,

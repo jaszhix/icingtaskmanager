@@ -46,7 +46,7 @@ AppMenuButtonRightClickMenu.prototype = {
 
   _init: function (parent, actor) {
     // take care of menu initialization        
-    PopupMenu.PopupMenu.prototype._init.call(this, parent.actor, 0.0, parent.orientation, 0)
+    PopupMenu.PopupMenu.prototype._init.call(this, parent.actor, 0, parent.orientation)
     Main.uiGroup.add_actor(this.actor)
 
     this.actor.hide()
@@ -302,7 +302,8 @@ AppMenuButtonRightClickMenu.prototype = {
     }
 
     // Load Pinned
-    var pinnedLength = this._listPinned() || 0
+    this._listPinned() 
+
     // Load Places
     if (this.app.get_id() == 'nemo.desktop' || this.app.get_id() == 'nemo-home.desktop') {
       var defualtPlaces = this._listDefaultPlaces()
@@ -342,7 +343,7 @@ AppMenuButtonRightClickMenu.prototype = {
       return
     }
     // Load Recent Items
-    this._listRecent(pinnedLength)
+    this._listRecent()
     // Load Actions
     this._loadActions()
   },
@@ -363,27 +364,24 @@ AppMenuButtonRightClickMenu.prototype = {
       this.specialSection.add(seperator.actor)
       this.RecentMenuItems.push(seperator)
     }
-    for (var i = 0; i < actions.length; i++) {
-      var action = actions[i]
+
+    var handleAction = (action)=>{
       var actionItem = new SpecialMenuItems.IconNameMenuItem(this, this.appInfo.get_action_name(action), 'window-new')
-      actionItem.connect('activate', Lang.bind(this, function () {
+      actionItem.connect('activate', ()=>{
         this.appInfo.launch_action(action, global.create_app_launch_context())
         this.toggle()
-      }))
+      })
       this.specialSection.add(actionItem.actor)
       this.RecentMenuItems.push(actionItem)
+    }
+
+    for (let i = 0, len = actions.length; i < len; i++) {
+      handleAction(actions[i])
     }
   },
 
   _listPinned: function (pattern) {
     this.pinnedItemsUris = []
-    var pinnedRecent = this._applet.pinnedRecent
-    var appName = this.app.get_name()
-    var pinnedLength
-    if (pinnedRecent[appName]) {
-      this.pinnedItems = pinnedRecent[appName].infos
-      pinnedLength = Object.keys(this.pinnedItems).length
-    }
     if (this.pinnedItems) {
       for (var i in this.pinnedItems) {
         var item = this.pinnedItems[i]
@@ -398,28 +396,25 @@ AppMenuButtonRightClickMenu.prototype = {
         this.RecentMenuItems.push(recentMenuItem)
       }
     }
-    return pinnedLength
   },
 
-  _listRecent: function (pinnedLength) {
+  _listRecent: function () {
     var recentItems = this._applet.recent_items_contr()
     var items = []
-    for (var id = 0; id < recentItems.length; id++) {
-      var itemInfo = recentItems[id]
-      var mimeType = itemInfo.get_mime_type()
+    for (let i = 0, len = recentItems.length; i < len; i++) {
+      var mimeType = recentItems[i].get_mime_type()
       var appInfo = Gio.app_info_get_default_for_type(mimeType, false)
-      if (appInfo && this.appInfo && appInfo.get_id() == this.appInfo.get_id() && this.pinnedItemsUris.indexOf(itemInfo.get_uri()) == -1) {
-        items.push(itemInfo)
+      if (appInfo && this.appInfo && appInfo.get_id() == this.appInfo.get_id() && this.pinnedItemsUris.indexOf(recentItems[i].get_uri()) === -1) {
+        items.push(recentItems[i])
       }
     }
     var itemsLength = items.length
-    var num = this._applet.appMenuNum - pinnedLength
+    var num = this._applet.appMenuNum > 10 ? 10 : this._applet.appMenuNum
     if (itemsLength > num) {
       itemsLength = num
     }
-    for (var i = 0; i < itemsLength; i++) {
-      var item = items[i]
-      var recentMenuItem = new SpecialMenuItems.RecentMenuItem(this, item, 'list-add')
+    for (let i = 0; i < itemsLength; i++) {
+      var recentMenuItem = new SpecialMenuItems.RecentMenuItem(this, items[i], 'list-add')
       this.specialSection.add(recentMenuItem.actor)
       this.RecentMenuItems.push(recentMenuItem)
     }
@@ -428,9 +423,9 @@ AppMenuButtonRightClickMenu.prototype = {
   _listDefaultPlaces: function (pattern) {
     var defaultPlaces = Main.placesManager.getDefaultPlaces()
     var res = []
-    for (var id = 0; id < defaultPlaces.length; id++) {
-      if (!pattern || defaultPlaces[id].name.toLowerCase().indexOf(pattern) != -1) {
-        res.push(defaultPlaces[id])
+    for (let i = 0, len = defaultPlaces.length; i < len; i++) {
+      if (!pattern || defaultPlaces[i].name.toLowerCase().indexOf(pattern) != -1) {
+        res.push(defaultPlaces[i])
       }
     }
     return res
@@ -439,9 +434,9 @@ AppMenuButtonRightClickMenu.prototype = {
   _listBookmarks: function (pattern) {
     var bookmarks = Main.placesManager.getBookmarks()
     var res = []
-    for (var id = 0; id < bookmarks.length; id++) {
-      if (!pattern || bookmarks[id].name.toLowerCase().indexOf(pattern) != -1) {
-        res.push(bookmarks[id])
+    for (let i = 0, len = bookmarks.length; i < len; i++) {
+      if (!pattern || bookmarks[i].name.toLowerCase().indexOf(pattern) != -1) {
+        res.push(bookmarks[i])
       }
     }
     return res
@@ -450,9 +445,9 @@ AppMenuButtonRightClickMenu.prototype = {
   _listDevices: function (pattern) {
     var devices = Main.placesManager.getMounts()
     var res = []
-    for (var id = 0; id < devices.length; id++) {
-      if (!pattern || devices[id].name.toLowerCase().indexOf(pattern) != -1) {
-        res.push(devices[id])
+    for (let i = 0, len = devices.length; i < len; i++) {
+      if (!pattern || devices[i].name.toLowerCase().indexOf(pattern) != -1) {
+        res.push(devices[i])
       }
     }
     return res
@@ -476,7 +471,7 @@ AppMenuButtonRightClickMenu.prototype = {
       }
 
       this.isFavapp = true
-    } else if (this.orientation == St.Side.BOTTOM) {
+    } else if (this.orientation === St.Side.BOTTOM) {
       if (this.monitorItems.length) {
         this.monitorItems.forEach(function (item) {
           this.addMenuItem(item)
@@ -750,8 +745,8 @@ AppThumbnailHoverMenu.prototype = {
   __proto__: PopupMenu.PopupMenu.prototype,
 
   _init: function (parent) {
-    PopupMenu.PopupMenu.prototype._init.call(this, parent.actor, 0.45, parent.orientation)
     this._applet = parent._applet
+    PopupMenu.PopupMenu.prototype._init.call(this, parent.actor, 0.5, parent.orientation)
     this.metaWindow = parent.metaWindow
     this.app = parent.app
     this.isFavapp = parent.isFavapp
