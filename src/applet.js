@@ -165,11 +165,9 @@ PinnedFavs.prototype = {
       return false
     }
 
-    var appSystem = Cinnamon.AppSystem.get_default()
-
-    let app = appSystem.lookup_app(appId)
+    let app = this.appSys.lookup_app(appId)
     if (!app) {
-      app = appSystem.lookup_settings_app(appId)
+      app = this.appSys.lookup_settings_app(appId)
     }
 
 
