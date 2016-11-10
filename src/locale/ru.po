@@ -22,7 +22,7 @@ msgstr "Список окон с группировкой и миниатюра�
 msgid "Window List Settings"
 msgstr "Настройки списка окон"
 
-msgid "Number Display:"
+msgid "Number display:"
 msgstr "Число окон:"
 
 msgid ""
@@ -268,7 +268,7 @@ msgstr "Закрыть все"
 msgid "Settings"
 msgstr "Настройки"
 
-msgid "ReArrange"
+msgid "Rearrange"
 msgstr "Перемещение"
 
 msgid "Show Pinned"
@@ -280,7 +280,7 @@ msgstr "Миниатюры"
 msgid "Stack Thumbs"
 msgstr "Стек миниатюр"
 
-msgid "Hover to Peek"
+msgid "Peek on Hover"
 msgstr "При наведении"
 
 msgid "Show Recent"

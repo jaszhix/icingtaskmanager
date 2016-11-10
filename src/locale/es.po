@@ -21,7 +21,7 @@ msgstr ""
 msgid "Window List Settings"
 msgstr "Configuración de la Lista de Ventanas"
 
-msgid "Number Display:"
+msgid "Number display:"
 msgstr "Mostrar Número:"
 
 msgid ""
@@ -272,7 +272,7 @@ msgstr "Cerrar Todo"
 msgid "Settings"
 msgstr ""
 
-msgid "ReArrange"
+msgid "Rearrange"
 msgstr "Reordenar"
 
 msgid "Show Pinned"
@@ -284,7 +284,7 @@ msgstr "Mostrar Miniaturas"
 msgid "Stack Thumbs"
 msgstr "Aplicar Miniaturas"
 
-msgid "Hover to Peek"
+msgid "Peek on Hover"
 msgstr "Realizar Vistazo cuando el ratón está encima"
 
 msgid "Show Recent"
