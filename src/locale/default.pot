@@ -21,7 +21,7 @@ msgstr ""
 msgid "Window List Settings"
 msgstr ""
 
-msgid "Number Display:"
+msgid "Number display:"
 msgstr ""
 
 msgid "normal: display window number, smart: display window number if more than one window, none: don't display number, all: display window number for favorites too"
@@ -248,7 +248,7 @@ msgstr ""
 msgid "Settings"
 msgstr ""
 
-msgid "ReArrange"
+msgid "Rearrange"
 msgstr ""
 
 msgid "Show Pinned"
@@ -260,7 +260,7 @@ msgstr ""
 msgid "Stack Thumbs"
 msgstr ""
 
-msgid "Hover to Peek"
+msgid "Peek on Hover"
 msgstr ""
 
 msgid "Show Recent"

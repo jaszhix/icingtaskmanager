@@ -21,7 +21,7 @@ msgstr "Liste des fenêtres avec regroupement et miniatures des applications"
 msgid "Window List Settings"
 msgstr "Paramètres de la liste des applications"
 
-msgid "Number Display:"
+msgid "Number display:"
 msgstr "Affichage du nombre d'instances:"
 
 msgid ""
@@ -291,7 +291,7 @@ msgstr "Tout fermer"
 msgid "Settings"
 msgstr "Options"
 
-msgid "ReArrange"
+msgid "Rearrange"
 msgstr "Modifier l'ordre des applications"
 
 msgid "Show Pinned"
@@ -303,7 +303,7 @@ msgstr "Afficher les miniatures"
 msgid "Stack Thumbs"
 msgstr "Empiler les miniatures"
 
-msgid "Hover to Peek"
+msgid "Peek on Hover"
 msgstr "Mise en évidence des applications"
 
 msgid "Show Recent"
