@@ -281,8 +281,7 @@ AppButton.prototype = {
 
     this.metaWorkspaces = {}
 
-    var tracker = Cinnamon.WindowTracker.get_default()
-    this._trackerSignal = tracker.connect('notify::focus-app', Lang.bind(this, this._onFocusChange))
+    this._trackerSignal = this._applet.tracker.connect('notify::focus-app', Lang.bind(this, this._onFocusChange))
     this._updateAttentionGrabber(null, null, this._applet.showAlerts)
     this._applet.settings.connect('changed::show-alerts', Lang.bind(this, this._updateAttentionGrabber))
   },
@@ -377,8 +376,7 @@ AppButton.prototype = {
   },
 
   destroy: function () {
-    var tracker = Cinnamon.WindowTracker.get_default()
-    tracker.disconnect(this._trackerSignal)
+    this._applet.tracker.disconnect(this._trackerSignal)
     this._container.destroy_children()
     this._container.destroy()
     this.actor.destroy()
@@ -416,8 +414,7 @@ WindowButton.prototype = {
     this.isFavapp = params.isFavapp
     this.orientation = parent.orientation
     if (!this.app) {
-      var tracker = Cinnamon.WindowTracker.get_default()
-      this.app = tracker.get_window_app(this.metaWindow)
+      this.app = this._applet.tracker.get_window_app(this.metaWindow)
     }
     this.icon_size = Math.floor(this._applet._panelHeight - 4)
     this.icon = this.app.create_icon_texture(this.icon_size)

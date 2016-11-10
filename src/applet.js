@@ -254,29 +254,29 @@ MyApplet.prototype = {
       this.execInstallLanguage()
       Gettext.bindtextdomain(this._uuid, GLib.get_home_dir() + '/.local/share/locale')
       this.settings = new Settings.AppletSettings(this, 'IcingTaskManager@json', instance_id)
-      this.settings.bindProperty(Settings.BindingDirection.BIDIRECTIONAL, 'show-pinned', 'showPinned', null, null)
-      this.settings.bindProperty(Settings.BindingDirection.BIDIRECTIONAL, 'show-alerts', 'showAlerts', null, null)
-      this.settings.bindProperty(Settings.BindingDirection.BIDIRECTIONAL, 'arrange-pinnedApps', 'arrangePinned', null, null)
-      this.settings.bindProperty(Settings.BindingDirection.BIDIRECTIONAL, 'enable-hover-peek', 'enablePeek', null, null)
+      this.settings.bindProperty(Settings.BindingDirection.IN, 'show-pinned', 'showPinned', null, null)
+      this.settings.bindProperty(Settings.BindingDirection.IN, 'show-alerts', 'showAlerts', null, null)
+      this.settings.bindProperty(Settings.BindingDirection.IN, 'arrange-pinnedApps', 'arrangePinned', null, null)
+      this.settings.bindProperty(Settings.BindingDirection.IN, 'enable-hover-peek', 'enablePeek', null, null)
       this.settings.bindProperty(Settings.BindingDirection.IN, 'onclick-thumbnails', 'onclickThumbs', null, null)
       this.settings.bindProperty(Settings.BindingDirection.IN, 'hover-peek-opacity', 'peekOpacity', null, null)
       this.settings.bindProperty(Settings.BindingDirection.IN, 'thumbnail-timeout', 'thumbTimeout', null, null)
       this.settings.bindProperty(Settings.BindingDirection.IN, 'thumbnail-size', 'thumbSize', null, null)
       this.settings.bindProperty(Settings.BindingDirection.IN, 'sort-thumbnails', 'sortThumbs', null, null)
-      this.settings.bindProperty(Settings.BindingDirection.BIDIRECTIONAL, 'vertical-thumbnails', 'verticalThumbs', null, null)
-      this.settings.bindProperty(Settings.BindingDirection.BIDIRECTIONAL, 'stack-thumbnails', 'stackThumbs', null, null)
-      this.settings.bindProperty(Settings.BindingDirection.BIDIRECTIONAL, 'show-thumbnails', 'showThumbs', null, null)
+      this.settings.bindProperty(Settings.BindingDirection.IN, 'vertical-thumbnails', 'verticalThumbs', null, null)
+      this.settings.bindProperty(Settings.BindingDirection.IN, 'stack-thumbnails', 'stackThumbs', null, null)
+      this.settings.bindProperty(Settings.BindingDirection.IN, 'show-thumbnails', 'showThumbs', null, null)
       this.settings.bindProperty(Settings.BindingDirection.IN, 'number-display', 'numDisplay', null, null)
       this.settings.bindProperty(Settings.BindingDirection.IN, 'title-display', 'titleDisplay', null, null)
       this.settings.bindProperty(Settings.BindingDirection.IN, 'icon-padding', 'iconPadding', null, null)
       this.settings.bindProperty(Settings.BindingDirection.IN, 'enable-iconSize', 'enableIconSize', null, null)
       this.settings.bindProperty(Settings.BindingDirection.IN, 'icon-size', 'iconSize', null, null)
-      this.settings.bindProperty(Settings.BindingDirection.BIDIRECTIONAL, 'pinned-apps', 'pinnedApps', null, null)
-      this.settings.bindProperty(Settings.BindingDirection.BIDIRECTIONAL, 'pinned-recent', 'pinnedRecent', null, null)
-      this.settings.bindProperty(Settings.BindingDirection.BIDIRECTIONAL, 'show-recent', 'showRecent', null, null)
-      this.settings.bindProperty(Settings.BindingDirection.BIDIRECTIONAL, 'appmenu-width', 'appMenuWidth', null, null)
+      this.settings.bindProperty(Settings.BindingDirection.IN, 'show-recent', 'showRecent', null, null)
+      this.settings.bindProperty(Settings.BindingDirection.IN, 'appmenu-width', 'appMenuWidth', null, null)
       this.settings.bindProperty(Settings.BindingDirection.IN, 'firefox-menu', 'firefoxMenu', null, null)
       this.settings.bindProperty(Settings.BindingDirection.IN, 'appmenu-number', 'appMenuNum', null, null)
+
+
 
       this._box = new St.Bin()
 
@@ -287,6 +287,8 @@ MyApplet.prototype = {
       } else {
         this.actor.style = 'margin-bottom: 0px; padding-bottom: 0px;'
       }
+
+      this.tracker = Cinnamon.WindowTracker.get_default()
 
       this.pinnedAppsContr = new PinnedFavs(this)
 
@@ -434,10 +436,6 @@ MyApplet.prototype = {
 
   recent_items_manager: function () {
     return this.recentManager
-  },
-
-  _pinnedRecentChanged: function () {
-    return
   },
 
   on_recent_items_changed: function () {

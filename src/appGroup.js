@@ -36,6 +36,7 @@ AppGroup.prototype = {
     if (DND.LauncherDraggable) {
       DND.LauncherDraggable.prototype._init.call(this)
     }
+
     this._applet = applet
     this.appList = appList
 
@@ -326,15 +327,14 @@ AppGroup.prototype = {
   // to include all windows corresponding to this.app on the workspace
   // metaWorkspace
   _updateMetaWindows: function (metaWorkspace) {
-    let tracker = Cinnamon.WindowTracker.get_default()
     // Get a list of all interesting windows that are part of this app on the current workspace
     var windowList = _.filter(metaWorkspace.list_windows(), (win)=>{
       try {
         let app = App.appFromWMClass(this.appList._appsys, this.appList.specialApps, win)
         if (!app) {
-          app = tracker.get_window_app(win)
+          app = this._applet.tracker.get_window_app(win)
         }
-        return app == this.app && tracker.is_window_interesting(win) && Main.isInteresting(win)
+        return app == this.app && this._applet.tracker.is_window_interesting(win) && Main.isInteresting(win)
       } catch (e) {
         return false
       }
@@ -360,10 +360,9 @@ AppGroup.prototype = {
   },
 
   _windowAdded: function (metaWorkspace, metaWindow) {
-    let tracker = Cinnamon.WindowTracker.get_default()
     let app = App.appFromWMClass(this.appList._appsys, this.appList.specialApps, metaWindow)
     if (!app) {
-      app = tracker.get_window_app(metaWindow)
+      app = this._applet.tracker.get_window_app(metaWindow)
     }
 
 
@@ -371,7 +370,7 @@ AppGroup.prototype = {
       return _.isEqual(win.win, metaWindow)
     })
 
-    if (app == this.app && refWindow === -1 && tracker.is_window_interesting(metaWindow)) {
+    if (app == this.app && refWindow === -1 && this._applet.tracker.is_window_interesting(metaWindow)) {
       if (metaWindow) {
         this.lastFocused = metaWindow
         this.rightClickMenu.setMetaWindow(this.lastFocused)

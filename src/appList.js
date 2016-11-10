@@ -33,7 +33,6 @@ AppList.prototype = {
     this.metaWorkspace = metaWorkspace
     this.myactorbox = new SpecialButtons.MyAppletBox(this._applet)
     this.actor = this.myactorbox.actor
-    this._tracker = Cinnamon.WindowTracker.get_default()
     this._appsys = Cinnamon.AppSystem.get_default()
     this.registeredApps = []
 
@@ -48,7 +47,7 @@ AppList.prototype = {
 
   on_orientation_changed: function (orientation) {
     this._refreshList()
-    if (this._applet.orientation == St.Side.TOP) {
+    if (this._applet.orientation === St.Side.TOP) {
       this.actor.set_style_class_name('window-list-item-box window-list-box-top')
       this.actor.set_style('margin-top: 0px; padding-top: 0px;')
     } else {
@@ -62,7 +61,10 @@ AppList.prototype = {
     // We use connect_after so that the window-tracker time to identify the app
     this.signals.push(this.metaWorkspace.connect_after('window-added', Lang.bind(this, this._windowAdded)))
     this.signals.push(this.metaWorkspace.connect_after('window-removed', Lang.bind(this, this._windowRemoved)))
+
+    // This requeries everything after an item is pinned. Need more efficient way to reorder appList
     this._applet.pinned_app_contr().connect('refreshList', Lang.bind(this, this._refreshList))
+
     this._applet.settings.connect('changed::show-pinned', Lang.bind(this, this._refreshList))
     global.settings.connect('changed::panel-edit-mode', Lang.bind(this, this.on_panel_edit_mode_changed))
   },
@@ -119,11 +121,10 @@ AppList.prototype = {
     }
   },
 
-  _windowAdded: function (metaWorkspace, metaWindow, favapp, isFavapp) {
+  _windowAdded: function (metaWorkspace, metaWindow, favapp, isFavapp, init) {
     // Check to see if the window that was added already has an app group.
     // If it does, then we don't need to do anything.  If not, we need to
     // create an app group.
-    let tracker = Cinnamon.WindowTracker.get_default()
     let app
     if (favapp) {
       app = favapp
@@ -131,7 +132,7 @@ AppList.prototype = {
       app = App.appFromWMClass(this._appsys, this.specialApps, metaWindow)
     }
     if (!app) {
-      app = tracker.get_window_app(metaWindow)
+      app = this._applet.tracker.get_window_app(metaWindow)
     }
     if (!app) {
       return
@@ -212,11 +213,10 @@ AppList.prototype = {
     
     // When a window is closed, we need to check if the app it belongs
     // to has no windows left.  If so, we need to remove the corresponding AppGroup
-    let tracker = Cinnamon.WindowTracker.get_default()
     let app = App.appFromWMClass(this._appsys, this.specialApps, metaWindow)
 
     if (!app){
-      app = tracker.get_window_app(metaWindow)
+      app = this._applet.tracker.get_window_app(metaWindow)
     }
     if (!app) {
       return
