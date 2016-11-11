@@ -248,6 +248,9 @@ MyApplet.prototype = {
     this.actor.set_track_hover(false)
     this.orientation = orientation
     this.dragInProgress = false
+
+    this.c32 = true
+
     try {
       this._uuid = metadata.uuid
       this.execInstallLanguage()
@@ -283,6 +286,7 @@ MyApplet.prototype = {
       try {
         this.setAllowedLayout(Applet.AllowedLayout.BOTH);
       } catch (e) {
+        this.c32 = null
         /* We are on Cinnamon < 3.2 */
       }
 

@@ -45,8 +45,12 @@ AppMenuButtonRightClickMenu.prototype = {
   __proto__: PopupMenu.PopupMenu.prototype,
 
   _init: function (parent, actor) {
-    // take care of menu initialization        
-    PopupMenu.PopupMenu.prototype._init.call(this, parent.actor, 0, parent.orientation)
+    // take care of menu initialization
+    if (parent._applet.c32) {
+      PopupMenu.PopupMenu.prototype._init.call(this, parent.actor, parent.orientation, 1)
+    } else {
+      PopupMenu.PopupMenu.prototype._init.call(this, parent.actor, 0, parent.orientation)
+    }
     Main.uiGroup.add_actor(this.actor)
 
     this.actor.hide()
@@ -746,7 +750,11 @@ AppThumbnailHoverMenu.prototype = {
 
   _init: function (parent) {
     this._applet = parent._applet
-    PopupMenu.PopupMenu.prototype._init.call(this, parent.actor, 0.5, parent.orientation)
+    if (parent._applet.c32) {
+      PopupMenu.PopupMenu.prototype._init.call(this, parent.actor, parent.orientation, 1)
+    } else {
+      PopupMenu.PopupMenu.prototype._init.call(this, parent.actor, 0.5, parent.orientation)
+    }
     this.metaWindow = parent.metaWindow
     this.app = parent.app
     this.isFavapp = parent.isFavapp
