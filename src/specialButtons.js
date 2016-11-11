@@ -49,16 +49,10 @@ IconLabelButton.prototype = {
       track_hover: true
     })
     this.actor.height = parent._applet._panelHeight
-    if (this._applet.orientation == St.Side.TOP) {
-      this.actor.add_style_class_name('window-list-item-box-top')
-    }
-    else {
-      this.actor.add_style_class_name('window-list-item-box-bottom')
-    }
     this.actor._delegate = this
 
-        // We do a fancy layout with icons and labels, so we'd like to do our own allocation
-        // in a Cinnamon.GenericContainer
+    // We do a fancy layout with icons and labels, so we'd like to do our own allocation
+    // in a Cinnamon.GenericContainer
     this._container = new Cinnamon.GenericContainer({
       name: 'iconLabelButton'
     })
@@ -82,12 +76,18 @@ IconLabelButton.prototype = {
     this.setIconPadding()
     this.setIconSize()
 
+    global.settings.connect('changed::panel-edit-mode', Lang.bind(this, this.on_panel_edit_mode_changed))
     this._applet.settings.connect('changed::icon-padding', Lang.bind(this, this.setIconPadding))
     this._applet.settings.connect('changed::icon-size', Lang.bind(this, this.setIconSize))
   },
 
+  on_panel_edit_mode_changed: function () {
+    this.actor.reactive = !global.settings.get_boolean('panel-edit-mode')
+  },
+
   setIconPadding: function () {
-    this.actor.style = 'padding-bottom: 0px;padding-top:0px; padding-left: ' + this._applet.iconPadding + 'px;padding-right:' + (this._applet.iconPadding - 5) + 'px;'
+    var direction = this._applet.orientation === St.Side.TOP || this._applet.orientation == St.Side.BOTTOM ? ['left', 'right'] : ['top', 'bottom']
+    this.actor.style = `padding-bottom: 0px;padding-top:0px; padding-${direction[0]}: ${this._applet.iconPadding}px;padding-${direction[1]}: ${this._applet.iconPadding - 5}px;`
   },
 
   setIconSize: function () {

@@ -57,6 +57,11 @@ AppGroup.prototype = {
       y_fill: false,
       track_hover: true
     })
+
+    if (this._applet.c32) {
+      this._applet.manager_container.add_actor(this.actor);
+    }
+
     this.actor._delegate = this
 
     this.myactor = new St.BoxLayout({

@@ -550,7 +550,10 @@ AppMenuButtonRightClickMenu.prototype = {
   },
 
   _onParentActorButtonPress: function (actor, event) {
-    return true
+    var button = event.get_button()
+    if (button === 3) {
+      return true
+    } 
   },
 
   _onToggled: function (actor, event) {
