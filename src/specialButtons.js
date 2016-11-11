@@ -330,7 +330,7 @@ AppButton.prototype = {
       if (windows[i].has_focus()) {
         return true
       }
-      window.foreach_transient(handleTransient)
+      windows[i].foreach_transient(handleTransient)
     }
     return hasTransient
   },
