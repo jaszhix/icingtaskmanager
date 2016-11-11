@@ -13,6 +13,7 @@ const Gtk = imports.gi.Gtk
 const Gio = imports.gi.Gio
 const Gettext = imports.gettext
 const Tweener = imports.ui.tweener
+const Applet = imports.ui.applet;
 const _ = imports.applet._
 const clog = imports.applet.clog
 
@@ -42,21 +43,18 @@ function AppMenuButtonRightClickMenu () {
 }
 
 AppMenuButtonRightClickMenu.prototype = {
-  __proto__: PopupMenu.PopupMenu.prototype,
+  __proto__: Applet.AppletPopupMenu.prototype,
 
   _init: function (parent, actor) {
-    // take care of menu initialization
-    if (parent._applet.c32) {
-      PopupMenu.PopupMenu.prototype._init.call(this, parent.actor, parent.orientation, 1)
-    } else {
-      PopupMenu.PopupMenu.prototype._init.call(this, parent.actor, 0, parent.orientation)
-    }
+    Applet.AppletPopupMenu.prototype._init.call(this, parent, parent.orientation);
+
     Main.uiGroup.add_actor(this.actor)
 
     this.actor.hide()
     this.metaWindow = parent.metaWindow
     this._parentActor = actor
     this._parentActor.connect('button-release-event', Lang.bind(this, this._onParentActorButtonRelease))
+    this._parentActor.connect('button-press-event', Lang.bind(this, this._onParentActorButtonPress))
 
     actor.connect('key-press-event', Lang.bind(this, this._onSourceKeyPress))
     this.connect('open-state-changed', Lang.bind(this, this._onToggled))
@@ -538,16 +536,21 @@ AppMenuButtonRightClickMenu.prototype = {
   },
 
   _onParentActorButtonRelease: function (actor, event) {
-    if (event.get_state() & Clutter.ModifierType.BUTTON1_MASK) {
+    var button = event.get_button()
+    if (button === 1) {
       if (this.isOpen) {
         this.toggle()
       }
-    } else if (event.get_state() & Clutter.ModifierType.BUTTON2_MASK) {
-      this.close(false)
-    } else if (event.get_state() & Clutter.ModifierType.BUTTON3_MASK && !global.settings.get_boolean('panel-edit-mode')) {
+    }
+    if (button === 3) {
       this.mouseEvent = event
       this.toggle()
     }
+    return true
+  },
+
+  _onParentActorButtonPress: function (actor, event) {
+    return true
   },
 
   _onToggled: function (actor, event) {
@@ -751,7 +754,7 @@ AppThumbnailHoverMenu.prototype = {
   _init: function (parent) {
     this._applet = parent._applet
     if (parent._applet.c32) {
-      PopupMenu.PopupMenu.prototype._init.call(this, parent.actor, parent.orientation, 1)
+      PopupMenu.PopupMenu.prototype._init.call(this, parent.actor, parent.orientation, 0.5)
     } else {
       PopupMenu.PopupMenu.prototype._init.call(this, parent.actor, 0.5, parent.orientation)
     }
