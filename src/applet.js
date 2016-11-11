@@ -251,44 +251,58 @@ MyApplet.prototype = {
 
     this.c32 = true
 
+    /* Declare vertical panel compatibility */
+    try {
+      this.setAllowedLayout(Applet.AllowedLayout.BOTH);
+    } catch (e) {
+      this.c32 = null
+      /* We are on Cinnamon < 3.2 */
+    }
+
     try {
       this._uuid = metadata.uuid
       this.execInstallLanguage()
       Gettext.bindtextdomain(this._uuid, GLib.get_home_dir() + '/.local/share/locale')
       this.settings = new Settings.AppletSettings(this, 'IcingTaskManager@json', instance_id)
-      this.settings.bindProperty(Settings.BindingDirection.IN, 'show-pinned', 'showPinned', null, null)
-      this.settings.bindProperty(Settings.BindingDirection.IN, 'show-alerts', 'showAlerts', null, null)
-      this.settings.bindProperty(Settings.BindingDirection.IN, 'arrange-pinnedApps', 'arrangePinned', null, null)
-      this.settings.bindProperty(Settings.BindingDirection.IN, 'enable-hover-peek', 'enablePeek', null, null)
-      this.settings.bindProperty(Settings.BindingDirection.IN, 'onclick-thumbnails', 'onclickThumbs', null, null)
-      this.settings.bindProperty(Settings.BindingDirection.IN, 'hover-peek-opacity', 'peekOpacity', null, null)
-      this.settings.bindProperty(Settings.BindingDirection.IN, 'thumbnail-timeout', 'thumbTimeout', null, null)
-      this.settings.bindProperty(Settings.BindingDirection.IN, 'thumbnail-size', 'thumbSize', null, null)
-      this.settings.bindProperty(Settings.BindingDirection.IN, 'sort-thumbnails', 'sortThumbs', null, null)
-      this.settings.bindProperty(Settings.BindingDirection.IN, 'vertical-thumbnails', 'verticalThumbs', null, null)
-      this.settings.bindProperty(Settings.BindingDirection.IN, 'stack-thumbnails', 'stackThumbs', null, null)
-      this.settings.bindProperty(Settings.BindingDirection.IN, 'show-thumbnails', 'showThumbs', null, null)
-      this.settings.bindProperty(Settings.BindingDirection.IN, 'number-display', 'numDisplay', null, null)
-      this.settings.bindProperty(Settings.BindingDirection.IN, 'title-display', 'titleDisplay', null, null)
-      this.settings.bindProperty(Settings.BindingDirection.IN, 'icon-padding', 'iconPadding', null, null)
-      this.settings.bindProperty(Settings.BindingDirection.IN, 'enable-iconSize', 'enableIconSize', null, null)
-      this.settings.bindProperty(Settings.BindingDirection.IN, 'icon-size', 'iconSize', null, null)
-      this.settings.bindProperty(Settings.BindingDirection.IN, 'show-recent', 'showRecent', null, null)
-      this.settings.bindProperty(Settings.BindingDirection.IN, 'appmenu-width', 'appMenuWidth', null, null)
-      this.settings.bindProperty(Settings.BindingDirection.IN, 'firefox-menu', 'firefoxMenu', null, null)
-      this.settings.bindProperty(Settings.BindingDirection.IN, 'appmenu-number', 'appMenuNum', null, null)
+
+      var settingsProps = [
+        {key: 'show-pinned', value: 'showPinned'},
+        {key: 'show-alerts', value: 'showAlerts'},
+        {key: 'arrange-pinnedApps', value: 'arrangePinned'},
+        {key: 'enable-hover-peek', value: 'enablePeek'},
+        {key: 'onclick-thumbnails', value: 'onclickThumbs'},
+        {key: 'hover-peek-opacity', value: 'peekOpacity'},
+        {key: 'thumbnail-timeout', value: 'thumbTimeout'},
+        {key: 'thumbnail-size', value: 'thumbSize'},
+        {key: 'sort-thumbnails', value: 'sortThumbs'},
+        {key: 'vertical-thumbnails', value: 'verticalThumbs'},
+        {key: 'stack-thumbnails', value: 'stackThumbs'},
+        {key: 'show-thumbnails', value: 'showThumbs'},
+        {key: 'number-display', value: 'numDisplay'},
+        {key: 'title-display', value: 'titleDisplay'},
+        {key: 'icon-padding', value: 'iconPadding'},
+        {key: 'enable-iconSize', value: 'enableIconSize'},
+        {key: 'icon-size', value: 'iconSize'},
+        {key: 'show-recent', value: 'showRecent'},
+        {key: 'appmenu-width', value: 'appMenuWidth'},
+        {key: 'firefox-menu', value: 'firefoxMenu'},
+        {key: 'appmenu-number', value: 'appMenuNum'}
+      ]
+
+      if (this.c32) {
+        for (let i = 0, len = settingsProps.length; i < len; i++) {
+          this.settings.bind(settingsProps[i].key, settingsProps[i].value);
+        }
+      } else {
+        for (let i = 0, len = settingsProps.length; i < len; i++) {
+          var direction = settingsProps[i].value === 'pinnedApps' ? 'BIDIRECTIONAL' : 'IN'
+          this.settings.bindProperty(Settings.BindingDirection[direction], settingsProps[i].key, settingsProps[i].value, null, null)
+        }
+      }
 
       this._box = new St.Bin()
 
       this.actor.add(this._box)
-
-      /* Declare vertical panel compatibility */
-      try {
-        this.setAllowedLayout(Applet.AllowedLayout.BOTH);
-      } catch (e) {
-        this.c32 = null
-        /* We are on Cinnamon < 3.2 */
-      }
 
       if (orientation === St.Side.TOP) {
         this.actor.style = 'margin-top: 0px; padding-top: 0px;'
@@ -348,6 +362,8 @@ MyApplet.prototype = {
         callback: this._onOverviewHide,
         bind: this
       })
+
+      // Query apps for the current workspace
       this._onSwitchWorkspace(null, null, global.screen.get_active_workspace_index())
 
       global.settings.connect('changed::panel-edit-mode', Lang.bind(this, this.on_panel_edit_mode_changed))
