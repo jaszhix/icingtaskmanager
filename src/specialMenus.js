@@ -1291,8 +1291,8 @@ WindowThumbnail.prototype = {
       })
       this._updateAttentionGrabber(null, null, this._applet.showAlerts)
       this._applet.settings.connect('changed::show-alerts', Lang.bind(this, this._updateAttentionGrabber))
-      var tracker = Cinnamon.WindowTracker.get_default()
-      this._trackerSignal = tracker.connect('notify::focus-app', Lang.bind(this, this._onFocusChange))
+      this.tracker = Cinnamon.WindowTracker.get_default()
+      this._trackerSignal = this.tracker.connect('notify::focus-app', Lang.bind(this, this._onFocusChange))
     }
     this.actor.connect('enter-event', ()=>{
       if (!this.isFavapp) {
@@ -1406,15 +1406,18 @@ WindowThumbnail.prototype = {
   },
 
   destroy: function () {
-    if (this._trackerSignal) {
-      var tracker = Cinnamon.WindowTracker.get_default()
-      tracker.disconnect(this._trackerSignal)
-    }
-    if (this._urgent_signal) {
-      global.display.disconnect(this._urgent_signal)
-    }
-    if (this._attention_signal) {
-      global.display.disconnect(this._attention_signal)
+    try {
+      if (this._trackerSignal) {
+        this.tracker.disconnect(this._trackerSignal)
+      }
+      if (this._urgent_signal) {
+        global.display.disconnect(this._urgent_signal)
+      }
+      if (this._attention_signal) {
+        global.display.disconnect(this._attention_signal)
+      }
+    } catch (e) {
+      /* Signal is invalid */
     }
     delete this._parent.appThumbnails[this.metaWindow]
     this.actor.destroy_children()
