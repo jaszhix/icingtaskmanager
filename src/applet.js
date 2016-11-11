@@ -13,6 +13,7 @@
 const Applet = imports.ui.applet
 const Lang = imports.lang
 const Cinnamon = imports.gi.Cinnamon
+const Clutter = imports.gi.Clutter;
 const St = imports.gi.St
 const Main = imports.ui.main
 const Signals = imports.signals
@@ -274,15 +275,20 @@ MyApplet.prototype = {
       this.settings.bindProperty(Settings.BindingDirection.IN, 'firefox-menu', 'firefoxMenu', null, null)
       this.settings.bindProperty(Settings.BindingDirection.IN, 'appmenu-number', 'appMenuNum', null, null)
 
-
-
       this._box = new St.Bin()
 
       this.actor.add(this._box)
 
-      if (orientation == St.Side.TOP) {
+      /* Declare vertical panel compatibility */
+      try {
+        this.setAllowedLayout(Applet.AllowedLayout.BOTH);
+      } catch (e) {
+        /* We are on Cinnamon < 3.2 */
+      }
+
+      if (orientation === St.Side.TOP) {
         this.actor.style = 'margin-top: 0px; padding-top: 0px;'
-      } else {
+      } else if (orientation === St.Side.BOTTOM) {
         this.actor.style = 'margin-bottom: 0px; padding-bottom: 0px;'
       }
 
@@ -294,13 +300,10 @@ MyApplet.prototype = {
       this.recentItems = this.recentManager.get_items().sort(function (a, b) { return a.get_modified() - b.get_modified(); }).reverse()
       this.recentManager.connect('changed', Lang.bind(this, this.on_recent_items_changed))
 
-      this.metaWorkspaces = {}
+      this.metaWorkspaces = []
 
       Main.keybindingManager.addHotKey('move-app-to-next-monitor', '<Shift><Super>Right', Lang.bind(this, this._onMoveToNextMonitor))
       Main.keybindingManager.addHotKey('move-app-to-prev-monitor', '<Shift><Super>Left', Lang.bind(this, this._onMoveToPrevMonitor))
-
-      // Cached in the root class so PinnedFavs has access.
-      this.appList = []
 
       // Use a signal tracker so we don't have to keep track of all these id's manually!
 
@@ -440,39 +443,41 @@ MyApplet.prototype = {
     this.recentItems = this.recentManager.get_items().sort(function (a, b) { return a.get_modified() - b.get_modified(); }).reverse()
   },
 
-  _onWorkspaceCreatedOrDestroyed: function () {
-    // TBD
-    let workspaces = [global.screen.get_workspace_by_index(i).forEach(i in range(global.screen.n_workspaces))]; //TBD
+  _onWorkspaceCreatedOrDestroyed: function (i) {
+    var workspaces = _.filter(global.screen.get_workspace_by_index(i), (ws, key)=>{
+      return key in range(global.screen.n_workspaces) 
+    })
+
     // We'd like to know what workspaces in this.metaWorkspaces have been destroyed and
     // so are no longer in the workspaces list.  For each of those, we should destroy them
-    let toDelete = []
-    for (let workSpace in this.metaWorkspaces) {
-      if (workspaces.indexOf(this.metaWorkspaces[workSpace].ws) == -1) {
-        this.metaWorkspaces[workSpace].appList.destroy()
-        toDelete.push(this.metaWorkspaces[workSpace].ws)
+
+    for (let i = 0, len = this.metaWorkspaces.length; i < len; i++) {
+      if (workspaces.indexOf(this.metaWorkspaces[i].ws) == -1) {
+        this.metaWorkspaces[i].appList.destroy()
+        _.pullAt(this.metaWorkspaces, i)
       }
-    }
-    for (let i = 0;i < toDelete.length;i++) {
-      delete this.metaWorkspaces[toDelete[i]]
     }
   },
 
   _onSwitchWorkspace: function (winManager, previousWorkspaceIndex, currentWorkspaceIndex) {
     let metaWorkspace = global.screen.get_workspace_by_index(currentWorkspaceIndex)
+    
     // If the workspace we switched to isn't in our list,
     // we need to create an AppList for it
-    if (!this.metaWorkspaces[metaWorkspace]) {
-      let appList = new AppList.AppList(this, metaWorkspace)
-      this.metaWorkspaces[metaWorkspace] = {
+    var refWorkspace = _.findIndex(this.metaWorkspaces, {index: currentWorkspaceIndex})
+    if (refWorkspace === -1) {
+      var appList = new AppList.AppList(this, metaWorkspace)
+      this.metaWorkspaces.push({
         ws: metaWorkspace,
-        appList: appList
-      }
+        appList: appList,
+        index: currentWorkspaceIndex,
+      })
     }
 
     // this.actor can only have one child, so setting the child
     // will automatically unparent anything that was previously there, which
     // is exactly what we want.
-    let list = this.metaWorkspaces[metaWorkspace].appList
+    var list = refWorkspace !== -1 ? this.metaWorkspaces[refWorkspace].appList : appList
     this._box.set_child(list.actor)
     list._refreshApps()
   },
