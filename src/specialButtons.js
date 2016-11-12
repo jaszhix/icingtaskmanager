@@ -5,6 +5,7 @@ const PopupMenu = imports.ui.popupMenu
 const Cinnamon = imports.gi.Cinnamon
 const St = imports.gi.St
 const Tweener = imports.ui.tweener
+const Meta = imports.gi.Meta
 const DND = imports.ui.dnd
 const Mainloop = imports.mainloop
 const _ = imports.applet._
@@ -652,28 +653,31 @@ _Draggable.prototype = {
   _grabActor: function () {
         // Clutter.grab_pointer(this.actor);
     this._onEventId = this.actor.connect('event', Lang.bind(this, this._onEvent))
-  }
+  },
+  _onButtonPress: function (actor, event) {
+    if (this.inhibit) {
+      return false;
+    }
+
+    if (event.get_button() != 2) {
+      return false;
+    }
+
+    if (Tweener.getTweenCount(actor)) {
+      return false;
+    }
+
+    this._buttonDown = true;
+    this._grabActor();
+
+    let [stageX, stageY] = event.get_coords();
+    this._dragStartX = stageX;
+    this._dragStartY = stageY;
+
+    return false;
+  },
 }
 
 function makeDraggable (actor, params) {
   return new _Draggable(actor, params)
-}
-
-function MyAppletBox (applet) {
-  this._init(applet)
-}
-
-MyAppletBox.prototype = {
-  _init: function (applet) {
-    this.actor = new St.BoxLayout({
-      style_class: 'window-list-box'
-    })
-    this.actor._delegate = this
-
-    this._applet = applet
-
-    this._dragPlaceholder = null
-    this._dragPlaceholderPos = -1
-    this._animatingPlaceholdersCount = 0
-  }
 }

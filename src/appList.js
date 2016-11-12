@@ -9,7 +9,6 @@ const clog = imports.applet.clog
 const AppletDir = imports.ui.appletManager.applets['IcingTaskManager@json']
 const App = AppletDir.applet
 const AppGroup = AppletDir.appGroup
-const SpecialButtons = AppletDir.specialButtons
 
 // List of running apps
 
@@ -31,8 +30,9 @@ AppList.prototype = {
   _init: function (applet, metaWorkspace) {
     this._applet = applet
     this.metaWorkspace = metaWorkspace
-    this.myactorbox = new SpecialButtons.MyAppletBox(this._applet)
-    this.actor = this.myactorbox.actor
+    this.actor = new St.BoxLayout({
+      style_class: 'window-list-box'
+    })
     this._appsys = Cinnamon.AppSystem.get_default()
     this.registeredApps = []
 

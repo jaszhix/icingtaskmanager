@@ -121,13 +121,13 @@ AppGroup.prototype = {
   _onDragEnd: function () {
     this.rightClickMenu.close(false)
     this.hoverMenu.close(false)
-    this.appList.myactorbox._clearDragPlaceholder()
+    this._applet._clearDragPlaceholder()
   },
 
   _onDragCancelled: function () {
     this.rightClickMenu.close(false)
     this.hoverMenu.close(false)
-    this.appList.myactorbox._clearDragPlaceholder()
+    this._applet._clearDragPlaceholder()
   },
 
   handleDragOver: function (source, actor, x, y, time) {
@@ -227,6 +227,7 @@ AppGroup.prototype = {
   },
 
   _onAppButtonRelease: function (actor, event) {
+    this._applet._clearDragPlaceholder()
     var button = event.get_button();
     if ((button === 1) && this.isFavapp) {
       this.app.open_new_window(-1)

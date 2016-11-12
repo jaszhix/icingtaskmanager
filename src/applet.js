@@ -161,6 +161,10 @@ PinnedFavs.prototype = {
     return refFav !== -1
   },
 
+  triggerUpdate: function () {
+    this._applet.metaWorkspaces[this._applet.currentWs].appList._refreshList()
+  },
+
   _addFavorite: function (appId, pos) {
     if (this.isFavorite(appId)) {
       return false
@@ -188,7 +192,7 @@ PinnedFavs.prototype = {
     }
 
     this._applet.settings.setValue('pinned-apps', _.map(this._favorites, 'id'))
-    this._applet.metaWorkspaces[this._applet.currentWs].appList._refreshList()
+    this.triggerUpdate()
     return true
   },
 
@@ -199,7 +203,7 @@ PinnedFavs.prototype = {
     }
     this._favorites.splice(pos, 0, this._favorites.splice(oldIndex, 1)[0])
     this._applet.settings.setValue('pinned-apps', _.map(this._favorites, 'id'))
-    this._applet.metaWorkspaces[this._applet.currentWs].appList._refreshList()
+    this.triggerUpdate()
   },
 
   _removeFavorite: function (appId) {
@@ -210,7 +214,7 @@ PinnedFavs.prototype = {
 
     _.pullAt(this._favorites, refFav)
     this._applet.settings.setValue('pinned-apps', _.map(this._favorites, 'id'))
-    this._applet.metaWorkspaces[this._applet.currentWs].appList._refreshList()
+    this.triggerUpdate()
     return true
   },
 
@@ -373,6 +377,10 @@ MyApplet.prototype = {
         callback: this._onOverviewHide,
         bind: this
       })
+
+      this._dragPlaceholder = null
+      this._dragPlaceholderPos = -1
+      this._animatingPlaceholdersCount = 0
 
       // Query apps for the current workspace
       this.currentWs = global.screen.get_active_workspace_index()
@@ -550,17 +558,17 @@ MyApplet.prototype = {
   },
 
   acceptDrop: function (source, actor, x, y, time) {
-    if (!(source.isDraggableApp || (source instanceof DND.LauncherDraggable) || this._dragPlaceholderPos === undefined)) {
+    if (!(source.isDraggableApp || (source instanceof DND.LauncherDraggable))) {
       return false
     }
 
     if (!(source.isFavapp || source.wasFavapp || source.isDraggableApp || (source instanceof DND.LauncherDraggable)) || source.isNotFavapp) {
       if (this._dragPlaceholderPos !== -1) {
-        this.manager_container.insert_child_at_index(source.actor, this._dragPlaceholderPos)
+        this.manager_container.set_child_at_index(source.actor, this._dragPlaceholderPos)
       }
       this._clearDragPlaceholder()
     }
-    this.manager_container.insert_child_at_index(source.actor, this._dragPlaceholderPos)
+    this.manager_container.set_child_at_index(source.actor, this._dragPlaceholderPos)
 
     var app = source.app
 
