@@ -75,7 +75,7 @@
    "max" : 150,
    "step" : 1,
    "units" : "px",
-   "description" : "Icon Size:",
+   "description" : "Icon size:",
    "tooltip" : "Set icon size"
  },
  "Space1" : {

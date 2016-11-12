@@ -99,7 +99,7 @@ msgstr ""
 msgid "Adjust icon size independent of Cinnamon's panel scaling."
 msgstr "התאם גודל סמל עצמאי של אבנית הלוח של הקינמון."
 
-msgid "Icon Size:"
+msgid "Icon size:"
 msgstr "גודל אייקון:"
 
 msgid "Set icon size"

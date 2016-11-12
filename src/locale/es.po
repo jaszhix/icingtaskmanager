@@ -101,7 +101,7 @@ msgstr ""
 msgid "Adjust icon size independent of Cinnamon's panel scaling."
 msgstr ""
 
-msgid "Icon Size:"
+msgid "Icon size:"
 msgstr ""
 
 msgid "Set icon size"

@@ -89,7 +89,7 @@ msgstr "Symbolgröße anpassen"
 msgid "Adjust icon size independent of Cinnamon's panel scaling."
 msgstr "Symbolgröße unabhängig von der Cinnamon-Taskleiste anpassen."
 
-msgid "Icon Size:"
+msgid "Icon size:"
 msgstr "Symbolgröße:"
 
 msgid "Set icon size"

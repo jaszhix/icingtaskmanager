@@ -107,7 +107,7 @@ msgstr ""
 "Ajustez la taille de l'icône indépendamment de la mise à l'échelle du \"\n"
 "#~ \"panneau Cinnamon."
 
-msgid "Icon Size:"
+msgid "Icon size:"
 msgstr "Taille des icônes:"
 
 msgid "Set icon size"

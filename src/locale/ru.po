@@ -99,7 +99,7 @@ msgid "Adjust icon size independent of Cinnamon's panel scaling."
 msgstr ""
 "Отрегулируйте размер значков независимо от масштабирования панели корицу в."
 
-msgid "Icon Size:"
+msgid "Icon size:"
 msgstr "Размер значка:"
 
 msgid "Set icon size"
