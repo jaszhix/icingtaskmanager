@@ -58,9 +58,7 @@ AppGroup.prototype = {
       track_hover: true
     })
 
-    if (this._applet.c32) {
-      this._applet.manager_container.add_actor(this.actor);
-    }
+    this._applet.manager_container.add_actor(this.actor)
 
     this.actor._delegate = this
 
@@ -528,8 +526,9 @@ AppGroup.prototype = {
     if (!this._appButton) {
       clog('Error: got a _calcWindowNumber callback but this._appButton is undefined')
     }
+
     let windowNum = this.metaWindows.length
-    //windowNum = this.appList._getNumberOfAppWindowsInWorkspace(this.app, metaWorkspace)
+
     let numDisplay = this._applet.settings.getValue('number-display')
     this._appButton._numLabel.text = windowNum.toString()
     if (numDisplay === App.NumberDisplay.Smart) {

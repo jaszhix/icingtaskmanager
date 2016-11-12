@@ -253,12 +253,12 @@ MyApplet.prototype = {
 
     this.c32 = true
 
-    /* Declare vertical panel compatibility */
+    // Declare vertical panel compatibility
     try {
       this.setAllowedLayout(Applet.AllowedLayout.BOTH);
     } catch (e) {
       this.c32 = null
-      /* We are on Cinnamon < 3.2 */
+      // We are on Cinnamon < 3.2
     }
 
     try {
@@ -375,31 +375,24 @@ MyApplet.prototype = {
 
       global.settings.connect('changed::panel-edit-mode', Lang.bind(this, this.on_panel_edit_mode_changed))
 
-      if (this.c32) {
-        this.actor.connect('style-changed', Lang.bind(this, this._updateSpacing));
-        this.settings.connect('changed::icon-padding', Lang.bind(this, this._updateSpacing))
-        this.on_orientation_changed(orientation);
-      } else {
-        if (this.orientation === St.Side.TOP) {
-          this.actor.style = 'margin-top: 0px; padding-top: 0px;'
-        } else if (orientation === St.Side.BOTTOM) {
-          this.actor.style = 'margin-bottom: 0px; padding-bottom: 0px;'
-        }
-      }
+      this.actor.connect('style-changed', Lang.bind(this, this._updateSpacing));
+      this.settings.connect('changed::icon-padding', Lang.bind(this, this._updateSpacing))
+      this.on_orientation_changed(orientation);
+
     } catch (e) {
-      Main.notify('Error', e.message)
-      global.logError(e)
+      clog('Error', e.message)
     }
   },
 
   on_applet_added_to_panel: function(userEnabled) {
-    if (this.c32) {
-      this._updateSpacing();
-      this.appletEnabled = true;
-    }
+    this._updateSpacing();
+    this.appletEnabled = true;
   },
 
   on_orientation_changed: function(orientation) {
+    if (this.manager === undefined) {
+      return
+    }
     this.orientation = orientation
 
     if (orientation == St.Side.TOP || orientation == St.Side.BOTTOM) {
@@ -443,7 +436,7 @@ MyApplet.prototype = {
     this.manager.set_spacing(this.iconPadding * global.ui_scale)
   },
 
-  execInstallLanguage: function () {
+  execInstallLanguage: function () { // TBD
     try {
       let _shareFolder = GLib.get_home_dir() + '/.local/share/'
       let _localeFolder = Gio.file_new_for_path(_shareFolder + 'locale/')
@@ -481,8 +474,139 @@ MyApplet.prototype = {
       Main.notify('Error', e.message)
       global.logError(e)
     }
+  },
 
+  handleDragOver: function (source, actor, x, y, time) {
+    if (!(source.isDraggableApp || (source instanceof DND.LauncherDraggable))) {
+      return DND.DragMotionResult.NO_DROP
+    }
 
+    var children = this.manager_container.get_children()
+    var windowPos = children.indexOf(source.actor)
+
+    var pos = 0
+
+    var isVertical = this.manager_container.height > this.manager_container.width
+    var axis = isVertical ? [y, 'y1'] : [x, 'x1']
+    for (var i in children) {
+      if (axis[0] > children[i].get_allocation_box()[axis[1]] + children[i].width / 2) {
+        pos = i
+      }
+    }
+
+    if (pos != this._dragPlaceholderPos) {
+      this._dragPlaceholderPos = pos
+
+      // Don't allow positioning before or after self
+      if (windowPos != -1 && pos == windowPos) {
+        if (this._dragPlaceholder) {
+          this._dragPlaceholder.animateOutAndDestroy()
+          this._animatingPlaceholdersCount++
+          this._dragPlaceholder.actor.connect('destroy', Lang.bind(this, function () {
+            this._animatingPlaceholdersCount--
+          }))
+        }
+        this._dragPlaceholder = null
+
+        return DND.DragMotionResult.CONTINUE
+      }
+
+      // If the placeholder already exists, we just move
+      // it, but if we are adding it, expand its size in
+      // an animation
+      var fadeIn
+      if (this._dragPlaceholder) {
+        this._dragPlaceholder.actor.destroy()
+        fadeIn = false
+      } else {
+        fadeIn = true
+      }
+
+      var childWidth
+      var childHeight
+      if (source.isDraggableApp) {
+        childWidth = 30
+        childHeight = 24
+      } else {
+        childWidth = source.actor.width
+        childHeight = source.actor.height
+      }
+      this._dragPlaceholder = new DND.GenericDragPlaceholderItem()
+      this._dragPlaceholder.child.width = childWidth
+      this._dragPlaceholder.child.height = childHeight
+      this.manager_container.insert_child_at_index(this._dragPlaceholder.actor, this._dragPlaceholderPos)
+
+      if (fadeIn) {
+        this._dragPlaceholder.animateIn()
+      }
+    }
+
+    return DND.DragMotionResult.MOVE_DROP
+  },
+
+  acceptDrop: function (source, actor, x, y, time) {
+    if (!(source.isDraggableApp || (source instanceof DND.LauncherDraggable) || this._dragPlaceholderPos === undefined)) {
+      return false
+    }
+
+    if (!(source.isFavapp || source.wasFavapp || source.isDraggableApp || (source instanceof DND.LauncherDraggable)) || source.isNotFavapp) {
+      if (this._dragPlaceholderPos !== -1) {
+        this.manager_container.insert_child_at_index(source.actor, this._dragPlaceholderPos)
+      }
+      this._clearDragPlaceholder()
+    }
+    this.manager_container.insert_child_at_index(source.actor, this._dragPlaceholderPos)
+
+    var app = source.app
+
+    // Don't allow favoriting of transient apps
+    if (!app || app.is_window_backed()) {
+      return false
+    }
+
+    var id = app.get_id()
+    if (app.is_window_backed()) {
+      id = app.get_name().toLowerCase() + '.desktop'
+    }
+
+    var favorites = this.pinnedAppsContr.getFavoriteMap()
+    var refFav = _.findIndex(favorites, {id: id})
+    var favPos = this._dragPlaceholderPos
+
+    if (favPos === -1) {
+      var children = this.manager_container.get_children()
+
+      var pos = 0
+
+      for (var i in children) {
+        if (x > children[i].get_allocation_box().x1 + children[i].width / 2) {
+          pos = i
+        }
+      }
+      if (pos != this._dragPlaceholderPos) {
+        favPos = pos
+      }
+    }
+    this.manager_container.set_child_at_index(source.actor, favPos)
+
+    Meta.later_add(Meta.LaterType.BEFORE_REDRAW, Lang.bind(this, function () {
+      if (refFav !== -1) {
+        this.pinnedAppsContr.moveFavoriteToPos(id, favPos)
+      } else {
+        this.pinnedAppsContr._addFavorite(id, favPos)
+      } 
+      return false
+    }))
+    this._clearDragPlaceholder()
+    return true
+  },
+
+  _clearDragPlaceholder: function () {
+    if (this._dragPlaceholder) {
+      this._dragPlaceholder.animateOutAndDestroy()
+      this._dragPlaceholder = null
+      this._dragPlaceholderPos = -1
+    }
   },
 
   _makeDirectoy: function (fDir) {
