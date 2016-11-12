@@ -78,10 +78,6 @@
    "description" : "Icon size:",
    "tooltip" : "Set icon size"
  },
- "Space1" : {
-    "type" : "header",
-    "description": " "
- },
  "HoverPeek" : {
     "type" : "header",
     "description": "Hover Peek Settings"
@@ -114,10 +110,6 @@
     "units" : "percent",
     "description" : "Window opacity:",
     "tooltip" : "Opacity of the windows on hover."
- },
- "Space2" : {
-    "type" : "header",
-    "description": " "
  },
  "Thumbnails" : {
     "type" : "header",
@@ -175,10 +167,6 @@
     "default" : false,
     "description": "Open thumbnails on click",
     "tooltip": "Open the thumbnails on click if there is more than one window open."
- },
- "Space3" : {
-    "type" : "header",
-    "description": " "
  },
  "AppMenu" : {
     "type" : "header",
