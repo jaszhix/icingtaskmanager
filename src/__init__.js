@@ -29,7 +29,7 @@ const clog = (label='LOG', input='...')=>{
     }
   } catch (e) {
     try {
-      Main._logInfo(label)
+      Main._logInfo(`${label}: ${e}`)
     } catch (e) {
       Main._logInfo(`Could not parse logging input: ${e}`)
     }
