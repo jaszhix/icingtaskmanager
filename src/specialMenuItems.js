@@ -4,7 +4,6 @@ const Lang = imports.lang;
 const PopupMenu = imports.ui.popupMenu;
 const St = imports.gi.St;
 const Gio = imports.gi.Gio;
-const Gettext = imports.gettext;
 const Clutter = imports.gi.Clutter;
 const Tweener = imports.ui.tweener;
 const Tooltips = imports.ui.tooltips;

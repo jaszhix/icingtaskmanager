@@ -64,9 +64,6 @@ AppList.prototype = {
     this.signals.push(this.metaWorkspace.connect_after('window-added', Lang.bind(this, this._windowAdded)))
     this.signals.push(this.metaWorkspace.connect_after('window-removed', Lang.bind(this, this._windowRemoved)))
 
-    // This requeries everything after an item is pinned. Need more efficient way to reorder appList
-    this._applet.pinned_app_contr().connect('refreshList', Lang.bind(this, this._refreshList))
-
     this._applet.settings.connect('changed::show-pinned', Lang.bind(this, this._refreshList))
     global.settings.connect('changed::panel-edit-mode', Lang.bind(this, this.on_panel_edit_mode_changed))
   },

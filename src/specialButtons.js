@@ -5,7 +5,6 @@ const PopupMenu = imports.ui.popupMenu
 const Cinnamon = imports.gi.Cinnamon
 const St = imports.gi.St
 const Tweener = imports.ui.tweener
-const Meta = imports.gi.Meta
 const DND = imports.ui.dnd
 const Mainloop = imports.mainloop
 const _ = imports.applet._

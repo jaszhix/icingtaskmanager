@@ -119,7 +119,6 @@ AppMenuButtonRightClickMenu.prototype = {
       this._applet.recentManager.connect('changed', Lang.bind(this, function () {
         Mainloop.timeout_add(15, Lang.bind(this, this._recent_items_changed))
       }))
-      this._applet.settings.connect('changed::pinned-recent', Lang.bind(this, this._recent_items_changed))
       this._applet.settings.connect('changed::show-recent', Lang.bind(this, this._recent_items_changed))
       this._applet.settings.connect('changed::appmenu-width', Lang.bind(this, this._appMenu_width_changed))
 

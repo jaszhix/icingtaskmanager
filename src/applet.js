@@ -23,6 +23,7 @@ const Gettext = imports.gettext
 const Gio = imports.gi.Gio
 const Gtk = imports.gi.Gtk
 const GLib = imports.gi.GLib
+const Meta = imports.gi.Meta
 
 const _ = imports.applet._
 const clog = imports.applet.clog
@@ -125,7 +126,6 @@ PinnedFavs.prototype = {
     this._applet = applet
     this.appSys = Cinnamon.AppSystem.get_default()
     this._favorites = []
-    this._applet.settings.connect('changed::pinned-apps', ()=>this.emit('refreshList'))
     this._reload()
   },
 
@@ -188,6 +188,7 @@ PinnedFavs.prototype = {
     }
 
     this._applet.settings.setValue('pinned-apps', _.map(this._favorites, 'id'))
+    this._applet.metaWorkspaces[this._applet.currentWs].appList._refreshList()
     return true
   },
 
@@ -198,6 +199,7 @@ PinnedFavs.prototype = {
     }
     this._favorites.splice(pos, 0, this._favorites.splice(oldIndex, 1)[0])
     this._applet.settings.setValue('pinned-apps', _.map(this._favorites, 'id'))
+    this._applet.metaWorkspaces[this._applet.currentWs].appList._refreshList()
   },
 
   _removeFavorite: function (appId) {
@@ -208,6 +210,7 @@ PinnedFavs.prototype = {
 
     _.pullAt(this._favorites, refFav)
     this._applet.settings.setValue('pinned-apps', _.map(this._favorites, 'id'))
+    this._applet.metaWorkspaces[this._applet.currentWs].appList._refreshList()
     return true
   },
 
@@ -270,6 +273,7 @@ MyApplet.prototype = {
         {key: 'show-pinned', value: 'showPinned'},
         {key: 'show-alerts', value: 'showAlerts'},
         {key: 'arrange-pinnedApps', value: 'arrangePinned'},
+        {key: 'pinned-apps', value: 'pinnedApps'},
         {key: 'enable-hover-peek', value: 'enablePeek'},
         {key: 'onclick-thumbnails', value: 'onclickThumbs'},
         {key: 'hover-peek-opacity', value: 'peekOpacity'},
@@ -371,7 +375,8 @@ MyApplet.prototype = {
       })
 
       // Query apps for the current workspace
-      this._onSwitchWorkspace(null, null, global.screen.get_active_workspace_index())
+      this.currentWs = global.screen.get_active_workspace_index()
+      this._onSwitchWorkspace(null, null, this.currentWs)
 
       global.settings.connect('changed::panel-edit-mode', Lang.bind(this, this.on_panel_edit_mode_changed))
 

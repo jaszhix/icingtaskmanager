@@ -1,6 +1,5 @@
 const Clutter = imports.gi.Clutter
 const Lang = imports.lang
-const Cinnamon = imports.gi.Cinnamon
 const St = imports.gi.St
 const Main = imports.ui.main
 const Tweener = imports.ui.tweener
