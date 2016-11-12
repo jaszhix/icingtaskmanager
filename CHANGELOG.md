@@ -1,5 +1,11 @@
 Changelog
 
+### 3.1.0
+
+  * Apps are now draggable using the middle mouse button.
+  * Added vertical panel support for Cinnamon 3.2, along with various internal changes for compatibility.
+  * Limited recent items in the context menu to 10 items.
+
 ### 3.0.10
 
   * Rewrote parts of the window list handling. 

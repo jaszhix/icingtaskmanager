@@ -5,12 +5,7 @@ This is a fork of the unfinished development branch of [Window List With App Gro
 
 ### Changes from the original version
 
-  * Ability to move windows between monitors is now fixed.
-  * More theme-agnostic close button than the one found on the development branch.
-  * Integrated a [pull request](https://github.com/jake-phy/WindowIconList/pull/155) by mswiszcz, added optional icon size control.
-  * Formatting of code for readability.
-
-See more changes in the [changelog](https://github.com/jaszhix/icingtaskmanager/blob/master/CHANGELOG.md).
+See the [changelog](https://github.com/jaszhix/icingtaskmanager/blob/master/CHANGELOG.md).
 
 ### Importing pinned apps from the Window List With App Grouping applet
 
