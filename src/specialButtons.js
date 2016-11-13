@@ -86,8 +86,9 @@ IconLabelButton.prototype = {
   },
 
   setIconPadding: function () {
-    var direction = this._applet.orientation === St.Side.TOP || this._applet.orientation == St.Side.BOTTOM ? ['left', 'right'] : ['top', 'bottom']
-    this.actor.style = `padding-bottom: 0px;padding-top:0px; padding-${direction[0]}: ${this._applet.iconPadding}px;padding-${direction[1]}: ${this._applet.iconPadding - 5}px;`
+    if (this._applet.orientation === St.Side.TOP || this._applet.orientation == St.Side.BOTTOM) {
+      this.actor.style = `padding-bottom: 0px;padding-top:0px; padding-left: ${this._applet.iconPadding}px;padding-right: ${this._applet.iconPadding - 5}px;`
+    }
   },
 
   setIconSize: function () {

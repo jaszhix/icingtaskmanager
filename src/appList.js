@@ -31,9 +31,7 @@ AppList.prototype = {
   _init: function (applet, metaWorkspace) {
     this._applet = applet
     this.metaWorkspace = metaWorkspace
-    this.actor = new St.BoxLayout({
-      style_class: 'window-list-box'
-    })
+    this.actor = new St.BoxLayout()
 
     var manager
     if (this.orientation == St.Side.TOP || this.orientation == St.Side.BOTTOM) {
