@@ -65,17 +65,6 @@ AppList.prototype = {
     this.actor.reactive = global.settings.get_boolean('panel-edit-mode')
   },
 
-  /*on_orientation_changed: function (orientation) {
-    this._refreshList()
-    if (this._applet.orientation === St.Side.TOP) {
-      this.actor.set_style_class_name('window-list-item-box window-list-box-top')
-      this.actor.set_style('margin-top: 0px; padding-top: 0px;')
-    } else {
-      this.actor.set_style_class_name('window-list-item-box window-list-box-bottom')
-      this.actor.set_style('margin-bottom: 0px; padding-bottom: 0px;')
-    }
-  },*/
-
   on_applet_added_to_panel: function(userEnabled) {
     this._updateSpacing();
     this._applet.appletEnabled = true;

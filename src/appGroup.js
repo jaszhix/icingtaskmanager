@@ -78,6 +78,7 @@ AppGroup.prototype = {
     this._hoverMenuManager.addMenu(this.hoverMenu)
 
     this._draggable = SpecialButtons.makeDraggable(this.actor)
+    this._draggable.connect('drag-begin', Lang.bind(this, this._onDragBegin));
     this._draggable.connect('drag-cancelled', Lang.bind(this, this._onDragCancelled))
     this._draggable.connect('drag-end', Lang.bind(this, this._onDragEnd))
     this.isDraggableApp = true
@@ -110,6 +111,16 @@ AppGroup.prototype = {
       this.showAppButtonLabel(true)
     } else if (titleType === App.TitleDisplay.None) {
       this.hideAppButtonLabel(true)
+    }
+  },
+
+  _onDragBegin: function() {
+    if (this._applet.orientation == St.Side.TOP || this._applet.orientation == St.Side.BOTTOM) {
+      this._draggable._overrideY = this.actor.get_transformed_position()[1];
+      this._draggable._overrideX = null;
+    } else {
+      this._draggable._overrideX = this.actor.get_transformed_position()[0];
+      this._draggable._overrideY = null;
     }
   },
 
