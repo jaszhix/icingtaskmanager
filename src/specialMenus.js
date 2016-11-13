@@ -1291,11 +1291,11 @@ WindowThumbnail.prototype = {
         var parent = this._parent._parentContainer
         parent.shouldOpen = true
         parent.shouldClose = false
-        this._hoverPeek(this._applet.peekOpacity, this.metaWindow)
+        this._hoverPeek(this._applet.peekOpacity, this.metaWindow, true)
         this.actor.add_style_pseudo_class('outlined')
         this.actor.add_style_pseudo_class('selected')
         this.button.show()
-        if (this.metaWindow.minimized && this._applet.enablePeek) {
+        if (this.metaWindow.minimized && this._applet.enablePeek  && this.app.get_name() !== 'Steam') {
           this.metaWindow.unminimize()
           if (this.metaWindow.is_fullscreen()) {
             this.metaWindow.unmaximize(global.get_current_time())
@@ -1308,7 +1308,7 @@ WindowThumbnail.prototype = {
     })
     this.actor.connect('leave-event', Lang.bind(this, function () {
       if (!this.isFavapp) {
-        this._hoverPeek(OPACITY_OPAQUE, this.metaWindow)
+        this._hoverPeek(OPACITY_OPAQUE, this.metaWindow, false)
         this.actor.remove_style_pseudo_class('outlined')
         this.actor.remove_style_pseudo_class('selected')
         this.button.hide()
@@ -1459,7 +1459,7 @@ WindowThumbnail.prototype = {
     if (event.get_state() & Clutter.ModifierType.BUTTON1_MASK && actor == this.button) {
       this.destroy()
       this.stopClick = true
-      this._hoverPeek(OPACITY_OPAQUE, this.metaWindow)
+      this._hoverPeek(OPACITY_OPAQUE, this.metaWindow, false)
       this._parentContainer.shouldOpen = false
       this._parentContainer.shouldClose = true
       Mainloop.timeout_add(2000, Lang.bind(this._parentContainer, this._parentContainer.hoverClose))
@@ -1479,7 +1479,7 @@ WindowThumbnail.prototype = {
     } else if (event.get_state() & Clutter.ModifierType.BUTTON2_MASK && !this.stopClick) {
       this.stopClick = true
       this.destroy()
-      this._hoverPeek(OPACITY_OPAQUE, this.metaWindow)
+      this._hoverPeek(OPACITY_OPAQUE, this.metaWindow, false)
       this._parentContainer.shouldOpen = false
       this._parentContainer.shouldClose = true
       Mainloop.timeout_add(3000, Lang.bind(this._parentContainer, this._parentContainer.hoverClose))
@@ -1510,12 +1510,9 @@ WindowThumbnail.prototype = {
     }
   },
 
-  _hoverPeek: function (opacity, metaWin) {
+  _hoverPeek: function (opacity, metaWin, enterEvent) {
     var applet = this._applet
-    if (!applet.enablePeek) {
-      return
-    }
-
+    
     function setOpacity (window_actor, target_opacity) {
       Tweener.addTween(window_actor, {
         time: applet.peekTime * 0.001,
@@ -1523,6 +1520,7 @@ WindowThumbnail.prototype = {
         opacity: target_opacity
       })
     }
+
     global.get_window_actors().forEach(function (wa, i) {
 
       var meta_win = wa.get_meta_window()
@@ -1530,7 +1528,7 @@ WindowThumbnail.prototype = {
         return
       }
 
-      if (meta_win.get_window_type() != Meta.WindowType.DESKTOP) {
+      if (meta_win.get_window_type() !== Meta.WindowType.DESKTOP) {
         setOpacity(wa, opacity)
       }
     })
