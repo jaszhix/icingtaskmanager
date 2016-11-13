@@ -1,5 +1,10 @@
 Changelog
 
+### 3.1.1
+
+  * Fixed a regression causing double icons to appear after switching workspaces.
+  * Fixed the right-click menu settings not updating persistently.
+
 ### 3.1.0
 
   * Apps are now draggable using the middle mouse button.
