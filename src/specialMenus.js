@@ -1512,7 +1512,10 @@ WindowThumbnail.prototype = {
 
   _hoverPeek: function (opacity, metaWin, enterEvent) {
     var applet = this._applet
-    
+    if (!applet.enablePeek) {
+      return
+    }
+
     function setOpacity (window_actor, target_opacity) {
       Tweener.addTween(window_actor, {
         time: applet.peekTime * 0.001,
