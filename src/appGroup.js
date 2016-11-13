@@ -57,18 +57,13 @@ AppGroup.prototype = {
       track_hover: true
     })
 
-    this._applet.manager_container.add_actor(this.actor)
+    this.appList.manager_container.add_actor(this.actor)
 
     this.actor._delegate = this
 
-    this.myactor = new St.BoxLayout({
-      reactive: true
-    })
-    this.actor.set_child(this.myactor)
-
     this._appButton = new SpecialButtons.AppButton(this)
 
-    this.myactor.add(this._appButton.actor)
+    this.actor.add_actor(this._appButton.actor)
 
     this._appButton.actor.connect('button-release-event', Lang.bind(this, this._onAppButtonRelease))
 
@@ -456,7 +451,9 @@ AppGroup.prototype = {
     var title = metaWindow.get_title()
     var appName = this.app.get_name()
 
-    if (titleType === App.TitleDisplay.Title) {
+    if (titleType === App.TitleDisplay.None || (this._applet.c32 && (this.orientation === St.Side.LEFT || this.orientation === St.Side.RIGHT))) {
+      this._appButton.setText('')
+    } else if (titleType === App.TitleDisplay.Title) {
       if (title) {
         this._appButton.setText(title)
         this.showAppButtonLabel(true)
@@ -471,8 +468,6 @@ AppGroup.prototype = {
         this._appButton.setText(appName)
         this.showAppButtonLabel(true)
       }
-    } else if (titleType === App.TitleDisplay.None) {
-      this._appButton.setText('')
     }
   },
 
@@ -586,7 +581,6 @@ AppGroup.prototype = {
     this.rightClickMenu.destroy()
     this.hoverMenu.destroy()
     this._appButton.destroy()
-    this.myactor.destroy()
     this.actor.destroy()
   }
 }

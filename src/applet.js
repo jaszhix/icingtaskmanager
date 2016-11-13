@@ -313,18 +313,6 @@ MyApplet.prototype = {
 
       this.actor.add(this._box)
 
-      var manager
-      if (this.orientation == St.Side.TOP || this.orientation == St.Side.BOTTOM) {
-        manager = new Clutter.BoxLayout({ orientation: Clutter.Orientation.HORIZONTAL })
-      } else {
-        manager = new Clutter.BoxLayout({ orientation: Clutter.Orientation.VERTICAL })
-        this.actor.add_style_class_name('vertical')
-      }
-
-      this.manager = manager;
-      this.manager_container = new Clutter.Actor({ layout_manager: manager })
-      this.actor.add_actor(this.manager_container)
-
       this.tracker = Cinnamon.WindowTracker.get_default()
 
       this.pinnedAppsContr = new PinnedFavs(this)
@@ -387,66 +375,9 @@ MyApplet.prototype = {
       this._onSwitchWorkspace(null, null, this.currentWs)
 
       global.settings.connect('changed::panel-edit-mode', Lang.bind(this, this.on_panel_edit_mode_changed))
-
-      this.actor.connect('style-changed', Lang.bind(this, this._updateSpacing));
-      this.settings.connect('changed::icon-padding', Lang.bind(this, this._updateSpacing))
-      this.on_orientation_changed(orientation);
-
     } catch (e) {
       clog('Error', e.message)
     }
-  },
-
-  on_applet_added_to_panel: function(userEnabled) {
-    this._updateSpacing();
-    this.appletEnabled = true;
-  },
-
-  on_orientation_changed: function(orientation) {
-    if (this.manager === undefined) {
-      return
-    }
-    this.orientation = orientation
-
-    if (orientation == St.Side.TOP || orientation == St.Side.BOTTOM) {
-      this.manager.set_vertical(false);
-      this.actor.remove_style_class_name('vertical');
-    } else {
-      this.manager.set_vertical(true);
-      this.actor.add_style_class_name('vertical');
-      this.actor.set_x_align(Clutter.ActorAlign.CENTER);
-      this.actor.set_important(true);
-    }
-
-    // Any padding/margin is removed on one side so that the AppMenuButton
-    // boxes butt up against the edge of the screen
-
-    var containerChildren = this.manager_container.get_children()
-
-    _.each(containerChildren, (child, key)=>{
-      if (orientation === St.Side.TOP) {
-        child.set_style('margin-top: 0px; padding-top: 0px;')
-        this.actor.set_style('margin-top: 0px; padding-top: 0px;')
-      } else if (orientation === St.Side.BOTTOM) {
-        child.set_style('margin-bottom: 0px; padding-bottom: 0px;')
-        this.actor.set_style('margin-bottom: 0px; padding-bottom: 0px;')
-      } else if (orientation === St.Side.LEFT) {
-        child.set_style('margin-left 0px; padding-left: 0px; padding-right: 0px; margin-right: 0px;')
-        child.set_x_align(Clutter.ActorAlign.CENTER)
-        this.actor.set_style('margin-left: 0px; padding-left: 0px; padding-right: 0px; margin-right: 0px;')
-      } else if (orientation === St.Side.RIGHT) {
-        child.set_style('margin-left: 0px; padding-left: 0px; padding-right: 0px; margin-right: 0px;')
-        child.set_x_align(Clutter.ActorAlign.CENTER)
-        this.actor.set_style('margin-right: 0px; padding-right: 0px; padding-left: 0px; margin-left: 0px;')
-      }
-    })
-    if (this.appletEnabled) {
-      this._updateSpacing()
-    }
-  },
-
-  _updateSpacing: function() {
-    this.manager.set_spacing(this.iconPadding * global.ui_scale)
   },
 
   execInstallLanguage: function () { // TBD
@@ -494,12 +425,12 @@ MyApplet.prototype = {
       return DND.DragMotionResult.NO_DROP
     }
 
-    var children = this.manager_container.get_children()
+    var children = this.metaWorkspaces[this.currentWs].appList.manager_container.get_children()
     var windowPos = children.indexOf(source.actor)
 
     var pos = 0
 
-    var isVertical = this.manager_container.height > this.manager_container.width
+    var isVertical = this.metaWorkspaces[this.currentWs].appList.manager_container.height > this.metaWorkspaces[this.currentWs].appList.manager_container.width
     var axis = isVertical ? [y, 'y1'] : [x, 'x1']
     for (var i in children) {
       if (axis[0] > children[i].get_allocation_box()[axis[1]] + children[i].width / 2) {
@@ -547,7 +478,7 @@ MyApplet.prototype = {
       this._dragPlaceholder = new DND.GenericDragPlaceholderItem()
       this._dragPlaceholder.child.width = childWidth
       this._dragPlaceholder.child.height = childHeight
-      this.manager_container.insert_child_at_index(this._dragPlaceholder.actor, this._dragPlaceholderPos)
+      this.metaWorkspaces[this.currentWs].appList.manager_container.insert_child_at_index(this._dragPlaceholder.actor, this._dragPlaceholderPos)
 
       if (fadeIn) {
         this._dragPlaceholder.animateIn()
@@ -564,11 +495,11 @@ MyApplet.prototype = {
 
     if (!(source.isFavapp || source.wasFavapp || source.isDraggableApp || (source instanceof DND.LauncherDraggable)) || source.isNotFavapp) {
       if (this._dragPlaceholderPos !== -1) {
-        this.manager_container.set_child_at_index(source.actor, this._dragPlaceholderPos)
+        this.metaWorkspaces[this.currentWs].appList.manager_container.set_child_at_index(source.actor, this._dragPlaceholderPos)
       }
       this._clearDragPlaceholder()
     }
-    this.manager_container.set_child_at_index(source.actor, this._dragPlaceholderPos)
+    this.metaWorkspaces[this.currentWs].appList.manager_container.set_child_at_index(source.actor, this._dragPlaceholderPos)
 
     var app = source.app
 
@@ -587,7 +518,7 @@ MyApplet.prototype = {
     var favPos = this._dragPlaceholderPos
 
     if (favPos === -1) {
-      var children = this.manager_container.get_children()
+      var children = this.metaWorkspaces[this.currentWs].appList.manager_container.get_children()
 
       var pos = 0
 
@@ -600,7 +531,7 @@ MyApplet.prototype = {
         favPos = pos
       }
     }
-    this.manager_container.set_child_at_index(source.actor, favPos)
+    this.metaWorkspaces[this.currentWs].appList.manager_container.set_child_at_index(source.actor, favPos)
 
     Meta.later_add(Meta.LaterType.BEFORE_REDRAW, Lang.bind(this, function () {
       if (refFav !== -1) {
@@ -706,7 +637,7 @@ MyApplet.prototype = {
     // is exactly what we want.
     var list = refWorkspace !== -1 ? this.metaWorkspaces[refWorkspace].appList : appList
     this._box.set_child(list.actor)
-    list._refreshApps()
+    list._refreshList()
   },
 
   _onOverviewShow: function () {

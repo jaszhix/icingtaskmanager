@@ -1,5 +1,6 @@
 const Lang = imports.lang
 const Cinnamon = imports.gi.Cinnamon
+const Clutter = imports.gi.Clutter;
 const St = imports.gi.St
 const Mainloop = imports.mainloop
 const Gio = imports.gi.Gio
@@ -33,6 +34,19 @@ AppList.prototype = {
     this.actor = new St.BoxLayout({
       style_class: 'window-list-box'
     })
+
+    var manager
+    if (this.orientation == St.Side.TOP || this.orientation == St.Side.BOTTOM) {
+      manager = new Clutter.BoxLayout({ orientation: Clutter.Orientation.HORIZONTAL })
+    } else {
+      manager = new Clutter.BoxLayout({ orientation: Clutter.Orientation.VERTICAL })
+      this.actor.add_style_class_name('vertical')
+    }
+
+    this.manager = manager;
+    this.manager_container = new Clutter.Actor({ layout_manager: manager })
+    this.actor.add_actor(this.manager_container)
+
     this._appsys = Cinnamon.AppSystem.get_default()
     this.registeredApps = []
 
@@ -41,13 +55,17 @@ AppList.prototype = {
     // Connect all the signals
     this._setSignals()
     this._refreshList(true)
+
+    this.actor.connect('style-changed', Lang.bind(this, this._updateSpacing));
+    
+    this.on_orientation_changed(this._applet.orientation);
   },
 
   on_panel_edit_mode_changed: function () {
     this.actor.reactive = global.settings.get_boolean('panel-edit-mode')
   },
 
-  on_orientation_changed: function (orientation) {
+  /*on_orientation_changed: function (orientation) {
     this._refreshList()
     if (this._applet.orientation === St.Side.TOP) {
       this.actor.set_style_class_name('window-list-item-box window-list-box-top')
@@ -56,6 +74,58 @@ AppList.prototype = {
       this.actor.set_style_class_name('window-list-item-box window-list-box-bottom')
       this.actor.set_style('margin-bottom: 0px; padding-bottom: 0px;')
     }
+  },*/
+
+  on_applet_added_to_panel: function(userEnabled) {
+    this._updateSpacing();
+    this._applet.appletEnabled = true;
+  },
+
+  on_orientation_changed: function(orientation) {
+    if (this.manager === undefined) {
+      return
+    }
+    this._applet.orientation = orientation
+
+    if (orientation == St.Side.TOP || orientation == St.Side.BOTTOM) {
+      this.manager.set_vertical(false);
+      this.actor.remove_style_class_name('vertical');
+    } else {
+      this.manager.set_vertical(true);
+      this.actor.add_style_class_name('vertical');
+      this.actor.set_x_align(Clutter.ActorAlign.CENTER);
+      this.actor.set_important(true);
+    }
+
+    // Any padding/margin is removed on one side so that the AppMenuButton
+    // boxes butt up against the edge of the screen
+
+    var containerChildren = this.manager_container.get_children()
+
+    _.each(containerChildren, (child, key)=>{
+      if (orientation === St.Side.TOP) {
+        child.set_style('margin-top: 0px; padding-top: 0px;')
+        this.actor.set_style('margin-top: 0px; padding-top: 0px;')
+      } else if (orientation === St.Side.BOTTOM) {
+        child.set_style('margin-bottom: 0px; padding-bottom: 0px;')
+        this.actor.set_style('margin-bottom: 0px; padding-bottom: 0px;')
+      } else if (orientation === St.Side.LEFT) {
+        child.set_style('margin-left 0px; padding-left: 0px; padding-right: 0px; margin-right: 0px;')
+        child.set_x_align(Clutter.ActorAlign.CENTER)
+        this.actor.set_style('margin-left: 0px; padding-left: 0px; padding-right: 0px; margin-right: 0px;')
+      } else if (orientation === St.Side.RIGHT) {
+        child.set_style('margin-left: 0px; padding-left: 0px; padding-right: 0px; margin-right: 0px;')
+        child.set_x_align(Clutter.ActorAlign.CENTER)
+        this.actor.set_style('margin-right: 0px; padding-right: 0px; padding-left: 0px; margin-left: 0px;')
+      }
+    })
+    if (this._applet.appletEnabled) {
+      this._updateSpacing()
+    }
+  },
+
+  _updateSpacing: function() {
+    this.manager.set_spacing(this._applet.iconPadding * global.ui_scale)
   },
 
   _setSignals: function () {
@@ -65,6 +135,7 @@ AppList.prototype = {
     this.signals.push(this.metaWorkspace.connect_after('window-removed', Lang.bind(this, this._windowRemoved)))
 
     this._applet.settings.connect('changed::show-pinned', Lang.bind(this, this._refreshList))
+    this._applet.settings.connect('changed::icon-padding', Lang.bind(this, this._updateSpacing))
     global.settings.connect('changed::panel-edit-mode', Lang.bind(this, this.on_panel_edit_mode_changed))
   },
 
