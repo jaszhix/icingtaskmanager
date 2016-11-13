@@ -79,6 +79,7 @@ IconLabelButton.prototype = {
     global.settings.connect('changed::panel-edit-mode', Lang.bind(this, this.on_panel_edit_mode_changed))
     this._applet.settings.connect('changed::icon-padding', Lang.bind(this, this.setIconPadding))
     this._applet.settings.connect('changed::icon-size', Lang.bind(this, this.setIconSize))
+    this._applet.settings.connect('changed::enable-iconSize', Lang.bind(this, this.setIconSize))
   },
 
   on_panel_edit_mode_changed: function () {
@@ -370,8 +371,12 @@ AppButton.prototype = {
       this.setStyle('window-list-item-box app-list-item-box')
       if (this._applet.orientation == St.Side.TOP) {
         this.actor.add_style_class_name('window-list-item-box-top')
-      } else {
+      } else if (this._applet.orientation == St.Side.BOTTOM) {
         this.actor.add_style_class_name('window-list-item-box-bottom')
+      } else if (this._applet.orientation == St.Side.LEFT) {
+        this.actor.add_style_class_name('window-list-item-box-left')
+      } else if (this._applet.orientation == St.Side.RIGHT) {
+        this.actor.add_style_class_name('window-list-item-box-right')
       }
     }
   },
