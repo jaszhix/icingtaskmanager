@@ -314,19 +314,13 @@ AppMenuButtonRightClickMenu.prototype = {
       }
       return
     } else if (this.app.get_id() == 'firefox.desktop' || this.app.get_id() == 'firefox web browser.desktop') {
-      var historys = FireFox.getFirefoxHistory(this._applet)
+      var histories = FireFox.getFirefoxHistory(this._applet)
 
-      if (historys === null) {
-        var install = new SpecialMenuItems.IconNameMenuItem(this, t('Install Gda'))
-        install.connect('activate', Lang.bind(this, function () {
-          Util.spawnCommandLine('gnome-terminal -x bash -c "sudo apt-get install gir1.2-gda-5.0; echo "press enter and restart cinnamon"; read n1"')
-        }))
-        this.addActor(install.actor)
-      } else if (historys.length) {
+      if (histories) {
         try {
-          historys.length = historys.length
-          for (let i = 0; i < historys.length; i++) {
-            var history = historys[i]
+          histories.length = histories.length
+          for (let i = 0; i < histories.length; i++) {
+            var history = histories[i]
             if (this.pinnedItemsUris.indexOf(history.uri) != -1) {
               continue
             }

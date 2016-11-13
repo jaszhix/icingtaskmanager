@@ -1,16 +1,7 @@
 /* jshint moz:true */
 let Gda
 const GLib = imports.gi.GLib
-const Gettext = imports.gettext
 const clog = imports.applet.clog
-
-function _ (str) {
-  let resultConf = Gettext.dgettext('IcingTaskManager@json', str)
-  if (resultConf != str) {
-    return resultConf
-  }
-  return Gettext.gettext(str)
-}
 
 try {
   Gda = imports.gi.Gda
