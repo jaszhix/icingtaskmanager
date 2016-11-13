@@ -185,50 +185,46 @@ AppMenuButtonRightClickMenu.prototype = {
     this.menuSetup(true)
   },
 
+  triggerUpdate: function () {
+    this._applet.metaWorkspaces[this._applet.currentWs].appList._refreshList()
+  }, 
+
+  updateSetting: function (key, state) {
+    this._applet.settings.setValue('arrange-pinnedApps', state)
+    this._applet[key] = state
+    this.triggerUpdate()
+  },
+
   _settingsMenu: function () {
     this.subMenuItem = new SpecialMenuItems.SubMenuItem(this, t('Settings'))
     var subMenu = this.subMenuItem.menu
 
     this.reArrange = new SpecialMenuItems.SwitchMenuItem(this, t('Rearrange'), this._applet.arrangePinned)
-    this.reArrange.connect('toggled', Lang.bind(this, function (item) {
-      this._applet.arrangePinned = item.state
-    }))
+    this.reArrange.connect('toggled', (item)=>this.updateSetting('arrangePinned', item.state))
     subMenu.addMenuItem(this.reArrange)
 
     this.showPinned = new SpecialMenuItems.SwitchMenuItem(this, t('Show Pinned'), this._applet.showPinned)
-    this.showPinned.connect('toggled', Lang.bind(this, function (item) {
-      this._applet.showPinned = item.state
-    }))
+    this.showPinned.connect('toggled', (item)=>this.updateSetting('showPinned', item.state))
     subMenu.addMenuItem(this.showPinned)
 
     this.showThumbs = new SpecialMenuItems.SwitchMenuItem(this, t('Show Thumbs'), this._applet.showThumbs)
-    this.showThumbs.connect('toggled', Lang.bind(this, function (item) {
-      this._applet.showThumbs = item.state
-    }))
+    this.showThumbs.connect('toggled', (item)=>this.updateSetting('showThumbs', item.state))
     subMenu.addMenuItem(this.showThumbs)
 
     this.stackThumbs = new SpecialMenuItems.SwitchMenuItem(this, t('Stack Thumbs'), this._applet.stackThumbs)
-    this.stackThumbs.connect('toggled', Lang.bind(this, function (item) {
-      this._applet.stackThumbs = item.state
-    }))
+    this.stackThumbs.connect('toggled', (item)=>this.updateSetting('stackThumbs', item.state))
     this.subMenuItem.menu.addMenuItem(this.stackThumbs)
 
     this.enablePeek = new SpecialMenuItems.SwitchMenuItem(this, t('Peek on Hover'), this._applet.enablePeek)
-    this.enablePeek.connect('toggled', Lang.bind(this, function (item) {
-      this._applet.enablePeek = item.state
-    }))
+    this.enablePeek.connect('toggled', (item)=>this.updateSetting('enablePeek', item.state))
     this.subMenuItem.menu.addMenuItem(this.enablePeek)
 
     this.showRecent = new SpecialMenuItems.SwitchMenuItem(this, t('Show Recent'), this._applet.showRecent)
-    this.showRecent.connect('toggled', Lang.bind(this, function (item) {
-      this._applet.showRecent = item.state
-    }))
+    this.showRecent.connect('toggled', (item)=>this.updateSetting('showRecent', item.state))
     this.subMenuItem.menu.addMenuItem(this.showRecent)
 
     this.verticalThumbs = new SpecialMenuItems.SwitchMenuItem(this, t('Vertical Thumbs'), this._applet.verticalThumbs)
-    this.verticalThumbs.connect('toggled', Lang.bind(this, function (item) {
-      this._applet.verticalThumbs = item.state
-    }))
+    this.verticalThumbs.connect('toggled', (item)=>this.updateSetting('verticalThumbs', item.state))
     this.subMenuItem.menu.addMenuItem(this.verticalThumbs)
 
     this.settingItem = new SpecialMenuItems.IconNameMenuItem(this, t('     Go to Settings'))
