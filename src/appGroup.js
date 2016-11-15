@@ -439,9 +439,9 @@ AppGroup.prototype = {
         this._windowTitleChanged(this.lastFocused)
         this.hoverMenu.setMetaWindow(this.lastFocused)
         this.rightClickMenu.setMetaWindow(this.lastFocused)
-
-        this._calcWindowNumber(metaWorkspace)
       }
+
+      this._calcWindowNumber(metaWorkspace)
     }
     let app = App.appFromWMClass(this.appList._appsys, this.appList.specialApps, metaWindow)
     if (app && app.wmClass && !this.isFavapp) {
