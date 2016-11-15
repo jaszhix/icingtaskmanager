@@ -358,9 +358,9 @@ AppGroup.prototype = {
     // When we first populate we need to decide which window
     // will be triggered when the app button is pressed
     if (!this.lastFocused) {
-      this.lastFocused = this._getLastFocusedWindow()
+      this.lastFocused = _.first(this._getLastFocusedWindow())
     }
-    if (this.lastFocused) {
+    if (this.lastFocused && _.isObject(this.lastFocused)) {
       this._windowTitleChanged(this.lastFocused)
       this.rightClickMenu.setMetaWindow(this.lastFocused)
     }
@@ -452,7 +452,7 @@ AppGroup.prototype = {
     if (!this._appButton) {
       throw 'Error: got a _windowTitleChanged callback but this._appButton is undefined'
     }
-    if (metaWindow != this.lastFocused || this.isFavapp) {
+    if (!_.isEqual(metaWindow, this.lastFocused) || this.isFavapp) {
       return
     }
     let titleType = this._applet.settings.getValue('title-display')
