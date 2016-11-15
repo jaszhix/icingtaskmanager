@@ -281,8 +281,6 @@ AppButton.prototype = {
       this._isFavorite(true)
     }
 
-    this.metaWorkspaces = {}
-
     this._trackerSignal = this._applet.tracker.connect('notify::focus-app', Lang.bind(this, this._onFocusChange))
     this._updateAttentionGrabber(null, null, this._applet.showAlerts)
     this._applet.settings.connect('changed::show-alerts', Lang.bind(this, this._updateAttentionGrabber))
@@ -301,16 +299,12 @@ AppButton.prototype = {
     }
   },
 
-  _setWatchedWorkspaces: function (workspaces) {
-    this.metaWorkspaces = workspaces
-  },
-
   _hasFocus: function () {
     var workspaceIds = []
 
-    _.each(this.metaWorkspaces, function(metaWorkspace){
-      workspaceIds.push(metaWorkspace.workspace.index())
-    })
+    for (let i = 0, len = this._parent.metaWorkspaces.length; i < len; i++) {
+      workspaceIds.push(this._parent.metaWorkspaces[i].workspace.index())
+    }
 
     var windows = _.filter(this.app.get_windows(), function(win){
       return workspaceIds.indexOf(win.get_workspace().index()) >= 0

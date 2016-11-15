@@ -48,7 +48,7 @@ AppGroup.prototype = {
     this.isNotFavapp = !isFavapp
     this.orientation = applet.orientation
     this.metaWindows = []
-    this.metaWorkspaces = {}
+    this.metaWorkspaces = []
     this.actor = new St.Bin({
       reactive: true,
       can_focus: true,
@@ -169,27 +169,25 @@ AppGroup.prototype = {
     return this.actor
   },
 
-  _setWatchedWorkspaces: function () {
-    this._appButton._setWatchedWorkspaces(this.metaWorkspaces)
-  },
-
   // Add a workspace to the list of workspaces that are watched for
   // windows being added and removed
   watchWorkspace: function (metaWorkspace) {
-    if (!this.metaWorkspaces[metaWorkspace]) {
+    var refWs = _.findIndex(this.metaWorkspaces, (ws)=>{
+      return _.isEqual(ws.workspace, metaWorkspace)
+    })
+    if (refWs === -1) {
       // We use connect_after so that the window-tracker time to identify the app, otherwise get_window_app might return null!
       let windowAddedSignal = metaWorkspace.connect_after('window-added', Lang.bind(this, this._windowAdded))
       let windowRemovedSignal = metaWorkspace.connect_after('window-removed', Lang.bind(this, this._windowRemoved))
-      this.metaWorkspaces[metaWorkspace] = {
+      this.metaWorkspaces.push({
         workspace: metaWorkspace,
         signals: [windowAddedSignal, windowRemovedSignal]
-      }
+      })
     }
     this._calcWindowNumber(metaWorkspace)
     this._applet.settings.connect('changed::number-display', ()=>{
       this._calcWindowNumber(metaWorkspace)
     })
-    this._setWatchedWorkspaces()
   },
 
   // Stop monitoring a workspace for added and removed windows.
@@ -197,23 +195,17 @@ AppGroup.prototype = {
   unwatchWorkspace: function (metaWorkspace) {
     function removeSignals (obj) {
       let signals = obj.signals
-      for (let i = 0; i < signals.length; i++) {
+      for (let i = 0, len = signals.length; i < len; i++) {
         obj.workspace.disconnect(signals[i])
       }
     }
 
     if (!metaWorkspace) {
-      for (let k in this.metaWorkspaces) {
-        removeSignals(this.metaWorkspaces[k])
-        delete this.metaWorkspaces[k]
+      for (let i = 0, len = this.metaWorkspaces.length; i < len; i++) {
+        removeSignals(this.metaWorkspaces[i])
+        _.pullAt(this.metaWorkspaces, i)
       }
-    } else if (this.metaWorkspaces[metaWorkspace]) {
-      removeSignals(this.metaWorkspaces[metaWorkspace])
-      delete this.metaWorkspaces[metaWorkspace]
-    } else {
-      global.log('Warning: tried to remove watch on an unwatched workspace')
     }
-    this._setWatchedWorkspaces()
   },
 
   hideAppButton: function () {
@@ -269,7 +261,7 @@ AppGroup.prototype = {
       }
       
     } else if (button === 2) {
-      for (let i = appWindows.length - 1; i >= 0; i--) {
+      for (let i = 0, len = appWindows.length; i < len; i++) {
         handleMinimizeToggle(appWindows[i])
       }
     }

@@ -522,7 +522,7 @@ MyApplet.prototype = {
 
       var pos = 0
 
-      for (var i in children) {
+      for (let i = 0, len = children.length; i < len; i++) {
         if (x > children[i].get_allocation_box().x1 + children[i].width / 2) {
           pos = i
         }
