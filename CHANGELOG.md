@@ -1,5 +1,13 @@
 Changelog
 
+### 3.1.2
+
+  * Fixed the wrong window number being displayed after closing an app, when the number display option is Normal or All.
+  * Specific fix for Steam in Big Picture Mode, clicking its thumbnail would make it impossible to activate the window through the hover menu while hover peek was on.
+  * Removed the "Install Gda" option in the Firefox context menu as FF history feature from the old fork is not known to be working currently, and may be removed later.
+  * Enabling the "Enable icon size" option now updates the icon sizes. Disabling requires a Cinnamon restart or extension reload currently.
+  * App icons now do not leave the panel area when they are being dragged.
+
 ### 3.1.1
 
   * Fixed a regression causing double icons to appear after switching workspaces.
