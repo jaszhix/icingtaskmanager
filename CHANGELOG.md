@@ -1,5 +1,9 @@
 Changelog
 
+### 3.1.3
+
+  * Fixed a bug preventing the extension from seeing the last focused window.
+
 ### 3.1.2
 
   * Fixed the wrong window number being displayed after closing an app, when the number display option is Normal or All.
