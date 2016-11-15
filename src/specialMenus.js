@@ -81,7 +81,7 @@ AppMenuButtonRightClickMenu.prototype = {
             this.metaWindow.move_to_monitor(itemChangeMonitor.index)
             this.app.activate(this.metaWindow, global.get_current_time())
           } else {
-            for (let i = windows.length - 1; i >= 0; i--) {
+            for (let i = 0, len = windows.length; i < len; i++) {
               windows[i].move_to_monitor(itemChangeMonitor.index)
               this.app.activate(windows[i], global.get_current_time())
             }
@@ -246,7 +246,7 @@ AppMenuButtonRightClickMenu.prototype = {
     // Hack used the track_hover to force the popup to stay open while removing items
     this.specialCont.actor.track_hover = true
     var children = this.specialSection.get_children()
-    for (var i = 0; i < children.length; i++) {
+    for (let i = 0, len = children.length; i < len; i++) {
       this.specialSection.remove_actor(children[i])
       children[i].destroy()
     }
@@ -256,39 +256,31 @@ AppMenuButtonRightClickMenu.prototype = {
 
   _appMenu_width_changed: function () {
     this.AppMenuWidth = this._applet.settings.getValue('appmenu-width') || 295
-    var children = this.RecentMenuItems.filter(Lang.bind(this, function (child) {
-      if (child instanceof PopupMenu.PopupSeparatorMenuItem) {
-        return false
-      } else {
-        return true
+
+    for (let i = 0, len = this.RecentMenuItems.length; i < len; i++) {
+      if (!(this.RecentMenuItems[i] instanceof PopupMenu.PopupSeparatorMenuItem)) {
+        let item = this.RecentMenuItems[i]
+        item.table.width = this.AppMenuWidth
+        item.label.width = this.AppMenuWidth - 26
       }
-    }))
-    for (let i = 0; i < children.length; i++) {
-      let item = children[i]
-      item.table.width = this.AppMenuWidth
-      item.label.width = this.AppMenuWidth - 26
     }
-    children = this.subMenuItem.menu.box.get_children().map(function (actor) {
-      return actor._delegate
-    })
-    for (let i = 0; i < children.length; i++) {
+
+    var children = _.map(this.subMenuItem.menu.box.get_children(), '_delegate')
+
+    for (let i = 0, len = children.length; i < len; i++) {
       let item = children[i]
       item.table.width = this.AppMenuWidth - 14
       item.label.width = this.AppMenuWidth - 74
     }
-    children = this.box.get_children().map(function (actor) {
-      return actor._delegate
-    }).filter(Lang.bind(this, function (child) {
-      if (child instanceof SpecialMenuItems.IconNameMenuItem || child instanceof SpecialMenuItems.IconMenuItem || child instanceof SpecialMenuItems.SubMenuItem) {
-        return true
-      } else {
-        return false
+
+    children = _.map(this.box.get_children(), '_delegate')
+
+    for (let i = 0, len = children.length; i < len; i++) {
+      if (children[i] instanceof SpecialMenuItems.IconNameMenuItem || children[i] instanceof SpecialMenuItems.IconMenuItem || children[i] instanceof SpecialMenuItems.SubMenuItem) {
+        var item = children[i]
+        item.table.width = this.AppMenuWidth
+        item.label.width = this.AppMenuWidth - 26
       }
-    }))
-    for (var i = 0; i < children.length; i++) {
-      var item = children[i]
-      item.table.width = this.AppMenuWidth
-      item.label.width = this.AppMenuWidth - 26
     }
   },
 
@@ -298,16 +290,13 @@ AppMenuButtonRightClickMenu.prototype = {
       return
     }
 
-    // Load Pinned
-    this._listPinned() 
-
     // Load Places
     if (this.app.get_id() == 'nemo.desktop' || this.app.get_id() == 'nemo-home.desktop') {
       var defualtPlaces = this._listDefaultPlaces()
       var bookmarks = this._listBookmarks()
       var devices = this._listDevices()
       var places = defualtPlaces.concat(bookmarks).concat(devices)
-      for (var i = 0; i < places.length; i++) {
+      for (let i = 0, len = places.length; i < len; i++) {
         var item = new SpecialMenuItems.PlaceMenuItem(this, places[i])
         this.specialSection.add(item.actor)
         this.RecentMenuItems.push(item)
@@ -319,11 +308,8 @@ AppMenuButtonRightClickMenu.prototype = {
       if (histories) {
         try {
           histories.length = histories.length
-          for (let i = 0; i < histories.length; i++) {
+          for (let i = 0, len = histories.length; i < len; i++) {
             var history = histories[i]
-            if (this.pinnedItemsUris.indexOf(history.uri) != -1) {
-              continue
-            }
             let item = new SpecialMenuItems.FirefoxMenuItem(this, history)
             this.specialSection.add(item.actor)
             this.RecentMenuItems.push(item)
@@ -371,31 +357,13 @@ AppMenuButtonRightClickMenu.prototype = {
     }
   },
 
-  _listPinned: function (pattern) {
-    this.pinnedItemsUris = []
-    if (this.pinnedItems) {
-      for (var i in this.pinnedItems) {
-        var item = this.pinnedItems[i]
-        var recentMenuItem
-        if (item.title) {
-          recentMenuItem = new SpecialMenuItems.PinnedRecentItem(this, item.uri, 'list-remove', item.title)
-        } else {
-          recentMenuItem = new SpecialMenuItems.PinnedRecentItem(this, item.uri, 'list-remove')
-        }
-        this.specialSection.add(recentMenuItem.actor)
-        this.pinnedItemsUris.push(recentMenuItem.uri)
-        this.RecentMenuItems.push(recentMenuItem)
-      }
-    }
-  },
-
   _listRecent: function () {
     var recentItems = this._applet.recent_items_contr()
     var items = []
     for (let i = 0, len = recentItems.length; i < len; i++) {
       var mimeType = recentItems[i].get_mime_type()
       var appInfo = Gio.app_info_get_default_for_type(mimeType, false)
-      if (appInfo && this.appInfo && appInfo.get_id() == this.appInfo.get_id() && this.pinnedItemsUris.indexOf(recentItems[i].get_uri()) === -1) {
+      if (appInfo && this.appInfo && appInfo.get_id() == this.appInfo.get_id()) {
         items.push(recentItems[i])
       }
     }
@@ -1523,17 +1491,16 @@ WindowThumbnail.prototype = {
         opacity: target_opacity
       })
     }
-
-    global.get_window_actors().forEach(function (wa, i) {
-
-      var meta_win = wa.get_meta_window()
+    var wa = global.get_window_actors()
+    for (let i = 0, len = wa.length; i < len; i++) {
+      var meta_win = wa[i].get_meta_window()
       if (metaWin === meta_win || !meta_win.is_on_primary_monitor()) {
-        return
+        continue
       }
 
       if (meta_win.get_window_type() !== Meta.WindowType.DESKTOP) {
-        setOpacity(wa, opacity)
+        setOpacity(wa[i], opacity)
       }
-    })
+    }
   }
 }

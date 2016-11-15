@@ -169,6 +169,10 @@ AppGroup.prototype = {
     return this.actor
   },
 
+  _setWatchedWorkspaces: function () {
+    this._appButton._setWatchedWorkspaces(this.metaWorkspaces)
+  },
+
   // Add a workspace to the list of workspaces that are watched for
   // windows being added and removed
   watchWorkspace: function (metaWorkspace) {
@@ -188,6 +192,7 @@ AppGroup.prototype = {
     this._applet.settings.connect('changed::number-display', ()=>{
       this._calcWindowNumber(metaWorkspace)
     })
+    this._setWatchedWorkspaces()
   },
 
   // Stop monitoring a workspace for added and removed windows.
@@ -206,6 +211,7 @@ AppGroup.prototype = {
         _.pullAt(this.metaWorkspaces, i)
       }
     }
+    this._setWatchedWorkspaces()
   },
 
   hideAppButton: function () {

@@ -162,8 +162,8 @@ IconLabelButton.prototype = {
   },
 
   _allocate: function (actor, box, flags) {
-        // returns [x1,x2] so that the area between x1 and x2 is
-        // centered in length
+    // returns [x1,x2] so that the area between x1 and x2 is
+    // centered in length
 
     function center (length, naturalLength) {
       var maxLength = Math.min(length, naturalLength)
@@ -176,7 +176,7 @@ IconLabelButton.prototype = {
     var childBox = new Clutter.ActorBox()
     var direction = this.actor.get_text_direction()
 
-        // Set the icon to be left-justified (or right-justified) and centered vertically
+    // Set the icon to be left-justified (or right-justified) and centered vertically
     let [iconNaturalWidth, iconNaturalHeight] = this._icon.get_preferred_size();
     [childBox.y1, childBox.y2] = center(allocHeight, iconNaturalHeight)
     if (direction == Clutter.TextDirection.LTR) {
@@ -185,8 +185,8 @@ IconLabelButton.prototype = {
       [childBox.x1, childBox.x2] = [Math.max(0, allocWidth - iconNaturalWidth), allocWidth]
     }
     this._icon.allocate(childBox, flags)
-        //        log('allocateA ' + [childBox.x1<0, childBox.x2<0, childBox.y1, childBox.y2] + ' ' + [childBox.x2-childBox.x1, childBox.y2-childBox.y1])
-        // Set the label to start its text in the left of the icon
+
+    // Set the label to start its text in the left of the icon
     var iconWidth = childBox.x2 - childBox.x1;
     var [naturalWidth, naturalHeight] = this._label.get_preferred_size();
     [childBox.y1, childBox.y2] = center(allocHeight, naturalHeight)
@@ -198,7 +198,6 @@ IconLabelButton.prototype = {
       childBox.x1 = Math.max(0, childBox.x2 - naturalWidth)
     }
     this._label.allocate(childBox, flags)
-        //        log('allocateB ' + [childBox.x1<0, childBox.x2<0, childBox.y1, childBox.y2] + ' ' + [childBox.x2-childBox.x1, childBox.y2-childBox.y1])
     if (direction == Clutter.TextDirection.LTR) {
       childBox.x1 = -3
       childBox.x2 = childBox.x1 + this._numLabel.width
@@ -297,6 +296,10 @@ AppButton.prototype = {
     } else {
       this.actor.remove_style_pseudo_class('focus')
     }
+  },
+
+  _setWatchedWorkspaces: function (workspaces) {
+    this._parent.metaWorkspaces = workspaces
   },
 
   _hasFocus: function () {
