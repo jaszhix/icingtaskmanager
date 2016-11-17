@@ -60,8 +60,16 @@ gulp.task('install', ['transpile'], (cb)=>{
   });
 })
 
+gulp.task('reload', ['install'], (cb)=>{
+  exec(`dbus-send --session --dest=org.Cinnamon.LookingGlass --type=method_call /org/Cinnamon/LookingGlass org.Cinnamon.LookingGlass.ReloadExtension string:'IcingTaskManager@json' string:'APPLET'`, function (err, stdout, stderr) {
+    console.log(stdout);
+    console.log(stderr);
+    cb(err);
+  });
+})
+
 gulp.task('watch', ()=> {
-  gulp.watch('./src/*.{js,css,md,po}', ['install']);
+  gulp.watch('./src/*.{js,json,py,css,md,po}', ['reload']);
 });
 
 gulp.task('clear-terminal', ()=> {
