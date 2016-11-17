@@ -4,10 +4,31 @@ import json
 import sys
 import random
 from collections import OrderedDict
+import threading
+from functools import wraps
 
 cli = sys.argv
 
 # Work in progress (experimental) transient window handler.
+
+def delay(delay=0.):
+    """
+    Decorator delaying the execution of a function for a while.
+    """
+    def wrap(f):
+        @wraps(f)
+        def delayed(*args, **kwargs):
+            timer = threading.Timer(delay, f, args=args, kwargs=kwargs)
+            timer.start()
+        return delayed
+    return wrap
+
+@delay(0.5)
+def reloadApp():
+    try:
+        subprocess.check_output("dbus-send --session --dest=org.Cinnamon.LookingGlass --type=method_call /org/Cinnamon/LookingGlass org.Cinnamon.LookingGlass.ReloadExtension string:'IcingTaskManager@json' string:'APPLET'", shell=True)
+    except subprocess.CalledProcessError:
+        pass
 
 def handleCli():
 
@@ -53,20 +74,17 @@ def handleCli():
                             ('number-display', config['number-display']), 
                             ('title-display', config['title-display']),
                             ('pinned-apps', config['pinned-apps']),
-                            ('pinned-recent', config['pinned-recent']),
                             ('show-alerts', config['show-alerts']),
                             ('show-pinned', config['show-pinned']),
                             ('arrange-pinnedApps', config['arrange-pinnedApps']),
                             ('icon-padding', config['icon-padding']),
                             ('enable-iconSize', config['enable-iconSize']),
                             ('icon-size', config['icon-size']),
-                            ('Space1', config['Space1']),
                             ('HoverPeek', config['HoverPeek']),
                             ('seperator2', config['seperator2']),
                             ('enable-hover-peek', config['enable-hover-peek']),
                             ('hover-peek-time', config['hover-peek-time']),
                             ('hover-peek-opacity', config['hover-peek-opacity']),
-                            ('Space2', config['Space2']),
                             ('Thumbnails', config['Thumbnails']),
                             ('seperator3', config['seperator3']),
                             ('thumbnail-timeout', config['thumbnail-timeout']),
@@ -76,7 +94,6 @@ def handleCli():
                             ('stack-thumbnails', config['stack-thumbnails']),
                             ('sort-thumbnails', config['sort-thumbnails']),
                             ('onclick-thumbnails', config['onclick-thumbnails']),
-                            ('Space3', config['Space3']),
                             ('AppMenu', config['AppMenu']),
                             ('show-recent', config['show-recent']),
                             ('closeall-menu-item', config['closeall-menu-item']),
@@ -91,6 +108,31 @@ def handleCli():
                         paLen = len(procArray)
                         processName = procArray[paLen - 1].title()
 
+                        # Since this is a window backed app, make sure it has an icon association.
+
+                        iconsDir = os.getenv('HOME')+'/.local/share/icons/hicolor/48x48/apps/'
+
+                        if '\ ' in processName:
+                            processName = processName.replace('\ ', ' ')
+
+                        if '.Exe' in processName:
+                            processName = processName.replace('.Exe', '')
+
+                        iconFile = processName+'.png'
+
+                        if ' ' in iconFile:
+                            iconFile = iconFile.replace(' ', '')
+
+                        icon = iconsDir+iconFile
+
+                        try:
+                            try:
+                                subprocess.check_output('gnome-exe-thumbnailer '+process.split('wine ')[1]+' '+icon, shell=True)
+                            except IndexError:
+                                subprocess.check_output('gnome-exe-thumbnailer '+process+' '+icon, shell=True)
+                        except subprocess.CalledProcessError:
+                            icon = None
+
                         gMenu = '[Desktop Entry]\n' \
                                 'Type=Application\n' \
                                 'Encoding=UTF-8\n' \
@@ -98,6 +140,17 @@ def handleCli():
                                 'Comment='+processName+'\n' \
                                 'Exec='+process+'\n' \
                                 'Terminal=false\n' \
+                                'StartupNotify=true\n' \
+
+                        if icon:
+                            gMenu += 'Icon='+icon+'\n'
+
+
+                        if '.exe' in process:
+                            gMenu += 'GenericName=Wine application\n' \
+                                     'Categories=Wine;\n' \
+                                     'MimeType=application/x-ms-dos-executable;application/x-msi;application/x-ms-shortcut; \n' \
+
 
                         desktopFile = 'icing-'+str(random.random()).split('.')[1]+'.desktop'
                         desktopPath = os.getenv('HOME')+'/.local/share/applications/'+desktopFile
@@ -111,9 +164,10 @@ def handleCli():
 
                             with open(configPath, 'w') as data: 
                                 data.write(json.dumps(orderedConfig))
+                                reloadApp()
 
-                    except KeyError:
-                        print('KeyError')
+                    except KeyError as e:
+                        print('KeyError', e)
                         return
             except OSError:
                 print('OSError')

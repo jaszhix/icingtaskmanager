@@ -167,14 +167,19 @@ AppMenuButtonRightClickMenu.prototype = {
       this.favId = this.app.get_id()
       this.isFav = this.favs.isFavorite(this.favId)
 
-      if (this._applet.showPinned !== FavType.none && !this.app.is_window_backed()) {
-        if (this.isFav) {
-          this.itemtoggleFav = new SpecialMenuItems.IconNameMenuItem(this, t('Unpin from Panel'), 'remove')
-          this.itemtoggleFav.connect('activate', Lang.bind(this, this._toggleFav))
-        } else {
-          this.itemtoggleFav = new SpecialMenuItems.IconNameMenuItem(this, t('Pin to Panel'), 'bookmark-new')
-          this.itemtoggleFav.connect('activate', Lang.bind(this, this._toggleFav))
+      if (!this.app.is_window_backed()) {
+        if (this._applet.showPinned !== FavType.none) {
+          if (this.isFav) {
+            this.itemtoggleFav = new SpecialMenuItems.IconNameMenuItem(this, t('Unpin from Panel'), 'remove')
+            this.itemtoggleFav.connect('activate', Lang.bind(this, this._toggleFav))
+          } else {
+            this.itemtoggleFav = new SpecialMenuItems.IconNameMenuItem(this, t('Pin to Panel'), 'bookmark-new')
+            this.itemtoggleFav.connect('activate', Lang.bind(this, this._toggleFav))
+          }
         }
+      } else {
+        this.itemCreateShortcut = new SpecialMenuItems.IconNameMenuItem(this, t('Create Shortcut'), 'list-add')
+        this.itemCreateShortcut.connect('activate', Lang.bind(this, this._createShortcut))
       }
       if (this.isFavapp) {
         this._isFavorite(true)
@@ -427,6 +432,8 @@ AppMenuButtonRightClickMenu.prototype = {
 
       if (!this.app.is_window_backed()) {
         this.addMenuItem(this.itemtoggleFav)
+      } else {
+        this.addMenuItem(this.itemCreateShortcut)
       }
 
       this.isFavapp = true
@@ -450,6 +457,7 @@ AppMenuButtonRightClickMenu.prototype = {
       if (showFavs && !this.app.is_window_backed()) {
         this.addMenuItem(this.itemtoggleFav)
       } else {
+        this.addMenuItem(this.itemCreateShortcut)
         this.addMenuItem(this.settingItem)
       }
       this.addMenuItem(new PopupMenu.PopupSeparatorMenuItem())
@@ -619,17 +627,16 @@ AppMenuButtonRightClickMenu.prototype = {
     if (this.isFav) {
       this.favs.removeFavorite(this.favId)
     } else {
-      if (this.app.is_window_backed()) {
-
-        // TBD
-        var proc = this.app.get_windows()[0].get_pid()
-        var cmd = 'bash -c "python ~/.local/share/cinnamon/applets/IcingTaskManager@json/utils.py get_process '+proc.toString()+'"'
-        Util.trySpawnCommandLine(cmd)
-        
-      } else {
+      if (!this.app.is_window_backed()) {
         this.favs._addFavorite(this.favId, -1)
       }
     }
+  },
+
+  _createShortcut: function (actor, event) {
+    var proc = this.app.get_windows()[0].get_pid()
+    var cmd = 'bash -c "python ~/.local/share/cinnamon/applets/IcingTaskManager@json/utils.py get_process '+proc.toString()+'"'
+    Util.trySpawnCommandLine(cmd)
   },
 
   _settingMenu: function () {
