@@ -1,5 +1,11 @@
 Changelog
 
+### 3.2.0
+
+  * Added the ability to create shortcuts for window backed apps with a generated icon. This means you can now pin Wine apps, and other apps Cinnamon doesn't know how to relaunch. You must have gnome-exe-thumbnailer installed for icon generation to work. Shortcuts are added to ```~/.local/share/applications```, and icons are saved to ```~/.local/share/icons/hicolor/48x48/apps```. After a shortcut is created and pinned, you must relaunch the app with the pinned launcher to not see duplicate icons.
+    * Wine apps running from a non-default prefix is not tested.
+  * Fixed a critical bug in importPinned.py.
+
 ### 3.1.3
 
   * Fixed a bug preventing the extension from seeing the last focused window.
