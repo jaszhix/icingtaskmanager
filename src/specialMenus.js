@@ -435,9 +435,8 @@ AppMenuButtonRightClickMenu.prototype = {
       } else {
         this.addMenuItem(this.itemCreateShortcut)
       }
-
       this.isFavapp = true
-    } else if (this.orientation === St.Side.BOTTOM) {
+    } else {
       if (this.monitorItems.length) {
         this.monitorItems.forEach(function (item) {
           this.addMenuItem(item)
@@ -467,35 +466,6 @@ AppMenuButtonRightClickMenu.prototype = {
         this.addMenuItem(this.itemCloseAllWindow)
       }
       this.addMenuItem(this.itemCloseWindow)
-      this.isFavapp = false
-    } else {
-      if (this.showCloseAll) {
-        this.addMenuItem(this.itemCloseAllWindow)
-      }
-      this.addMenuItem(this.itemCloseWindow)
-      this.addMenuItem(this.itemMaximizeWindow)
-      this.addMenuItem(this.itemMinimizeWindow)
-      this.addMenuItem(new PopupMenu.PopupSeparatorMenuItem())
-      if (showFavs) {
-        this.addMenuItem(this.itemtoggleFav)
-      } else {
-        this.addMenuItem(this.settingItem)
-      }
-      this.addMenuItem(this.launchItem)
-      this.addMenuItem(new PopupMenu.PopupSeparatorMenuItem())
-      if (this.RecentMenuItems.length) {
-        this.box.add(this.specialCont.actor)
-      }
-      this.addMenuItem(new PopupMenu.PopupSeparatorMenuItem())
-      this.addMenuItem(this.itemMoveToLeftWorkspace)
-      this.addMenuItem(this.itemMoveToRightWorkspace)
-      this.addMenuItem(this.itemOnAllWorkspaces)
-      if (this.monitorItems.length) {
-        this.addMenuItem(new PopupMenu.PopupSeparatorMenuItem())
-        this.monitorItems.forEach(function (item) {
-          this.addMenuItem(item)
-        }, this)
-      }
       this.isFavapp = false
     }
   },
@@ -655,21 +625,22 @@ AppMenuButtonRightClickMenu.prototype = {
 
   destroy: function () {
     var items = this.RecentMenuItems
-    for (var i = 0; i < items.length; i++) {
+    for (let i = 0, len = items.length; i < len; i++) {
       items[i].destroy()
     }
     var children = this.subMenuItem.menu._getMenuItems()
-    for (let i = 0; i < children.length; i++) {
-      var item = children[i]
-      this.box.remove_actor(item.actor)
-      item.destroy()
+    for (let i = 0, len = children.length; i < len; i++) {
+      this.box.remove_actor(children[i].actor)
+      if (children[i]) {
+        children[i].destroy()
+      }
     }
     this.subMenuItem.menu.destroy()
     children = this._getMenuItems()
-    for (let i = 0; i < children.length; i++) {
+    for (let i = 0, len = children.length; i < len; i++) {
       let item = children[i] // TBD
-    // this.box.remove_actor(item.actor)
-    // item.destroy()
+      this.box.remove_actor(item.actor)
+      item.destroy()
     }
     this.box.destroy()
     this.actor.destroy()
