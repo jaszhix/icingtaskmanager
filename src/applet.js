@@ -665,11 +665,13 @@ MyApplet.prototype = {
     // Find the window to move.
     let metaWorkspace = global.screen.get_active_workspace()
     let metaWindow = null
-    metaWorkspace.list_windows().forEach(Lang.bind(this, function (win) {
-      if (win.has_focus()) {
-        metaWindow = win
+    var windows = metaWorkspace.list_windows()
+    for (let i = 0, len = windows.length; i < len; i++) {
+      if (windows[i].has_focus()) {
+        metaWindow = windows[i]
+        break
       }
-    }))
+    }
     // Find the new monitor index.
     let monitorIndex = metaWindow.get_monitor()
     monitorIndex += modifier

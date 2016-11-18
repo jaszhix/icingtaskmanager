@@ -438,9 +438,9 @@ AppMenuButtonRightClickMenu.prototype = {
       this.isFavapp = true
     } else {
       if (this.monitorItems.length) {
-        this.monitorItems.forEach(function (item) {
-          this.addMenuItem(item)
-        }, this)
+        for (let i = 0, len = this.monitorItems.length; i < len; i++) {
+          this.addMenuItem(this.monitorItems[i])
+        }
         this.addMenuItem(new PopupMenu.PopupSeparatorMenuItem())
       }
       this.addMenuItem(this.itemOnAllWorkspaces)

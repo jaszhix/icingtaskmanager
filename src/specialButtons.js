@@ -50,6 +50,7 @@ IconLabelButton.prototype = {
     })
     this.actor.height = parent._applet._panelHeight
     this.actor._delegate = this
+    this.metaWorkspaces = []
 
     // We do a fancy layout with icons and labels, so we'd like to do our own allocation
     // in a Cinnamon.GenericContainer
@@ -299,14 +300,14 @@ AppButton.prototype = {
   },
 
   _setWatchedWorkspaces: function (workspaces) {
-    this._parent.metaWorkspaces = workspaces
+    this.metaWorkspaces = workspaces
   },
 
   _hasFocus: function () {
     var workspaceIds = []
 
-    for (let i = 0, len = this._parent.metaWorkspaces.length; i < len; i++) {
-      workspaceIds.push(this._parent.metaWorkspaces[i].workspace.index())
+    for (let i = 0, len = this.metaWorkspaces.length; i < len; i++) {
+      workspaceIds.push(this.metaWorkspaces[i].workspace.index())
     }
 
     var windows = _.filter(this.app.get_windows(), function(win){
@@ -450,9 +451,9 @@ WindowButton.prototype = {
 
   destroy: function () {
     if (this.metaWindow) {
-      this.signals.forEach(Lang.bind(this, function (s) {
-        this.metaWindow.disconnect(s)
-      }))
+      for (let i = 0, len = this.signals.length; i < len; i++) {
+        this.metaWindow.disconnect(this.signals[i])
+      }
       if (this._urgent_signal) {
         global.display.disconnect(this._urgent_signal)
       }
@@ -638,9 +639,10 @@ ButtonBox.prototype = {
   },
 
   destroy: function () {
-    this.actor.get_children().forEach(Lang.bind(this, function (button) {
-      button._delegate.destroy()
-    }))
+    var children = this.actor.get_children()
+    for (let i = 0, len = children.length; i < len; i++) {
+      children[i]._delegate.destroy()
+    }
     this.actor.destroy()
     this.actor = null
   }

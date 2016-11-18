@@ -780,7 +780,7 @@ SubSection.prototype = {
   },
 
   _removeChild: function (child) {
-    for (let i = 0; i < this._children.length; i++) {
+    for (let i = 0, len = this._children.length; i < len; i++) {
       if (this._children[i].actor == child) {
         this._children.splice(i, 1);
         return;
@@ -800,7 +800,7 @@ SubSection.prototype = {
   _getPreferredWidth: function (actor, forHeight, alloc) {
     let width = 0,
       minHeiht, childHeight;
-    for (let i = 0; i < this._children.length; i++) {
+    for (let i = 0, len = this._children.length; i < len; i++) {
       let child = this._children[i];
       let [minHeiht, childHeight] = child.actor.get_preferred_height(-1);
 
@@ -815,9 +815,9 @@ SubSection.prototype = {
   _getPreferredHeight: function (actor, forWidth, alloc) {
     let height = 0,
       minWidth, childWidth;
-    for (let i = 0; i < this._children.length; i++) {
+    for (let i = 0, len = this._children.length; i < len; i++) {
       let child = this._children[i];
-      [minWidth, childWidth] = child.actor.get_preferred_width(-1);;
+      [minWidth, childWidth] = child.actor.get_preferred_width(-1);
 
       let [min, natural] = child.actor.get_preferred_height(childWidth);
       if (natural > height) {
@@ -840,7 +840,7 @@ SubSection.prototype = {
     // if direction is ltr, x is the right edge of the last added
     // actor, and it's constantly increasing, whereas if rtl, x is
     // the left edge and it decreases
-    for (let i = 0, col = 0; i < this._children.length; i++) {
+    for (let i = 0, len = this._children.length; i < len; i++) {
       let child = this._children[i];
       let childBox = new Clutter.ActorBox();
 

@@ -317,9 +317,9 @@ AppList.prototype = {
   },
 
   destroy: function () {
-    this.signals.forEach(Lang.bind(this, function (s) {
-      this.metaWorkspace.disconnect(s)
-    }))
+    for (let i = 0, len = this.signals.length; i < len; i++) {
+      this.metaWorkspace.disconnect(this.signals[i])
+    }
     for (let i = 0, len = this.appList.length; i < len; i++) {
       this.appList[i].appGroup.destroy()
     }
