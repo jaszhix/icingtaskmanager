@@ -624,6 +624,7 @@ AppMenuButtonRightClickMenu.prototype = {
   },
 
   destroy: function () {
+    var isWindowBacked = this.app.is_window_backed();
     var items = this.RecentMenuItems
     for (let i = 0, len = items.length; i < len; i++) {
       items[i].destroy()
@@ -631,14 +632,16 @@ AppMenuButtonRightClickMenu.prototype = {
     var children = this.subMenuItem.menu._getMenuItems()
     for (let i = 0, len = children.length; i < len; i++) {
       this.box.remove_actor(children[i].actor)
-      if (children[i]) {
+      if (!isWindowBacked) {
         children[i].destroy()
       }
     }
-    this.subMenuItem.menu.destroy()
+    if (!isWindowBacked) {
+      this.subMenuItem.menu.destroy()
+    }
     children = this._getMenuItems()
     for (let i = 0, len = children.length; i < len; i++) {
-      let item = children[i] // TBD
+      let item = children[i]
       this.box.remove_actor(item.actor)
       item.destroy()
     }
