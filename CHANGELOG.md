@@ -1,5 +1,9 @@
 Changelog
 
+### 3.2.1
+
+  * Fixed a bug causing window backed app buttons to become unresponsive on non-bottom orientation panels in Cinnamon 3.2.
+
 ### 3.2.0
 
   * Added the ability to create shortcuts for window backed apps with a generated icon. This means you can now pin Wine apps, and other apps Cinnamon doesn't know how to relaunch. You must have gnome-exe-thumbnailer installed for icon generation to work. Shortcuts are added to ```~/.local/share/applications```, and icons are saved to ```~/.local/share/icons/hicolor/48x48/apps```. After a shortcut is created and pinned, you must relaunch the app with the pinned launcher to not see duplicate icons.
