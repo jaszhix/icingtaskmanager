@@ -380,6 +380,10 @@ MyApplet.prototype = {
     }
   },
 
+  on_panel_height_changed: function() {
+    this.metaWorkspaces[this.currentWs].appList._refreshList()
+  },
+
   on_orientation_changed: function(orientation) {
     this.metaWorkspaces[this.currentWs].appList.on_orientation_changed(orientation)
   },
