@@ -57,6 +57,19 @@ IconLabelButton.prototype = {
     this._container = new Cinnamon.GenericContainer({
       name: 'iconLabelButton'
     })
+
+    if (this._applet.orientation == St.Side.TOP) {
+      this.actor.add_style_class_name('top');
+    }
+    else if (this._applet.orientation == St.Side.BOTTOM) {
+      this.actor.add_style_class_name('bottom');
+    }
+    else if (this._applet.orientation == St.Side.LEFT) {
+      this.actor.add_style_class_name('left');
+    }
+    else if (this._applet.orientation == St.Side.RIGHT) {
+      this.actor.add_style_class_name('right');
+    }
     this.actor.set_child(this._container)
     this._container.connect('get-preferred-width', Lang.bind(this, this._getPreferredWidth))
     this._container.connect('get-preferred-height', Lang.bind(this, this._getPreferredHeight))
@@ -89,7 +102,8 @@ IconLabelButton.prototype = {
 
   setIconPadding: function () {
     if (this._applet.orientation === St.Side.TOP || this._applet.orientation == St.Side.BOTTOM) {
-      this.actor.style = `padding-bottom: 0px;padding-top:0px; padding-left: ${this._applet.iconPadding}px;padding-right: ${this._applet.iconPadding - 5}px;`
+      var padding = this._applet.iconPadding <= 5 ? ['6px', '0px'] : [`${this._applet.iconPadding}px`, `${this._applet.iconPadding - 5}px`]
+      this.actor.style = `padding-bottom: 0px;padding-top:0px; padding-left: ${padding[0]};padding-right: ${padding[1]};`
     }
   },
 
