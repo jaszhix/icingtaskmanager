@@ -1,6 +1,6 @@
 {
     "description": "Window List with App Grouping and Window Thumbnails", 
-    "max-instances": 2, 
+    "max-instances": -1, 
     "dangerous": false, 
     "name": "Icing Task Manager", 
     "version": "3.2.1", 
