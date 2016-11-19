@@ -6,6 +6,8 @@ Changelog
   * Hover peek shows windows on all monitors again, but only opacifies windows on the monitor the shown window belongs to.
   * Fixed icon sizes not updating on panel height change.
   * The vertical thumbnails option will now be automatically toggled when moving the applet between vertical or horizontal panels, but if the setting is changed, it will stay until the applet is moved to a different orientation again.
+  * Unlimited instances of the applet can now be enabled.
+  * Partial fix for off-center CSS on vertical panels.
 
 ### 3.2.1
 
