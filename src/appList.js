@@ -39,6 +39,7 @@ AppList.prototype = {
     } else {
       manager = new Clutter.BoxLayout({ orientation: Clutter.Orientation.VERTICAL })
       this.actor.add_style_class_name('vertical')
+      this._applet.actor.add_style_class_name('vertical')
     }
 
     this.manager = manager;
@@ -56,7 +57,7 @@ AppList.prototype = {
 
     this.actor.connect('style-changed', Lang.bind(this, this._updateSpacing));
     
-    this.on_orientation_changed(this._applet.orientation);
+    this.on_orientation_changed(this._applet.orientation, true);
   },
 
   on_panel_edit_mode_changed: function () {
@@ -68,44 +69,53 @@ AppList.prototype = {
     this._applet.appletEnabled = true;
   },
 
-  on_orientation_changed: function(orientation) {
+  on_orientation_changed: function(orientation, init=null) {
     if (this.manager === undefined) {
       return
     }
     this._applet.orientation = orientation
-
-    if (orientation == St.Side.TOP || orientation == St.Side.BOTTOM) {
-      this.manager.set_vertical(false);
-      this.actor.remove_style_class_name('vertical');
-    } else {
-      this.manager.set_vertical(true);
-      this.actor.add_style_class_name('vertical');
-      this.actor.set_x_align(Clutter.ActorAlign.CENTER);
-      this.actor.set_important(true);
-    }
 
     // Any padding/margin is removed on one side so that the AppMenuButton
     // boxes butt up against the edge of the screen
 
     var containerChildren = this.manager_container.get_children()
 
-    _.each(containerChildren, (child, key)=>{
-      if (orientation === St.Side.TOP) {
-        child.set_style('margin-top: 0px; padding-top: 0px;')
-        this.actor.set_style('margin-top: 0px; padding-top: 0px;')
-      } else if (orientation === St.Side.BOTTOM) {
-        child.set_style('margin-bottom: 0px; padding-bottom: 0px;')
-        this.actor.set_style('margin-bottom: 0px; padding-bottom: 0px;')
-      } else if (orientation === St.Side.LEFT) {
-        child.set_style('margin-left 0px; padding-left: 0px; padding-right: 0px; margin-right: 0px;')
-        child.set_x_align(Clutter.ActorAlign.CENTER)
-        this.actor.set_style('margin-left: 0px; padding-left: 0px; padding-right: 0px; margin-right: 0px;')
-      } else if (orientation === St.Side.RIGHT) {
-        child.set_style('margin-left: 0px; padding-left: 0px; padding-right: 0px; margin-right: 0px;')
-        child.set_x_align(Clutter.ActorAlign.CENTER)
-        this.actor.set_style('margin-right: 0px; padding-right: 0px; padding-left: 0px; margin-left: 0px;')
+    var orientationKey = null
+    _.each(St.Side, (side, key)=>{
+      if (orientation === St.Side[key]) {
+        orientationKey = key.toLowerCase()
+        return
       }
     })
+
+    var style = `margin-${orientationKey}: 0px; padding-${orientationKey}: 0px;`
+    var isVertical = orientationKey === 'left' || orientationKey === 'right'
+
+    if (isVertical) {
+      this.manager.set_vertical(true);
+      this.actor.add_style_class_name('vertical');
+      this.actor.set_x_align(Clutter.ActorAlign.CENTER);
+      this.actor.set_important(true);
+      var opposite = orientationKey === 'left' ? 'right' : 'left'
+      style += `padding-${opposite}: 0px; margin-${opposite}: 0px;`
+    } else {
+      this.manager.set_vertical(false);
+      this.actor.remove_style_class_name('vertical');
+      this._applet.actor.remove_style_class_name('vertical')
+    }
+
+    if (!init) {
+      this._applet.settings.setValue('vertical-thumbnails', isVertical)
+    }
+
+    _.each(containerChildren, (child, key)=>{
+      child.set_style(style)
+      if (isVertical) {
+        child.set_x_align(Clutter.ActorAlign.CENTER)
+      }
+    })
+    this.actor.set_style(style)
+
     if (this._applet.appletEnabled) {
       this._updateSpacing()
     }

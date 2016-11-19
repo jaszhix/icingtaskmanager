@@ -23,7 +23,7 @@ def delay(delay=0.):
         return delayed
     return wrap
 
-@delay(0.5)
+@delay(1.0)
 def reloadApp():
     try:
         subprocess.check_output("dbus-send --session --dest=org.Cinnamon.LookingGlass --type=method_call /org/Cinnamon/LookingGlass org.Cinnamon.LookingGlass.ReloadExtension string:'IcingTaskManager@json' string:'APPLET'", shell=True)
