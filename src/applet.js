@@ -380,6 +380,10 @@ MyApplet.prototype = {
     }
   },
 
+  on_orientation_changed: function(orientation) {
+    this.metaWorkspaces[this.currentWs].appList.on_orientation_changed(orientation)
+  },
+
   execInstallLanguage: function () { // TBD
     try {
       let _shareFolder = GLib.get_home_dir() + '/.local/share/'
