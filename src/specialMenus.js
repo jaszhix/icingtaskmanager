@@ -1472,14 +1472,15 @@ WindowThumbnail.prototype = {
         opacity: target_opacity
       })
     }
+    var monitorOrigin = metaWin.get_monitor()
     var wa = global.get_window_actors()
     for (let i = 0, len = wa.length; i < len; i++) {
-      var meta_win = wa[i].get_meta_window()
-      if (metaWin === meta_win || !meta_win.is_on_primary_monitor()) {
+      var waWin = wa[i].get_meta_window()
+      if (metaWin === waWin || waWin.get_monitor() !== monitorOrigin) {
         continue
       }
 
-      if (meta_win.get_window_type() !== Meta.WindowType.DESKTOP) {
+      if (waWin.get_window_type() !== Meta.WindowType.DESKTOP) {
         setOpacity(wa[i], opacity)
       }
     }
