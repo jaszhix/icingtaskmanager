@@ -270,7 +270,7 @@ MyApplet.prototype = {
 
     try {
       this._uuid = metadata.uuid
-      this.execInstallLanguage()
+      //this.execInstallLanguage()
       Gettext.bindtextdomain(this._uuid, GLib.get_home_dir() + '/.local/share/locale')
 
       var settingsProps = [
@@ -388,7 +388,8 @@ MyApplet.prototype = {
     this.metaWorkspaces[this.currentWs].appList.on_orientation_changed(orientation)
   },
 
-  execInstallLanguage: function () { // TBD
+  // May be related to issue #29.
+  /*execInstallLanguage: function () { // TBD
     try {
       let _shareFolder = GLib.get_home_dir() + '/.local/share/'
       let _localeFolder = Gio.file_new_for_path(_shareFolder + 'locale/')
@@ -426,7 +427,7 @@ MyApplet.prototype = {
       Main.notify('Error', e.message)
       global.logError(e)
     }
-  },
+  },*/
 
   handleDragOver: function (source, actor, x, y, time) {
     if (!(source.isDraggableApp || (source instanceof DND.LauncherDraggable))) {
