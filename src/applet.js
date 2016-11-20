@@ -13,9 +13,9 @@
 const Applet = imports.ui.applet
 const Lang = imports.lang
 const Cinnamon = imports.gi.Cinnamon
-const Clutter = imports.gi.Clutter;
 const St = imports.gi.St
 const Main = imports.ui.main
+const Util = imports.misc.util
 const Signals = imports.signals
 const DND = imports.ui.dnd
 const Settings = imports.ui.settings
@@ -276,6 +276,7 @@ MyApplet.prototype = {
       var settingsProps = [
         {key: 'show-pinned', value: 'showPinned'},
         {key: 'show-alerts', value: 'showAlerts'},
+        {key: 'group-apps', value: 'groupApps'},
         {key: 'arrange-pinnedApps', value: 'arrangePinned'},
         {key: 'pinned-apps', value: 'pinnedApps'},
         {key: 'enable-hover-peek', value: 'enablePeek'},
@@ -375,6 +376,8 @@ MyApplet.prototype = {
       this._onSwitchWorkspace(null, null, this.currentWs)
 
       global.settings.connect('changed::panel-edit-mode', Lang.bind(this, this.on_panel_edit_mode_changed))
+      this.settings.connect('changed::group-apps', ()=>this._reloadApp())
+
     } catch (e) {
       clog('Error', e.message)
     }
@@ -552,6 +555,10 @@ MyApplet.prototype = {
     }))
     this._clearDragPlaceholder()
     return true
+  },
+
+  _reloadApp: function () {
+    Util.trySpawnCommandLine(`bash -c "python ~/.local/share/cinnamon/applets/IcingTaskManager@json/utils.py reload"`)
   },
 
   _clearDragPlaceholder: function () {

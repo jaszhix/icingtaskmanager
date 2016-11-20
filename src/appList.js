@@ -176,7 +176,7 @@ AppList.prototype = {
       if (!app) {
         continue
       }
-      this._windowAdded(this.metaWorkspace, null, app, true, init)
+      this._windowAdded(this.metaWorkspace, null, app, true)
     }
   },
 
@@ -184,15 +184,15 @@ AppList.prototype = {
     var windows = this.metaWorkspace.list_windows()
 
     for (let i = 0, len = windows.length; i < len; i++) {
-      this._windowAdded(this.metaWorkspace, windows[i], null, null, init)
+      this._windowAdded(this.metaWorkspace, windows[i], null, null)
     }
   },
 
-  _windowAdded: function (metaWorkspace, metaWindow, favapp, isFavapp, init) {
+  _windowAdded: function (metaWorkspace, metaWindow, favapp, isFavapp, forceUngroupedWindow=false) {
     // Check to see if the window that was added already has an app group.
     // If it does, then we don't need to do anything.  If not, we need to
     // create an app group.
-    let app
+    var app = null
     if (favapp) {
       app = favapp
     } else {
@@ -208,25 +208,45 @@ AppList.prototype = {
     var appId = app.get_id()
     var refApp = _.findIndex(this.appList, {id: appId})
 
-    if (refApp === -1) {
-      let appGroup = new AppGroup.AppGroup(this._applet, this, app, isFavapp)
-      appGroup._updateMetaWindows(metaWorkspace)
-      appGroup.watchWorkspace(metaWorkspace)
+    // If forceUngroupedWindow is set, then this method is being called from the first appGroup instance for this app, to override app grouping.
+    if (forceUngroupedWindow && !favapp) {
+      refApp = -1
+    }
+
+    var initApp = (window=null, index=null)=>{
+      var time = Date.now()
+      let appGroup = new AppGroup.AppGroup(this._applet, this, app, isFavapp, window, time, index)
+      appGroup._updateMetaWindows(metaWorkspace, app, window)
+      appGroup.watchWorkspace(metaWorkspace) // disable for windows to stay persistent across ws'
       this.actor.add_actor(appGroup.actor)
 
       app.connect('windows-changed', Lang.bind(this, this._onAppWindowsChanged, app))
 
       this.appList.push({
         id: appId,
-        appGroup: appGroup
+        appGroup: appGroup,
+        timeStamp: time,
+        ungroupedIndex: index
       })
-      this.appList = this.appList
 
       let appGroupNum = this._appGroupNumber(app)
       appGroup._newAppKeyNumber(appGroupNum)
 
-      if (this._applet.settings.getValue('title-display') == App.TitleDisplay.Focused) {
+      if (this._applet.settings.getValue('title-display') === App.TitleDisplay.Focused) {
         appGroup.hideAppButtonLabel(false)
+      }
+    };
+
+    if (refApp === -1) {
+      if (this._applet.groupApps || forceUngroupedWindow && !favapp) {
+        initApp()
+      } else {
+        var windows = app.get_windows()
+        var _windows = windows.length > 0 ? windows : [null]
+
+        for (let i = 0, len = _windows.length; i < len; i++) {
+          initApp(_windows[i], i)
+        }
       }
     }
   },
@@ -276,17 +296,19 @@ AppList.prototype = {
     }
   },
 
-  _windowRemoved: function (metaWorkspace, metaWindow) {
+  _windowRemoved: function (metaWorkspace, metaWindow, app=null) {
     
     // When a window is closed, we need to check if the app it belongs
     // to has no windows left.  If so, we need to remove the corresponding AppGroup
-    let app = App.appFromWMClass(this._appsys, this.specialApps, metaWindow)
-
-    if (!app){
-      app = this._applet.tracker.get_window_app(metaWindow)
-    }
     if (!app) {
-      return
+      app = App.appFromWMClass(this._appsys, this.specialApps, metaWindow)
+
+      if (!app){
+        app = this._applet.tracker.get_window_app(metaWindow)
+      }
+      if (!app) {
+        return
+      }
     }
     let hasWindowsOnWorkspace
     if (app.wmClass) {
@@ -298,17 +320,24 @@ AppList.prototype = {
         return win.get_workspace() == metaWorkspace
       })
     }
-      
+    
     if (app && !hasWindowsOnWorkspace) {
       this._removeApp(app)
     }
   },
 
-  _removeApp: function (app) {
+  _removeApp: function (app, timeStamp=null) {
     // This function may get called multiple times on the same app and so the app may have already been removed
-    var refApp = _.findIndex(this.appList, {id: app.get_id()})
+    var refApp = -1
+    if (this._applet.groupApps || !timeStamp) {
+      refApp = _.findIndex(this.appList, {id: app.get_id()})
+    } else if (timeStamp) {
+      refApp = _.findIndex(this.appList, (_app)=>{
+        return _app.timeStamp === timeStamp
+      })
+    }
     if (refApp !== -1) {
-      if (this.appList[refApp].appGroup.wasFavapp || this.appList[refApp].appGroup.isFavapp) {
+      if ((this.appList[refApp].appGroup.wasFavapp || this.appList[refApp].appGroup.isFavapp) && !timeStamp) {
         this.appList[refApp].appGroup._isFavorite(true)
         this.appList[refApp].appGroup.hideAppButtonLabel(true)
         // have to delay to fix openoffice start-center bug // TBD 

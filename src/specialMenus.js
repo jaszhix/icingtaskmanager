@@ -605,7 +605,7 @@ AppMenuButtonRightClickMenu.prototype = {
 
   _createShortcut: function (actor, event) {
     var proc = this.app.get_windows()[0].get_pid()
-    var cmd = 'bash -c "python ~/.local/share/cinnamon/applets/IcingTaskManager@json/utils.py get_process '+proc.toString()+'"'
+    var cmd = `bash -c "python ~/.local/share/cinnamon/applets/IcingTaskManager@json/utils.py get_process ${proc.toString()}"`
     Util.trySpawnCommandLine(cmd)
   },
 
@@ -938,6 +938,9 @@ PopupMenuAppSwitcherItem.prototype = {
 
   getMetaWindows: function () {
     if (this.metaWindow) {
+      if (!this._applet.groupApps) {
+        return [this.metaWindow]
+      }
       this.metaWorkspace = this.metaWindow.get_workspace()
     } else if (!this.metaWorkspace) {
       return {}

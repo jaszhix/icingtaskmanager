@@ -2,6 +2,7 @@ const Clutter = imports.gi.Clutter
 const Lang = imports.lang
 const St = imports.gi.St
 const Main = imports.ui.main
+const Mainloop = imports.mainloop
 const Tweener = imports.ui.tweener
 const PopupMenu = imports.ui.popupMenu
 const Signals = imports.signals
@@ -31,7 +32,7 @@ MyApplet._init, signal (switch-workspace) -> _onSwitchWorkspace -> AppList._init
 
 AppGroup.prototype = {
   __proto__: Object.prototype,
-  _init: function (applet, appList, app, isFavapp) {
+  _init: function (applet, appList, app, isFavapp, window=null, timeStamp=null, ungroupedIndex=null) {
     if (DND.LauncherDraggable) {
       DND.LauncherDraggable.prototype._init.call(this)
     }
@@ -47,7 +48,11 @@ AppGroup.prototype = {
     this.isFavapp = isFavapp
     this.isNotFavapp = !isFavapp
     this.orientation = applet.orientation
-    this.metaWindows = []
+
+    this.metaWindows = this._applet.groupApps ? [] : [window]
+    this.timeStamp = timeStamp
+    this.ungroupedIndex = ungroupedIndex
+
     this.metaWorkspaces = []
     this.actor = new St.Bin({
       reactive: true,
@@ -181,7 +186,7 @@ AppGroup.prototype = {
     })
     if (refWs === -1) {
       // We use connect_after so that the window-tracker time to identify the app, otherwise get_window_app might return null!
-      let windowAddedSignal = metaWorkspace.connect_after('window-added', Lang.bind(this, this._windowAdded))
+      let windowAddedSignal = metaWorkspace.connect_after('window-added', (metaWorkspace, metaWindow)=>this._windowAdded(metaWorkspace, metaWindow))
       let windowRemovedSignal = metaWorkspace.connect_after('window-removed', Lang.bind(this, this._windowRemoved))
       this.metaWorkspaces.push({
         workspace: metaWorkspace,
@@ -238,15 +243,16 @@ AppGroup.prototype = {
       this._animate()
       return
     }
-    var appWindows = this.app.get_windows();
 
     var handleMinimizeToggle = (win)=>{
       if (win.appears_focused) {
         win.minimize()
       } else {
-        this.app.activate(win, global.get_current_time())
+        Main.activateWindow(win, global.get_current_time())
       }
     };
+
+    var appWindows = this._applet.groupApps ? this.app.get_windows() : [this.metaWindows[0].win];
 
     if (button === 1) {
       this.hoverMenu.shouldOpen = false;
@@ -254,7 +260,7 @@ AppGroup.prototype = {
         handleMinimizeToggle(appWindows[0]);
       } else {
         var actionTaken = false
-        for (let i = appWindows.length - 1; i >= 0; i--) {
+        for (let i = 0, len = appWindows.length; i < len; i++) {
           if (this.lastFocused && appWindows[i]._lgId === this.lastFocused._lgId) {
             handleMinimizeToggle(appWindows[i])
             actionTaken = true
@@ -266,10 +272,6 @@ AppGroup.prototype = {
         }
       }
       
-    } else if (button === 2) {
-      for (let i = 0, len = appWindows.length; i < len; i++) {
-        handleMinimizeToggle(appWindows[i])
-      }
     }
   },
 
@@ -333,23 +335,24 @@ AppGroup.prototype = {
   // updates the internal list of metaWindows
   // to include all windows corresponding to this.app on the workspace
   // metaWorkspace
-  _updateMetaWindows: function (metaWorkspace) {
+  _updateMetaWindows: function (metaWorkspace, app=null, window=null) {
     // Get a list of all interesting windows that are part of this app on the current workspace
-    var windowList = _.filter(metaWorkspace.list_windows(), (win)=>{
+    var windowsSource = window ? [window] : metaWorkspace.list_windows()
+    var windowList = _.filter(windowsSource, (win)=>{
       try {
-        let app = App.appFromWMClass(this.appList._appsys, this.appList.specialApps, win)
         if (!app) {
-          app = this._applet.tracker.get_window_app(win)
+          app = App.appFromWMClass(this.appList._appsys, this.appList.specialApps, win)
+          if (!app) {
+            app = this._applet.tracker.get_window_app(win)
+          }
         }
-        return app == this.app && this._applet.tracker.is_window_interesting(win) && Main.isInteresting(win)
+        return _.isEqual(app, this.app) && this._applet.tracker.is_window_interesting(win) && Main.isInteresting(win)
       } catch (e) {
         return false
       }
     })
 
     this.metaWindows = []
-
-
 
     for (let i = 0, len = windowList.length; i < len; i++) {
       this._windowAdded(metaWorkspace, windowList[i])
@@ -358,7 +361,7 @@ AppGroup.prototype = {
     // When we first populate we need to decide which window
     // will be triggered when the app button is pressed
     if (!this.lastFocused) {
-      this.lastFocused = _.first(this._getLastFocusedWindow())
+      this.lastFocused = windowList.length === 1 ? windowList[0] : _.first(this._getLastFocusedWindow())
     }
     if (this.lastFocused && _.isObject(this.lastFocused)) {
       this._windowTitleChanged(this.lastFocused)
@@ -367,18 +370,26 @@ AppGroup.prototype = {
   },
 
   _windowAdded: function (metaWorkspace, metaWindow) {
+
     let app = App.appFromWMClass(this.appList._appsys, this.appList.specialApps, metaWindow)
     if (!app) {
       app = this._applet.tracker.get_window_app(metaWindow)
     }
 
-
     var refWindow = _.findIndex(this.metaWindows, (win)=>{
       return _.isEqual(win.win, metaWindow)
     })
 
-    if (app == this.app && refWindow === -1 && this._applet.tracker.is_window_interesting(metaWindow)) {
+    if (_.isEqual(app, this.app) && refWindow === -1 && this._applet.tracker.is_window_interesting(metaWindow)) { // TBD
       if (metaWindow) {
+        if (!this._applet.groupApps && this.metaWindows.length >= 1) {
+          if (this.ungroupedIndex === 0) {
+            this.appList._windowAdded(metaWorkspace, metaWindow, null, this.isFavapp, true)
+            return
+          } else {
+            return
+          }
+        }
         this.lastFocused = metaWindow
         this.rightClickMenu.setMetaWindow(this.lastFocused)
         this.hoverMenu.setMetaWindow(this.lastFocused)
@@ -414,6 +425,7 @@ AppGroup.prototype = {
   },
 
   _windowRemoved: function (metaWorkspace, metaWindow) {
+
     let deleted
 
     var refWindow = _.findIndex(this.metaWindows, (win)=>{
@@ -428,6 +440,11 @@ AppGroup.prototype = {
       // Clean up all the signals we've connected
       for (let i = 0, len = signals.length; i < len; i++) {
         metaWindow.disconnect(signals[i])
+      }
+
+      if (!this._applet.groupApps) {
+        this.appList._removeApp(this.app, this.timeStamp)
+        return
       }
 
       _.pullAt(this.metaWindows, refWindow)

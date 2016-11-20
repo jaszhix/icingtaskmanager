@@ -46,6 +46,12 @@
     "description": "Show pinned apps",
     "tooltip": "Controls whether or not the pinned apps appear in the panel if they are not open."
  },
+ "group-apps" : {
+    "type" : "checkbox",
+    "default" : true,
+    "description": "Group apps",
+    "tooltip": "Group each app's set of windows."
+ },
  "arrange-pinnedApps" : {
     "type" : "checkbox",
     "default" : true,

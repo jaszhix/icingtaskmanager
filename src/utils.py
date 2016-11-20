@@ -23,14 +23,21 @@ def delay(delay=0.):
         return delayed
     return wrap
 
-@delay(1.0)
-def reloadApp():
-    try:
-        subprocess.check_output("dbus-send --session --dest=org.Cinnamon.LookingGlass --type=method_call /org/Cinnamon/LookingGlass org.Cinnamon.LookingGlass.ReloadExtension string:'IcingTaskManager@json' string:'APPLET'", shell=True)
-    except subprocess.CalledProcessError:
-        pass
+def __reload(_delay):
+    @delay(_delay)
+    def reloadApp():
+        try:
+            subprocess.check_output("dbus-send --session --dest=org.Cinnamon.LookingGlass --type=method_call /org/Cinnamon/LookingGlass org.Cinnamon.LookingGlass.ReloadExtension string:'IcingTaskManager@json' string:'APPLET'", shell=True)
+        except subprocess.CalledProcessError:
+            pass
+    
+    reloadApp()
 
 def handleCli():
+
+    if cli[1] == 'reload':
+        __reload(0)
+        return
 
     if cli[1] == 'get_process':
         try:
@@ -164,7 +171,7 @@ def handleCli():
 
                             with open(configPath, 'w') as data: 
                                 data.write(json.dumps(orderedConfig))
-                                reloadApp()
+                                __reload(1.0)
 
                     except KeyError as e:
                         print('KeyError', e)
