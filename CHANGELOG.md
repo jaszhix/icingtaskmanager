@@ -1,5 +1,9 @@
 Changelog
 
+### 3.2.4
+
+  * Re-implemented the theming of the window thumbnail close button. You can enable this option in the settings.
+
 ### 3.2.3
 
   * Re-implemented the ability to un-group apps. Because a lot of code dealing with this was removed from the original version for whatever reason, I found a different solution to achieve this. For now, consider this option a beta mode, and please report issues on the [Github repo](https://github.com/jaszhix/icingtaskmanager/issues).
