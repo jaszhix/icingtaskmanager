@@ -1195,7 +1195,7 @@ WindowThumbnail.prototype = {
     this.thumbnailActor = new St.Bin()
 
     this._container = new St.BoxLayout({
-      style_class: 'thumbnail-iconlabel-cont'
+      style_class: this._applet.thumbCloseBtnStyle ? 'thumbnail-iconlabel' : 'thumbnail-iconlabel-cont'
     })
 
     var bin = new St.BoxLayout({
@@ -1213,7 +1213,8 @@ WindowThumbnail.prototype = {
     })
     this._container.add_actor(this._label)
     this.button = new St.BoxLayout({
-      style_class: 'thumbnail-close',
+      style_class: this._applet.thumbCloseBtnStyle ? 'window-close' : 'thumbnail-close',
+      style: this._applet.thumbCloseBtnStyle ? 'padding: 0px; width: 16px; height: 16px; max-width: 16px; max-height: 16px;' : null,
       reactive: true
     })
     // this._container.add_actor(this.button)

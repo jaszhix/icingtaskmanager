@@ -288,6 +288,7 @@ MyApplet.prototype = {
         {key: 'vertical-thumbnails', value: 'verticalThumbs'},
         {key: 'stack-thumbnails', value: 'stackThumbs'},
         {key: 'show-thumbnails', value: 'showThumbs'},
+        {key: 'close-button-style', value: 'thumbCloseBtnStyle'},
         {key: 'number-display', value: 'numDisplay'},
         {key: 'title-display', value: 'titleDisplay'},
         {key: 'icon-padding', value: 'iconPadding'},
@@ -377,6 +378,7 @@ MyApplet.prototype = {
 
       global.settings.connect('changed::panel-edit-mode', Lang.bind(this, this.on_panel_edit_mode_changed))
       this.settings.connect('changed::group-apps', ()=>this._reloadApp())
+      this.settings.connect('changed::close-button-style', ()=>this._reloadApp())
 
     } catch (e) {
       clog('Error', e.message)
