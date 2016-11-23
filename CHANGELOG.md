@@ -1,5 +1,11 @@
 Changelog
 
+### 3.2.5
+
+  * Separated spacing and padding settings controls for app buttons.
+  * Fixed the width of app buttons changing when an app is closed.
+  * Updated missing translations for Spanish, German, French, Russian, and Hebrew using Google Translate. If a translation for your language is off, please submit an issue, or a pull request if you are familiar with POT files.
+
 ### 3.2.4
 
   * Re-implemented the theming of the window thumbnail close button. You can enable this option in the settings.
