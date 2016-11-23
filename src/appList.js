@@ -122,7 +122,7 @@ AppList.prototype = {
   },
 
   _updateSpacing: function() {
-    this.manager.set_spacing(this._applet.iconPadding * global.ui_scale)
+    this.manager.set_spacing(this._applet.iconSpacing * global.ui_scale)
   },
 
   _setSignals: function () {
@@ -132,7 +132,7 @@ AppList.prototype = {
     this.signals.push(this.metaWorkspace.connect_after('window-removed', Lang.bind(this, this._windowRemoved)))
 
     this._applet.settings.connect('changed::show-pinned', Lang.bind(this, this._refreshList))
-    this._applet.settings.connect('changed::icon-padding', Lang.bind(this, this._updateSpacing))
+    this._applet.settings.connect('changed::icon-spacing', Lang.bind(this, this._updateSpacing))
     global.settings.connect('changed::panel-edit-mode', Lang.bind(this, this.on_panel_edit_mode_changed))
   },
 

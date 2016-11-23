@@ -291,6 +291,7 @@ MyApplet.prototype = {
         {key: 'close-button-style', value: 'thumbCloseBtnStyle'},
         {key: 'number-display', value: 'numDisplay'},
         {key: 'title-display', value: 'titleDisplay'},
+        {key: 'icon-spacing', value: 'iconSpacing'},
         {key: 'icon-padding', value: 'iconPadding'},
         {key: 'enable-iconSize', value: 'enableIconSize'},
         {key: 'icon-size', value: 'iconSize'},
