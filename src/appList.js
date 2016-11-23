@@ -339,7 +339,7 @@ AppList.prototype = {
     if (refApp !== -1) {
       if ((this.appList[refApp].appGroup.wasFavapp || this.appList[refApp].appGroup.isFavapp) && !timeStamp) {
         this.appList[refApp].appGroup._isFavorite(true)
-        this.appList[refApp].appGroup.hideAppButtonLabel(true)
+
         // have to delay to fix openoffice start-center bug // TBD 
         Mainloop.timeout_add(0, Lang.bind(this, this._refreshApps))
         return
@@ -349,7 +349,6 @@ AppList.prototype = {
       _.pullAt(this.appList, refApp)
 
       Mainloop.timeout_add(15, Lang.bind(this, function () {
-        //this._refreshApps()
         this._refreshAppGroupNumber()
       }))
     }
