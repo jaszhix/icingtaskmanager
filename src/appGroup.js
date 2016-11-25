@@ -46,7 +46,6 @@ AppGroup.prototype = {
     this.launchersBox = applet;
     this.app = app
     this.isFavapp = isFavapp
-    this.isNotFavapp = !isFavapp
     this.orientation = applet.orientation
 
     this.metaWindows = this._applet.groupApps ? [] : [window]
@@ -72,10 +71,15 @@ AppGroup.prototype = {
 
     this._appButton.actor.connect('button-release-event', Lang.bind(this, this._onAppButtonRelease))
 
-    // Set up the right click menu for this._appButton
-    this.rightClickMenu = new SpecialMenus.AppMenuButtonRightClickMenu(this, this._appButton.actor)
-    this._menuManager = new PopupMenu.PopupMenuManager(this)
-    this._menuManager.addMenu(this.rightClickMenu)
+    // Initialized in _windowAdded first for open apps, then deferred here for init speed up.
+    Mainloop.timeout_add(500, Lang.bind(this, ()=>{
+      if (this.isFavapp) {
+        this.rightClickMenu = new SpecialMenus.AppMenuButtonRightClickMenu(this, this._appButton.actor)
+        this._menuManager = new PopupMenu.PopupMenuManager(this)
+        this._menuManager.addMenu(this.rightClickMenu)
+        this.rightClickMenu.setMetaWindow(this.lastFocused, this.metaWindows)
+      }
+    }))
 
     // Set up the hover menu for this._appButton
     this.hoverMenu = new SpecialMenus.AppThumbnailHoverMenu(this)
@@ -398,7 +402,16 @@ AppGroup.prototype = {
           }
         }
         this.lastFocused = metaWindow
-        this.rightClickMenu.setMetaWindow(this.lastFocused, this.metaWindows)
+
+        // Instead of initializing rightClickMenu in _init right away, we'll prevent the exception caused by its absence and then initialize it. This speeds up init time, and fixes the monitor move options not appearing on first init.
+        if (this.rightClickMenu) {
+          this.rightClickMenu.setMetaWindow(this.lastFocused, this.metaWindows)
+        } else {
+          this.rightClickMenu = new SpecialMenus.AppMenuButtonRightClickMenu(this, this._appButton.actor)
+          this._menuManager = new PopupMenu.PopupMenuManager(this)
+          this._menuManager.addMenu(this.rightClickMenu)
+          this.rightClickMenu.setMetaWindow(this.lastFocused, this.metaWindows)
+        }
         this.hoverMenu.setMetaWindow(this.lastFocused, this.metaWindows)
       }
 
@@ -460,9 +473,8 @@ AppGroup.prototype = {
         this.lastFocused = _.last(this.metaWindows).win
         this._windowTitleChanged(this.lastFocused)
 
-        var hoverWindows = this.metaWindows.length > 1 ? this.metaWindows : []
-        this.hoverMenu.setMetaWindow(this.lastFocused, hoverWindows)
-        this.rightClickMenu.setMetaWindow(this.lastFocused, hoverWindows)
+        this.hoverMenu.setMetaWindow(this.lastFocused, this.metaWindows)
+        this.rightClickMenu.setMetaWindow(this.lastFocused, this.metaWindows)
       }
 
       this._calcWindowNumber(metaWorkspace)
@@ -510,7 +522,7 @@ AppGroup.prototype = {
     if (metaWindow.appears_focused) {
       this.lastFocused = metaWindow
       this._windowTitleChanged(this.lastFocused)
-      if (this._applet.sortThumbs === true) {
+      if (this._applet.sortThumbs) {
         this.hoverMenu.setMetaWindow(this.lastFocused, this.metaWindows)
       }
       this.rightClickMenu.setMetaWindow(this.lastFocused, this.metaWindows)
@@ -613,7 +625,11 @@ AppGroup.prototype = {
     }
 
     this.unwatchWorkspace(null)
-    this.rightClickMenu.destroy()
+
+    if (this.rightClickMenu) {
+      this.rightClickMenu.destroy()
+    }
+
     this.hoverMenu.destroy()
     this._appButton.destroy()
     this.actor.destroy()

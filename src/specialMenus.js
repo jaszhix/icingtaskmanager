@@ -74,6 +74,7 @@ AppMenuButtonRightClickMenu.prototype = {
         this.removeAll()
       }
       this.monitorItems = []
+      var windows = this.app.get_windows()
 
       this.setupMonitorMoveEvent = (itemChangeMonitor, windows)=>{
         itemChangeMonitor.connect('activate', ()=> {
@@ -99,7 +100,6 @@ AppMenuButtonRightClickMenu.prototype = {
           }
           this.monitorItems = []
         }
-        var windows = this.app.get_windows()
         if (monitors.length > 1) {
           for (let i = 0, len = monitors.length; i < len; i++) {
             if (windows[0] !== undefined && windows[0].get_monitor() !== i) {
@@ -188,6 +188,7 @@ AppMenuButtonRightClickMenu.prototype = {
         this._isFavorite(false)
       }
     }
+
     this.menuSetup(true)
   },
 
@@ -1043,8 +1044,7 @@ PopupMenuAppSwitcherItem.prototype = {
         if (this.reAdd) {
           if (this._applet.sortThumbs) {
             actor.insert_actor(this.appThumbnails[metaWindow].thumbnail.actor, 0)
-          }
-          else {
+          } else {
             actor.add_actor(this.appThumbnails[metaWindow].thumbnail.actor)
           }
         }
