@@ -377,7 +377,11 @@ AppButton.prototype = {
   _isFavorite: function (isFav) {
     this.isFavapp = isFav
     if (isFav) {
-      this.setStyle('panel-launcher app-is-favorite')
+      if (this._applet.orientation === St.Side.LEFT || this._applet.orientation === St.Side.RIGHT) {
+        this.setStyle('panel-launcher-vertical')
+      } else {
+        this.setStyle('panel-launcher')
+      }
       this._label.text = ''
     } else {
       this.setStyle('window-list-item-box app-list-item-box')
