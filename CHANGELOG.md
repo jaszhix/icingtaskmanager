@@ -1,5 +1,13 @@
 Changelog
 
+### 3.3.0
+
+  * New "Include all windows" option allows you to see all of an app's windows in the thumbnail list, such as exit confirmation and file dialog windows.
+  * Fixed monitor move options not appearing on applet init.
+  * Improved start up time of the applet.
+  * Corrected the padding of unopened pinned apps on vertical panels.
+  * Added a fix by [jeweloper](https://github.com/jeweloper) for unopened pinned app titles being truncated on hover.
+
 ### 3.2.5
 
   * Separated spacing and padding settings controls for app buttons.
