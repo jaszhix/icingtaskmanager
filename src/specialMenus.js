@@ -1339,7 +1339,6 @@ WindowThumbnail.prototype = {
       this._label.text = apptext
       this.isFavapp = true
       this.actor.style = 'border-width:2px;padding: 2px'
-      this._container.style = 'width: ' + this.ThumbnailWidth + 'px'
     } else {
       this.actor.style = null
       // HACK used to make sure everything is on the stage
