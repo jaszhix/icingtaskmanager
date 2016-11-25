@@ -369,7 +369,7 @@ AppGroup.prototype = {
     }
     if (this.lastFocused && _.isObject(this.lastFocused)) {
       this._windowTitleChanged(this.lastFocused)
-      this.rightClickMenu.setMetaWindow(this.lastFocused)
+      this.rightClickMenu.setMetaWindow(this.lastFocused, this.metaWindows)
     }
   },
 
@@ -398,7 +398,7 @@ AppGroup.prototype = {
           }
         }
         this.lastFocused = metaWindow
-        this.rightClickMenu.setMetaWindow(this.lastFocused)
+        this.rightClickMenu.setMetaWindow(this.lastFocused, this.metaWindows)
         this.hoverMenu.setMetaWindow(this.lastFocused, this.metaWindows)
       }
 
@@ -462,7 +462,7 @@ AppGroup.prototype = {
 
         var hoverWindows = this.metaWindows.length > 1 ? this.metaWindows : []
         this.hoverMenu.setMetaWindow(this.lastFocused, hoverWindows)
-        this.rightClickMenu.setMetaWindow(this.lastFocused)
+        this.rightClickMenu.setMetaWindow(this.lastFocused, hoverWindows)
       }
 
       this._calcWindowNumber(metaWorkspace)
@@ -513,7 +513,7 @@ AppGroup.prototype = {
       if (this._applet.sortThumbs === true) {
         this.hoverMenu.setMetaWindow(this.lastFocused, this.metaWindows)
       }
-      this.rightClickMenu.setMetaWindow(this.lastFocused)
+      this.rightClickMenu.setMetaWindow(this.lastFocused, this.metaWindows)
     }
     if (this._applet.settings.getValue('title-display') === App.TitleDisplay.Focused) {
       this._updateFocusedStatus()

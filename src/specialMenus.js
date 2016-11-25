@@ -52,6 +52,7 @@ AppMenuButtonRightClickMenu.prototype = {
 
     this.actor.hide()
     this.metaWindow = parent.metaWindow
+    this.metaWindows = []
     this._parentActor = actor
     this._parentActor.connect('button-release-event', Lang.bind(this, this._onParentActorButtonRelease))
     this._parentActor.connect('button-press-event', Lang.bind(this, this._onParentActorButtonPress))
@@ -531,23 +532,14 @@ AppMenuButtonRightClickMenu.prototype = {
 
   _onCloseAllActivate: function (actor, event) { // TBD
     //var workspace = this.metaWindow.get_workspace()
-    var windows
-    if (this.app.wmClass) {
-      windows = metaWorkspace.list_windows().filter(Lang.bind(this, function (win) {
-        return this.app.wmClass == win.get_wm_class_instance()
-      }))
-    }
-    else {
-      windows = this.app.get_windows()
-    }
-    for (var i = 0; i < windows.length; i++) {
+    var windows = _.map(this.metaWindows, 'win')
+    for (let i = 0, len = windows.length; i < len; i++) {
       windows[i].delete(global.get_current_time())
     }
   },
 
   _onCloseWindowActivate: function (actor, event) {
     this.metaWindow.delete(global.get_current_time())
-  // this.destroy()
   },
 
   _onMinimizeWindowActivate: function (actor, event) {
@@ -570,7 +562,6 @@ AppMenuButtonRightClickMenu.prototype = {
   _onMoveToLeftWorkspace: function (actor, event) {
     var workspace = this.metaWindow.get_workspace().get_neighbor(Meta.MotionDirection.LEFT)
     if (workspace) {
-      // this.actor.destroy()
       this.metaWindow.change_workspace(workspace)
       Main._checkWorkspaces()
     }
@@ -579,7 +570,6 @@ AppMenuButtonRightClickMenu.prototype = {
   _onMoveToRightWorkspace: function (actor, event) {
     var workspace = this.metaWindow.get_workspace().get_neighbor(Meta.MotionDirection.RIGHT)
     if (workspace) {
-      // this.actor.destroy()
       this.metaWindow.change_workspace(workspace)
       Main._checkWorkspaces()
     }
@@ -668,10 +658,12 @@ AppMenuButtonRightClickMenu.prototype = {
     } 
   },
 
-  /* Set's app's last focused window*/
-
-  setMetaWindow: function (metaWindow) {
+  setMetaWindow: function (metaWindow, metaWindows) {
+    // Last focused
     this.metaWindow = metaWindow
+
+    // Window list from appGroup
+    this.metaWindows = metaWindows
   }
 }
 
