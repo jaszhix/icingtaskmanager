@@ -190,6 +190,12 @@
     "description": "Allow themes to control the thumbnail close button",
     "tooltip": "Controls whether or not the theme controls the window thumbnail's close button."
  },
+ "include-all-windows" : {
+    "type" : "checkbox",
+    "default" : false,
+    "description": "Include all app windows",
+    "tooltip": "Controls whether or not thumbnails for smalller child windows, such as exit confirmations and file dialogues will be included in the thumbnail list."
+ },
  "AppMenu" : {
     "type" : "header",
     "description": "Context Menu Settings"

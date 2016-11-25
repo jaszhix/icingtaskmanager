@@ -338,6 +338,7 @@ AppGroup.prototype = {
   _updateMetaWindows: function (metaWorkspace, app=null, window=null) {
     // Get a list of all interesting windows that are part of this app on the current workspace
     var windowsSource = window ? [window] : metaWorkspace.list_windows()
+    var filterArgs = _.isEqual(app, this.app)
     var windowList = _.filter(windowsSource, (win)=>{
       try {
         if (!app) {
@@ -346,7 +347,10 @@ AppGroup.prototype = {
             app = this._applet.tracker.get_window_app(win)
           }
         }
-        return _.isEqual(app, this.app) && this._applet.tracker.is_window_interesting(win) && Main.isInteresting(win)
+        if (!this._applet.includeAllWindows) {
+          filterArgs = filterArgs && this._applet.tracker.is_window_interesting(win)
+        }
+        return _.isEqual(app, this.app)
       } catch (e) {
         return false
       }
@@ -379,8 +383,11 @@ AppGroup.prototype = {
     var refWindow = _.findIndex(this.metaWindows, (win)=>{
       return _.isEqual(win.win, metaWindow)
     })
-
-    if (_.isEqual(app, this.app) && refWindow === -1 && this._applet.tracker.is_window_interesting(metaWindow)) { // TBD
+    var windowAddArgs = _.isEqual(app, this.app) && refWindow === -1
+    if (!this._applet.includeAllWindows) {
+      windowAddArgs = windowAddArgs && this._applet.tracker.is_window_interesting(metaWindow)
+    }
+    if (windowAddArgs) { // TBD
       if (metaWindow) {
         if (!this._applet.groupApps && this.metaWindows.length >= 1) {
           if (this.ungroupedIndex === 0) {
@@ -392,7 +399,7 @@ AppGroup.prototype = {
         }
         this.lastFocused = metaWindow
         this.rightClickMenu.setMetaWindow(this.lastFocused)
-        this.hoverMenu.setMetaWindow(this.lastFocused)
+        this.hoverMenu.setMetaWindow(this.lastFocused, this.metaWindows)
       }
 
       let signals = []
@@ -452,7 +459,9 @@ AppGroup.prototype = {
       if (this.metaWindows.length > 0) {
         this.lastFocused = _.last(this.metaWindows).win
         this._windowTitleChanged(this.lastFocused)
-        this.hoverMenu.setMetaWindow(this.lastFocused)
+
+        var hoverWindows = this.metaWindows.length > 1 ? this.metaWindows : []
+        this.hoverMenu.setMetaWindow(this.lastFocused, hoverWindows)
         this.rightClickMenu.setMetaWindow(this.lastFocused)
       }
 
@@ -502,7 +511,7 @@ AppGroup.prototype = {
       this.lastFocused = metaWindow
       this._windowTitleChanged(this.lastFocused)
       if (this._applet.sortThumbs === true) {
-        this.hoverMenu.setMetaWindow(this.lastFocused)
+        this.hoverMenu.setMetaWindow(this.lastFocused, this.metaWindows)
       }
       this.rightClickMenu.setMetaWindow(this.lastFocused)
     }

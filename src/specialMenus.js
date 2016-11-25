@@ -529,7 +529,7 @@ AppMenuButtonRightClickMenu.prototype = {
 
   _onWindowMinimized: function (actor, event) {},
 
-  _onCloseAllActivate: function (actor, event) {
+  _onCloseAllActivate: function (actor, event) { // TBD
     //var workspace = this.metaWindow.get_workspace()
     var windows
     if (this.app.wmClass) {
@@ -668,6 +668,8 @@ AppMenuButtonRightClickMenu.prototype = {
     } 
   },
 
+  /* Set's app's last focused window*/
+
   setMetaWindow: function (metaWindow) {
     this.metaWindow = metaWindow
   }
@@ -699,7 +701,10 @@ AppThumbnailHoverMenu.prototype = {
     } else {
       PopupMenu.PopupMenu.prototype._init.call(this, parent.actor, 0.5, parent.orientation)
     }
+
     this.metaWindow = parent.metaWindow
+    this.metaWindows = []
+
     this.app = parent.app
     this.isFavapp = parent.isFavapp
     // need to impliment this class or cinnamon outputs a bunch of errors
@@ -802,9 +807,13 @@ AppThumbnailHoverMenu.prototype = {
     this.actor.destroy()
   },
 
-  setMetaWindow: function (metaWindow) {
+  setMetaWindow: function (metaWindow, metaWindows) {
+    // Last focused
     this.metaWindow = metaWindow
-    this.appSwitcherItem.setMetaWindow(metaWindow)
+
+    // Window list from appGroup
+    this.appSwitcherItem.setMetaWindow(metaWindow, metaWindows)
+    this.metaWindows = metaWindows
   }
 }
 
@@ -827,6 +836,7 @@ PopupMenuAppSwitcherItem.prototype = {
 
     this._applet = parent._applet
     this.metaWindow = parent.metaWindow
+    this.metaWindows = []
     this.app = parent.app
     this.isFavapp = parent.isFavapp
     this._parentContainer = parent
@@ -924,8 +934,9 @@ PopupMenuAppSwitcherItem.prototype = {
     this.reAdd = true
   },
 
-  setMetaWindow: function (metaWindow) {
+  setMetaWindow: function (metaWindow, metaWindows) {
     this.metaWindow = metaWindow
+    this.metaWindows = metaWindows
   },
 
   _isFavorite: function (isFav) {
@@ -945,26 +956,14 @@ PopupMenuAppSwitcherItem.prototype = {
     } else if (!this.metaWorkspace) {
       return {}
     }
-    var windows
-    if (this.app.wmClass && this.metaWorkspace) {
-      windows = this.metaWorkspace.list_windows().filter((win)=>{
-        return this.app.wmClass == win.get_wm_class_instance()
-      }).reverse()
-    } else {
-      windows = this.app.get_windows().filter((win)=>{
-        // var isDifferent = (win != this.metaWindow)
-        var isSameWorkspace = (win.get_workspace() == this.metaWorkspace) && Main.isInteresting(win)
-        return isSameWorkspace
-      }).reverse()
-    }
-    return windows
+    return _.map(this.metaWindows, 'win')
   },
 
   _refresh: function () {
     // Check to see if this.metaWindow has changed.  If so, we need to recreate
     // our thumbnail, etc.
     // Get a list of all windows of our app that are running in the current workspace
-    var windows = this.getMetaWindows()
+    var windows = _.map(this.metaWindows, 'win')
 
     if (this.metaWindowThumbnail && this.metaWindowThumbnail.needs_refresh()) {
       this.metaWindowThumbnail = null

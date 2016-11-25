@@ -274,41 +274,42 @@ MyApplet.prototype = {
       Gettext.bindtextdomain(this._uuid, GLib.get_home_dir() + '/.local/share/locale')
 
       var settingsProps = [
-        {key: 'show-pinned', value: 'showPinned'},
-        {key: 'show-alerts', value: 'showAlerts'},
-        {key: 'group-apps', value: 'groupApps'},
-        {key: 'arrange-pinnedApps', value: 'arrangePinned'},
-        {key: 'pinned-apps', value: 'pinnedApps'},
-        {key: 'enable-hover-peek', value: 'enablePeek'},
-        {key: 'onclick-thumbnails', value: 'onclickThumbs'},
-        {key: 'hover-peek-opacity', value: 'peekOpacity'},
-        {key: 'thumbnail-timeout', value: 'thumbTimeout'},
-        {key: 'thumbnail-size', value: 'thumbSize'},
-        {key: 'sort-thumbnails', value: 'sortThumbs'},
-        {key: 'vertical-thumbnails', value: 'verticalThumbs'},
-        {key: 'stack-thumbnails', value: 'stackThumbs'},
-        {key: 'show-thumbnails', value: 'showThumbs'},
-        {key: 'close-button-style', value: 'thumbCloseBtnStyle'},
-        {key: 'number-display', value: 'numDisplay'},
-        {key: 'title-display', value: 'titleDisplay'},
-        {key: 'icon-spacing', value: 'iconSpacing'},
-        {key: 'icon-padding', value: 'iconPadding'},
-        {key: 'enable-iconSize', value: 'enableIconSize'},
-        {key: 'icon-size', value: 'iconSize'},
-        {key: 'show-recent', value: 'showRecent'},
-        {key: 'appmenu-width', value: 'appMenuWidth'},
-        {key: 'firefox-menu', value: 'firefoxMenu'},
+        {key: 'show-pinned', value: 'showPinned', cb: null},
+        {key: 'show-alerts', value: 'showAlerts', cb: null},
+        {key: 'group-apps', value: 'groupApps', cb: null},
+        {key: 'arrange-pinnedApps', value: 'arrangePinned', cb: null},
+        {key: 'pinned-apps', value: 'pinnedApps', cb: null},
+        {key: 'enable-hover-peek', value: 'enablePeek', cb: null},
+        {key: 'onclick-thumbnails', value: 'onclickThumbs', cb: null},
+        {key: 'hover-peek-opacity', value: 'peekOpacity', cb: null},
+        {key: 'thumbnail-timeout', value: 'thumbTimeout', cb: null},
+        {key: 'thumbnail-size', value: 'thumbSize', cb: null},
+        {key: 'sort-thumbnails', value: 'sortThumbs', cb: null},
+        {key: 'vertical-thumbnails', value: 'verticalThumbs', cb: null},
+        {key: 'stack-thumbnails', value: 'stackThumbs', cb: null},
+        {key: 'show-thumbnails', value: 'showThumbs', cb: null},
+        {key: 'close-button-style', value: 'thumbCloseBtnStyle', cb: null},
+        {key: 'include-all-windows', value: 'includeAllWindows', cb: this._reloadApp},
+        {key: 'number-display', value: 'numDisplay', cb: null},
+        {key: 'title-display', value: 'titleDisplay', cb: null},
+        {key: 'icon-spacing', value: 'iconSpacing', cb: null},
+        {key: 'icon-padding', value: 'iconPadding', cb: null},
+        {key: 'enable-iconSize', value: 'enableIconSize', cb: null},
+        {key: 'icon-size', value: 'iconSize', cb: null},
+        {key: 'show-recent', value: 'showRecent', cb: null},
+        {key: 'appmenu-width', value: 'appMenuWidth', cb: null},
+        {key: 'firefox-menu', value: 'firefoxMenu', cb: null},
         {key: 'appmenu-number', value: 'appMenuNum'}
       ]
 
       if (this.c32) {
         for (let i = 0, len = settingsProps.length; i < len; i++) {
-          this.settings.bind(settingsProps[i].key, settingsProps[i].value);
+          this.settings.bind(settingsProps[i].key, settingsProps[i].value, settingsProps[i].cb);
         }
       } else {
         for (let i = 0, len = settingsProps.length; i < len; i++) {
           var direction = settingsProps[i].value === 'pinnedApps' ? 'BIDIRECTIONAL' : 'IN'
-          this.settings.bindProperty(Settings.BindingDirection[direction], settingsProps[i].key, settingsProps[i].value, null, null)
+          this.settings.bindProperty(Settings.BindingDirection[direction], settingsProps[i].key, settingsProps[i].value, settingsProps[i].cb, null)
         }
       }
 
