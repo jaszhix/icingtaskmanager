@@ -22,14 +22,7 @@ gulp.task('transpile', ['copy'], () =>
     .pipe(babel({
       presets: [
         'es2015',
-        [
-          'env', 
-          {
-            targets: {
-              firefox: 31 
-            }
-          }
-        ]
+        'mozjs24'
       ],
       plugins: [
         [

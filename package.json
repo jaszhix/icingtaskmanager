@@ -28,6 +28,7 @@
     "babel-preset-es2015": "^6.13.2",
     "babel-preset-es2016": "^6.11.3",
     "babel-preset-es2017": "^1.6.1",
+    "babel-preset-mozjs24": "0.0.0",
     "clear": "0.0.1",
     "del": "^2.2.2",
     "gulp": "^3.9.1",
