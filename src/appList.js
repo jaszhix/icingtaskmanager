@@ -220,7 +220,7 @@ AppList.prototype = {
       appGroup.watchWorkspace(metaWorkspace) // disable for windows to stay persistent across ws'
       this.actor.add_actor(appGroup.actor)
 
-      app.connect('windows-changed', Lang.bind(this, this._onAppWindowsChanged, app))
+      app.connect_after('windows-changed', Lang.bind(this, this._onAppWindowsChanged, app))
 
       this.appList.push({
         id: appId,
@@ -340,8 +340,7 @@ AppList.prototype = {
       if ((this.appList[refApp].appGroup.wasFavapp || this.appList[refApp].appGroup.isFavapp) && !timeStamp) {
         this.appList[refApp].appGroup._isFavorite(true)
 
-        // have to delay to fix openoffice start-center bug // TBD 
-        Mainloop.timeout_add(0, Lang.bind(this, this._refreshApps))
+        this._refreshApps()
         return
       }
 

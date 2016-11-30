@@ -384,6 +384,10 @@ AppGroup.prototype = {
       app = this._applet.tracker.get_window_app(metaWindow)
     }
 
+    if (!app) {
+      return
+    }
+
     var refWindow = _.findIndex(this.metaWindows, (win)=>{
       return _.isEqual(win.win, metaWindow)
     })
@@ -412,7 +416,9 @@ AppGroup.prototype = {
           this._menuManager.addMenu(this.rightClickMenu)
           this.rightClickMenu.setMetaWindow(this.lastFocused, this.metaWindows)
         }
+        
         this.hoverMenu.setMetaWindow(this.lastFocused, this.metaWindows)
+
       }
 
       let signals = []
@@ -439,9 +445,20 @@ AppGroup.prototype = {
       }
       this._calcWindowNumber(metaWorkspace)
     }
-    if (app && app.wmClass && !this.isFavapp) {
+
+    if (app.wmClass && !this.isFavapp) {
       this._calcWindowNumber(metaWorkspace)
     }
+
+    // Workaround for Spotify not loading correctly due to its window information being unavailable at the normal timing. Better solution TBD.
+    if (!this._applet.forceRefreshList && app.get_id().indexOf('spotify') !== -1) {
+      this._applet.forceRefreshList = true
+      Mainloop.timeout_add(3000, Lang.bind(this, ()=>{
+        this.appList._refreshList()
+        this._applet.forceRefreshList = false
+      }))
+    }
+
   },
 
   _windowRemoved: function (metaWorkspace, metaWindow) {

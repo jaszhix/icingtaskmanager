@@ -327,6 +327,8 @@ MyApplet.prototype = {
 
       this.metaWorkspaces = []
 
+      this.forceRefreshList = false
+
       Main.keybindingManager.addHotKey('move-app-to-next-monitor', '<Shift><Super>Right', Lang.bind(this, this._onMoveToNextMonitor))
       Main.keybindingManager.addHotKey('move-app-to-prev-monitor', '<Shift><Super>Left', Lang.bind(this, this._onMoveToPrevMonitor))
 
