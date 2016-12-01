@@ -344,20 +344,16 @@ AppGroup.prototype = {
     var windowsSource = window ? [window] : metaWorkspace.list_windows()
     var filterArgs = _.isEqual(app, this.app)
     var windowList = _.filter(windowsSource, (win)=>{
-      try {
+      if (!app) {
+        app = App.appFromWMClass(this.appList._appsys, this.appList.specialApps, win)
         if (!app) {
-          app = App.appFromWMClass(this.appList._appsys, this.appList.specialApps, win)
-          if (!app) {
-            app = this._applet.tracker.get_window_app(win)
-          }
+          app = this._applet.tracker.get_window_app(win)
         }
-        if (!this._applet.includeAllWindows) {
-          filterArgs = filterArgs && this._applet.tracker.is_window_interesting(win)
-        }
-        return _.isEqual(app, this.app)
-      } catch (e) {
-        return false
       }
+      if (!this._applet.includeAllWindows) {
+        filterArgs = filterArgs && this._applet.tracker.is_window_interesting(win)
+      }
+      return _.isEqual(app, this.app)
     })
 
     this.metaWindows = []
@@ -373,7 +369,9 @@ AppGroup.prototype = {
     }
     if (this.lastFocused && _.isObject(this.lastFocused)) {
       this._windowTitleChanged(this.lastFocused)
-      this.rightClickMenu.setMetaWindow(this.lastFocused, this.metaWindows)
+      if (this.rightClickMenu !== undefined) {
+        this.rightClickMenu.setMetaWindow(this.lastFocused, this.metaWindows)
+      }
     }
   },
 
@@ -408,7 +406,7 @@ AppGroup.prototype = {
         this.lastFocused = metaWindow
 
         // Instead of initializing rightClickMenu in _init right away, we'll prevent the exception caused by its absence and then initialize it. This speeds up init time, and fixes the monitor move options not appearing on first init.
-        if (this.rightClickMenu) {
+        if (this.rightClickMenu !== undefined) {
           this.rightClickMenu.setMetaWindow(this.lastFocused, this.metaWindows)
         } else {
           this.rightClickMenu = new SpecialMenus.AppMenuButtonRightClickMenu(this, this._appButton.actor)

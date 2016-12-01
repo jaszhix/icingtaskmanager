@@ -378,7 +378,7 @@ MyApplet.prototype = {
 
       // Query apps for the current workspace
       this.currentWs = global.screen.get_active_workspace_index()
-      this._onSwitchWorkspace(null, null, this.currentWs)
+      this._onSwitchWorkspace()
 
       global.settings.connect('changed::panel-edit-mode', Lang.bind(this, this.on_panel_edit_mode_changed))
       this.settings.connect('changed::group-apps', ()=>this._reloadApp())
@@ -635,18 +635,19 @@ MyApplet.prototype = {
     }
   },
 
-  _onSwitchWorkspace: function (winManager, previousWorkspaceIndex, currentWorkspaceIndex) {
-    let metaWorkspace = global.screen.get_workspace_by_index(currentWorkspaceIndex)
+  _onSwitchWorkspace: function () {
+    this.currentWs = global.screen.get_active_workspace_index()
+    let metaWorkspace = global.screen.get_workspace_by_index(this.currentWs)
     
     // If the workspace we switched to isn't in our list,
     // we need to create an AppList for it
-    var refWorkspace = _.findIndex(this.metaWorkspaces, {index: currentWorkspaceIndex})
+    var refWorkspace = _.findIndex(this.metaWorkspaces, {index: this.currentWs})
     if (refWorkspace === -1) {
       var appList = new AppList.AppList(this, metaWorkspace)
       this.metaWorkspaces.push({
         ws: metaWorkspace,
         appList: appList,
-        index: currentWorkspaceIndex,
+        index: this.currentWs,
       })
     }
 
