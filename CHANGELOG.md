@@ -1,5 +1,10 @@
 Changelog
 
+### 3.3.1
+
+  * Fixed workspace switching in Cinnamon 3.2.
+  * Fixed Spotify's windows not showing properly.
+
 ### 3.3.0
 
   * New "Include all windows" option allows you to see all of an app's windows in the thumbnail list, such as exit confirmation and file dialog windows.
