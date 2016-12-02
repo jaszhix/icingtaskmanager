@@ -218,7 +218,6 @@ AppList.prototype = {
       let appGroup = new AppGroup.AppGroup(this._applet, this, app, isFavapp, window, time, index)
       appGroup._updateMetaWindows(metaWorkspace, app, window)
       appGroup.watchWorkspace(metaWorkspace) // disable for windows to stay persistent across ws'
-      this.actor.add_actor(appGroup.actor)
 
       app.connect_after('windows-changed', Lang.bind(this, this._onAppWindowsChanged, app))
 

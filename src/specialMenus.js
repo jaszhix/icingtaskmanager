@@ -48,8 +48,6 @@ AppMenuButtonRightClickMenu.prototype = {
   _init: function (parent, actor) {
     Applet.AppletPopupMenu.prototype._init.call(this, parent, parent.orientation);
 
-    Main.uiGroup.add_actor(this.actor)
-
     this.actor.hide()
     this.metaWindow = parent.metaWindow
     this.metaWindows = []
@@ -632,9 +630,7 @@ AppMenuButtonRightClickMenu.prototype = {
     }
     children = this._getMenuItems()
     for (let i = 0, len = children.length; i < len; i++) {
-      let item = children[i]
-      this.box.remove_actor(item.actor)
-      item.destroy()
+      this.box.remove_actor(children[i].actor)
     }
     this.box.destroy()
     this.actor.destroy()
@@ -700,7 +696,8 @@ AppThumbnailHoverMenu.prototype = {
 
     this.app = parent.app
     this.isFavapp = parent.isFavapp
-    // need to impliment this class or cinnamon outputs a bunch of errors
+
+    // need to implement this class or cinnamon outputs a bunch of errors // TBD
     this.actor.style_class = 'hide-arrow'
 
     this.box.style_class = 'thumbnail-popup-content'
@@ -720,7 +717,6 @@ AppThumbnailHoverMenu.prototype = {
     this.actor.connect('enter-event', Lang.bind(this, this._onMenuEnter))
     this.actor.connect('leave-event', Lang.bind(this, this._onMenuLeave))
 
-    // this.actor.connect('button-release-event', Lang.bind(this, this._onButtonPress))
     this._applet.settings.connect('thumbnail-timeout', Lang.bind(this, function () {
       this.hoverTime = this._applet.settings.getValue('thumbnail-timeout')
     }))
@@ -1057,8 +1053,7 @@ PopupMenuAppSwitcherItem.prototype = {
         }
         if (this._applet.sortThumbs) {
           actor.insert_actor(this.appThumbnails[metaWindow].thumbnail.actor, 0)
-        }
-        else {
+        } else {
           actor.add_actor(this.appThumbnails[metaWindow].thumbnail.actor)
         }
       }
@@ -1208,7 +1203,7 @@ WindowThumbnail.prototype = {
       style: this._applet.thumbCloseBtnStyle ? 'padding: 0px; width: 16px; height: 16px; max-width: 16px; max-height: 16px;' : null,
       reactive: true
     })
-    // this._container.add_actor(this.button)
+
     this.button.hide()
     bin.add_actor(this._container)
     bin.add_actor(this.button)

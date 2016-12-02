@@ -74,7 +74,7 @@ AppGroup.prototype = {
     // Initialized in _windowAdded first for open apps, then deferred here for init speed up.
     Mainloop.timeout_add(500, Lang.bind(this, ()=>{
       if (this.isFavapp) {
-        this.rightClickMenu = new SpecialMenus.AppMenuButtonRightClickMenu(this, this._appButton.actor)
+        this.rightClickMenu = new SpecialMenus.AppMenuButtonRightClickMenu(this, this.actor)
         this._menuManager = new PopupMenu.PopupMenuManager(this)
         this._menuManager.addMenu(this.rightClickMenu)
         this.rightClickMenu.setMetaWindow(this.lastFocused, this.metaWindows)
@@ -409,7 +409,7 @@ AppGroup.prototype = {
         if (this.rightClickMenu !== undefined) {
           this.rightClickMenu.setMetaWindow(this.lastFocused, this.metaWindows)
         } else {
-          this.rightClickMenu = new SpecialMenus.AppMenuButtonRightClickMenu(this, this._appButton.actor)
+          this.rightClickMenu = new SpecialMenus.AppMenuButtonRightClickMenu(this, this.actor)
           this._menuManager = new PopupMenu.PopupMenuManager(this)
           this._menuManager.addMenu(this.rightClickMenu)
           this.rightClickMenu.setMetaWindow(this.lastFocused, this.metaWindows)
