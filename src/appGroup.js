@@ -653,6 +653,7 @@ AppGroup.prototype = {
     this.hoverMenu.destroy()
     this._appButton.destroy()
     this.appList.manager_container.remove_actor(this.actor)
+    this.actor.destroy()
   }
 }
 Signals.addSignalMethods(AppGroup.prototype)

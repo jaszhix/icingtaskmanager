@@ -1,5 +1,9 @@
 Changelog
 
+### 3.4.2
+
+  * Fixed a line error.
+
 ### 3.4.1
 
   * Fixed a bug that can cause Cinnamon to crash when moving an app, then pinning it. You are strongly advised to upgrade if you are on version 3.4.0.
