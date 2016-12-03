@@ -216,7 +216,17 @@ PinnedFavs.prototype = {
 
     _.pullAt(this._favorites, refFav)
     this._applet.settings.setValue('pinned-apps', _.map(this._favorites, 'id'))
-    this.triggerUpdate(appId, -1)
+
+    var appList = this._applet.getCurrentAppList()
+    var refApp = _.findIndex(appList.appList, {id: appId})
+    var hasOpenWindows = appList.appList[refApp].appGroup.app.get_windows().length > 0
+
+    if (hasOpenWindows) {
+      this.triggerUpdate(appId, -1)
+    } else {
+      appList.appList[refApp].appGroup.destroy()
+      _.pullAt(appList.appList, refApp)
+    }
     return true
   },
 
@@ -330,7 +340,6 @@ MyApplet.prototype = {
 
       // Boolean states
       this.forceRefreshList = false
-      this.refreshRecentItems = false
 
       Main.keybindingManager.addHotKey('move-app-to-next-monitor', '<Shift><Super>Right', Lang.bind(this, this._onMoveToNextMonitor))
       Main.keybindingManager.addHotKey('move-app-to-prev-monitor', '<Shift><Super>Left', Lang.bind(this, this._onMoveToPrevMonitor))
@@ -411,8 +420,6 @@ MyApplet.prototype = {
   getCurrentAppList(){
     return this.metaWorkspaces[this.currentWs].appList
   },
-
-
 
   execInstallLanguage: function () { // TBD
     try {

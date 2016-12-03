@@ -241,15 +241,9 @@ AppMenuButtonRightClickMenu.prototype = {
   },
 
   _recent_items_changed: function (recentManager=null, appId=null) {
-    if (!this._applet.refreshRecentItems) {
-      if (recentManager) {
-        this._applet.sortRecentItems(recentManager.get_items())
-        this._applet.refreshAppFromCurrentListById(appId)
-
-        Mainloop.timeout_add(500, Lang.bind(this, ()=>{
-          this._applet.refreshRecentItems = false
-        }))
-      }
+    if (recentManager) {
+      this._applet.sortRecentItems(recentManager.get_items())
+      this._applet.refreshAppFromCurrentListById(appId)
     }
   },
 
