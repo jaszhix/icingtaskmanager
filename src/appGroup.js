@@ -45,6 +45,7 @@ AppGroup.prototype = {
     // but you have duplicate object this._applet then... // TBD
     this.launchersBox = applet;
     this.app = app
+    this.appId = app.get_id()
     this.isFavapp = isFavapp
     this.orientation = applet.orientation
 
@@ -99,7 +100,7 @@ AppGroup.prototype = {
   },
 
   getId: function () {
-    return this.app.get_id()
+    return this.appId
   },
 
   on_arrange_pinned: function () {
@@ -366,6 +367,7 @@ AppGroup.prototype = {
     // will be triggered when the app button is pressed
     if (!this.lastFocused) {
       this.lastFocused = windowList.length === 1 ? windowList[0] : _.first(this._getLastFocusedWindow())
+      this.appList._setLastFocusedApp(this.appId)
     }
     if (this.lastFocused && _.isObject(this.lastFocused)) {
       this._windowTitleChanged(this.lastFocused)
@@ -535,6 +537,7 @@ AppGroup.prototype = {
 
   _focusWindowChange: function (metaWindow) {
     if (metaWindow.appears_focused) {
+      this.appList._setLastFocusedApp(this.appId)
       this.lastFocused = metaWindow
       this._windowTitleChanged(this.lastFocused)
       if (this._applet.sortThumbs) {

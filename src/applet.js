@@ -162,8 +162,8 @@ PinnedFavs.prototype = {
     return refFav !== -1
   },
 
-  triggerUpdate: function () {
-    this._applet.refreshCurrentAppList()
+  triggerUpdate: function (appId, pos=null) {
+    this._applet.refreshAppFromCurrentListById(appId, {favChange: true, favPos: pos})
   },
 
   _addFavorite: function (appId, pos) {
@@ -190,10 +190,11 @@ PinnedFavs.prototype = {
 
     if (pos !== -1) {
       this.moveFavoriteToPos(appId, pos)
+      return
     }
 
     this._applet.settings.setValue('pinned-apps', _.map(this._favorites, 'id'))
-    this.triggerUpdate()
+    this.triggerUpdate(appId)
     return true
   },
 
@@ -204,7 +205,7 @@ PinnedFavs.prototype = {
     }
     this._favorites.splice(pos, 0, this._favorites.splice(oldIndex, 1)[0])
     this._applet.settings.setValue('pinned-apps', _.map(this._favorites, 'id'))
-    this.triggerUpdate()
+    this.triggerUpdate(appId, pos)
   },
 
   _removeFavorite: function (appId) {
@@ -215,7 +216,7 @@ PinnedFavs.prototype = {
 
     _.pullAt(this._favorites, refFav)
     this._applet.settings.setValue('pinned-apps', _.map(this._favorites, 'id'))
-    this.triggerUpdate()
+    this.triggerUpdate(appId, -1)
     return true
   },
 
@@ -323,12 +324,13 @@ MyApplet.prototype = {
       this.pinnedAppsContr = new PinnedFavs(this)
 
       this.recentManager = Gtk.RecentManager.get_default()
-      this.recentItems = this.recentManager.get_items().sort(function (a, b) { return a.get_modified() - b.get_modified(); }).reverse()
-      this.recentManager.connect('changed', Lang.bind(this, this.on_recent_items_changed))
+      this.sortRecentItems(this.recentManager.get_items())
 
       this.metaWorkspaces = []
 
+      // Boolean states
       this.forceRefreshList = false
+      this.refreshRecentItems = false
 
       Main.keybindingManager.addHotKey('move-app-to-next-monitor', '<Shift><Super>Right', Lang.bind(this, this._onMoveToNextMonitor))
       Main.keybindingManager.addHotKey('move-app-to-prev-monitor', '<Shift><Super>Left', Lang.bind(this, this._onMoveToPrevMonitor))
@@ -382,8 +384,6 @@ MyApplet.prototype = {
       this._onSwitchWorkspace()
 
       global.settings.connect('changed::panel-edit-mode', Lang.bind(this, this.on_panel_edit_mode_changed))
-      //this.settings.connect('changed::group-apps', ()=>this._reloadApp())
-      //this.settings.connect('changed::close-button-style', ()=>this._reloadApp())
 
     } catch (e) {
       clog('Error', e.message)
@@ -403,6 +403,16 @@ MyApplet.prototype = {
       this.metaWorkspaces[this.currentWs].appList._refreshList()
     }))
   },
+
+  refreshAppFromCurrentListById(appId, opts={favChange: false, favPos: null}){
+    this.metaWorkspaces[this.currentWs].appList._refreshAppById(appId, opts)
+  },
+
+  getCurrentAppList(){
+    return this.metaWorkspaces[this.currentWs].appList
+  },
+
+
 
   execInstallLanguage: function () { // TBD
     try {
@@ -622,8 +632,9 @@ MyApplet.prototype = {
     return this.recentManager
   },
 
-  on_recent_items_changed: function () {
-    this.recentItems = this.recentManager.get_items().sort(function (a, b) { return a.get_modified() - b.get_modified(); }).reverse()
+  sortRecentItems: function (items) {
+    this.recentItems = items.sort(function (a, b) { return a.get_modified() - b.get_modified(); }).reverse()
+    return this.recentItems
   },
 
   _onWorkspaceCreatedOrDestroyed: function (i) {

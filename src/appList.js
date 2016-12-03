@@ -50,6 +50,7 @@ AppList.prototype = {
     this.registeredApps = []
 
     this.appList = []
+    this.lastFocusedApp = null
 
     // Connect all the signals
     this._setSignals()
@@ -136,6 +137,10 @@ AppList.prototype = {
     global.settings.connect('changed::panel-edit-mode', Lang.bind(this, this.on_panel_edit_mode_changed))
   },
 
+  _setLastFocusedApp(id){
+    this.lastFocusedApp = id
+  },
+
   // Gets a list of every app on the current workspace
 
   _getSpecialApps: function () {
@@ -160,6 +165,39 @@ AppList.prototype = {
     this.registeredApps = this._getSpecialApps()
     this._loadFavorites(init)
     this._refreshApps(init)
+  },
+
+  /*
+    Refresh specific apps by finding their index, destroying, and recreating them.
+  */
+
+  _refreshAppById(appId, opts){
+    var refApp = _.findIndex(this.appList, {id: appId})
+    if (refApp !== -1) {
+      var app = this.appList[refApp].appGroup.app
+      var isFavapp = opts.favChange ? !this.appList[refApp].appGroup.isFavapp : this.appList[refApp].appGroup.isFavapp
+      var index = this.appList[refApp].ungroupedIndex
+
+      this.appList[refApp].appGroup.destroy()
+
+      var window = null;
+      if (!this._applet.groupApps) {
+        window = app.get_windows()[0]
+      }
+      
+      var time = Date.now()
+
+      let appGroup = new AppGroup.AppGroup(this._applet, this, app, isFavapp, window, time, index)
+
+      appGroup._updateMetaWindows(this.metaWorkspace, app, window)
+      appGroup.watchWorkspace(this.metaWorkspace)
+
+      this.appList[refApp].appGroup = appGroup
+      this.appList[refApp].time = time
+
+      var refPos = opts.favPos ? opts.favPos : refApp
+      this.manager_container.set_child_at_index(appGroup.actor, refPos)
+    }
   },
 
   _loadFavorites: function (init) {
