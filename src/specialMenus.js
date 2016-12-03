@@ -418,7 +418,6 @@ AppMenuButtonRightClickMenu.prototype = {
   },
 
   _isFavorite: function (isFav) {
-    var showFavs = this._applet.showPinned
     if (isFav) {
       this.box.add(this.subMenuItem.menu.actor)
       this.addMenuItem(this.subMenuItem)
@@ -453,8 +452,10 @@ AppMenuButtonRightClickMenu.prototype = {
       this.addMenuItem(new PopupMenu.PopupSeparatorMenuItem())
       this.addMenuItem(this.launchItem)
       
-      if (showFavs && !this.app.is_window_backed()) {
-        this.addMenuItem(this.itemtoggleFav)
+      if (!this.app.is_window_backed()) {
+        if (this._applet.showPinned) {
+          this.addMenuItem(this.itemtoggleFav)
+        }
       } else {
         this.addMenuItem(this.itemCreateShortcut)
         this.addMenuItem(this.settingItem)
