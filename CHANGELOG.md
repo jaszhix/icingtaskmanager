@@ -1,5 +1,10 @@
 Changelog
 
+### 3.4.1
+
+  * Fixed a bug that can cause Cinnamon to crash when moving an app, then pinning it. You are strongly advised to upgrade if you are on version 3.4.0.
+  * Added missing key to JSON importation utilities.
+
 ### 3.4.0
 
   * Fixed recent items not updating.
