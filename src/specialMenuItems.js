@@ -34,7 +34,7 @@ RecentMenuItem.prototype = {
     this.label.width = this._menu.AppMenuWidth - 26;
     this.table.width = this._menu.AppMenuWidth;
 
-    let bin = new St.Bin({
+    this.bin = new St.Bin({
       reactive: true,
       can_focus: true,
       x_fill: true,
@@ -45,12 +45,12 @@ RecentMenuItem.prototype = {
       style_class: 'pin-item',
       reactive: true
     });
-    bin.set_child(this.pinIcon);
+    this.bin.set_child(this.pinIcon);
 
-    bin.connect('enter-event', Lang.bind(this, function () {
+    this.bin.connect('enter-event', Lang.bind(this, function () {
       this.pinRecent = true;
     }));
-    bin.connect('leave-event', Lang.bind(this, function () {
+    this.bin.connect('leave-event', Lang.bind(this, function () {
       this.pinRecent = false;
     }));
 
@@ -79,14 +79,12 @@ RecentMenuItem.prototype = {
       x_align: St.Align.START
     });
 
-    this.table.add(bin, {
+    this.table.add(this.bin, {
       row: 0,
       col: 2,
       col_span: 1,
       x_align: St.Align.END
     });
-
-
 
     this.label.set_margin_left(6.0);
 
@@ -119,8 +117,7 @@ RecentMenuItem.prototype = {
     }
     this._menu.toggle();
     Gio.app_info_launch_default_for_uri(this.uri, global.create_app_launch_context());
-  }
-
+  },
 };
 
 function PlaceMenuItem(menu, place) {

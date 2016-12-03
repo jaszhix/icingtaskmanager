@@ -115,10 +115,13 @@ AppMenuButtonRightClickMenu.prototype = {
       this.appInfo = this.app.get_app_info()
 
       // Pause for refresh of SpecialItems.
-      this._applet.recentManager.connect('changed', Lang.bind(this, function () {
-        Mainloop.timeout_add(15, Lang.bind(this, this._recent_items_changed))
+      this._applet.recentManager.connect('changed', Lang.bind(this, function (recentManager) {
+        var lastFocusedApp = this._applet.getCurrentAppList().lastFocusedApp
+        if (lastFocusedApp === this.app.get_id()) {
+          this._recent_items_changed(recentManager, lastFocusedApp)
+        }
       }))
-      this._applet.settings.connect('changed::show-recent', Lang.bind(this, this._recent_items_changed))
+      this._applet.settings.connect('changed::show-recent', Lang.bind(this, this.menuSetup))
       this._applet.settings.connect('changed::appmenu-width', Lang.bind(this, this._appMenu_width_changed))
 
       this.itemCloseAllWindow = new SpecialMenuItems.IconNameMenuItem(this, t('Close All'), 'process-stop')
@@ -237,26 +240,17 @@ AppMenuButtonRightClickMenu.prototype = {
     subMenu.addMenuItem(this.settingItem)
   },
 
-  show_recent_changed: function () {
-    if (this._applet.settings.getValue('show-recent')) {
-      this.specialCont.actor.show()
-      this._recent_items_changed()
-    } else {
-      this._recent_items_changed()
-      this.specialCont.actor.hide()
-    }
-  },
+  _recent_items_changed: function (recentManager=null, appId=null) {
+    if (!this._applet.refreshRecentItems) {
+      if (recentManager) {
+        this._applet.sortRecentItems(recentManager.get_items())
+        this._applet.refreshAppFromCurrentListById(appId)
 
-  _recent_items_changed: function () {
-    // Hack used the track_hover to force the popup to stay open while removing items
-    this.specialCont.actor.track_hover = true
-    var children = this.specialSection.get_children()
-    for (let i = 0, len = children.length; i < len; i++) {
-      this.specialSection.remove_actor(children[i])
-      children[i].destroy()
+        Mainloop.timeout_add(500, Lang.bind(this, ()=>{
+          this._applet.refreshRecentItems = false
+        }))
+      }
     }
-    this.addSpecialItems()
-    this.specialCont.actor.track_hover = false
   },
 
   _appMenu_width_changed: function () {
@@ -362,13 +356,13 @@ AppMenuButtonRightClickMenu.prototype = {
     }
   },
 
-  _listRecent: function () {
-    var recentItems = this._applet.recent_items_contr()
+  _listRecent: function (_recentItems=null) {
+    var recentItems = _recentItems ? _recentItems : this._applet.recentItems
     var items = []
     for (let i = 0, len = recentItems.length; i < len; i++) {
       var mimeType = recentItems[i].get_mime_type()
       var appInfo = Gio.app_info_get_default_for_type(mimeType, false)
-      if (appInfo && this.appInfo && appInfo.get_id() == this.appInfo.get_id()) {
+      if (appInfo && this.appInfo && appInfo.get_id() === this.app.get_id()) {
         items.push(recentItems[i])
       }
     }
