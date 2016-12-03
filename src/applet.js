@@ -15,6 +15,7 @@ const Lang = imports.lang
 const Cinnamon = imports.gi.Cinnamon
 const St = imports.gi.St
 const Main = imports.ui.main
+const Mainloop = imports.mainloop
 const Util = imports.misc.util
 const Signals = imports.signals
 const DND = imports.ui.dnd
@@ -162,7 +163,7 @@ PinnedFavs.prototype = {
   },
 
   triggerUpdate: function () {
-    this._applet.metaWorkspaces[this._applet.currentWs].appList._refreshList()
+    this._applet.refreshCurrentAppList()
   },
 
   _addFavorite: function (appId, pos) {
@@ -276,7 +277,7 @@ MyApplet.prototype = {
       var settingsProps = [
         {key: 'show-pinned', value: 'showPinned', cb: null},
         {key: 'show-alerts', value: 'showAlerts', cb: null},
-        {key: 'group-apps', value: 'groupApps', cb: null},
+        {key: 'group-apps', value: 'groupApps', cb: this.refreshCurrentAppList},
         {key: 'arrange-pinnedApps', value: 'arrangePinned', cb: null},
         {key: 'pinned-apps', value: 'pinnedApps', cb: null},
         {key: 'enable-hover-peek', value: 'enablePeek', cb: null},
@@ -288,17 +289,17 @@ MyApplet.prototype = {
         {key: 'vertical-thumbnails', value: 'verticalThumbs', cb: null},
         {key: 'stack-thumbnails', value: 'stackThumbs', cb: null},
         {key: 'show-thumbnails', value: 'showThumbs', cb: null},
-        {key: 'close-button-style', value: 'thumbCloseBtnStyle', cb: null},
-        {key: 'include-all-windows', value: 'includeAllWindows', cb: this._reloadApp},
+        {key: 'close-button-style', value: 'thumbCloseBtnStyle', cb: this.refreshCurrentAppList},
+        {key: 'include-all-windows', value: 'includeAllWindows', cb: this.refreshCurrentAppList},
         {key: 'number-display', value: 'numDisplay', cb: null},
         {key: 'title-display', value: 'titleDisplay', cb: null},
         {key: 'icon-spacing', value: 'iconSpacing', cb: null},
         {key: 'icon-padding', value: 'iconPadding', cb: null},
-        {key: 'enable-iconSize', value: 'enableIconSize', cb: null},
+        {key: 'enable-iconSize', value: 'enableIconSize', cb: this.refreshCurrentAppList},
         {key: 'icon-size', value: 'iconSize', cb: null},
-        {key: 'show-recent', value: 'showRecent', cb: null},
+        {key: 'show-recent', value: 'showRecent', cb: this.refreshCurrentAppList},
         {key: 'appmenu-width', value: 'appMenuWidth', cb: null},
-        {key: 'firefox-menu', value: 'firefoxMenu', cb: null},
+        {key: 'firefox-menu', value: 'firefoxMenu', cb: this.refreshCurrentAppList},
         {key: 'appmenu-number', value: 'appMenuNum'}
       ]
 
@@ -381,8 +382,8 @@ MyApplet.prototype = {
       this._onSwitchWorkspace()
 
       global.settings.connect('changed::panel-edit-mode', Lang.bind(this, this.on_panel_edit_mode_changed))
-      this.settings.connect('changed::group-apps', ()=>this._reloadApp())
-      this.settings.connect('changed::close-button-style', ()=>this._reloadApp())
+      //this.settings.connect('changed::group-apps', ()=>this._reloadApp())
+      //this.settings.connect('changed::close-button-style', ()=>this._reloadApp())
 
     } catch (e) {
       clog('Error', e.message)
@@ -390,11 +391,17 @@ MyApplet.prototype = {
   },
 
   on_panel_height_changed: function() {
-    this.metaWorkspaces[this.currentWs].appList._refreshList()
+    this.refreshCurrentAppList();
   },
 
   on_orientation_changed: function(orientation) {
     this.metaWorkspaces[this.currentWs].appList.on_orientation_changed(orientation)
+  },
+
+  refreshCurrentAppList(){
+    Mainloop.timeout_add(15, Lang.bind(this, function () {
+      this.metaWorkspaces[this.currentWs].appList._refreshList()
+    }))
   },
 
   execInstallLanguage: function () { // TBD
