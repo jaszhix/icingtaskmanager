@@ -175,12 +175,21 @@ AppList.prototype = {
     var refApp = _.findIndex(this.appList, {id: appId})
     if (refApp !== -1) {
       var app = this.appList[refApp].appGroup.app
-      var isFavapp = opts.favChange ? !this.appList[refApp].appGroup.isFavapp : this.appList[refApp].appGroup.isFavapp
+      var isFavapp = opts.favChange ? opts.isFavapp : this.appList[refApp].appGroup.isFavapp
       var index = this.appList[refApp].ungroupedIndex
 
       this.appList[refApp].appGroup.destroy()
 
+      var windows = app.get_windows()
+
       var window = null;
+      var hasWindows = windows.length > 0
+
+      if (!isFavapp && !hasWindows && opts.favChange) {
+        _.pullAt(this.appList, refApp)
+        return
+      }
+
       if (!this._applet.groupApps) {
         window = app.get_windows()[0]
       }
@@ -191,12 +200,15 @@ AppList.prototype = {
 
       appGroup._updateMetaWindows(this.metaWorkspace, app, window)
       appGroup.watchWorkspace(this.metaWorkspace)
+      appGroup.isFavapp = isFavapp
 
       this.appList[refApp].appGroup = appGroup
       this.appList[refApp].time = time
 
       var refPos = opts.favPos ? opts.favPos : refApp
       this.manager_container.set_child_at_index(appGroup.actor, refPos)
+    } else if (opts.favChange) {
+      this._applet.refreshCurrentAppList()
     }
   },
 

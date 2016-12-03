@@ -162,8 +162,10 @@ PinnedFavs.prototype = {
     return refFav !== -1
   },
 
-  triggerUpdate: function (appId, pos=null) {
-    this._applet.refreshAppFromCurrentListById(appId, {favChange: true, favPos: pos})
+  triggerUpdate: function (appId, pos=null, isFavapp=false) {
+    Mainloop.timeout_add(15, Lang.bind(this, function () {
+      this._applet.refreshAppFromCurrentListById(appId, {favChange: true, favPos: pos, isFavapp: isFavapp})
+    }))
   },
 
   _addFavorite: function (appId, pos) {
@@ -194,7 +196,7 @@ PinnedFavs.prototype = {
     }
 
     this._applet.settings.setValue('pinned-apps', _.map(this._favorites, 'id'))
-    this.triggerUpdate(appId)
+    this.triggerUpdate(appId, -1, true)
     return true
   },
 
@@ -205,7 +207,7 @@ PinnedFavs.prototype = {
     }
     this._favorites.splice(pos, 0, this._favorites.splice(oldIndex, 1)[0])
     this._applet.settings.setValue('pinned-apps', _.map(this._favorites, 'id'))
-    this.triggerUpdate(appId, pos)
+    this.triggerUpdate(appId, pos, true)
   },
 
   _removeFavorite: function (appId) {
@@ -217,15 +219,14 @@ PinnedFavs.prototype = {
     _.pullAt(this._favorites, refFav)
     this._applet.settings.setValue('pinned-apps', _.map(this._favorites, 'id'))
 
-    var appList = this._applet.getCurrentAppList()
-    var refApp = _.findIndex(appList.appList, {id: appId})
-    var hasOpenWindows = appList.appList[refApp].appGroup.app.get_windows().length > 0
+    var refApp = _.findIndex(this._applet.metaWorkspaces[this._applet.currentWs].appList.appList, {id: appId})
+    var hasOpenWindows = this._applet.metaWorkspaces[this._applet.currentWs].appList.appList[refApp].appGroup.app.get_windows().length > 0
 
     if (hasOpenWindows) {
-      this.triggerUpdate(appId, -1)
+      this.triggerUpdate(appId, -1, false)
     } else {
-      appList.appList[refApp].appGroup.destroy()
-      _.pullAt(appList.appList, refApp)
+      this._applet.metaWorkspaces[this._applet.currentWs].appList.appList[refApp].appGroup.destroy()
+      _.pullAt(this._applet.metaWorkspaces[this._applet.currentWs].appList.appList, refApp)
     }
     return true
   },
@@ -413,7 +414,7 @@ MyApplet.prototype = {
     }))
   },
 
-  refreshAppFromCurrentListById(appId, opts={favChange: false, favPos: null}){
+  refreshAppFromCurrentListById(appId, opts={favChange: false, favPos: null, isFavapp: false}){
     this.metaWorkspaces[this.currentWs].appList._refreshAppById(appId, opts)
   },
 

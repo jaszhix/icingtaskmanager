@@ -207,7 +207,7 @@ AppGroup.prototype = {
 
   // Stop monitoring a workspace for added and removed windows.
   // @metaWorkspace: if null, will remove all signals
-  unwatchWorkspace: function (metaWorkspace) {
+  unwatchWorkspace: function (metaWorkspace, unmount=false) {
     function removeSignals (obj) {
       let signals = obj.signals
       for (let i = 0, len = signals.length; i < len; i++) {
@@ -221,7 +221,9 @@ AppGroup.prototype = {
         _.pullAt(this.metaWorkspaces, i)
       }
     }
-    this._setWatchedWorkspaces()
+    if (!unmount) {
+      this._setWatchedWorkspaces()
+    }
   },
 
   hideAppButton: function () {
@@ -628,7 +630,7 @@ AppGroup.prototype = {
     })
   },
 
-  destroy: function () {
+  destroy: function (skip=false) {
     // Unwatch all workspaces before we destroy all our actors
     // that callbacks depend on
 
@@ -642,7 +644,7 @@ AppGroup.prototype = {
       destroyWindowSignal(this.metaWindows[i])
     }
 
-    this.unwatchWorkspace(null)
+    this.unwatchWorkspace(null, true)
 
     if (this.rightClickMenu) {
       this.rightClickMenu.destroy()
@@ -650,7 +652,7 @@ AppGroup.prototype = {
 
     this.hoverMenu.destroy()
     this._appButton.destroy()
-    this.actor.destroy()
+    this.appList.manager_container.remove_actor(this.actor)
   }
 }
 Signals.addSignalMethods(AppGroup.prototype)
