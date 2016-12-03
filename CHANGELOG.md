@@ -1,5 +1,17 @@
 Changelog
 
+### 3.4.0
+
+  * Fixed recent items not updating.
+  * Fixed the applet freezing Cinnamon momentarily when a file is saved in certain situations.
+  * Fixed pinning and unpinning apps causing the applet to freeze.
+  * Improved the responsiveness of the applet when settings are changed.
+  * Fixed a bug causing the applet to break when the "Show pinned apps" option is enabled, and the button title display option is not "None".
+  * Fixed Firefox metadata not showing up in its context menu when Gda is installed.
+  * Fixed an exception occuring on init.
+  * Fixed the importPinned.py utility.
+  * Fixed shortcut creation for window backed apps.
+
 ### 3.3.1
 
   * Fixed workspace switching in Cinnamon 3.2.
