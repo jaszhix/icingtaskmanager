@@ -103,6 +103,7 @@ def handleCli():
                             ('stack-thumbnails', config['stack-thumbnails']),
                             ('sort-thumbnails', config['sort-thumbnails']),
                             ('onclick-thumbnails', config['onclick-thumbnails']),
+                            ('close-button-style', config['close-button-style']),
                             ('include-all-windows', config['include-all-windows']),
                             ('AppMenu', config['AppMenu']),
                             ('seperator4', config['seperator4']),
