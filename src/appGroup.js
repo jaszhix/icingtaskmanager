@@ -2,13 +2,13 @@ const Clutter = imports.gi.Clutter
 const Lang = imports.lang
 const St = imports.gi.St
 const Main = imports.ui.main
-const Mainloop = imports.mainloop
 const Tweener = imports.ui.tweener
 const PopupMenu = imports.ui.popupMenu
 const Signals = imports.signals
 const DND = imports.ui.dnd
 const _ = imports.applet._
 const clog = imports.applet.clog
+const setTimeout = imports.applet.setTimeout
 
 // Load our applet so we can access other files in our extensions dir as libraries
 const AppletDir = imports.ui.appletManager.applets['IcingTaskManager@json']
@@ -73,14 +73,14 @@ AppGroup.prototype = {
     this._appButton.actor.connect('button-release-event', Lang.bind(this, this._onAppButtonRelease))
 
     // Initialized in _windowAdded first for open apps, then deferred here for init speed up.
-    Mainloop.timeout_add(500, Lang.bind(this, ()=>{
+    setTimeout(()=>{
       if (this.isFavapp) {
         this.rightClickMenu = new SpecialMenus.AppMenuButtonRightClickMenu(this, this.actor)
         this._menuManager = new PopupMenu.PopupMenuManager(this)
         this._menuManager.addMenu(this.rightClickMenu)
         this.rightClickMenu.setMetaWindow(this.lastFocused, this.metaWindows)
       }
-    }))
+    }, 500)
 
     // Set up the hover menu for this._appButton
     this.hoverMenu = new SpecialMenus.AppThumbnailHoverMenu(this)
@@ -455,10 +455,10 @@ AppGroup.prototype = {
     // Workaround for Spotify not loading correctly due to its window information being unavailable at the normal timing. Better solution TBD.
     if (!this._applet.forceRefreshList && app.get_id().indexOf('spotify') !== -1) {
       this._applet.forceRefreshList = true
-      Mainloop.timeout_add(3000, Lang.bind(this, ()=>{
+      setTimeout(()=>{
         this.appList._refreshList()
         this._applet.forceRefreshList = false
-      }))
+      }, 3000)
     }
 
   },

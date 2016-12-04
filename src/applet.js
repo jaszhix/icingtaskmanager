@@ -15,7 +15,6 @@ const Lang = imports.lang
 const Cinnamon = imports.gi.Cinnamon
 const St = imports.gi.St
 const Main = imports.ui.main
-const Mainloop = imports.mainloop
 const Util = imports.misc.util
 const Signals = imports.signals
 const DND = imports.ui.dnd
@@ -28,6 +27,7 @@ const Meta = imports.gi.Meta
 
 const _ = imports.applet._
 const clog = imports.applet.clog
+const setTimeout = imports.applet.setTimeout
 
 const AppletDir = imports.ui.appletManager.applets['IcingTaskManager@json']
 const AppList = AppletDir.appList
@@ -163,9 +163,9 @@ PinnedFavs.prototype = {
   },
 
   triggerUpdate: function (appId, pos=null, isFavapp=false) {
-    Mainloop.timeout_add(15, Lang.bind(this, function () {
+    setTimeout(()=>{
       this._applet.refreshAppFromCurrentListById(appId, {favChange: true, favPos: pos, isFavapp: isFavapp})
-    }))
+    }, 15)
   },
 
   _addFavorite: function (appId, pos) {
@@ -225,8 +225,10 @@ PinnedFavs.prototype = {
     if (hasOpenWindows) {
       this.triggerUpdate(appId, -1, false)
     } else {
-      this._applet.metaWorkspaces[this._applet.currentWs].appList.appList[refApp].appGroup.destroy()
-      _.pullAt(this._applet.metaWorkspaces[this._applet.currentWs].appList.appList, refApp)
+      setTimeout(()=>{
+        this._applet.metaWorkspaces[this._applet.currentWs].appList.appList[refApp].appGroup.destroy()
+        _.pullAt(this._applet.metaWorkspaces[this._applet.currentWs].appList.appList, refApp)
+      }, 15)
     }
     return true
   },
@@ -409,9 +411,9 @@ MyApplet.prototype = {
   },
 
   refreshCurrentAppList(){
-    Mainloop.timeout_add(15, Lang.bind(this, function () {
+    setTimeout(()=>{
       this.metaWorkspaces[this.currentWs].appList._refreshList()
-    }))
+    }, 15)
   },
 
   refreshAppFromCurrentListById(appId, opts={favChange: false, favPos: null, isFavapp: false}){

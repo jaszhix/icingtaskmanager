@@ -16,6 +16,7 @@ const Tweener = imports.ui.tweener
 const Applet = imports.ui.applet;
 const _ = imports.applet._
 const clog = imports.applet.clog
+const setTimeout = imports.applet.setTimeout
 
 const AppletDir = imports.ui.appletManager.applets['IcingTaskManager@json']
 const SpecialMenuItems = AppletDir.specialMenuItems
@@ -718,34 +719,34 @@ AppThumbnailHoverMenu.prototype = {
     }
     this.shouldOpen = false
     this.shouldClose = true
-    Mainloop.timeout_add(this.hoverTime, Lang.bind(this, this.hoverClose))
+    setTimeout(()=>this.hoverClose(), this.hoverTime)
   },
 
   _onMenuEnter: function () {
     this.shouldOpen = true
     this.shouldClose = false
 
-    Mainloop.timeout_add(this.hoverTime, Lang.bind(this, this.hoverOpen))
+    setTimeout(()=>this.hoverOpen(), this.hoverTime)
   },
 
   _onMenuLeave: function () {
     this.shouldOpen = false
     this.shouldClose = true
-    Mainloop.timeout_add(this.hoverTime, Lang.bind(this, this.hoverClose))
+    setTimeout(()=>this.hoverClose(), this.hoverTime)
   },
 
   _onEnter: function () {
     this.shouldOpen = true
     this.shouldClose = false
 
-    Mainloop.timeout_add(this.hoverTime, Lang.bind(this, this.hoverOpen))
+    setTimeout(()=>this.hoverOpen(), this.hoverTime)
   },
 
   _onLeave: function () {
     this.shouldClose = true
     this.shouldOpen = false
 
-    Mainloop.timeout_add(this.hoverTime, Lang.bind(this, this.hoverClose))
+    setTimeout(()=>this.hoverClose(), this.hoverTime)
   },
 
   hoverOpen: function () {
@@ -956,9 +957,7 @@ PopupMenuAppSwitcherItem.prototype = {
       if (this.isFavapp) {
         this.metaWindowThumbnail = new WindowThumbnail(this, this.metaWindow)
         this.appContainer.insert_actor(this.metaWindowThumbnail.actor, 0)
-        Mainloop.timeout_add(0, Lang.bind(this, function () {
-          this.setStyleOptions(null)
-        }))
+        setTimeout(()=>this.setStyleOptions(null), 0)
         // Update appThumbnails to remove old programs
         this.removeOldWindows(windows)
         return
@@ -971,9 +970,7 @@ PopupMenuAppSwitcherItem.prototype = {
     // Set to true to readd the thumbnails; used for the sorting by last focused 
     this.reAdd = false
     // used to make sure everything is on the stage
-    Mainloop.timeout_add(0, Lang.bind(this, function () {
-      this.setStyleOptions(windows)
-    }))
+    setTimeout(()=>this.setStyleOptions(windows), 0)
   },
   addNewWindows: function (windows) {
     var ThumbnailWidth = Math.floor((Main.layoutManager.primaryMonitor.width / 70) * this._applet.thumbSize) + 16
@@ -1317,9 +1314,7 @@ WindowThumbnail.prototype = {
     } else {
       this.actor.style = null
       // HACK used to make sure everything is on the stage
-      Mainloop.timeout_add(0, Lang.bind(this, function () {
-        this.thumbnailPaddingSize()
-      }))
+      setTimeout(()=>this.thumbnailPaddingSize(), 0)
       this._refresh()
     }
   },

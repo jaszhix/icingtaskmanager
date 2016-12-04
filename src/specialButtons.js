@@ -4,9 +4,9 @@ const Cinnamon = imports.gi.Cinnamon
 const St = imports.gi.St
 const Tweener = imports.ui.tweener
 const DND = imports.ui.dnd
-const Mainloop = imports.mainloop
 const _ = imports.applet._
 const clog = imports.applet.clog
+const setTimeout = imports.applet.setTimeout
 
 const BUTTON_BOX_ANIMATION_TIME = 0.5
 const MAX_BUTTON_WIDTH = 150 // Pixels
@@ -139,14 +139,14 @@ IconLabelButton.prototype = {
 
     this.actor.add_style_class_name('window-list-item-demands-attention')
     if (counter < 4) {
-      Mainloop.timeout_add(FLASH_INTERVAL, Lang.bind(this, function () {
+      setTimeout(()=>{
         if (this.actor.has_style_class_name('window-list-item-demands-attention')) {
           this.actor.remove_style_class_name('window-list-item-demands-attention')
         }
-        Mainloop.timeout_add(FLASH_INTERVAL, Lang.bind(this, function () {
+        setTimeout(()=>{
           this._flashButton(++counter)
-        }))
-      }))
+        }, FLASH_INTERVAL)
+      }, FLASH_INTERVAL)
     }
   },
 

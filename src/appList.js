@@ -2,10 +2,10 @@ const Lang = imports.lang
 const Cinnamon = imports.gi.Cinnamon
 const Clutter = imports.gi.Clutter;
 const St = imports.gi.St
-const Mainloop = imports.mainloop
 const Gio = imports.gi.Gio
 const _ = imports.applet._
 const clog = imports.applet.clog
+const setTimeout = imports.applet.setTimeout
 
 const AppletDir = imports.ui.appletManager.applets['IcingTaskManager@json']
 const App = AppletDir.applet
@@ -396,9 +396,9 @@ AppList.prototype = {
       this.appList[refApp].appGroup.destroy()
       _.pullAt(this.appList, refApp)
 
-      Mainloop.timeout_add(15, Lang.bind(this, function () {
+      setTimeout(()=>{
         this._refreshAppGroupNumber()
-      }))
+      }, 15)
     }
   },
 
