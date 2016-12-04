@@ -1,5 +1,9 @@
 Changelog
 
+### 3.4.3
+
+  * Fixed a bug that can cause the panel to freeze when unpinning an app.
+
 ### 3.4.2
 
   * Fixed a line error.
