@@ -212,8 +212,14 @@
  "closeall-menu-item" : {
     "type" : "checkbox",
     "default" : false,
-    "description": "Enable option to close all windows",
+    "description": "Show option to close all windows",
     "tooltip" : "Show a \"Close All\" context menu item to close all windows for an app."
+ },
+ "autostart-menu-item" : {
+    "type" : "checkbox",
+    "default" : true,
+    "description": "Show autostart option",
+    "tooltip" : "Shows the autostart toggle option in an app's context menu."
  },
  "appmenu-width" : {
     "type": "spinbutton",

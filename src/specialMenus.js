@@ -61,9 +61,9 @@ AppMenuButtonRightClickMenu.prototype = {
 
     this.orientation = parent.orientation
     this.app = parent.app
+    this.autostartIndex = parent.autostartIndex
     this.isFavapp = parent.isFavapp
     this._applet = parent._applet
-    this.showCloseAll = this._applet.settings.getValue('closeall-menu-item')
     this.AppMenuWidth = this._applet.settings.getValue('appmenu-width')
 
     var PinnedFavorites = this._applet.pinned_app_contr()
@@ -171,6 +171,15 @@ AppMenuButtonRightClickMenu.prototype = {
       this.isFav = this.favs.isFavorite(this.favId)
 
       if (!this.app.is_window_backed()) {
+        if (this._applet.autoStart) {
+          if (this.autostartIndex !== -1) {
+            this.itemToggleAutostart = new SpecialMenuItems.IconNameMenuItem(this, t('Remove from Autostart'), 'process-stop')
+            this.itemToggleAutostart.connect('activate', Lang.bind(this, this._toggleAutostart))
+          } else {
+            this.itemToggleAutostart = new SpecialMenuItems.IconNameMenuItem(this, t('Add to Autostart'), 'insert-object')
+            this.itemToggleAutostart.connect('activate', Lang.bind(this, this._toggleAutostart))
+          }
+        }
         if (this._applet.showPinned !== FavType.none) {
           if (this.isFav) {
             this.itemtoggleFav = new SpecialMenuItems.IconNameMenuItem(this, t('Unpin from Panel'), 'remove')
@@ -419,6 +428,9 @@ AppMenuButtonRightClickMenu.prototype = {
       this.addMenuItem(this.launchItem)
 
       if (!this.app.is_window_backed()) {
+        if (this._applet.autoStart) {
+          this.addMenuItem(this.itemToggleAutostart)
+        }
         this.addMenuItem(this.itemtoggleFav)
       } else {
         this.addMenuItem(this.itemCreateShortcut)
@@ -442,6 +454,9 @@ AppMenuButtonRightClickMenu.prototype = {
       this.addMenuItem(this.launchItem)
       
       if (!this.app.is_window_backed()) {
+        if (this._applet.autoStart) {
+          this.addMenuItem(this.itemToggleAutostart)
+        }
         if (this._applet.showPinned) {
           this.addMenuItem(this.itemtoggleFav)
         }
@@ -452,7 +467,7 @@ AppMenuButtonRightClickMenu.prototype = {
       this.addMenuItem(new PopupMenu.PopupSeparatorMenuItem())
       this.addMenuItem(this.itemMinimizeWindow)
       this.addMenuItem(this.itemMaximizeWindow)
-      if (this.showCloseAll) {
+      if (this._applet.showCloseAll) {
         this.addMenuItem(this.itemCloseAllWindow)
       }
       this.addMenuItem(this.itemCloseWindow)
@@ -569,6 +584,23 @@ AppMenuButtonRightClickMenu.prototype = {
       this.metaWindow.unstick()
     } else {
       this.metaWindow.stick()
+    }
+  },
+
+  _toggleAutostart(){
+    if (this.autostartIndex !== -1) {
+      this._applet.autostartApps[this.autostartIndex].file.delete(null)
+      this._applet.removeAutostartApp(this.autostartIndex)
+      this.autostartIndex = -1
+      this.menuSetup(null)
+    } else {
+      var filePath = this.appInfo.get_filename()
+      Util.trySpawnCommandLine(`bash -c "cp ${filePath} ${this._applet.autostartStrDir}"`)
+      setTimeout(()=>{
+        this._applet.getAutostartApps()
+        this.autostartIndex = this._applet.autostartApps.length - 1
+        this.menuSetup(null)
+      }, 500)
     }
   },
 

@@ -32,7 +32,7 @@ MyApplet._init, signal (switch-workspace) -> _onSwitchWorkspace -> AppList._init
 
 AppGroup.prototype = {
   __proto__: Object.prototype,
-  _init: function (applet, appList, app, isFavapp, window=null, timeStamp=null, ungroupedIndex=null) {
+  _init: function (applet, appList, app, isFavapp, window=null, timeStamp=null, ungroupedIndex=null, appId='') {
     if (DND.LauncherDraggable) {
       DND.LauncherDraggable.prototype._init.call(this)
     }
@@ -45,7 +45,8 @@ AppGroup.prototype = {
     // but you have duplicate object this._applet then... // TBD
     this.launchersBox = applet;
     this.app = app
-    this.appId = app.get_id()
+    this.appId = appId
+    this.autostartIndex = _.findIndex(this._applet.autostartApps, {id: appId})
     this.isFavapp = isFavapp
     this.orientation = applet.orientation
 

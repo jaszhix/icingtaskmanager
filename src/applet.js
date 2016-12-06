@@ -268,6 +268,7 @@ MyApplet.prototype = {
   _init: function (metadata, orientation, panel_height, instance_id) {
     Applet.Applet.prototype._init.call(this, orientation, panel_height, instance_id)
     this.settings = new Settings.AppletSettings(this, 'IcingTaskManager@json', instance_id)
+    this.homeDir = GLib.get_home_dir()
 
     this.actor.set_track_hover(false)
     this.orientation = orientation
@@ -312,6 +313,8 @@ MyApplet.prototype = {
         {key: 'enable-iconSize', value: 'enableIconSize', cb: this.refreshCurrentAppList},
         {key: 'icon-size', value: 'iconSize', cb: null},
         {key: 'show-recent', value: 'showRecent', cb: this.refreshCurrentAppList},
+        {key: 'closeall-menu-item', value: 'showCloseAll', cb: this.refreshCurrentAppList},
+        {key: 'autostart-menu-item', value: 'autoStart', cb: this.refreshCurrentAppList},
         {key: 'appmenu-width', value: 'appMenuWidth', cb: null},
         {key: 'firefox-menu', value: 'firefoxMenu', cb: this.refreshCurrentAppList},
         {key: 'appmenu-number', value: 'appMenuNum'}
@@ -340,6 +343,8 @@ MyApplet.prototype = {
       this.sortRecentItems(this.recentManager.get_items())
 
       this.metaWorkspaces = []
+
+      this.autostartApps = []
 
       // Boolean states
       this.forceRefreshList = false
@@ -391,6 +396,8 @@ MyApplet.prototype = {
       this._dragPlaceholderPos = -1
       this._animatingPlaceholdersCount = 0
 
+      this.getAutostartApps()
+
       // Query apps for the current workspace
       this.currentWs = global.screen.get_active_workspace_index()
       this._onSwitchWorkspace()
@@ -424,9 +431,28 @@ MyApplet.prototype = {
     return this.metaWorkspaces[this.currentWs].appList
   },
 
+  getAutostartApps(){
+    var info;
+    this.autostartStrDir = `${this.homeDir}/.config/autostart`
+    var autostartDir = Gio.file_new_for_path(this.autostartStrDir)
+    var children = autostartDir.enumerate_children('standard::name,standard::type,time::modified', Gio.FileQueryInfoFlags.NONE, null)
+
+    while ((info = children.next_file(null)) !== null) {
+      if (info.get_file_type() === Gio.FileType.REGULAR) {
+        var name = info.get_name()
+        var file = Gio.file_new_for_path(`${this.autostartStrDir}/${name}`)
+        this.autostartApps.push({id: name, file: file})
+      }
+    }
+  },
+
+  removeAutostartApp(autostartIndex){
+    _.pullAt(this.autostartApps, autostartIndex)
+  },
+
   execInstallLanguage: function () { // TBD
     try {
-      let _shareFolder = GLib.get_home_dir() + '/.local/share/'
+      let _shareFolder = this.homeDir + '/.local/share/'
       let _localeFolder = Gio.file_new_for_path(_shareFolder + 'locale/')
       let _moFolder = Gio.file_new_for_path(_shareFolder + 'cinnamon/applets/' + this._uuid + '/locale/mo/')
       let children = _moFolder.enumerate_children('standard::name,standard::type,time::modified',

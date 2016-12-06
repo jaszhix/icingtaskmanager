@@ -265,7 +265,7 @@ AppList.prototype = {
 
     var initApp = (window=null, index=null)=>{
       var time = Date.now()
-      let appGroup = new AppGroup.AppGroup(this._applet, this, app, isFavapp, window, time, index)
+      let appGroup = new AppGroup.AppGroup(this._applet, this, app, isFavapp, window, time, index, appId)
       appGroup._updateMetaWindows(metaWorkspace, app, window)
       appGroup.watchWorkspace(metaWorkspace) // disable for windows to stay persistent across ws'
 
