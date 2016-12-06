@@ -1,5 +1,11 @@
 Changelog
 
+### 3.5.0
+
+  * Added an autostart option to the app context menu. It can be disabled in settings.
+  * The close context menu option will switch to "Close All" if more than one window is open. The option to show the close all menu item separately has been removed.
+  * Updated translations.
+
 ### 3.4.3
 
   * Fixed a bug that can cause the panel to freeze when unpinning an app.
