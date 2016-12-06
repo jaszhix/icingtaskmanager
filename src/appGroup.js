@@ -413,6 +413,7 @@ AppGroup.prototype = {
         // Instead of initializing rightClickMenu in _init right away, we'll prevent the exception caused by its absence and then initialize it. This speeds up init time, and fixes the monitor move options not appearing on first init.
         if (this.rightClickMenu !== undefined) {
           this.rightClickMenu.setMetaWindow(this.lastFocused, this.metaWindows)
+          this.rightClickMenu.menuSetup(null)
         } else {
           this.rightClickMenu = new SpecialMenus.AppMenuButtonRightClickMenu(this, this.actor)
           this._menuManager = new PopupMenu.PopupMenuManager(this)
@@ -494,7 +495,10 @@ AppGroup.prototype = {
         this._windowTitleChanged(this.lastFocused)
 
         this.hoverMenu.setMetaWindow(this.lastFocused, this.metaWindows)
-        this.rightClickMenu.setMetaWindow(this.lastFocused, this.metaWindows)
+        if (this.rightClickMenu !== undefined) {
+          this.rightClickMenu.setMetaWindow(this.lastFocused, this.metaWindows)
+          this.rightClickMenu.menuSetup(null)
+        }
       }
 
       this._calcWindowNumber(metaWorkspace)
