@@ -176,13 +176,11 @@ msgstr ""
 "Controls כמה ריפוד אופקי הוא בתוך כפתורי האפליקציה. ריפוד מוחל רק על מקרים "
 "של יישומון זה על לוחות אופקיים."
 
-#. src->settings-schema.json->closeall-menu-item->description
-msgid "Enable option to close all windows"
-msgstr "סגור את כל פרטי התפריט"
+msgid "Show autostart option"
+msgstr "אפשרות autostart צג"
 
-#. src->settings-schema.json->closeall-menu-item->tooltip
-msgid "Show a \"Close All\" context menu item to close all windows for an app."
-msgstr "הראה 'סגור הכל' בתפריט"
+msgid "Shows the autostart toggle option in an app's context menu."
+msgstr "מציג את האפשרות לעבור autostart ב תפריט ההקשר של יישום."
 
 #. src->settings-schema.json->show-pinned->description
 msgid "Show pinned apps"
@@ -341,72 +339,78 @@ msgstr "הזז אפליקציות צמודות"
 msgid "Arrange pinned apps into a different order."
 msgstr "שנה את סדר האפליקציות הצמודות."
 
-#~ msgid "Install Gda"
-#~ msgstr "התקנן Gda"
+msgid "Install Gda"
+msgstr "התקנן Gda"
 
-#~ msgid "Only on this workspace"
-#~ msgstr "רק בשולחן העבודה הזה"
+msgid "Only on this workspace"
+msgstr "רק בשולחן העבודה הזה"
 
-#~ msgid "Move to left workspace"
-#~ msgstr "העבר לשולחן עבודה השמאלי"
+msgid "Move to left workspace"
+msgstr "העבר לשולחן עבודה השמאלי"
 
-#~ msgid "Move to right workspace"
-#~ msgstr "העבר לשולחן עבודה הימני"
+msgid "Move to right workspace"
+msgstr "העבר לשולחן עבודה הימני"
 
-#~ msgid "Move to monitor %d"
-#~ msgstr "העבר לשולחן עבודה %d"
+msgid "Move to monitor %d"
+msgstr "העבר לשולחן עבודה %d"
 
-#~ msgid "Unpin from Panel"
-#~ msgstr "בטל את ההצמדה מהשורת משימות"
+msgid "Remove from Autostart"
+msgstr "הסר Autostart"
 
-#~ msgid "Pin to Panel"
-#~ msgstr "הצמד לשורת משימות"
+msgid "Add to Autostart"
+msgstr "הוסף Autostart"
 
-#~ msgid "Create Shortcut"
-#~ msgstr "צור קיצור דרך"
+msgid "Unpin from Panel"
+msgstr "בטל את ההצמדה מהשורת משימות"
 
-#~ msgid "Close"
-#~ msgstr "סגור"
+msgid "Pin to Panel"
+msgstr "הצמד לשורת משימות"
 
-#~ msgid "Close All"
-#~ msgstr "סגור הכל"
+msgid "Create Shortcut"
+msgstr "צור קיצור דרך"
 
-#~ msgid "Settings"
-#~ msgstr "הגדרות"
+msgid "Close"
+msgstr "סגור"
 
-#~ msgid "Rearrange"
-#~ msgstr "אפשר שינוי מיקום בסרגל"
+msgid "Close All"
+msgstr "סגור הכל"
 
-#~ msgid "Show Pinned"
-#~ msgstr "הראה ישומים מחוברים לשורת משימות"
+msgid "Settings"
+msgstr "הגדרות"
 
-#~ msgid "Show Thumbs"
-#~ msgstr "הראה חלון ממוזער"
+msgid "Rearrange"
+msgstr "אפשר שינוי מיקום בסרגל"
 
-#~ msgid "Stack Thumbs"
-#~ msgstr "סטאק Thumbs"
+msgid "Show Pinned"
+msgstr "הראה ישומים מחוברים לשורת משימות"
 
-#~ msgid "Peek on Hover"
-#~ msgstr "בעת הצבעה על תמונה חלון הראה אותו"
+msgid "Show Thumbs"
+msgstr "הראה חלון ממוזער"
 
-#~ msgid "Show Recent"
-#~ msgstr "הראה אחרונים"
+msgid "Stack Thumbs"
+msgstr "סטאק Thumbs"
 
-#~ msgid "Vertical Thumbs"
-#~ msgstr "חלונות ממוזערים בצורה אנכית"
+msgid "Peek on Hover"
+msgstr "בעת הצבעה על תמונה חלון הראה אותו"
+
+msgid "Show Recent"
+msgstr "הראה אחרונים"
+
+msgid "Vertical Thumbs"
+msgstr "חלונות ממוזערים בצורה אנכית"
 
 # 5 spaces in front of it
-#~ msgid "     Go to Settings"
-#~ msgstr "     פתח את ההגדרות"
+msgid "     Go to Settings"
+msgstr "     פתח את ההגדרות"
 
-#~ msgid "Minimize"
-#~ msgstr "מזער"
+msgid "Minimize"
+msgstr "מזער"
 
-#~ msgid "Maximize"
-#~ msgstr "הגדל"
+msgid "Maximize"
+msgstr "הגדל"
 
-#~ msgid "Unmaximize"
-#~ msgstr "הקטן חלון"
+msgid "Unmaximize"
+msgstr "הקטן חלון"
 
-#~ msgid "Restore"
-#~ msgstr "שחזר"
+msgid "Restore"
+msgstr "שחזר"

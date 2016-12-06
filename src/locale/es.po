@@ -176,15 +176,11 @@ msgstr ""
 "aplicación. El relleno sólo se aplica a instancias de este applet en paneles "
 "horizontales."
 
-#. src->settings-schema.json->closeall-menu-item->description
-msgid "Enable option to close all windows"
-msgstr "Habilitar opción para cerrar todas las ventanas"
+msgid "Show autostart option"
+msgstr "Mostrar la opción de inicio automático"
 
-#. src->settings-schema.json->closeall-menu-item->tooltip
-msgid "Show a \"Close All\" context menu item to close all windows for an app."
-msgstr ""
-"Mostrar un elemento de menú \"Cerrar todo\" para cerrar todas las ventanas "
-"de una aplicación."
+msgid "Shows the autostart toggle option in an app's context menu."
+msgstr "Muestra la opción de alternar inicio automático en el menú contextual de una aplicación."
 
 #. src->settings-schema.json->show-pinned->description
 msgid "Show pinned apps"
@@ -348,78 +344,84 @@ msgstr "Ordenar aplicaciones fijas"
 msgid "Arrange pinned apps into a different order."
 msgstr "Ordenar aplicaciones fijas en un orden diferente"
 
-#~ msgid "Visible on all workspaces"
-#~ msgstr "Mostrar en todas las áreas de trabajo"
+msgid "Visible on all workspaces"
+msgstr "Mostrar en todas las áreas de trabajo"
 
-#~ msgid "Only on this workspace"
-#~ msgstr "Solo en esta área de trabajo"
+msgid "Only on this workspace"
+msgstr "Solo en esta área de trabajo"
 
-#~ msgid "Move to left workspace"
-#~ msgstr "Mover al área de trabajo de la izquierda"
+msgid "Move to left workspace"
+msgstr "Mover al área de trabajo de la izquierda"
 
-#~ msgid "Move to right workspace"
-#~ msgstr "Mover al área de trabajo de la derecha"
+msgid "Move to right workspace"
+msgstr "Mover al área de trabajo de la derecha"
 
-#~ msgid "Move to monitor %d"
-#~ msgstr "Mover al monitor %d"
+msgid "Move to monitor %d"
+msgstr "Mover al monitor %d"
 
-#~ msgid "Unpin from Panel"
-#~ msgstr "No fijar la aplicación"
+msgid "Remove from Autostart"
+msgstr "Eliminar del inicio automático"
 
-#~ msgid "Pin to Panel"
-#~ msgstr "Fijar la aplicación"
+msgid "Add to Autostart"
+msgstr "Añadir a Autostart"
 
-#~ msgid "Create Shortcut"
-#~ msgstr "Crear acceso directo"
+msgid "Unpin from Panel"
+msgstr "No fijar la aplicación"
 
-#~ msgid "Close"
-#~ msgstr "Cerrar"
+msgid "Pin to Panel"
+msgstr "Fijar la aplicación"
 
-#~ msgid "Close All"
-#~ msgstr "Cerrar Todo"
+msgid "Create Shortcut"
+msgstr "Crear acceso directo"
 
-#~ msgid "Settings"
-#~ msgstr "Ajustes"
+msgid "Close"
+msgstr "Cerrar"
 
-#~ msgid "Rearrange"
-#~ msgstr "Reordenar"
+msgid "Close All"
+msgstr "Cerrar Todo"
 
-#~ msgid "Show Pinned"
-#~ msgstr "Mostrar Fijadas"
+msgid "Settings"
+msgstr "Ajustes"
 
-#~ msgid "Show Thumbs"
-#~ msgstr "Mostrar Miniaturas"
+msgid "Rearrange"
+msgstr "Reordenar"
 
-#~ msgid "Stack Thumbs"
-#~ msgstr "Aplicar Miniaturas"
+msgid "Show Pinned"
+msgstr "Mostrar Fijadas"
 
-#~ msgid "Peek on Hover"
-#~ msgstr "Realizar Vistazo cuando el ratón está encima"
+msgid "Show Thumbs"
+msgstr "Mostrar Miniaturas"
 
-#~ msgid "Show Recent"
-#~ msgstr "Mostrar recientes"
+msgid "Stack Thumbs"
+msgstr "Aplicar Miniaturas"
 
-#~ msgid "Vertical Thumbs"
-#~ msgstr "Miniaturas verticales"
+msgid "Peek on Hover"
+msgstr "Realizar Vistazo cuando el ratón está encima"
+
+msgid "Show Recent"
+msgstr "Mostrar recientes"
+
+msgid "Vertical Thumbs"
+msgstr "Miniaturas verticales"
 
 # 5 spaces in front of it
-#~ msgid "     Go to Settings"
-#~ msgstr "     Ir a configuraciones"
+msgid "     Go to Settings"
+msgstr "     Ir a configuraciones"
 
-#~ msgid "Group apps into single icon"
-#~ msgstr "Agrupar las aplicaciones en un solo icono."
+msgid "Group apps into single icon"
+msgstr "Agrupar las aplicaciones en un solo icono."
 
-#~ msgid "Group the open app instances into single icon"
-#~ msgstr "Agrupar las instancias de aplicaciones abiertas en un solo icono"
+msgid "Group the open app instances into single icon"
+msgstr "Agrupar las instancias de aplicaciones abiertas en un solo icono"
 
-#~ msgid "Minimize"
-#~ msgstr "Minimizar"
+msgid "Minimize"
+msgstr "Minimizar"
 
-#~ msgid "Maximize"
-#~ msgstr "Maximizar"
+msgid "Maximize"
+msgstr "Maximizar"
 
-#~ msgid "Unmaximize"
-#~ msgstr "No maximizada"
+msgid "Unmaximize"
+msgstr "No maximizada"
 
-#~ msgid "Restore"
-#~ msgstr "Restaurar"
+msgid "Restore"
+msgstr "Restaurar"

@@ -65,7 +65,7 @@ msgstr "Taille des icônes"
 msgid "Set icon size"
 msgstr ""
 "Ajustez la taille de l'icône indépendamment de la mise à l'échelle du \"\n"
-"#~ \"panneau Cinnamon."
+"\"panneau Cinnamon."
 
 #. src->settings-schema.json->hover-peek-time->description
 msgid "Window fade time"
@@ -182,15 +182,11 @@ msgstr ""
 "l'application. Le rembourrage est uniquement appliqué aux instances de cette "
 "applet sur des panneaux horizontaux."
 
-#. src->settings-schema.json->closeall-menu-item->description
-msgid "Enable option to close all windows"
-msgstr "Fermer toutes les instances d'une application via le menu"
+msgid "Show autostart option"
+msgstr "Afficher l'option de démarrage automatique"
 
-#. src->settings-schema.json->closeall-menu-item->tooltip
-msgid "Show a \"Close All\" context menu item to close all windows for an app."
-msgstr ""
-"Afficher un élément de menu contextuel \"Fermer tout\" pour fermer toutes "
-"les fenêtres d'une application."
+msgid "Shows the autostart toggle option in an app's context menu."
+msgstr "Affiche l'option de basculement automatique dans le menu contextuel d'une application."
 
 #. src->settings-schema.json->show-pinned->description
 msgid "Show pinned apps"
@@ -277,7 +273,7 @@ msgstr "Ajuster la taille de l'icône"
 msgid "Adjust icon size independent of Cinnamon's panel scaling."
 msgstr ""
 "Ajustez la taille de l'icône indépendamment de la mise à l'échelle du \"\n"
-"#~ \"panneau Cinnamon."
+"\"panneau Cinnamon."
 
 #. src->settings-schema.json->number-display->description
 msgid "Number display"
@@ -362,81 +358,87 @@ msgstr "Pouvoir modifier l'ordre des applications"
 msgid "Arrange pinned apps into a different order."
 msgstr "Pouvoir modifier l'ordre des applications"
 
-#~ msgid "Install Gda"
-#~ msgstr "Installer Gda"
+msgid "Install Gda"
+msgstr "Installer Gda"
 
-#~ msgid "Visible on all workspaces"
-#~ msgstr "Visible dans tous les espaces de travail"
+msgid "Visible on all workspaces"
+msgstr "Visible dans tous les espaces de travail"
 
-#~ msgid "Only on this workspace"
-#~ msgstr "Uniquement sur cet espace de travail"
+msgid "Only on this workspace"
+msgstr "Uniquement sur cet espace de travail"
 
-#~ msgid "Move to left workspace"
-#~ msgstr "Déplacer vers l'espace de travail à gauche"
+msgid "Move to left workspace"
+msgstr "Déplacer vers l'espace de travail à gauche"
 
-#~ msgid "Move to right workspace"
-#~ msgstr "Déplacer vers l'espace de travail à droite"
+msgid "Move to right workspace"
+msgstr "Déplacer vers l'espace de travail à droite"
 
-#~ msgid "Move to monitor %d"
-#~ msgstr "Déplacer vers le moniteur %d"
+msgid "Move to monitor %d"
+msgstr "Déplacer vers le moniteur %d"
 
-#~ msgid "Unpin from Panel"
-#~ msgstr "Retirer du panneau"
+msgid "Remove from Autostart"
+msgstr "Supprimer de l'auto-démarrage"
 
-#~ msgid "Pin to Panel"
-#~ msgstr "Epingler au panneau"
+msgid "Add to Autostart"
+msgstr "Ajouter à Autostart"
 
-#~ msgid "Create Shortcut"
-#~ msgstr "Créer un raccourci"
+msgid "Unpin from Panel"
+msgstr "Retirer du panneau"
 
-#~ msgid "Close"
-#~ msgstr "Fermer"
+msgid "Pin to Panel"
+msgstr "Epingler au panneau"
 
-#~ msgid "Close All"
-#~ msgstr "Tout fermer"
+msgid "Create Shortcut"
+msgstr "Créer un raccourci"
 
-#~ msgid "Settings"
-#~ msgstr "Options"
+msgid "Close"
+msgstr "Fermer"
 
-#~ msgid "Rearrange"
-#~ msgstr "Modifier l'ordre des applications"
+msgid "Close All"
+msgstr "Tout fermer"
 
-#~ msgid "Show Pinned"
-#~ msgstr "Afficher les applications épinglées"
+msgid "Settings"
+msgstr "Options"
 
-#~ msgid "Show Thumbs"
-#~ msgstr "Afficher les miniatures"
+msgid "Rearrange"
+msgstr "Modifier l'ordre des applications"
 
-#~ msgid "Stack Thumbs"
-#~ msgstr "Empiler les miniatures"
+msgid "Show Pinned"
+msgstr "Afficher les applications épinglées"
 
-#~ msgid "Peek on Hover"
-#~ msgstr "Mise en évidence des applications"
+msgid "Show Thumbs"
+msgstr "Afficher les miniatures"
 
-#~ msgid "Show Recent"
-#~ msgstr "Afficher le dernier"
+msgid "Stack Thumbs"
+msgstr "Empiler les miniatures"
 
-#~ msgid "Vertical Thumbs"
-#~ msgstr "Miniatures verticales"
+msgid "Peek on Hover"
+msgstr "Mise en évidence des applications"
+
+msgid "Show Recent"
+msgstr "Afficher le dernier"
+
+msgid "Vertical Thumbs"
+msgstr "Miniatures verticales"
 
 # 5 spaces in front of it
-#~ msgid "     Go to Settings"
-#~ msgstr "     Configurer..."
+msgid "     Go to Settings"
+msgstr "     Configurer..."
 
-#~ msgid "Group apps into single icon"
-#~ msgstr "Grouper les multiples instances d'une application"
+msgid "Group apps into single icon"
+msgstr "Grouper les multiples instances d'une application"
 
-#~ msgid "Group the open app instances into single icon"
-#~ msgstr "Grouper les multiples instances d'une application"
+msgid "Group the open app instances into single icon"
+msgstr "Grouper les multiples instances d'une application"
 
-#~ msgid "Minimize"
-#~ msgstr "Minimiser"
+msgid "Minimize"
+msgstr "Minimiser"
 
-#~ msgid "Maximize"
-#~ msgstr "Maximiser"
+msgid "Maximize"
+msgstr "Maximiser"
 
-#~ msgid "Unmaximize"
-#~ msgstr "Restaurer"
+msgid "Unmaximize"
+msgstr "Restaurer"
 
-#~ msgid "Restore"
-#~ msgstr "Recharger"
+msgid "Restore"
+msgstr "Recharger"

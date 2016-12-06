@@ -177,15 +177,11 @@ msgstr ""
 "ist. Padding wird nur auf Instanzen dieses Applets auf horizontalen Platten "
 "angewendet."
 
-#. src->settings-schema.json->closeall-menu-item->description
-msgid "Enable option to close all windows"
-msgstr "Option aktivieren um alle Fenster zu schließen"
+msgid "Show autostart option"
+msgstr "Autostart anzeigen"
 
-#. src->settings-schema.json->closeall-menu-item->tooltip
-msgid "Show a \"Close All\" context menu item to close all windows for an app."
-msgstr ""
-"Zeige \"Alles schließen\" als Kontextmenüeintrag an um alle Fenster einer "
-"Anwendung zu schließen."
+msgid "Shows the autostart toggle option in an app's context menu."
+msgstr "Zeigt die Autostart-Umschaltoption im Kontextmenü einer App an."
 
 #. src->settings-schema.json->show-pinned->description
 msgid "Show pinned apps"
@@ -354,80 +350,86 @@ msgstr "Angedockte Anwendungen anordnen"
 msgid "Arrange pinned apps into a different order."
 msgstr "Angedockte Anwendungen neu anordnen"
 
-#~ msgid "Install Gda"
-#~ msgstr "Installiere Gda"
+msgid "Install Gda"
+msgstr "Installiere Gda"
 
-#~ msgid "Visible on all workspaces"
-#~ msgstr "Auf allen Arbeitsplätzen anzeigen"
+msgid "Visible on all workspaces"
+msgstr "Auf allen Arbeitsplätzen anzeigen"
 
-#~ msgid "Only on this workspace"
-#~ msgstr "Nur auf diesem Arbeitsplatz"
+msgid "Only on this workspace"
+msgstr "Nur auf diesem Arbeitsplatz"
 
-#~ msgid "Move to left workspace"
-#~ msgstr "Auf linken Arbeitsplatz verschieben"
+msgid "Move to left workspace"
+msgstr "Auf linken Arbeitsplatz verschieben"
 
-#~ msgid "Move to right workspace"
-#~ msgstr "Auf rechten Arbeitsplatz verschieben"
+msgid "Move to right workspace"
+msgstr "Auf rechten Arbeitsplatz verschieben"
 
-#~ msgid "Move to monitor"
-#~ msgstr "Verschieben auf Monitor"
+msgid "Move to monitor"
+msgstr "Verschieben auf Monitor"
 
-#~ msgid "Unpin from Panel"
-#~ msgstr "Abdocken"
+msgid "Remove from Autostart"
+msgstr "Aus Autostart entfernen"
 
-#~ msgid "Pin to Panel"
-#~ msgstr "Andocken"
+msgid "Add to Autostart"
+msgstr "Zum Autostart hinzufügen"
 
-#~ msgid "Create Shortcut"
-#~ msgstr "Verknüpfung erstellen"
+msgid "Unpin from Panel"
+msgstr "Abdocken"
 
-#~ msgid "Close"
-#~ msgstr "Schließen"
+msgid "Pin to Panel"
+msgstr "Andocken"
 
-#~ msgid "Close All"
-#~ msgstr "Alles Schließen"
+msgid "Create Shortcut"
+msgstr "Verknüpfung erstellen"
 
-#~ msgid "Settings"
-#~ msgstr "Einstellungen"
+msgid "Close"
+msgstr "Schließen"
 
-#~ msgid "ReArrange"
-#~ msgstr "Neu anordnen"
+msgid "Close All"
+msgstr "Alles Schließen"
 
-#~ msgid "Show Pinned"
-#~ msgstr "Zeige Angedockte"
+msgid "Settings"
+msgstr "Einstellungen"
 
-#~ msgid "Show Thumbs"
-#~ msgstr "Vorschaubilder anzeigen"
+msgid "ReArrange"
+msgstr "Neu anordnen"
 
-#~ msgid "Stack Thumbs"
-#~ msgstr "Vorschaubilder stapeln"
+msgid "Show Pinned"
+msgstr "Zeige Angedockte"
 
-#~ msgid "Hover to Peek"
-#~ msgstr "Hovern für Vorschau"
+msgid "Show Thumbs"
+msgstr "Vorschaubilder anzeigen"
 
-#~ msgid "Show Recent"
-#~ msgstr "Neueste anzeigen"
+msgid "Stack Thumbs"
+msgstr "Vorschaubilder stapeln"
 
-#~ msgid "Vertical Thumbs"
-#~ msgstr "Vertikal stapeln"
+msgid "Hover to Peek"
+msgstr "Hovern für Vorschau"
 
-#~ msgid "     Go to Settings"
-#~ msgstr "     Gehe zu Einstellungen"
+msgid "Show Recent"
+msgstr "Neueste anzeigen"
 
-#~ msgid "Group apps into single icon"
-#~ msgstr "Gruppiere Anwendungen in einem Symbol"
+msgid "Vertical Thumbs"
+msgstr "Vertikal stapeln"
 
-#~ msgid "Group the open app instances into single icon"
-#~ msgstr "Gruppiere offene Anwendungen in einem Symbol"
+msgid "     Go to Settings"
+msgstr "     Gehe zu Einstellungen"
 
-#~ msgid "Minimize"
-#~ msgstr "Minimieren"
+msgid "Group apps into single icon"
+msgstr "Gruppiere Anwendungen in einem Symbol"
 
-#~ msgid "Maximize"
-#~ msgstr "Maximieren"
+msgid "Group the open app instances into single icon"
+msgstr "Gruppiere offene Anwendungen in einem Symbol"
 
-#~ msgid "Unmaximize"
-#~ msgstr "Zurücksetzen"
+msgid "Minimize"
+msgstr "Minimieren"
 
-#~ msgid "Restore"
-#~ msgstr "Wiederherstellen"
+msgid "Maximize"
+msgstr "Maximieren"
+
+msgid "Unmaximize"
+msgstr "Zurücksetzen"
+
+msgid "Restore"
+msgstr "Wiederherstellen"

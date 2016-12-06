@@ -1,4 +1,3 @@
-#
 msgid ""
 msgstr ""
 
@@ -157,17 +156,15 @@ msgid ""
 "only applied to instances of this applet on horizontal panels."
 msgstr ""
 
-#. src->settings-schema.json->closeall-menu-item->description
-msgid "Enable option to close all windows"
+msgid "Show autostart option"
 msgstr ""
 
-#. src->settings-schema.json->closeall-menu-item->tooltip
-msgid "Show a \"Close All\" context menu item to close all windows for an app."
+msgid "Shows the autostart toggle option in an app's context menu."
 msgstr ""
 
 #. src->settings-schema.json->show-pinned->description
 msgid "Show pinned apps"
-msgstr ""
+msgstr "Zeige angedockte Anwendungen"
 
 #. src->settings-schema.json->show-pinned->tooltip
 msgid ""
@@ -314,4 +311,85 @@ msgstr ""
 
 #. src->settings-schema.json->arrange-pinnedApps->tooltip
 msgid "Arrange pinned apps into a different order."
+msgstr ""
+
+msgid "Visible on all workspaces"
+msgstr ""
+
+msgid "Only on this workspace"
+msgstr ""
+
+msgid "Move to left workspace"
+msgstr ""
+
+msgid "Move to right workspace"
+msgstr ""
+
+msgid "Move to monitor"
+msgstr ""
+
+msgid "Remove from Autostart"
+msgstr ""
+
+msgid "Add to Autostart"
+msgstr ""
+
+msgid "Unpin from Panel"
+msgstr ""
+
+msgid "Pin to Panel"
+msgstr ""
+
+msgid "Create Shortcut"
+msgstr ""
+
+msgid "Close"
+msgstr ""
+
+msgid "Close All"
+msgstr ""
+
+msgid "Settings"
+msgstr ""
+
+msgid "ReArrange"
+msgstr ""
+
+msgid "Show Pinned"
+msgstr ""
+
+msgid "Show Thumbs"
+msgstr ""
+
+msgid "Stack Thumbs"
+msgstr ""
+
+msgid "Hover to Peek"
+msgstr ""
+
+msgid "Show Recent"
+msgstr ""
+
+msgid "Vertical Thumbs"
+msgstr ""
+
+msgid "     Go to Settings"
+msgstr ""
+
+msgid "Group apps into single icon"
+msgstr ""
+
+msgid "Group the open app instances into single icon"
+msgstr ""
+
+msgid "Minimize"
+msgstr ""
+
+msgid "Maximize"
+msgstr ""
+
+msgid "Unmaximize"
+msgstr ""
+
+msgid "Restore"
 msgstr ""

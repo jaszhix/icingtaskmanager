@@ -176,13 +176,15 @@ msgstr ""
 "Перетяжка применяется только к экземпляров этого апплета на горизонтальных "
 "панелей."
 
-#. src->settings-schema.json->closeall-menu-item->description
-msgid "Enable option to close all windows"
-msgstr "Элемент меню 'Закрыть все'"
+#. src->settings-schema.json->autostart-menu-item->description
+msgid "Show autostart option"
+msgstr "Показать автостарт опция"
 
-#. src->settings-schema.json->closeall-menu-item->tooltip
-msgid "Show a \"Close All\" context menu item to close all windows for an app."
-msgstr "Показать элемент 'Закрыть все' для закрытия всех окон приложения."
+#. src->settings-schema.json->autostart-menu-item->tooltip
+msgid "Shows the autostart toggle option in an app's context menu."
+msgstr ""
+"Показывает возможность переключения автозапуск в контекстном меню приложение "
+"в."
 
 #. src->settings-schema.json->show-pinned->description
 msgid "Show pinned apps"
@@ -333,6 +335,16 @@ msgstr "Группа приложений"
 msgid "Group each app's set of windows."
 msgstr "Группа комплект каждого приложения в окон."
 
+#. src->settings-schema.json->include-all-windows->description
+msgid "Include all app windows"
+msgstr ""
+
+#. src->settings-schema.json->include-all-windows->tooltip
+msgid ""
+"Controls whether or not thumbnails for smalller child windows, such as exit "
+"confirmations and file dialogues will be included in the thumbnail list."
+msgstr ""
+
 #. src->settings-schema.json->arrange-pinnedApps->description
 msgid "Arrange pinned apps"
 msgstr "Перемещать прикрепленные"
@@ -340,6 +352,13 @@ msgstr "Перемещать прикрепленные"
 #. src->settings-schema.json->arrange-pinnedApps->tooltip
 msgid "Arrange pinned apps into a different order."
 msgstr "Вкл/Выкл возможность перемещения значков прикрепленных приложений."
+
+#~ msgid "Show option to close all windows"
+#~ msgstr "Элемент меню 'Закрыть все'"
+
+#~ msgid ""
+#~ "Show a \"Close All\" context menu item to close all windows for an app."
+#~ msgstr "Показать элемент 'Закрыть все' для закрытия всех окон приложения."
 
 #~ msgid "Install Gda"
 #~ msgstr "Установить GDA"
@@ -358,6 +377,12 @@ msgstr "Вкл/Выкл возможность перемещения значк
 
 #~ msgid "Move to monitor %d"
 #~ msgstr "Переместить на экран %d"
+
+#~ msgid "Remove from Autostart"
+#~ msgstr "Удалить из Autostart"
+
+#~ msgid "Add to Autostart"
+#~ msgstr "Добавить в автозагрузку"
 
 #~ msgid "Unpin from Panel"
 #~ msgstr "Открепить"
