@@ -261,6 +261,16 @@ msgstr ""
 "Steuert, ob das Design die Schaltfläche zum Schließen der Fenster-"
 "Miniaturansicht steuert."
 
+msgid "Include all app windows"
+msgstr "Schließen Sie alle App-Fenster"
+
+msgid ""
+"Controls whether or not thumbnails for smalller child windows, such as exit "
+"confirmations and file dialogues will be included in the thumbnail list."
+msgstr ""
+"Steuert, ob Thumbnails für kleine untergeordnete Fenster, z. B. "
+"Exit-Bestätigungen und Dateidialoge, in die Thumbnail-Liste aufgenommen werden."
+
 #. src->settings-schema.json->enable-iconSize->description
 msgid "Adjust icon size"
 msgstr "Symbolgröße anpassen"

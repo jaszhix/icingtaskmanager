@@ -265,6 +265,17 @@ msgid ""
 msgstr ""
 "Contrôle si le thème contrôle le bouton Fermer de la vignette de la fenêtre."
 
+msgid "Include all app windows"
+msgstr "Inclure toutes les fenêtres de l'application"
+
+msgid ""
+"Controls whether or not thumbnails for smalller child windows, such as exit "
+"confirmations and file dialogues will be included in the thumbnail list."
+msgstr ""
+"Contrôle si les vignettes pour les petites fenêtres enfant, telles que les "
+"confirmations de sortie et les dialogues de fichiers, seront incluses dans "
+"la liste des vignettes."
+
 #. src->settings-schema.json->enable-iconSize->description
 msgid "Adjust icon size"
 msgstr "Ajuster la taille de l'icône"

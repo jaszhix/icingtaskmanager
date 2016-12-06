@@ -257,7 +257,19 @@ msgstr ""
 "Controla si el tema controla o no el botón de cierre de la miniatura de la "
 "ventana."
 
+msgid "Include all app windows"
+msgstr "Incluir todas las ventanas de la aplicación"
+
+msgid ""
+"Controls whether or not thumbnails for smalller child windows, such as exit "
+"confirmations and file dialogues will be included in the thumbnail list."
+msgstr ""
+"Controla si las miniaturas de las ventanas para niños pequeños, como las "
+"confirmaciones de salida y los diálogos de archivos, se incluirán en la "
+"lista de miniaturas."
+
 #. src->settings-schema.json->enable-iconSize->description
+
 msgid "Adjust icon size"
 msgstr "Ajustar el tamaño del icono"
 

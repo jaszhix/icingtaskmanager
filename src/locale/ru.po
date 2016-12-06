@@ -259,6 +259,16 @@ msgid ""
 msgstr ""
 "Органы управления, контролирует ли или не тема кнопку закрытия окне эскиза."
 
+msgid "Include all app windows"
+msgstr "Включите все окна приложения"
+
+msgid ""
+"Controls whether or not thumbnails for smalller child windows, such as exit "
+"confirmations and file dialogues will be included in the thumbnail list."
+msgstr ""
+"Определяет, выполняется ли эскизы для маленьких дочерних окон, такие как "
+"выход из подтверждений и диалоги файлов будут включены в список миниатюр."
+
 #. src->settings-schema.json->enable-iconSize->description
 msgid "Adjust icon size"
 msgstr "Отрегулируйте размер значков"
@@ -335,16 +345,6 @@ msgstr "Группа приложений"
 msgid "Group each app's set of windows."
 msgstr "Группа комплект каждого приложения в окон."
 
-#. src->settings-schema.json->include-all-windows->description
-msgid "Include all app windows"
-msgstr ""
-
-#. src->settings-schema.json->include-all-windows->tooltip
-msgid ""
-"Controls whether or not thumbnails for smalller child windows, such as exit "
-"confirmations and file dialogues will be included in the thumbnail list."
-msgstr ""
-
 #. src->settings-schema.json->arrange-pinnedApps->description
 msgid "Arrange pinned apps"
 msgstr "Перемещать прикрепленные"
@@ -353,94 +353,94 @@ msgstr "Перемещать прикрепленные"
 msgid "Arrange pinned apps into a different order."
 msgstr "Вкл/Выкл возможность перемещения значков прикрепленных приложений."
 
-#~ msgid "Show option to close all windows"
-#~ msgstr "Элемент меню 'Закрыть все'"
+msgid "Show option to close all windows"
+msgstr "Элемент меню 'Закрыть все'"
 
-#~ msgid ""
-#~ "Show a \"Close All\" context menu item to close all windows for an app."
-#~ msgstr "Показать элемент 'Закрыть все' для закрытия всех окон приложения."
+msgid ""
+"Show a \"Close All\" context menu item to close all windows for an app."
+msgstr "Показать элемент 'Закрыть все' для закрытия всех окон приложения."
 
-#~ msgid "Install Gda"
-#~ msgstr "Установить GDA"
+msgid "Install Gda"
+msgstr "Установить GDA"
 
-#~ msgid "Visible on all workspaces"
-#~ msgstr "На всех рабочих столах"
+msgid "Visible on all workspaces"
+msgstr "На всех рабочих столах"
 
-#~ msgid "Only on this workspace"
-#~ msgstr "Только на этом рабочем столе"
+msgid "Only on this workspace"
+msgstr "Только на этом рабочем столе"
 
-#~ msgid "Move to left workspace"
-#~ msgstr "На рабочий стол слева"
+msgid "Move to left workspace"
+msgstr "На рабочий стол слева"
 
-#~ msgid "Move to right workspace"
-#~ msgstr "На рабочий стол справа"
+msgid "Move to right workspace"
+msgstr "На рабочий стол справа"
 
-#~ msgid "Move to monitor %d"
-#~ msgstr "Переместить на экран %d"
+msgid "Move to monitor %d"
+msgstr "Переместить на экран %d"
 
-#~ msgid "Remove from Autostart"
-#~ msgstr "Удалить из Autostart"
+msgid "Remove from Autostart"
+msgstr "Удалить из Autostart"
 
-#~ msgid "Add to Autostart"
-#~ msgstr "Добавить в автозагрузку"
+msgid "Add to Autostart"
+msgstr "Добавить в автозагрузку"
 
-#~ msgid "Unpin from Panel"
-#~ msgstr "Открепить"
+msgid "Unpin from Panel"
+msgstr "Открепить"
 
-#~ msgid "Pin to Panel"
-#~ msgstr "Прикрепить"
+msgid "Pin to Panel"
+msgstr "Прикрепить"
 
-#~ msgid "Create Shortcut"
-#~ msgstr "Создать ярлык"
+msgid "Create Shortcut"
+msgstr "Создать ярлык"
 
-#~ msgid "Close"
-#~ msgstr "Закрыть"
+msgid "Close"
+msgstr "Закрыть"
 
-#~ msgid "Close All"
-#~ msgstr "Закрыть все"
+msgid "Close All"
+msgstr "Закрыть все"
 
-#~ msgid "Settings"
-#~ msgstr "Настройки"
+msgid "Settings"
+msgstr "Настройки"
 
-#~ msgid "Rearrange"
-#~ msgstr "Перемещение"
+msgid "Rearrange"
+msgstr "Перемещение"
 
-#~ msgid "Show Pinned"
-#~ msgstr "Прикрепленные"
+msgid "Show Pinned"
+msgstr "Прикрепленные"
 
-#~ msgid "Show Thumbs"
-#~ msgstr "Миниатюры"
+msgid "Show Thumbs"
+msgstr "Миниатюры"
 
-#~ msgid "Stack Thumbs"
-#~ msgstr "Стек миниатюр"
+msgid "Stack Thumbs"
+msgstr "Стек миниатюр"
 
-#~ msgid "Peek on Hover"
-#~ msgstr "При наведении"
+msgid "Peek on Hover"
+msgstr "При наведении"
 
-#~ msgid "Show Recent"
-#~ msgstr "Недавние"
+msgid "Show Recent"
+msgstr "Недавние"
 
-#~ msgid "Vertical Thumbs"
-#~ msgstr "Миниатюры верт"
+msgid "Vertical Thumbs"
+msgstr "Миниатюры верт"
 
 # 5 spaces in front of it
-#~ msgid "     Go to Settings"
-#~ msgstr "     Открыть настройки"
+msgid "     Go to Settings"
+msgstr "     Открыть настройки"
 
-#~ msgid "Group apps into single icon"
-#~ msgstr "Группировать окна приложения"
+msgid "Group apps into single icon"
+msgstr "Группировать окна приложения"
 
-#~ msgid "Group the open app instances into single icon"
-#~ msgstr "Группировать все открытые окна приложения в один значок."
+msgid "Group the open app instances into single icon"
+msgstr "Группировать все открытые окна приложения в один значок."
 
-#~ msgid "Minimize"
-#~ msgstr "Свернуть"
+msgid "Minimize"
+msgstr "Свернуть"
 
-#~ msgid "Maximize"
-#~ msgstr "Развернуть"
+msgid "Maximize"
+msgstr "Развернуть"
 
-#~ msgid "Unmaximize"
-#~ msgstr "Вернуть размер"
+msgid "Unmaximize"
+msgstr "Вернуть размер"
 
-#~ msgid "Restore"
-#~ msgstr "Восстановить"
+msgid "Restore"
+msgstr "Восстановить"

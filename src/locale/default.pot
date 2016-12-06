@@ -232,6 +232,14 @@ msgid ""
 "button."
 msgstr ""
 
+msgid "Include all app windows"
+msgstr ""
+
+msgid ""
+"Controls whether or not thumbnails for smalller child windows, such as exit "
+"confirmations and file dialogues will be included in the thumbnail list."
+msgstr ""
+
 #. src->settings-schema.json->enable-iconSize->description
 msgid "Adjust icon size"
 msgstr ""
