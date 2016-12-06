@@ -209,12 +209,6 @@
     "description": "Show recent items",
     "tooltip": "Controls whether recent items will appear in the context menu."
  },
- "closeall-menu-item" : {
-    "type" : "checkbox",
-    "default" : false,
-    "description": "Show option to close all windows",
-    "tooltip" : "Show a \"Close All\" context menu item to close all windows for an app."
- },
  "autostart-menu-item" : {
     "type" : "checkbox",
     "default" : true,
