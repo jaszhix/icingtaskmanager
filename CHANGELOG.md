@@ -1,5 +1,9 @@
 Changelog
 
+### 3.5.1
+
+  * Fixed a bug that can prevent the applet from starting if no user-created autostart options have been set.
+
 ### 3.5.0
 
   * Added an autostart option to the app context menu. It can be disabled in settings.

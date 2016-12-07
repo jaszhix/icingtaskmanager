@@ -431,17 +431,29 @@ MyApplet.prototype = {
   },
 
   getAutostartApps(){
-    var info;
+    var info
+
+    var getChildren = ()=>{
+      var children = autostartDir.enumerate_children('standard::name,standard::type,time::modified', Gio.FileQueryInfoFlags.NONE, null)
+      while ((info = children.next_file(null)) !== null) {
+        if (info.get_file_type() === Gio.FileType.REGULAR) {
+          var name = info.get_name()
+          var file = Gio.file_new_for_path(`${this.autostartStrDir}/${name}`)
+          this.autostartApps.push({id: name, file: file})
+        }
+      }
+    };
+
     this.autostartStrDir = `${this.homeDir}/.config/autostart`
     var autostartDir = Gio.file_new_for_path(this.autostartStrDir)
-    var children = autostartDir.enumerate_children('standard::name,standard::type,time::modified', Gio.FileQueryInfoFlags.NONE, null)
 
-    while ((info = children.next_file(null)) !== null) {
-      if (info.get_file_type() === Gio.FileType.REGULAR) {
-        var name = info.get_name()
-        var file = Gio.file_new_for_path(`${this.autostartStrDir}/${name}`)
-        this.autostartApps.push({id: name, file: file})
-      }
+    if (autostartDir.query_exists(null)) {
+      getChildren()
+    } else {
+      Util.trySpawnCommandLine(`bash -c "mkdir ${this.autostartStrDir}"`)
+      setTimeout(()=>{
+        getChildren()
+      }, 50)
     }
   },
 
