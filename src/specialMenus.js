@@ -537,7 +537,9 @@ AppMenuButtonRightClickMenu.prototype = {
     //var workspace = this.metaWindow.get_workspace()
     var windows = l.map(this.metaWindows, 'win')
     for (let i = 0, len = windows.length; i < len; i++) {
-      windows[i].delete(global.get_current_time())
+      if (windows[i] !== undefined) {
+        windows[i].delete(global.get_current_time())
+      }
     }
   },
 
@@ -626,7 +628,7 @@ AppMenuButtonRightClickMenu.prototype = {
   removeItems: function () {
     this.blockSourceEvents = true
     var children = this._getMenuItems()
-    for (var i = 0; i < children.length; i++) {
+    for (let i = 0, len = children.length; i < len; i++) {
       var item = children[i]
       this.box.remove_actor(item.actor)
     }
@@ -798,11 +800,11 @@ AppThumbnailHoverMenu.prototype = {
     // have not been created yet...
     this.appSwitcherItem._refresh()
     this.appSwitcherItem.actor.show()
-    PopupMenu.PopupMenu.prototype.open.call(this, animate)
+    PopupMenu.PopupMenu.prototype.open.call(this, this._applet.animateThumbs)
   },
 
   close: function (animate) {
-    PopupMenu.PopupMenu.prototype.close.call(this, animate)
+    PopupMenu.PopupMenu.prototype.close.call(this, this._applet.animateThumbs)
     this.appSwitcherItem.actor.hide()
   },
 
@@ -1262,7 +1264,7 @@ WindowThumbnail.prototype = {
         }
       }
     })
-    this.actor.connect('leave-event', Lang.bind(this, function () {
+    this.actor.connect('leave-event', ()=>{
       if (!this.isFavapp) {
         this._hoverPeek(OPACITY_OPAQUE, this.metaWindow, false)
         this.actor.remove_style_pseudo_class('outlined')
@@ -1272,7 +1274,7 @@ WindowThumbnail.prototype = {
           this.metaWindow.minimize(global.get_current_time())
         }
       }
-    }))
+    })
     this.button.connect('button-release-event', Lang.bind(this, this._onButtonRelease))
 
     this.actor.connect('button-release-event', Lang.bind(this, this._connectToWindow))

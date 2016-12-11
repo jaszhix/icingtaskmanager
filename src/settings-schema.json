@@ -160,6 +160,12 @@
     "description": "Show thumbnails",
     "tooltip": "Show window thumbnails when hovering over an app button."
  },
+ "animate-thumbnails" : {
+    "type" : "checkbox",
+    "default" : false,
+    "description": "Animate thumbnails",
+    "tooltip": "If enabled, thumbnails will animate when appearing and disappearing."
+ },
  "vertical-thumbnails" : {
     "type" : "checkbox",
     "default" : false,

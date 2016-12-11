@@ -206,6 +206,12 @@ msgstr ""
 msgid "Controls whether recent items will appear in the context menu."
 msgstr ""
 
+msgid "Animate thumbnails"
+msgstr ""
+
+msgid "If enabled, thumbnails will animate when appearing and disappearing."
+msgstr ""
+
 #. src->settings-schema.json->vertical-thumbnails->description
 msgid "Enable vertical thumbnails"
 msgstr ""

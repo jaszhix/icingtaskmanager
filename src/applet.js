@@ -304,6 +304,7 @@ MyApplet.prototype = {
         {key: 'vertical-thumbnails', value: 'verticalThumbs', cb: null},
         {key: 'stack-thumbnails', value: 'stackThumbs', cb: null},
         {key: 'show-thumbnails', value: 'showThumbs', cb: null},
+        {key: 'animate-thumbnails', value: 'animateThumbs', cb: null},
         {key: 'close-button-style', value: 'thumbCloseBtnStyle', cb: this.refreshCurrentAppList},
         {key: 'include-all-windows', value: 'includeAllWindows', cb: this.refreshCurrentAppList},
         {key: 'number-display', value: 'numDisplay', cb: null},
@@ -686,7 +687,7 @@ MyApplet.prototype = {
 
   _onWorkspaceCreatedOrDestroyed: function (i) {
     var workspaces = _.filter(global.screen.get_workspace_by_index(i), (ws, key)=>{
-      return key in range(global.screen.n_workspaces) 
+      return key in range(global.screen.n_workspaces)
     })
 
     // We'd like to know what workspaces in this.metaWorkspaces have been destroyed and

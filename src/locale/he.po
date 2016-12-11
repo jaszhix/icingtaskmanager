@@ -228,6 +228,12 @@ msgstr "הצג את הפריטים האחרונים"
 msgid "Controls whether recent items will appear in the context menu."
 msgstr "קובע אם הפריטים האחרונים יופיעו בתפריט ההקשר."
 
+msgid "Animate thumbnails"
+msgstr "הנפשת תמונות ממוזערות"
+
+msgid "If enabled, thumbnails will animate when appearing and disappearing."
+msgstr "אם מאופשר, תמונות ממוזערות יהיה להנפיש כאשר מופיעה ונעלמת."
+
 #. src->settings-schema.json->vertical-thumbnails->description
 msgid "Enable vertical thumbnails"
 msgstr "אפשר תמונות ממוזערות אנכיות"

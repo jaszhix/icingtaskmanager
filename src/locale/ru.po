@@ -232,6 +232,14 @@ msgstr ""
 "Элементы управления будут ли последние элементы отображаются в контекстном "
 "меню."
 
+msgid "Animate thumbnails"
+msgstr "Анимируйте эскизы"
+
+msgid "If enabled, thumbnails will animate when appearing and disappearing."
+msgstr ""
+"Если этот параметр включен, эскизы анимации, когда появляются и "
+"исчезают."
+
 #. src->settings-schema.json->vertical-thumbnails->description
 msgid "Enable vertical thumbnails"
 msgstr "Миниатюры вертикально"

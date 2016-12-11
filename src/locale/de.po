@@ -231,6 +231,14 @@ msgstr "Zeige neueste Einträge"
 msgid "Controls whether recent items will appear in the context menu."
 msgstr "Steuert ob aktualisierte Einträge im Kontextmenü angezeigt werden."
 
+msgid "Animate thumbnails"
+msgstr "Animierte Miniaturansichten"
+
+msgid "If enabled, thumbnails will animate when appearing and disappearing."
+msgstr "" 
+"Wenn aktiviert, werden Miniaturansichten animiert, wenn sie angezeigt "
+"und verschwinden."
+
 #. src->settings-schema.json->vertical-thumbnails->description
 msgid "Enable vertical thumbnails"
 msgstr "Aktiviere vertikale Vorschaubilder"

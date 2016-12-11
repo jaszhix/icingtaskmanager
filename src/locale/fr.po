@@ -237,6 +237,14 @@ msgstr "Afficher les locations récentes dans le menu"
 msgid "Controls whether recent items will appear in the context menu."
 msgstr "Contrôle si les éléments récents apparaissent dans le menu contextuel."
 
+msgid "Animate thumbnails"
+msgstr "Animer les vignettes"
+
+msgid "If enabled, thumbnails will animate when appearing and disappearing."
+msgstr "" 
+"Si cette option est activée, les vignettes s'animeront lors de "
+"l'apparition et de la disparition."
+
 #. src->settings-schema.json->vertical-thumbnails->description
 msgid "Enable vertical thumbnails"
 msgstr "Activer les vignettes verticales"

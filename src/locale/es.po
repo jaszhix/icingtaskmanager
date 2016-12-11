@@ -227,6 +227,12 @@ msgstr "Mostrar artículos recientes"
 msgid "Controls whether recent items will appear in the context menu."
 msgstr "Controla si los elementos recientes aparecerán en el menú contextual."
 
+msgid "Animate thumbnails"
+msgstr "Animar miniaturas"
+
+msgid "If enabled, thumbnails will animate when appearing and disappearing."
+msgstr "Si está activada, las miniaturas se animarán al aparecer y desaparecer."
+
 #. src->settings-schema.json->vertical-thumbnails->description
 msgid "Enable vertical thumbnails"
 msgstr "Miniaturas Verticales"
