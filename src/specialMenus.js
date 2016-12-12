@@ -862,8 +862,6 @@ PopupMenuAppSwitcherItem.prototype = {
     this._applet.settings.connect('changed::vertical-thumbnails', Lang.bind(this, this._setVerticalSetting))
     this._setVerticalSetting()
     this.addActor(this.box)
-
-    this._refresh()
   },
 
   _setVerticalSetting: function () {
@@ -1271,7 +1269,7 @@ WindowThumbnail.prototype = {
     this._hoverPeek(OPACITY_OPAQUE, this.metaWindow, false)
     this._parentContainer.shouldOpen = false
     this._parentContainer.shouldClose = true
-    Mainloop.timeout_add(3000, Lang.bind(this._parentContainer, this._parentContainer.hoverClose))
+    Mainloop.timeout_add(delay, Lang.bind(this._parentContainer, this._parentContainer.hoverClose))
     this.metaWindow.delete(global.get_current_time())
   },
 
