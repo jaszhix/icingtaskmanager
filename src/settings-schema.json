@@ -172,12 +172,6 @@
     "description": "Enable vertical thumbnails",
     "tooltip": "If enabled, thumbnails will stack vertically."
  },
- "stack-thumbnails" : {
-    "type" : "checkbox",
-    "default" : true,
-    "description": "Stack window thumbnails",
-    "tooltip": "Stack window thumbnails if they exceed the available screen space."
- },
  "sort-thumbnails" : {
     "type" : "checkbox",
     "default" : false,

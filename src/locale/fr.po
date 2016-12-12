@@ -253,15 +253,6 @@ msgstr "Activer les vignettes verticales"
 msgid "If enabled, thumbnails will stack vertically."
 msgstr "Si cette option est activée, les vignettes s'empilent verticalement."
 
-#. src->settings-schema.json->stack-thumbnails->description
-msgid "Stack window thumbnails"
-msgstr "Miniatures de fenêtre de pile"
-
-#. src->settings-schema.json->stack-thumbnails->tooltip
-msgid "Stack window thumbnails if they exceed the available screen space."
-msgstr ""
-"Empilez les miniatures de la fenêtre si elles dépassent l'espace disponible."
-
 #. src->settings-schema.json->close-button-style->description
 msgid "Allow themes to control the thumbnail close button"
 msgstr "Autoriser les thèmes à contrôler le bouton de fermeture des vignettes"

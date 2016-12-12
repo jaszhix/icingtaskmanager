@@ -248,14 +248,6 @@ msgstr "Миниатюры вертикально"
 msgid "If enabled, thumbnails will stack vertically."
 msgstr "Вкл/Выкл вертикальное расположение миниатюр."
 
-#. src->settings-schema.json->stack-thumbnails->description
-msgid "Stack window thumbnails"
-msgstr "Стек миниатюр"
-
-#. src->settings-schema.json->stack-thumbnails->tooltip
-msgid "Stack window thumbnails if they exceed the available screen space."
-msgstr "Расположить миниатюры в несколько строк при достижении границы экрана."
-
 #. src->settings-schema.json->close-button-style->description
 msgid "Allow themes to control the thumbnail close button"
 msgstr "Разрешить тем, чтобы контролировать кнопку миниатюр тесные"

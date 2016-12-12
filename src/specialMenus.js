@@ -64,7 +64,7 @@ AppMenuButtonRightClickMenu.prototype = {
     this.autostartIndex = parent.autostartIndex
     this.isFavapp = parent.isFavapp
     this._applet = parent._applet
-    this.AppMenuWidth = this._applet.settings.getValue('appmenu-width')
+    this.AppMenuWidth = this._applet.appMenuWidth
 
     var PinnedFavorites = this._applet.pinned_app_contr()
 
@@ -230,10 +230,6 @@ AppMenuButtonRightClickMenu.prototype = {
     this.showThumbs = new SpecialMenuItems.SwitchMenuItem(this, t('Show Thumbs'), this._applet.showThumbs)
     this.showThumbs.connect('toggled', (item)=>this.updateSetting('showThumbs', item.state))
     subMenu.addMenuItem(this.showThumbs)
-
-    this.stackThumbs = new SpecialMenuItems.SwitchMenuItem(this, t('Stack Thumbs'), this._applet.stackThumbs)
-    this.stackThumbs.connect('toggled', (item)=>this.updateSetting('stackThumbs', item.state))
-    this.subMenuItem.menu.addMenuItem(this.stackThumbs)
 
     this.enablePeek = new SpecialMenuItems.SwitchMenuItem(this, t('Peek on Hover'), this._applet.enablePeek)
     this.enablePeek.connect('toggled', (item)=>this.updateSetting('enablePeek', item.state))
@@ -741,9 +737,9 @@ AppThumbnailHoverMenu.prototype = {
     this.actor.connect('leave-event', Lang.bind(this, this._onMenuLeave))
 
     this._applet.settings.connect('thumbnail-timeout', Lang.bind(this, function () {
-      this.hoverTime = this._applet.settings.getValue('thumbnail-timeout')
+      this.hoverTime = this._applet.thumbTimeout
     }))
-    this.hoverTime = this._applet.settings.getValue('thumbnail-timeout')
+    this.hoverTime = this._applet.thumbTimeout
   },
 
   _onButtonPress: function (actor, event) {
@@ -822,10 +818,8 @@ AppThumbnailHoverMenu.prototype = {
   setMetaWindow: function (metaWindow, metaWindows) {
     // Last focused
     this.metaWindow = metaWindow
-
-    // Window list from appGroup
-    this.appSwitcherItem.setMetaWindow(metaWindow, metaWindows)
     this.metaWindows = metaWindows
+    this.appSwitcherItem.setMetaWindow(metaWindow, metaWindows)
   }
 }
 
@@ -856,36 +850,16 @@ PopupMenuAppSwitcherItem.prototype = {
     this.actor.style_class = ''
 
     this.box = new St.BoxLayout()
-    this.box1 = new St.BoxLayout()
-    this.box2 = new St.BoxLayout()
-    this.box3 = new St.BoxLayout()
 
     this.appContainer = new St.BoxLayout({
       style_class: 'switcher-list'
     })
-    // this.appContainer.style = "padding: 5px;"
+
     this.appContainer.add_style_class_name('thumbnail-row')
-
-    this.appContainer2 = new St.BoxLayout({
-      style_class: 'switcher-list'
-    })
-
-    // this.appContainer2.style = "padding: 5px;"
-    this.appContainer2.add_style_class_name('thumbnail-row')
-    this.appContainer2.hide()
-
-    this.appContainer3 = new St.BoxLayout({
-      style_class: 'switcher-list'
-    })
-
-    // this.appContainer3.style = "padding: 5px;"
-    this.appContainer3.add_style_class_name('thumbnail-row')
-    this.appContainer3.hide()
 
     this.appThumbnails = []
 
     this._applet.settings.connect('changed::vertical-thumbnails', Lang.bind(this, this._setVerticalSetting))
-    this._applet.settings.connect('changed::stack-thumbnails', Lang.bind(this, this._setStackThumbnailsSetting))
     this._setVerticalSetting()
     this.addActor(this.box)
 
@@ -893,60 +867,25 @@ PopupMenuAppSwitcherItem.prototype = {
   },
 
   _setVerticalSetting: function () {
-    var vertical = this._applet.settings.getValue('vertical-thumbnails')
-    if (vertical) {
-      if (this.box.get_children().length > 0) {
-        this.box.remove_actor(this.appContainer3)
-        this.box.remove_actor(this.appContainer2)
-        this.box.remove_actor(this.appContainer)
-        this.box.add_actor(this.appContainer)
-        this.box.add_actor(this.appContainer2)
-        this.box.add_actor(this.appContainer3)
-      } else {
-        this.box.add_actor(this.appContainer)
-        this.box.add_actor(this.appContainer2)
-        this.box.add_actor(this.appContainer3)
-      }
-    } else {
-      if (this.box.get_children().length > 0) {
-        this.box.remove_actor(this.appContainer3)
-        this.box.remove_actor(this.appContainer2)
-        this.box.remove_actor(this.appContainer)
-        this.box.add_actor(this.appContainer3)
-        this.box.add_actor(this.appContainer2)
-        this.box.add_actor(this.appContainer)
-      } else {
-        this.box.add_actor(this.appContainer3)
-        this.box.add_actor(this.appContainer2)
-        this.box.add_actor(this.appContainer)
-      }
-    }
-    this.appContainer.vertical = vertical
-    this.appContainer2.vertical = vertical
-    this.appContainer3.vertical = vertical
-    this.box.vertical = !vertical
-  },
+    var children = this.box.get_children()
 
-  _setStackThumbnailsSetting: function () {
-    function removeChildren (parent, children) {
-      for (var i = 0; i < children.length; i++) {
-        var child = children[i]
-        parent.remove_actor(child)
-      }
-      parent.hide()
+    if (children.length > 0) {
+      this.box.remove_actor(this.appContainer)
+      this.box.add_actor(this.appContainer)
+    } else {
+      this.box.add_actor(this.appContainer)
     }
-    var children = this.appContainer.get_children()
-    var children2 = this.appContainer2.get_children()
-    var children3 = this.appContainer3.get_children()
-    removeChildren(this.appContainer, children)
-    removeChildren(this.appContainer2, children2)
-    removeChildren(this.appContainer3, children3)
-    this.reAdd = true
+
+    this.appContainer.vertical = this._applet.verticalThumbs
+    this.box.vertical = !this._applet.verticalThumbs
   },
 
   setMetaWindow: function (metaWindow, metaWindows) {
     this.metaWindow = metaWindow
     this.metaWindows = metaWindows
+    if (this.metaWindowThumbnail !== undefined) {
+      this.metaWindowThumbnail.setMetaWindow(metaWindow, metaWindows)
+    }
   },
 
   _isFavorite: function (isFav) {
@@ -978,7 +917,7 @@ PopupMenuAppSwitcherItem.prototype = {
     if (this.metaWindowThumbnail && this.metaWindowThumbnail.needs_refresh()) {
       this.metaWindowThumbnail = null
     }
-    if (this.metaWindowThumbnail && this.metaWindowThumbnail.metaWindow == this.metaWindow) {
+    if (this.metaWindowThumbnail && _.isEqual(this.metaWindowThumbnail.metaWindow, this.metaWindow)) {
       this.metaWindowThumbnail._isFavorite(this.isFavapp)
     } else {
       if (this.metaWindowThumbnail) {
@@ -995,48 +934,13 @@ PopupMenuAppSwitcherItem.prototype = {
       }
     }
     // Update appThumbnails to include new programs
-    this.addNewWindows(windows)
+    this.addWindowsLoop(0, windows.length, this.appContainer, windows, 1)
     // Update appThumbnails to remove old programs
     this.removeOldWindows(windows)
     // Set to true to readd the thumbnails; used for the sorting by last focused 
     this.reAdd = false
     // used to make sure everything is on the stage
     setTimeout(()=>this.setStyleOptions(windows), 0)
-  },
-  addNewWindows: function (windows) {
-    var ThumbnailWidth = Math.floor((Main.layoutManager.primaryMonitor.width / 70) * this._applet.thumbSize) + 16
-    var ThumbnailHeight = Math.floor((Main.layoutManager.primaryMonitor.height / 70) * this._applet.thumbSize) + 16
-    if (!this._applet.showThumbs) {
-      ThumbnailHeight /= 3
-    }
-
-    var moniterSize, thumbnailSize
-    if (this._applet.settings.getValue('vertical-thumbnails')) {
-      moniterSize = Main.layoutManager.primaryMonitor.height
-      thumbnailSize = ThumbnailHeight
-    } else {
-      moniterSize = Main.layoutManager.primaryMonitor.width
-      thumbnailSize = ThumbnailWidth
-    }
-    if ((thumbnailSize * windows.length) + thumbnailSize >= moniterSize && this._applet.settings.getValue('stack-thumbnails')) {
-      this.thumbnailsSpace = Math.floor((moniterSize - 100) / thumbnailSize)
-      var firstLoop = this.thumbnailsSpace
-      var nextLoop = firstLoop + this.thumbnailsSpace
-      if (windows.length < firstLoop) {
-        firstLoop = windows.length
-      }
-      this.addWindowsLoop(0, firstLoop, this.appContainer, windows, 1)
-      if (windows.length > nextLoop) {
-        this.addWindowsLoop(firstLoop, nextLoop, this.appContainer2, windows, 2)
-      } else if (windows.length > firstLoop) {
-        this.addWindowsLoop(firstLoop, windows.length, this.appContainer2, windows, 2)
-      }
-      if (windows.length > nextLoop) {
-        this.addWindowsLoop(nextLoop, windows.length, this.appContainer3, windows, 3)
-      }
-    } else {
-      this.addWindowsLoop(0, windows.length, this.appContainer, windows, 1)
-    }
   },
 
   addWindowsLoop: function (i, winLength, actor, windows, containerNum) {
@@ -1045,7 +949,9 @@ PopupMenuAppSwitcherItem.prototype = {
       for (let w = 0, len = children.length; w < len; w++) {
         actor.remove_actor(children[w])
       }
-      windows = _.orderBy(windows, 'user_time')
+      windows.sort(function (a, b) {
+        return a.user_time - b.user_time
+      })
       this.reAdd = true
     }
 
@@ -1053,6 +959,7 @@ PopupMenuAppSwitcherItem.prototype = {
       var metaWindow = windows[i]
       if (this.appThumbnails[i] !== undefined && this.appThumbnails[i]) {
         this.appThumbnails[i].thumbnail._isFavorite(this.isFavapp)
+        this.appThumbnails[i].thumbnail._refresh(metaWindow, windows)
         if (this.reAdd) {
           if (this._applet.sortThumbs) {
             actor.insert_actor(this.appThumbnails[i].thumbnail.actor, 0)
@@ -1062,10 +969,10 @@ PopupMenuAppSwitcherItem.prototype = {
         }
       } else {
         var thumbnail = new WindowThumbnail(this, metaWindow)
+        thumbnail.setMetaWindow(metaWindow, windows)
         this.appThumbnails.push({
           metaWindow: metaWindow,
-          thumbnail: thumbnail,
-          cont: containerNum
+          thumbnail: thumbnail
         })
         if (this._applet.sortThumbs) {
           actor.insert_actor(this.appThumbnails[i].thumbnail.actor, 0)
@@ -1083,8 +990,6 @@ PopupMenuAppSwitcherItem.prototype = {
     var padding = thumbnailTheme ? thumbnailTheme.get_horizontal_padding() : null
     var thumbnailPadding = (padding && (padding > 1 && padding < 21) ? padding : 10)
     this.appContainer.style = 'padding:' + (thumbnailPadding / 2) + 'px'
-    this.appContainer2.style = 'padding:' + (thumbnailPadding / 2) + 'px'
-    this.appContainer3.style = 'padding:' + (thumbnailPadding / 2) + 'px'
     var boxTheme = this.box.peek_theme_node()
     padding = boxTheme ? boxTheme.get_vertical_padding() : null
     var boxPadding = (padding && (padding > 0) ? padding : 3)
@@ -1104,81 +1009,14 @@ PopupMenuAppSwitcherItem.prototype = {
   },
 
   removeOldWindows: function (windows) {
-    for (let i = 0, len = this.appThumbnails.length; i < len; i++) {
-      if (this.appThumbnails[i].thumbnail) {
-        this.appThumbnails[i].thumbnail.thumbnailIconSize()
-      }
-      var refWindow = _.findIndex(windows, (win)=>{
-        return _.isEqual(this.appThumbnails[i].metaWindow, win)
-      })
-      if (refWindow === -1) {
-        var containers = [this.appContainer, this.appContainer2, this.appContainer3]
-        for (let z = 0, len = containers.length; z < len; z++) {
-          containers[z].remove_actor(this.appThumbnails[i].thumbnail.actor)
+    for (let i = 0, len = this.appThumbnails.length; i < len; i++) {  
+      if (this.appThumbnails[i] !== undefined && windows.indexOf(this.appThumbnails[i].metaWindow) === -1) {
+        this.appContainer.remove_actor(this.appThumbnails[i].thumbnail.actor)
+        if (this.appThumbnails[i].thumbnail) {
           this.appThumbnails[i].thumbnail.destroy()
-          _.pullAt(this.appThumbnails, i)
         }
+        _.pullAt(this.appThumbnails, i)
       }
-    }
-  },
-
-  refreshRows: function () {
-    var setCont = (actor, n)=>{
-      var refThumb = _.findIndex(this.appThumbnails, (thumb)=>{
-        return _.isEqual(thumb.metaWindow, actor._delegate.metaWindow)
-      })
-      if (refThumb !== -1) {
-        this.appThumbnails[refThumb].cont = n
-      }
-    }
-
-    var appContLength = this.appContainer.get_children().length
-    var appContLength2 = this.appContainer2.get_children().length
-    if (appContLength < 1) {
-      this._parentContainer.shouldOpen = false
-      this._parentContainer.shouldClose = true
-      this._parentContainer.hoverClose()
-    }
-
-    if (appContLength < this.thumbnailsSpace && appContLength2 > 0) {
-      let children = this.appContainer2.get_children()
-      let thumbsToMove = (this.thumbnailsSpace - appContLength)
-      for (let i = 0; i < thumbsToMove; i++) {
-        let actor = children[i] ? children[i] : null
-        if (actor === null) {
-          break
-        }
-        this.appContainer2.remove_actor(actor)
-        this.appContainer.add_actor(actor)
-
-        setCont(actor, 1)
-      }
-    }
-
-    appContLength2 = this.appContainer2.get_children().length
-    var appContLength3 = this.appContainer3.get_children().length
-
-    if (appContLength2 <= 0) {
-      this.appContainer2.hide()
-    }
-
-    if (appContLength2 < this.thumbnailsSpace && appContLength3 > 0) {
-      let children = this.appContainer3.get_children()
-      let thumbsToMove = (this.thumbnailsSpace - appContLength2)
-      for (let i = 0; i < thumbsToMove; i++) {
-        let actor = children[i] ? children[i] : null
-        if (actor === null) {
-          break
-        }
-        this.appContainer3.remove_actor(actor)
-        this.appContainer2.add_actor(actor)
-
-        setCont(actor, 2)
-      }
-    }
-
-    if (this.appContainer3.get_children().length <= 0) {
-      this.appContainer3.hide()
     }
   }
 }
@@ -1191,6 +1029,7 @@ WindowThumbnail.prototype = {
   _init: function (parent, metaWindow) {
     this._applet = parent._applet
     this.metaWindow = metaWindow || null
+    this.metaWindows = []
     this.app = parent.app
     this.isFavapp = parent.isFavapp || false
     this.wasMinimized = false
@@ -1291,6 +1130,11 @@ WindowThumbnail.prototype = {
     this.actor.connect('button-release-event', Lang.bind(this, this._connectToWindow))
   },
 
+  setMetaWindow: function (metaWindow, metaWindows) {
+    this.metaWindow = metaWindow
+    this.metaWindows = metaWindows
+  },
+
   _updateAttentionGrabber: function (obj, oldVal, newVal) {
     if (newVal) {
       this._urgent_signal = global.display.connect('window-marked-urgent', Lang.bind(this, this._onWindowDemandsAttention))
@@ -1351,14 +1195,14 @@ WindowThumbnail.prototype = {
       this.thumbnailActor.child = null
       var apptext = this.app.get_name()
       // not sure why it's 7
-      this.ThumbnailWidth = THUMBNAIL_ICON_SIZE + Math.floor(apptext.length * 7.0)
+      this.thumbnailWidth = THUMBNAIL_ICON_SIZE + Math.floor(apptext.length * 7.0)
       this._label.text = apptext
       this.isFavapp = true
       this.actor.style = 'border-width:2px;padding: 2px'
     } else {
       this.actor.style = null
       // HACK used to make sure everything is on the stage
-      setTimeout(()=>this.thumbnailPaddingSize(), 0)
+      setTimeout(()=>{this.thumbnailPaddingSize()}, 0)
       this._refresh()
     }
   },
@@ -1409,7 +1253,7 @@ WindowThumbnail.prototype = {
     if (muffinWindow) {
       var windowTexture = muffinWindow.get_texture()
       let [width, height] = windowTexture.get_size()
-      var scale = Math.min(1.0, this.ThumbnailWidth / width, this.ThumbnailHeight / height)
+      var scale = Math.min(1.0, this.thumbnailWidth / width, this.thumbnailHeight / height)
       thumbnail = new Clutter.Clone({
         source: windowTexture,
         reactive: true,
@@ -1421,16 +1265,19 @@ WindowThumbnail.prototype = {
     return thumbnail
   },
 
+  handleAfterClick(delay){
+    this.stopClick = true
+    this.destroy()
+    this._hoverPeek(OPACITY_OPAQUE, this.metaWindow, false)
+    this._parentContainer.shouldOpen = false
+    this._parentContainer.shouldClose = true
+    Mainloop.timeout_add(3000, Lang.bind(this._parentContainer, this._parentContainer.hoverClose))
+    this.metaWindow.delete(global.get_current_time())
+  },
+
   _onButtonRelease: function (actor, event) {
     if (event.get_state() & Clutter.ModifierType.BUTTON1_MASK && actor == this.button) {
-      this.destroy()
-      this.stopClick = true
-      this._hoverPeek(OPACITY_OPAQUE, this.metaWindow, false)
-      this._parentContainer.shouldOpen = false
-      this._parentContainer.shouldClose = true
-      Mainloop.timeout_add(2000, Lang.bind(this._parentContainer, this._parentContainer.hoverClose))
-      this.metaWindow.delete(global.get_current_time())
-      this._parent.refreshRows()
+      this.handleAfterClick(2000)
     }
   },
 
@@ -1443,37 +1290,53 @@ WindowThumbnail.prototype = {
       parent.shouldClose = true
       Mainloop.timeout_add(parent.hoverTime, Lang.bind(parent, parent.hoverClose))
     } else if (event.get_state() & Clutter.ModifierType.BUTTON2_MASK && !this.stopClick) {
-      this.stopClick = true
-      this.destroy()
-      this._hoverPeek(OPACITY_OPAQUE, this.metaWindow, false)
-      this._parentContainer.shouldOpen = false
-      this._parentContainer.shouldClose = true
-      Mainloop.timeout_add(3000, Lang.bind(this._parentContainer, this._parentContainer.hoverClose))
-      this.metaWindow.delete(global.get_current_time())
-      this._parent.refreshRows()
+      this.handleAfterClick(3000)
     }
     this.stopClick = false
   },
 
-  _refresh: function () {
+  _refresh: function (metaWindow=this.metaWindow, metaWindows=this.metaWindows) {
     // Turn favorite tooltip into a normal thumbnail
-    var moniter = Main.layoutManager.monitors[this.metaWindow.get_monitor()]
-    this.ThumbnailHeight = Math.floor(moniter.height / 70) * this._applet.thumbSize
-    this.ThumbnailWidth = Math.floor(moniter.width / 70) * this._applet.thumbSize
-    // this.thumbnailActor.height = this.ThumbnailHeight
-    this.thumbnailActor.width = this.ThumbnailWidth
-    this._container.style = 'width: ' + Math.floor(this.ThumbnailWidth - 16) + 'px'
-    this.isFavapp = false
+    var monitor = Main.layoutManager.primaryMonitor
 
-    // Replace the old thumbnail
-    var title = this.metaWindow.get_title()
-    this._label.text = title
-    if (this._applet.showThumbs) {
-      this.thumbnail = this._getThumbnail()
-      this.thumbnailActor.child = this.thumbnail
-    } else {
-      this.thumbnailActor.child = null
-    }
+    var setThumbSize = (divider=70, offset=16)=>{
+      this.thumbnailWidth = Math.floor((monitor.width / divider) * this._applet.thumbSize) + offset
+      this.thumbnailHeight = Math.floor((monitor.height / divider) * this._applet.thumbSize) + offset
+
+      var monitorSize, thumbnailSize
+      if (this._applet.verticalThumbs) {
+        monitorSize = monitor.height
+        thumbnailSize = this.thumbnailHeight
+      } else {
+        monitorSize = monitor.width
+        thumbnailSize = this.thumbnailWidth
+      }
+
+      if (this.metaWindows.length === 0) {
+        metaWindows = this.app.get_windows()
+      }
+
+      if ((thumbnailSize * metaWindows.length) + thumbnailSize > monitorSize) {
+        setThumbSize(divider * 1.1, 16)
+        return
+      }
+
+      this.thumbnailActor.width = this.thumbnailWidth
+      this._container.style = 'width: ' + Math.floor(this.thumbnailWidth - 16) + 'px'
+      this.isFavapp = false
+
+      // Replace the old thumbnail
+      var title = this.metaWindow.get_title()
+      this._label.text = title
+      if (this._applet.showThumbs) {
+        this.thumbnail = this._getThumbnail()
+        this.thumbnailActor.child = this.thumbnail
+      } else {
+        this.thumbnailActor.child = null
+      }
+    };
+
+    setThumbSize()
   },
 
   _hoverPeek: function (opacity, metaWin, enterEvent) {

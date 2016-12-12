@@ -410,6 +410,19 @@ AppGroup.prototype = {
         }
         this.lastFocused = metaWindow
 
+        let signals = []
+        signals.push(metaWindow.connect('notify::title', Lang.bind(this, this._windowTitleChanged)))
+        signals.push(metaWindow.connect('notify::appears-focused', Lang.bind(this, this._focusWindowChange)))
+
+        let data = {
+          signals: signals
+        }
+
+        this.metaWindows.push({
+          win: metaWindow, 
+          data: data
+        })
+
         // Instead of initializing rightClickMenu in _init right away, we'll prevent the exception caused by its absence and then initialize it. This speeds up init time, and fixes the monitor move options not appearing on first init.
         if (this.rightClickMenu !== undefined) {
           this.rightClickMenu.setMetaWindow(this.lastFocused, this.metaWindows)
@@ -425,24 +438,12 @@ AppGroup.prototype = {
 
       }
 
-      let signals = []
-
       this._applet.settings.connect('changed::title-display', ()=>{
         this.on_title_display_changed(metaWindow)
         this._windowTitleChanged(metaWindow)
       })
 
-      signals.push(metaWindow.connect('notify::title', Lang.bind(this, this._windowTitleChanged)))
-      signals.push(metaWindow.connect('notify::appears-focused', Lang.bind(this, this._focusWindowChange)))
 
-      let data = {
-        signals: signals
-      }
-
-      this.metaWindows.push({
-        win: metaWindow, 
-        data: data
-      })
 
       if (this.isFavapp) {
         this._isFavorite(false)
@@ -489,12 +490,12 @@ AppGroup.prototype = {
       }
 
       _.pullAt(this.metaWindows, refWindow)
-
+      
       if (this.metaWindows.length > 0) {
         this.lastFocused = _.last(this.metaWindows).win
         this._windowTitleChanged(this.lastFocused)
-
         this.hoverMenu.setMetaWindow(this.lastFocused, this.metaWindows)
+        
         if (this.rightClickMenu !== undefined) {
           this.rightClickMenu.setMetaWindow(this.lastFocused, this.metaWindows)
           this.rightClickMenu.menuSetup(null)

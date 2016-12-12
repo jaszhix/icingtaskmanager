@@ -178,7 +178,6 @@ PinnedFavs.prototype = {
       app = this.appSys.lookup_settings_app(appId)
     }
 
-
     if (!app) {
       return false
     }
@@ -302,7 +301,6 @@ MyApplet.prototype = {
         {key: 'thumbnail-size', value: 'thumbSize', cb: null},
         {key: 'sort-thumbnails', value: 'sortThumbs', cb: null},
         {key: 'vertical-thumbnails', value: 'verticalThumbs', cb: null},
-        {key: 'stack-thumbnails', value: 'stackThumbs', cb: null},
         {key: 'show-thumbnails', value: 'showThumbs', cb: null},
         {key: 'animate-thumbnails', value: 'animateThumbs', cb: null},
         {key: 'close-button-style', value: 'thumbCloseBtnStyle', cb: this.refreshCurrentAppList},
