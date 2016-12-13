@@ -72,11 +72,12 @@ AppGroup.prototype = {
     this.actor.add_actor(this._appButton.actor)
 
     this._appButton.actor.connect('button-release-event', Lang.bind(this, this._onAppButtonRelease))
+    this._appButton.actor.connect('button-press-event', Lang.bind(this, this._onAppButtonPress))
 
     // Initialized in _windowAdded first for open apps, then deferred here for init speed up.
     setTimeout(()=>{
       if (this.isFavapp) {
-        this.rightClickMenu = new SpecialMenus.AppMenuButtonRightClickMenu(this, this.actor)
+        this.rightClickMenu = new SpecialMenus.AppMenuButtonRightClickMenu(this, this.lastFocused, [this.lastFocused], this._applet.orientation)
         this._menuManager = new PopupMenu.PopupMenuManager(this)
         this._menuManager.addMenu(this.rightClickMenu)
         this.rightClickMenu.setMetaWindow(this.lastFocused, this.metaWindows)
@@ -243,7 +244,7 @@ AppGroup.prototype = {
     this._appButton.showLabel(animate, targetWidth)
   },
 
-  _onAppButtonRelease: function (actor, event) {
+  _onAppButtonRelease(actor, event) {
     this._applet._clearDragPlaceholder()
     var button = event.get_button();
     if ((button === 1) && this.isFavapp) {
@@ -263,6 +264,10 @@ AppGroup.prototype = {
     var appWindows = this._applet.groupApps ? this.app.get_windows() : [this.metaWindows[0].win];
 
     if (button === 1) {
+
+      if (this.rightClickMenu.isOpen) {
+        this.rightClickMenu.toggle();
+      }
       this.hoverMenu.shouldOpen = false;
       if (appWindows.length === 1) {
         handleMinimizeToggle(appWindows[0]);
@@ -280,7 +285,22 @@ AppGroup.prototype = {
         }
       }
       
+    } else if (button === 3) {
+      if (this.rightClickMenu.isOpen) {
+        this.rightClickMenu.mouseEvent = event;
+        this.rightClickMenu.toggle();
+      } else {
+        this.hoverMenu.close()
+        this.rightClickMenu.open()
+      }
     }
+  },
+
+  _onAppButtonPress(actor, event){
+    var button = event.get_button()
+    if (button === 3) {
+      return true
+    } 
   },
 
   _newAppKeyNumber: function (number) {
@@ -337,7 +357,7 @@ AppGroup.prototype = {
     }
   },
   _getLastFocusedWindow: function () {
-    return _.orderBy(this.metaWindows, 'win.user_time')
+    return this.lastFocused
   },
 
   // updates the internal list of metaWindows
@@ -363,24 +383,25 @@ AppGroup.prototype = {
     this.metaWindows = []
 
     for (let i = 0, len = windowList.length; i < len; i++) {
-      this._windowAdded(metaWorkspace, windowList[i])
+      this._windowAdded(metaWorkspace, windowList[i], windowList)
     }
 
     // When we first populate we need to decide which window
     // will be triggered when the app button is pressed
-    if (!this.lastFocused) {
-      this.lastFocused = windowList.length === 1 ? windowList[0] : _.first(this._getLastFocusedWindow())
+    // TBD
+    /*if (!this.lastFocused) {
+      this.lastFocused = windowList.length === 1 ? windowList[0] : _.chain(windowList).orderBy('user_time').first().values()
       this.appList._setLastFocusedApp(this.appId)
-    }
+    }*/
     if (this.lastFocused && _.isObject(this.lastFocused)) {
-      this._windowTitleChanged(this.lastFocused)
+      //this._windowTitleChanged(this.lastFocused)
       if (this.rightClickMenu !== undefined) {
         this.rightClickMenu.setMetaWindow(this.lastFocused, this.metaWindows)
       }
     }
   },
 
-  _windowAdded: function (metaWorkspace, metaWindow) {
+  _windowAdded: function (metaWorkspace, metaWindow, metaWindows) {
 
     let app = App.appFromWMClass(this.appList._appsys, this.appList.specialApps, metaWindow)
     if (!app) {
@@ -426,9 +447,8 @@ AppGroup.prototype = {
         // Instead of initializing rightClickMenu in _init right away, we'll prevent the exception caused by its absence and then initialize it. This speeds up init time, and fixes the monitor move options not appearing on first init.
         if (this.rightClickMenu !== undefined) {
           this.rightClickMenu.setMetaWindow(this.lastFocused, this.metaWindows)
-          this.rightClickMenu.menuSetup(null)
         } else {
-          this.rightClickMenu = new SpecialMenus.AppMenuButtonRightClickMenu(this, this.actor)
+          this.rightClickMenu = new SpecialMenus.AppMenuButtonRightClickMenu(this, metaWindow, metaWindows, this._applet.orientation)
           this._menuManager = new PopupMenu.PopupMenuManager(this)
           this._menuManager.addMenu(this.rightClickMenu)
           this.rightClickMenu.setMetaWindow(this.lastFocused, this.metaWindows)
@@ -442,8 +462,6 @@ AppGroup.prototype = {
         this.on_title_display_changed(metaWindow)
         this._windowTitleChanged(metaWindow)
       })
-
-
 
       if (this.isFavapp) {
         this._isFavorite(false)
@@ -495,10 +513,9 @@ AppGroup.prototype = {
         this.lastFocused = _.last(this.metaWindows).win
         this._windowTitleChanged(this.lastFocused)
         this.hoverMenu.setMetaWindow(this.lastFocused, this.metaWindows)
-        
+
         if (this.rightClickMenu !== undefined) {
           this.rightClickMenu.setMetaWindow(this.lastFocused, this.metaWindows)
-          this.rightClickMenu.menuSetup(null)
         }
       }
 
@@ -551,7 +568,9 @@ AppGroup.prototype = {
       if (this._applet.sortThumbs) {
         this.hoverMenu.setMetaWindow(this.lastFocused, this.metaWindows)
       }
-      this.rightClickMenu.setMetaWindow(this.lastFocused, this.metaWindows)
+      if (this.rightClickMenu !== undefined) {
+        this.rightClickMenu.setMetaWindow(this.lastFocused, this.metaWindows)
+      }
     }
     if (this._applet.settings.getValue('title-display') === App.TitleDisplay.Focused) {
       this._updateFocusedStatus()
@@ -584,8 +603,6 @@ AppGroup.prototype = {
     this.isFavapp = isFav
     this.wasFavapp = !(isFav)
     this._appButton._isFavorite(isFav)
-    this.rightClickMenu.removeItems()
-    this.rightClickMenu._isFavorite(isFav)
     this.hoverMenu.appSwitcherItem._isFavorite(isFav)
     this._windowTitleChanged(this.lastFocused)
   },
