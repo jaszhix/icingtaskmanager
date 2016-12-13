@@ -24,6 +24,7 @@ const Gio = imports.gi.Gio
 const Gtk = imports.gi.Gtk
 const GLib = imports.gi.GLib
 const Meta = imports.gi.Meta
+const SignalManager = imports.misc.signalManager;
 
 const _ = imports.applet._
 const clog = imports.applet.clog
@@ -283,128 +284,94 @@ MyApplet.prototype = {
       // We are on Cinnamon < 3.2
     }
 
-    try {
-      this._uuid = metadata.uuid
-      this.execInstallLanguage()
-      Gettext.bindtextdomain(this._uuid, GLib.get_home_dir() + '/.local/share/locale')
+    this._uuid = metadata.uuid
+    this.execInstallLanguage()
+    Gettext.bindtextdomain(this._uuid, GLib.get_home_dir() + '/.local/share/locale')
 
-      var settingsProps = [
-        {key: 'show-pinned', value: 'showPinned', cb: null},
-        {key: 'show-alerts', value: 'showAlerts', cb: null},
-        {key: 'group-apps', value: 'groupApps', cb: this.refreshCurrentAppList},
-        {key: 'arrange-pinnedApps', value: 'arrangePinned', cb: null},
-        {key: 'pinned-apps', value: 'pinnedApps', cb: null},
-        {key: 'enable-hover-peek', value: 'enablePeek', cb: null},
-        {key: 'onclick-thumbnails', value: 'onclickThumbs', cb: null},
-        {key: 'hover-peek-opacity', value: 'peekOpacity', cb: null},
-        {key: 'thumbnail-timeout', value: 'thumbTimeout', cb: null},
-        {key: 'thumbnail-size', value: 'thumbSize', cb: null},
-        {key: 'sort-thumbnails', value: 'sortThumbs', cb: null},
-        {key: 'vertical-thumbnails', value: 'verticalThumbs', cb: null},
-        {key: 'show-thumbnails', value: 'showThumbs', cb: null},
-        {key: 'animate-thumbnails', value: 'animateThumbs', cb: null},
-        {key: 'close-button-style', value: 'thumbCloseBtnStyle', cb: this.refreshCurrentAppList},
-        {key: 'include-all-windows', value: 'includeAllWindows', cb: this.refreshCurrentAppList},
-        {key: 'number-display', value: 'numDisplay', cb: null},
-        {key: 'title-display', value: 'titleDisplay', cb: null},
-        {key: 'icon-spacing', value: 'iconSpacing', cb: null},
-        {key: 'icon-padding', value: 'iconPadding', cb: null},
-        {key: 'enable-iconSize', value: 'enableIconSize', cb: this.refreshCurrentAppList},
-        {key: 'icon-size', value: 'iconSize', cb: null},
-        {key: 'show-recent', value: 'showRecent', cb: this.refreshCurrentAppList},
-        {key: 'autostart-menu-item', value: 'autoStart', cb: this.refreshCurrentAppList},
-        {key: 'appmenu-width', value: 'appMenuWidth', cb: null},
-        {key: 'firefox-menu', value: 'firefoxMenu', cb: this.refreshCurrentAppList},
-        {key: 'appmenu-number', value: 'appMenuNum'}
-      ]
+    var settingsProps = [
+      {key: 'show-pinned', value: 'showPinned', cb: null},
+      {key: 'show-alerts', value: 'showAlerts', cb: null},
+      {key: 'group-apps', value: 'groupApps', cb: this.refreshCurrentAppList},
+      {key: 'arrange-pinnedApps', value: 'arrangePinned', cb: null},
+      {key: 'pinned-apps', value: 'pinnedApps', cb: null},
+      {key: 'enable-hover-peek', value: 'enablePeek', cb: null},
+      {key: 'onclick-thumbnails', value: 'onclickThumbs', cb: null},
+      {key: 'hover-peek-opacity', value: 'peekOpacity', cb: null},
+      {key: 'thumbnail-timeout', value: 'thumbTimeout', cb: null},
+      {key: 'thumbnail-size', value: 'thumbSize', cb: null},
+      {key: 'sort-thumbnails', value: 'sortThumbs', cb: null},
+      {key: 'vertical-thumbnails', value: 'verticalThumbs', cb: null},
+      {key: 'show-thumbnails', value: 'showThumbs', cb: null},
+      {key: 'animate-thumbnails', value: 'animateThumbs', cb: null},
+      {key: 'close-button-style', value: 'thumbCloseBtnStyle', cb: this.refreshCurrentAppList},
+      {key: 'include-all-windows', value: 'includeAllWindows', cb: this.refreshCurrentAppList},
+      {key: 'number-display', value: 'numDisplay', cb: null},
+      {key: 'title-display', value: 'titleDisplay', cb: null},
+      {key: 'icon-spacing', value: 'iconSpacing', cb: null},
+      {key: 'icon-padding', value: 'iconPadding', cb: null},
+      {key: 'enable-iconSize', value: 'enableIconSize', cb: this.refreshCurrentAppList},
+      {key: 'icon-size', value: 'iconSize', cb: null},
+      {key: 'show-recent', value: 'showRecent', cb: this.refreshCurrentAppList},
+      {key: 'autostart-menu-item', value: 'autoStart', cb: this.refreshCurrentAppList},
+      {key: 'appmenu-width', value: 'appMenuWidth', cb: null},
+      {key: 'firefox-menu', value: 'firefoxMenu', cb: this.refreshCurrentAppList},
+      {key: 'appmenu-number', value: 'appMenuNum'}
+    ]
 
-      if (this.c32) {
-        for (let i = 0, len = settingsProps.length; i < len; i++) {
-          this.settings.bind(settingsProps[i].key, settingsProps[i].value, settingsProps[i].cb);
-        }
-      } else {
-        for (let i = 0, len = settingsProps.length; i < len; i++) {
-          var direction = settingsProps[i].value === 'pinnedApps' ? 'BIDIRECTIONAL' : 'IN'
-          this.settings.bindProperty(Settings.BindingDirection[direction], settingsProps[i].key, settingsProps[i].value, settingsProps[i].cb, null)
-        }
+    if (this.c32) {
+      for (let i = 0, len = settingsProps.length; i < len; i++) {
+        this.settings.bind(settingsProps[i].key, settingsProps[i].value, settingsProps[i].cb);
       }
-
-      this._box = new St.Bin()
-
-      this.actor.add(this._box)
-
-      this.tracker = Cinnamon.WindowTracker.get_default()
-
-      this.pinnedAppsContr = new PinnedFavs(this)
-
-      this.recentManager = Gtk.RecentManager.get_default()
-      this.sortRecentItems(this.recentManager.get_items())
-
-      this.metaWorkspaces = []
-
-      this.autostartApps = []
-
-      // Boolean states
-      this.forceRefreshList = false
-
-      Main.keybindingManager.addHotKey('move-app-to-next-monitor', '<Shift><Super>Right', Lang.bind(this, this._onMoveToNextMonitor))
-      Main.keybindingManager.addHotKey('move-app-to-prev-monitor', '<Shift><Super>Left', Lang.bind(this, this._onMoveToPrevMonitor))
-
-      // Use a signal tracker so we don't have to keep track of all these id's manually!
-
-      this.signals = new SignalTracker()
-      this.signals.connect({
-        object: global.window_manager,
-        signalName: 'switch-workspace',
-        callback: this._onSwitchWorkspace,
-        bind: this
-      })
-      this.signals.connect({
-        object: global.screen,
-        signalName: 'notify::n-workspaces',
-        callback: this._onWorkspaceCreatedOrDestroyed,
-        bind: this
-      })
-      this.signals.connect({
-        object: Main.overview,
-        signalName: 'showing',
-        callback: this._onOverviewShow,
-        bind: this
-      })
-      this.signals.connect({
-        object: Main.overview,
-        signalName: 'hiding',
-        callback: this._onOverviewHide,
-        bind: this
-      })
-      this.signals.connect({
-        object: Main.expo,
-        signalName: 'showing',
-        callback: this._onOverviewShow,
-        bind: this
-      })
-      this.signals.connect({
-        object: Main.expo,
-        signalName: 'hiding',
-        callback: this._onOverviewHide,
-        bind: this
-      })
-
-      this._dragPlaceholder = null
-      this._dragPlaceholderPos = -1
-      this._animatingPlaceholdersCount = 0
-
-      this.getAutostartApps()
-
-      // Query apps for the current workspace
-      this.currentWs = global.screen.get_active_workspace_index()
-      this._onSwitchWorkspace()
-
-      global.settings.connect('changed::panel-edit-mode', Lang.bind(this, this.on_panel_edit_mode_changed))
-
-    } catch (e) {
-      clog('Error', e.message)
+    } else {
+      for (let i = 0, len = settingsProps.length; i < len; i++) {
+        var direction = settingsProps[i].value === 'pinnedApps' ? 'BIDIRECTIONAL' : 'IN'
+        this.settings.bindProperty(Settings.BindingDirection[direction], settingsProps[i].key, settingsProps[i].value, settingsProps[i].cb, null)
+      }
     }
+
+    this._box = new St.Bin()
+
+    this.actor.add(this._box)
+
+    this.tracker = Cinnamon.WindowTracker.get_default()
+
+    this.pinnedAppsContr = new PinnedFavs(this)
+
+    this.recentManager = Gtk.RecentManager.get_default()
+    this.sortRecentItems(this.recentManager.get_items())
+
+    this.metaWorkspaces = []
+
+    this.autostartApps = []
+
+    // Boolean states
+    this._menuOpen = false;
+    this.forceRefreshList = false
+
+    Main.keybindingManager.addHotKey('move-app-to-next-monitor', '<Shift><Super>Right', Lang.bind(this, this._onMoveToNextMonitor))
+    Main.keybindingManager.addHotKey('move-app-to-prev-monitor', '<Shift><Super>Left', Lang.bind(this, this._onMoveToPrevMonitor))
+
+    // Use a signal tracker so we don't have to keep track of all these id's manually!
+
+    this.signals = new SignalManager.SignalManager(this);
+    this.signals.connect(global.window_manager, 'switch-workspace', this._onSwitchWorkspace)
+    this.signals.connect(global.screen, 'notify::n-workspaces', this._onWorkspaceCreatedOrDestroyed)
+    this.signals.connect(Main.overview, 'showing', this._onOverviewShow)
+    this.signals.connect(Main.overview, 'hiding', this._onOverviewHide)
+    this.signals.connect(Main.expo, 'showing', this._onOverviewShow)
+    this.signals.connect(Main.expo, 'hiding', this._onOverviewHide)
+
+    this._dragPlaceholder = null
+    this._dragPlaceholderPos = -1
+    this._animatingPlaceholdersCount = 0
+
+    this.getAutostartApps()
+
+    // Query apps for the current workspace
+    this.currentWs = global.screen.get_active_workspace_index()
+    this._onSwitchWorkspace()
+
+    global.settings.connect('changed::panel-edit-mode', Lang.bind(this, this.on_panel_edit_mode_changed))
   },
 
   on_panel_height_changed: function() {
@@ -413,6 +380,10 @@ MyApplet.prototype = {
 
   on_orientation_changed: function(orientation) {
     this.metaWorkspaces[this.currentWs].appList.on_orientation_changed(orientation)
+  },
+
+  on_applet_removed_from_panel: function() {
+    this.signals.disconnectAllSignals();
   },
 
   refreshCurrentAppList(){
@@ -770,7 +741,7 @@ MyApplet.prototype = {
   },
 
   destroy: function () {
-    this.signals.disconnectAll()
+    this.signals.disconnectAllSignals();
     this.actor.destroy()
     this.actor = null
   }
