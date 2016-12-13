@@ -68,7 +68,7 @@ msgstr "Symbolgröße anpassen"
 
 #. src->settings-schema.json->hover-peek-time->description
 msgid "Window fade time"
-msgstr "Fenster Einblendungsverzögerung"
+msgstr "Fenster Einblendungszeit"
 
 #. src->settings-schema.json->hover-peek-time->tooltip
 msgid "Controls how quickly a window will fade on hover."
