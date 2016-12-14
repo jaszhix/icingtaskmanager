@@ -522,9 +522,7 @@ AppGroup.prototype = {
           this.rightClickMenu.setMetaWindow(this.lastFocused, this.metaWindows)
         }
       } else if (this.isFavapp) {
-        this.hoverMenu.setMetaWindow(null, [])
-        this.hoverMenu.appSwitcherItem.handleUnopenedPinnedApp(null, [], true)
-        this.hoverMenu.close()
+        setTimeout(()=>this._applet.refreshAppFromCurrentListById(this.appId, {favChange: true, isFavapp: this.isFavapp}), 0)
       }
 
       this._calcWindowNumber(metaWorkspace)

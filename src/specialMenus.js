@@ -273,7 +273,6 @@ AppMenuButtonRightClickMenu.prototype = {
               metaWindow.win.delete(global.get_current_time);
             }
           })
-          this._applet.refreshAppFromCurrentListById(this.appId, {favChange: true, isFavapp: this.isFavapp})
         }));
         this.addMenuItem(item);
         item = new PopupMenu.PopupIconMenuItem(t('Close others'), 'window-close', St.IconType.SYMBOLIC);
@@ -283,7 +282,6 @@ AppMenuButtonRightClickMenu.prototype = {
               metaWindow.win.delete(global.get_current_time);
             }
           })
-          this._applet.refreshAppFromCurrentListById(this.appId, {favChange: true, isFavapp: this.isFavapp})
         }));
         this.addMenuItem(item);
         this.addMenuItem(new PopupMenu.PopupSeparatorMenuItem());
@@ -679,7 +677,7 @@ PopupMenuAppSwitcherItem.prototype = {
 
   handleUnopenedPinnedApp(metaWindow, windows, appClosed=false){
     if (this.metaWindowThumbnail) {
-      this.metaWindowThumbnail.actor.destroy()
+      this.metaWindowThumbnail.destroy()
     }
     var isPinned = windows.length === 0 && !metaWindow && this.isFavapp
     if (isPinned || (windows.length === 0 && !this.metaWindowThumbnail)) {
@@ -743,7 +741,7 @@ PopupMenuAppSwitcherItem.prototype = {
         }
       } else {
         if (this.metaWindowThumbnail) {
-          this.metaWindowThumbnail.actor.destroy()
+          this.metaWindowThumbnail.destroy()
         }
         var thumbnail = new WindowThumbnail(this, metaWindow, windows)
         thumbnail.setMetaWindow(metaWindow, windows)
@@ -830,7 +828,7 @@ WindowThumbnail.prototype = {
       style_class: this._applet.thumbCloseBtnStyle ? 'thumbnail-iconlabel' : 'thumbnail-iconlabel-cont'
     })
 
-    var bin = new St.BoxLayout({
+    this.bin = new St.BoxLayout({
       style_class: 'thumbnail-label-bin'
     })
 
@@ -851,9 +849,9 @@ WindowThumbnail.prototype = {
     })
 
     this.button.hide()
-    bin.add_actor(this._container)
-    bin.add_actor(this.button)
-    this.actor.add_actor(bin)
+    this.bin.add_actor(this._container)
+    this.bin.add_actor(this.button)
+    this.actor.add_actor(this.bin)
     this.actor.add_actor(this.thumbnailActor)
 
     this._isFavorite(this.isFavapp, this.metaWindow, this.metaWindows)
@@ -978,30 +976,6 @@ WindowThumbnail.prototype = {
       setTimeout(()=>this.thumbnailPaddingSize(), 0)
       this._refresh(metaWindow, windows)
     }
-  },
-
-  destroy: function () {
-    try {
-      if (this._trackerSignal) {
-        this.tracker.disconnect(this._trackerSignal)
-      }
-      if (this._urgent_signal) {
-        global.display.disconnect(this._urgent_signal)
-      }
-      if (this._attention_signal) {
-        global.display.disconnect(this._attention_signal)
-      }
-    } catch (e) {
-      /* Signal is invalid */
-    }
-    var refThumb = _.findIndex(this._parent.appThumbnails, (thumb)=>{
-      return _.isEqual(thumb.metaWindow, this.metaWindow)
-    })
-    if (refThumb !== -1) {
-      _.pullAt(this._parent.appThumbnails, refThumb)
-    }
-    this.actor.destroy_children()
-    this.actor.destroy()
   },
 
   needs_refresh: function () {
@@ -1143,5 +1117,35 @@ WindowThumbnail.prototype = {
         setOpacity(wa[i], opacity)
       }
     }
+  },
+
+  destroy(){
+    try {
+      if (this._trackerSignal) {
+        this.tracker.disconnect(this._trackerSignal)
+      }
+      if (this._urgent_signal) {
+        global.display.disconnect(this._urgent_signal)
+      }
+      if (this._attention_signal) {
+        global.display.disconnect(this._attention_signal)
+      }
+    } catch (e) {
+      /* Signal is invalid */
+    }
+    var refThumb = _.findIndex(this._parent.appThumbnails, (thumb)=>{
+      return _.isEqual(thumb.metaWindow, this.metaWindow)
+    })
+    if (refThumb !== -1) {
+      _.pullAt(this._parent.appThumbnails, refThumb)
+    }
+
+    this._container.destroy_children()
+    this._container.destroy()
+    this.bin.destroy_children()
+    this.bin.destroy()
+    this.actor.destroy_children()
+    this.actor.destroy()
+
   }
 }
