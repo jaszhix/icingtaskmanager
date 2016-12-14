@@ -430,7 +430,7 @@ _Draggable.prototype = {
       return false;
     }
 
-    if (event.get_button() != 2) {
+    if (event.get_button() !== 1) {
       return false;
     }
 
