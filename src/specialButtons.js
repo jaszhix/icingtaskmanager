@@ -136,12 +136,17 @@ IconLabelButton.prototype = {
     if (!this._needsAttention) {
       return
     }
-
+    if (this._applet.showActive) {
+      this.actor.remove_style_pseudo_class('active')
+    }
     this.actor.add_style_class_name('window-list-item-demands-attention')
     if (counter < 4) {
       setTimeout(()=>{
         if (this.actor.has_style_class_name('window-list-item-demands-attention')) {
           this.actor.remove_style_class_name('window-list-item-demands-attention')
+          if (this._applet.showActive) {
+            this.actor.add_style_pseudo_class('active')
+          }
         }
         setTimeout(()=>{
           this._flashButton(++counter)
@@ -304,8 +309,8 @@ AppButton.prototype = {
   },
 
   _onFocusChange: function () {
-        // If any of the windows associated with our app have focus,
-        // we should set ourselves to active
+    // If any of the windows associated with our app have focus,
+    // we should set ourselves to active
     if (this._hasFocus()) {
       this.actor.add_style_pseudo_class('focus')
       this.actor.remove_style_class_name('window-list-item-demands-attention')
@@ -313,6 +318,9 @@ AppButton.prototype = {
       this._needsAttention = false
     } else {
       this.actor.remove_style_pseudo_class('focus')
+      if (this._applet.showActive) {
+        this.actor.add_style_pseudo_class('active')
+      }
     }
   },
 
