@@ -348,9 +348,6 @@ MyApplet.prototype = {
     this._menuOpen = false;
     this.forceRefreshList = false
 
-    Main.keybindingManager.addHotKey('move-app-to-next-monitor', '<Shift><Super>Right', Lang.bind(this, this._onMoveToNextMonitor))
-    Main.keybindingManager.addHotKey('move-app-to-prev-monitor', '<Shift><Super>Left', Lang.bind(this, this._onMoveToPrevMonitor))
-
     // Use a signal tracker so we don't have to keep track of all these id's manually!
 
     this.signals = new SignalManager.SignalManager(this);
@@ -700,44 +697,6 @@ MyApplet.prototype = {
 
   _onOverviewHide: function () {
     this.actor.show()
-  },
-
-  _onMoveToNextMonitor: function () {
-    this._onMoveToMonitor(1)
-  },
-
-  _onMoveToPrevMonitor: function () {
-    this._onMoveToMonitor(-1)
-  },
-
-  _onMoveToMonitor: function (modifier) {
-    // Skip when we don't have multiple monitor.
-    let monitors = Main.layoutManager.monitors
-    if (monitors.length <= 1) {
-      return
-    }
-    // Find the window to move.
-    let metaWorkspace = global.screen.get_active_workspace()
-    let metaWindow = null
-    var windows = metaWorkspace.list_windows()
-    for (let i = 0, len = windows.length; i < len; i++) {
-      if (windows[i].has_focus()) {
-        metaWindow = windows[i]
-        break
-      }
-    }
-    // Find the new monitor index.
-    let monitorIndex = metaWindow.get_monitor()
-    monitorIndex += modifier
-    if (monitorIndex < 0) {
-      monitorIndex = monitors.length - 1
-    }
-    else if (monitorIndex > monitors.length - 1) {
-      monitorIndex = 0
-    }
-    try {
-      metaWindow.move_to_monitor(monitorIndex)
-    } catch(e) {}
   },
 
   destroy: function () {
