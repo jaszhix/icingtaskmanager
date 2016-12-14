@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 
 #. src->metadata.json->description
-msgid "Window List with App Grouping and Window Thumbnails"
+msgid "Window list with app grouping and window thumbnails"
 msgstr ""
 
 #. src->metadata.json->name

@@ -13,7 +13,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #. src->metadata.json->description
-msgid "Window List with App Grouping and Window Thumbnails"
+msgid "Window list with app grouping and window thumbnails"
 msgstr "Liste des fenêtres avec regroupement et miniatures des applications"
 
 #. src->metadata.json->name

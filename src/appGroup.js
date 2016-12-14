@@ -247,7 +247,7 @@ AppGroup.prototype = {
   _onAppButtonRelease(actor, event) {
     this._applet._clearDragPlaceholder()
     var button = event.get_button();
-    if ((button === 1) && this.isFavapp) {
+    if ((button === 1) && this.isFavapp || button === 2) {
       this.app.open_new_window(-1)
       this._animate()
       return

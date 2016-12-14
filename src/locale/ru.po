@@ -14,7 +14,7 @@ msgstr ""
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
 #. src->metadata.json->description
-msgid "Window List with App Grouping and Window Thumbnails"
+msgid "Window list with app grouping and window thumbnails"
 msgstr "Список окон с группировкой и миниатюрами"
 
 #. src->metadata.json->name

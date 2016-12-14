@@ -273,6 +273,7 @@ AppMenuButtonRightClickMenu.prototype = {
               metaWindow.win.delete(global.get_current_time);
             }
           })
+          this._applet.refreshAppFromCurrentListById(this.appId, {favChange: true, isFavapp: this.isFavapp})
         }));
         this.addMenuItem(item);
         item = new PopupMenu.PopupIconMenuItem(t('Close others'), 'window-close', St.IconType.SYMBOLIC);
@@ -282,6 +283,7 @@ AppMenuButtonRightClickMenu.prototype = {
               metaWindow.win.delete(global.get_current_time);
             }
           })
+          this._applet.refreshAppFromCurrentListById(this.appId, {favChange: true, isFavapp: this.isFavapp})
         }));
         this.addMenuItem(item);
         this.addMenuItem(new PopupMenu.PopupSeparatorMenuItem());
@@ -402,14 +404,12 @@ AppMenuButtonRightClickMenu.prototype = {
       this._applet.autostartApps[this.autostartIndex].file.delete(null)
       this._applet.removeAutostartApp(this.autostartIndex)
       this.autostartIndex = -1
-      this.menuSetup(null)
     } else {
       var filePath = this.appInfo.get_filename()
       Util.trySpawnCommandLine(`bash -c 'cp ${filePath} ${this._applet.autostartStrDir}'`)
       setTimeout(()=>{
         this._applet.getAutostartApps()
         this.autostartIndex = this._applet.autostartApps.length - 1
-        this.menuSetup(null)
       }, 500)
     }
   },
