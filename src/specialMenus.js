@@ -174,9 +174,10 @@ AppMenuButtonRightClickMenu.prototype = {
         var bookmarks = this._listBookmarks()
         var devices = this._listDevices()
         var places = defualtPlaces.concat(bookmarks).concat(devices)
+        var handlePlaceLaunch = (item, i)=>item.connect('activate', ()=>places[i].launch())
         for (let i = 0, len = places.length; i < len; i++) {
           item = new PopupMenu.PopupIconMenuItem(t(places[i].name), 'folder', St.IconType.SYMBOLIC)
-          item.connect('activate', ()=>places[i].launch())
+          handlePlaceLaunch(item, i)
           this.recentMenuItems.push(item)
           subMenu.menu.addMenuItem(item);
         }
@@ -194,9 +195,10 @@ AppMenuButtonRightClickMenu.prototype = {
         var histories = FireFox.getFirefoxHistory(this._applet)
         if (histories) {
           try {
+            var handleHistoryLaunch = (item, i)=>item.connect('activate', ()=>Gio.app_info_launch_default_for_uri(histories[i].uri, global.create_app_launch_context()))
             for (let i = 0, len = histories.length; i < len; i++) {
               item = new PopupMenu.PopupIconMenuItem(t(histories[i].title), 'go-next', St.IconType.SYMBOLIC)
-              item.connect('activate', ()=>Gio.app_info_launch_default_for_uri(histories[i].uri, global.create_app_launch_context()))
+              handleHistoryLaunch(item, i)
               this.recentMenuItems.push(item)
               subMenu.menu.addMenuItem(item);
             }
@@ -228,9 +230,10 @@ AppMenuButtonRightClickMenu.prototype = {
         if (itemsLength > num) {
           itemsLength = num
         }
+        var handleRecentLaunch = (item, i)=>item.connect('activate', ()=>Gio.app_info_launch_default_for_uri(items[i].get_uri(), global.create_app_launch_context()))
         for (let i = 0; i < itemsLength; i++) {
           item = new PopupMenu.PopupIconMenuItem(t(items[i].get_short_name()), 'list-add', St.IconType.SYMBOLIC)
-          item.connect('activate', ()=>Gio.app_info_launch_default_for_uri(items[i].get_uri(), global.create_app_launch_context()))
+          handleRecentLaunch(item, i)
           this.recentMenuItems.push(item)
           subMenu.menu.addMenuItem(item);
         }
