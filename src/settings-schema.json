@@ -145,7 +145,7 @@
     "default" : 50,
     "min" : 0,
     "max" : 5000,
-    "step" : 50,
+    "step" : 5,
     "units" : "milliseconds",
     "description" : "Thumbnail timeout",
     "tooltip" : "Controls how quickly an app's set of window thumbnails will fade out when the mouse leaves the app button."

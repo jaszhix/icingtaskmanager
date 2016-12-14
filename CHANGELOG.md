@@ -1,5 +1,12 @@
 Changelog
 
+### 4.0.1
+
+  * Fixed stale thumbnails sometimes lingering after closing a window.
+  * Fixed alerts not showing when active app indicators are enabled.
+  * Removed the context menu width/number of items options due to incompatibility with the new menu.
+  * Adjusted the stepping increment for the thumbnail timeout option to 5ms.
+
 ### 4.0.0
 
   * The left mouse button controls icon dragging again, and the middle mouse button launches new instances of apps.
