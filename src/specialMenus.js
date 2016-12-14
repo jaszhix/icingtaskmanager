@@ -20,7 +20,6 @@ const clog = imports.applet.clog
 const setTimeout = imports.applet.setTimeout
 
 const AppletDir = AppletManager.applets['IcingTaskManager@json']
-const SpecialMenuItems = AppletDir.specialMenuItems
 const FireFox = AppletDir.firefox
 
 const THUMBNAIL_ICON_SIZE = 16
