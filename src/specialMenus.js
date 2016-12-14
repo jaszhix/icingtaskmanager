@@ -294,6 +294,7 @@ AppMenuButtonRightClickMenu.prototype = {
     try {
       actions = this.appInfo.list_actions()
       if (this.appInfo && actions) {
+        this.addMenuItem(new PopupMenu.PopupSeparatorMenuItem());
         var handleAction = (action)=>{
           item = new PopupMenu.PopupIconMenuItem(t(this.appInfo.get_action_name(action)), 'document-new', St.IconType.SYMBOLIC)
           item.connect('activate', ()=>this.appInfo.launch_action(action, global.create_app_launch_context()))
