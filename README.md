@@ -1,9 +1,7 @@
 Icing Task Manager
 =============
 
-This is a fork of the unfinished development branch of [Window List With App Grouping](https://github.com/jake-phy/WindowIconList/) applet, originally by jake-phy who forked the code from [GNOME Shell Window List](https://github.com/siefkenj/gnome-shell-windowlist/). 
-
- * Note: Unlike the original version, you have to use the middle mouse button to drag app buttons.
+This is a fork of the unfinished development branch of [Window List With App Grouping](https://github.com/jake-phy/WindowIconList/) applet, originally by jake-phy who forked the code from [GNOME Shell Window List](https://github.com/siefkenj/gnome-shell-windowlist/).
 
 ### Changes from the original version
 
