@@ -239,6 +239,54 @@ AppMenuButtonRightClickMenu.prototype = {
     }
 
     /*
+      Preferences
+    */
+
+    let subMenu = new PopupMenu.PopupSubMenuMenuItem(t('Preferences'));
+    this.addMenuItem(subMenu);
+
+    if (!this.app.is_window_backed()) {
+      if (this._applet.autoStart) {
+        if (this.autostartIndex !== -1) {
+          item = new PopupMenu.PopupIconMenuItem(t('Remove from Autostart'), 'process-stop', St.IconType.SYMBOLIC)
+          item.connect('activate', Lang.bind(this, this._toggleAutostart))
+        } else {
+          item = new PopupMenu.PopupIconMenuItem(t('Add to Autostart'), 'insert-object', St.IconType.SYMBOLIC)
+          item.connect('activate', Lang.bind(this, this._toggleAutostart))
+        }
+        subMenu.menu.addMenuItem(item);
+      }
+      if (this._applet.showPinned !== FavType.none) {
+        if (this.isFavapp) {
+          item = new PopupMenu.PopupIconMenuItem(t('Unpin from Panel'), 'list-remove', St.IconType.SYMBOLIC)
+          item.connect('activate', Lang.bind(this, this._toggleFav))
+        } else {
+          item = new PopupMenu.PopupIconMenuItem(t('Pin to Panel'), 'bookmark-new', St.IconType.SYMBOLIC)
+          item.connect('activate', Lang.bind(this, this._toggleFav))
+        }
+        subMenu.menu.addMenuItem(item);
+      }
+    } else {
+      item = new PopupMenu.PopupIconMenuItem(t('Create Shortcut'), 'list-add', St.IconType.SYMBOLIC)
+      item.connect('activate', Lang.bind(this, this._createShortcut))
+      subMenu.menu.addMenuItem(item);
+    }
+
+    item = new PopupMenu.PopupIconMenuItem(t('About...'), 'dialog-question', St.IconType.SYMBOLIC);
+    item.connect('activate', Lang.bind(this._applet, this._applet.openAbout));
+    subMenu.menu.addMenuItem(item);
+
+    item = new PopupMenu.PopupIconMenuItem(t('Configure...'), 'system-run', St.IconType.SYMBOLIC);
+    item.connect('activate', Lang.bind(this._applet, this._applet.configureApplet));
+    subMenu.menu.addMenuItem(item);
+
+    item = new PopupMenu.PopupIconMenuItem(t(`Remove 'Icing Task Manager'`), 'edit-delete', St.IconType.SYMBOLIC);
+    item.connect('activate', Lang.bind(this, function() {
+      AppletManager._removeAppletFromPanel(this._applet._uuid, this._applet.instance_id);
+    }));
+    subMenu.menu.addMenuItem(item);
+
+    /*
       Actions
     */
 
@@ -333,54 +381,6 @@ AppMenuButtonRightClickMenu.prototype = {
 
       this.addMenuItem(new PopupMenu.PopupSeparatorMenuItem());
     }
-
-    /*
-      Preferences
-    */
-
-    let subMenu = new PopupMenu.PopupSubMenuMenuItem(t('Preferences'));
-    this.addMenuItem(subMenu);
-
-    if (!this.app.is_window_backed()) {
-      if (this._applet.autoStart) {
-        if (this.autostartIndex !== -1) {
-          item = new PopupMenu.PopupIconMenuItem(t('Remove from Autostart'), 'process-stop', St.IconType.SYMBOLIC)
-          item.connect('activate', Lang.bind(this, this._toggleAutostart))
-        } else {
-          item = new PopupMenu.PopupIconMenuItem(t('Add to Autostart'), 'insert-object', St.IconType.SYMBOLIC)
-          item.connect('activate', Lang.bind(this, this._toggleAutostart))
-        }
-        subMenu.menu.addMenuItem(item);
-      }
-      if (this._applet.showPinned !== FavType.none) {
-        if (this.isFavapp) {
-          item = new PopupMenu.PopupIconMenuItem(t('Unpin from Panel'), 'list-remove', St.IconType.SYMBOLIC)
-          item.connect('activate', Lang.bind(this, this._toggleFav))
-        } else {
-          item = new PopupMenu.PopupIconMenuItem(t('Pin to Panel'), 'bookmark-new', St.IconType.SYMBOLIC)
-          item.connect('activate', Lang.bind(this, this._toggleFav))
-        }
-        subMenu.menu.addMenuItem(item);
-      }
-    } else {
-      item = new PopupMenu.PopupIconMenuItem(t('Create Shortcut'), 'list-add', St.IconType.SYMBOLIC)
-      item.connect('activate', Lang.bind(this, this._createShortcut))
-      subMenu.menu.addMenuItem(item);
-    }
-
-    item = new PopupMenu.PopupIconMenuItem(t('About...'), 'dialog-question', St.IconType.SYMBOLIC);
-    item.connect('activate', Lang.bind(this._applet, this._applet.openAbout));
-    subMenu.menu.addMenuItem(item);
-
-    item = new PopupMenu.PopupIconMenuItem(t('Configure...'), 'system-run', St.IconType.SYMBOLIC);
-    item.connect('activate', Lang.bind(this._applet, this._applet.configureApplet));
-    subMenu.menu.addMenuItem(item);
-
-    item = new PopupMenu.PopupIconMenuItem(t(`Remove 'Icing Task Manager'`), 'edit-delete', St.IconType.SYMBOLIC);
-    item.connect('activate', Lang.bind(this, function() {
-      AppletManager._removeAppletFromPanel(this._applet._uuid, this._applet.instance_id);
-    }));
-    subMenu.menu.addMenuItem(item);
   },
 
   _onToggled: function(actor, isOpening) {
