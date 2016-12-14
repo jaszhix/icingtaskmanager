@@ -83,7 +83,6 @@ AppMenuButtonRightClickMenu.prototype = {
   _populateMenu: function() {
     if (!this.metaWindow) {
       this.metaWindow = this._launcher._getLastFocusedWindow()
-      clog('No metaWin...', this._launcher.app.get_id())
     }
 
     var mw = this.metaWindow;
@@ -195,8 +194,6 @@ AppMenuButtonRightClickMenu.prototype = {
         var histories = FireFox.getFirefoxHistory(this._applet)
         if (histories) {
           try {
-            histories.length = histories.length
-            clog(histories.length)
             for (let i = 0, len = histories.length; i < len; i++) {
               item = new PopupMenu.PopupIconMenuItem(t(histories[i].title), 'go-next', St.IconType.SYMBOLIC)
               item.connect('activate', ()=>Gio.app_info_launch_default_for_uri(histories[i].uri, global.create_app_launch_context()))
@@ -248,51 +245,47 @@ AppMenuButtonRightClickMenu.prototype = {
     var actions = null
     try {
       actions = this.appInfo.list_actions()
-    } catch (e) {
-      clog('Error:  This version of cinnamon does not support actions.')
-      return
-    }
+      if (this.appInfo && actions) {
+        var handleAction = (action)=>{
+          item = new PopupMenu.PopupIconMenuItem(t(this.appInfo.get_action_name(action)), 'document-new', St.IconType.SYMBOLIC)
+          item.connect('activate', ()=>this.appInfo.launch_action(action, global.create_app_launch_context()))
+          this.recentMenuItems.push(item)
+        }
 
-    if (this.appInfo && actions) {
-      var handleAction = (action)=>{
-        item = new PopupMenu.PopupIconMenuItem(t(this.appInfo.get_action_name(action)), 'document-new', St.IconType.SYMBOLIC)
-        item.connect('activate', ()=>this.appInfo.launch_action(action, global.create_app_launch_context()))
-        this.recentMenuItems.push(item)
+        for (let i = 0, len = actions.length; i < len; i++) {
+          handleAction(actions[i])
+          this.addMenuItem(item);
+        }
+        this.addMenuItem(new PopupMenu.PopupSeparatorMenuItem());
       }
-
-      for (let i = 0, len = actions.length; i < len; i++) {
-        handleAction(actions[i])
-        this.addMenuItem(item);
-      }
-      this.addMenuItem(new PopupMenu.PopupSeparatorMenuItem());
-    }
+    } catch (e) {}
 
     /*
       Close all/others
     */
 
     if (hasWindows) {
-      item = new PopupMenu.PopupIconMenuItem(t('Close all'), 'application-exit', St.IconType.SYMBOLIC);
-      item.connect('activate', Lang.bind(this, function() {
-        _.each(this.metaWindows, (metaWindow)=>{
-          if (!metaWindow.win._needsAttention) {
-            metaWindow.win.delete(global.get_current_time);
-          }
-        })
-      }));
-      this.addMenuItem(item);
-
-      item = new PopupMenu.PopupIconMenuItem(t('Close others'), 'window-close', St.IconType.SYMBOLIC);
-      item.connect('activate', Lang.bind(this, function() {
-        _.each(this.metaWindows, (metaWindow)=>{
-          if (!_.isEqual(metaWindow.win, mw) && !metaWindow.win._needsAttention) {
-            metaWindow.win.delete(global.get_current_time);
-          }
-        })
-      }));
-      this.addMenuItem(item);
-
-      this.addMenuItem(new PopupMenu.PopupSeparatorMenuItem());
+      if (this.metaWindows.length > 1) {
+        item = new PopupMenu.PopupIconMenuItem(t('Close all'), 'application-exit', St.IconType.SYMBOLIC);
+        item.connect('activate', Lang.bind(this, function() {
+          _.each(this.metaWindows, (metaWindow)=>{
+            if (!metaWindow.win._needsAttention) {
+              metaWindow.win.delete(global.get_current_time);
+            }
+          })
+        }));
+        this.addMenuItem(item);
+        item = new PopupMenu.PopupIconMenuItem(t('Close others'), 'window-close', St.IconType.SYMBOLIC);
+        item.connect('activate', Lang.bind(this, function() {
+          _.each(this.metaWindows, (metaWindow)=>{
+            if (!_.isEqual(metaWindow.win, mw) && !metaWindow.win._needsAttention) {
+              metaWindow.win.delete(global.get_current_time);
+            }
+          })
+        }));
+        this.addMenuItem(item);
+        this.addMenuItem(new PopupMenu.PopupSeparatorMenuItem());
+      }
 
       /*
         Miscellaneous
@@ -435,60 +428,6 @@ AppMenuButtonRightClickMenu.prototype = {
     var proc = this.app.get_windows()[0].get_pid()
     var cmd = `bash -c 'python ~/.local/share/cinnamon/applets/IcingTaskManager@json/utils.py get_process ${proc.toString()}'`
     Util.trySpawnCommandLine(cmd)
-  },
-
-  _loadActions: function () {
-    if (!this.appInfo) {
-      return
-    }
-    var actions
-    try {
-      actions = this.appInfo.list_actions()
-    } catch (e) {
-      clog('Error:  This version of cinnamon does not support actions.')
-      return
-    }
-    if (actions.length && this.recentMenuItems.length) {
-      var seperator = new PopupMenu.PopupSeparatorMenuItem()
-      this.specialSection.add(seperator.actor)
-      this.recentMenuItems.push(seperator)
-    }
-
-    var handleAction = (action)=>{
-      var actionItem = new SpecialMenuItems.IconNameMenuItem(this, this.appInfo.get_action_name(action), 'window-new')
-      actionItem.connect('activate', ()=>{
-        this.appInfo.launch_action(action, global.create_app_launch_context())
-        this.toggle()
-      })
-      this.specialSection.add(actionItem.actor)
-      this.recentMenuItems.push(actionItem)
-    }
-
-    for (let i = 0, len = actions.length; i < len; i++) {
-      handleAction(actions[i])
-    }
-  },
-
-  _listRecent: function (_recentItems=null) {
-    var recentItems = _recentItems ? _recentItems : this._applet.recentItems
-    var items = []
-    for (let i = 0, len = recentItems.length; i < len; i++) {
-      var mimeType = recentItems[i].get_mime_type()
-      var appInfo = Gio.app_info_get_default_for_type(mimeType, false)
-      if (appInfo && this.appInfo && appInfo.get_id() === this.app.get_id()) {
-        items.push(recentItems[i])
-      }
-    }
-    var itemsLength = items.length
-    var num = this._applet.appMenuNum > 10 ? 10 : this._applet.appMenuNum
-    if (itemsLength > num) {
-      itemsLength = num
-    }
-    for (let i = 0; i < itemsLength; i++) {
-      var recentMenuItem = new SpecialMenuItems.RecentMenuItem(this, items[i], 'list-add')
-      this.specialSection.add(recentMenuItem.actor)
-      this.recentMenuItems.push(recentMenuItem)
-    }
   },
 
   _listDefaultPlaces: function (pattern) {
