@@ -577,11 +577,6 @@ AppThumbnailHoverMenu.prototype = {
 
     this.actor.connect('enter-event', Lang.bind(this, this._onMenuEnter))
     this.actor.connect('leave-event', Lang.bind(this, this._onMenuLeave))
-
-    this._applet.settings.connect('thumbnail-timeout', Lang.bind(this, function () {
-      this.hoverTime = this._applet.thumbTimeout
-    }))
-    this.hoverTime = this._applet.thumbTimeout
   },
 
   _onButtonPress: function (actor, event) {
@@ -590,34 +585,34 @@ AppThumbnailHoverMenu.prototype = {
     }
     this.shouldOpen = false
     this.shouldClose = true
-    setTimeout(()=>this.hoverClose(), this.hoverTime)
+    setTimeout(()=>this.hoverClose(), this._applet.thumbTimeout)
   },
 
   _onMenuEnter: function () {
     this.shouldOpen = true
     this.shouldClose = false
 
-    setTimeout(()=>this.hoverOpen(), this.hoverTime)
+    setTimeout(()=>this.hoverOpen(), this._applet.thumbTimeout)
   },
 
   _onMenuLeave: function () {
     this.shouldOpen = false
     this.shouldClose = true
-    setTimeout(()=>this.hoverClose(), this.hoverTime)
+    setTimeout(()=>this.hoverClose(), this._applet.thumbTimeout)
   },
 
   _onEnter: function () {
     this.shouldOpen = true
     this.shouldClose = false
 
-    setTimeout(()=>this.hoverOpen(), this.hoverTime)
+    setTimeout(()=>this.hoverOpen(), this._applet.thumbTimeout)
   },
 
   _onLeave: function () {
     this.shouldClose = true
     this.shouldOpen = false
 
-    setTimeout(()=>this.hoverClose(), this.hoverTime)
+    setTimeout(()=>this.hoverClose(), this._applet.thumbTimeout)
   },
 
   hoverOpen: function () {
