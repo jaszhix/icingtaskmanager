@@ -298,6 +298,7 @@ MyApplet.prototype = {
       {key: 'enable-hover-peek', value: 'enablePeek', cb: null},
       {key: 'onclick-thumbnails', value: 'onclickThumbs', cb: null},
       {key: 'hover-peek-opacity', value: 'peekOpacity', cb: null},
+      {key: 'hover-peek-time', value: 'peekTime', cb: null},
       {key: 'thumbnail-timeout', value: 'thumbTimeout', cb: null},
       {key: 'thumbnail-size', value: 'thumbSize', cb: null},
       {key: 'sort-thumbnails', value: 'sortThumbs', cb: null},

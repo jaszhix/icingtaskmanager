@@ -115,7 +115,7 @@
  },
  "hover-peek-time" : {
     "type": "spinbutton",
-    "default" : 50,
+    "default" : 150,
     "min" : 0,
     "max" : 1000,
     "step" : 5,
