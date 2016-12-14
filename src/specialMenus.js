@@ -70,6 +70,7 @@ AppMenuButtonRightClickMenu.prototype = {
     this.metaWindow = metaWindow;
     this.metaWindows = metaWindows;
     this.autostartIndex = launcher.autostartIndex;
+    this.actor.style = 'width: 500px;'
   },
 
   setMetaWindow: function (metaWindow, metaWindows) {

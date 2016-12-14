@@ -79,14 +79,6 @@ msgstr "Steuert die Geschwindigkeit einblendender Fenster bei Hover."
 msgid "milliseconds"
 msgstr "Millisekunden"
 
-#. src->settings-schema.json->appmenu-number->description
-msgid "Number of context menu items"
-msgstr "Anzahl von Kontextmenü-Einträgen"
-
-#. src->settings-schema.json->appmenu-number->tooltip
-msgid "Controls how many items appear in the context menu."
-msgstr "Steuert die Anzahl der Kontextmenü-Einträge."
-
 #. src->settings-schema.json->appmenu-number->units
 msgid "number"
 msgstr "  "
@@ -198,14 +190,6 @@ msgstr ""
 #. src->settings-schema.json->WindowList->description
 msgid "Window List Settings"
 msgstr "Fensterlisten-Einstellungen"
-
-#. src->settings-schema.json->appmenu-width->description
-msgid "Context menu width"
-msgstr "Kontextmenü-Breite"
-
-#. src->settings-schema.json->appmenu-width->tooltip
-msgid "Set the width of the context menu."
-msgstr "Legt die Breite des Kontextmenüs fest."
 
 #. src->settings-schema.json->thumbnail-timeout->description
 msgid "Thumbnail timeout"

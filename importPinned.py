@@ -58,9 +58,7 @@ def importConfig():
                             ('seperator4', config['seperator4']),
                             ('show-recent', config['show-recent']),
                             ('autostart-menu-item', config['autostart-menu-item']),
-                            ('appmenu-width', config['appmenu-width']),
                             ('firefox-menu', config['firefox-menu']),
-                            ('appmenu-number', config['appmenu-number']),
                             ('__md5__', config['__md5__']),
                             ])
 

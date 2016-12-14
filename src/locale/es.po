@@ -78,14 +78,6 @@ msgstr "Tiempo de animación de las ventanas, al realizar un vistazo"
 msgid "milliseconds"
 msgstr "milisegundos"
 
-#. src->settings-schema.json->appmenu-number->description
-msgid "Number of context menu items"
-msgstr "Número de elementos del menú contextual"
-
-#. src->settings-schema.json->appmenu-number->tooltip
-msgid "Controls how many items appear in the context menu."
-msgstr "Controla cuántos elementos aparecen en el menú contextual.Move "
-
 # Should not be set, just leave it blank by setting one white-space character
 #. src->settings-schema.json->appmenu-number->units
 msgid "number"
@@ -196,14 +188,6 @@ msgstr ""
 #. src->settings-schema.json->WindowList->description
 msgid "Window List Settings"
 msgstr "Configuración de la Lista de Ventanas"
-
-#. src->settings-schema.json->appmenu-width->description
-msgid "Context menu width"
-msgstr "Ancho del menú contextual"
-
-#. src->settings-schema.json->appmenu-width->tooltip
-msgid "Set the width of the context menu."
-msgstr "Establece el ancho del menú contextual."
 
 #. src->settings-schema.json->thumbnail-timeout->description
 msgid "Thumbnail timeout"

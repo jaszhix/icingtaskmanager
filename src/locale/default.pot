@@ -65,14 +65,6 @@ msgstr ""
 msgid "milliseconds"
 msgstr ""
 
-#. src->settings-schema.json->appmenu-number->description
-msgid "Number of context menu items"
-msgstr ""
-
-#. src->settings-schema.json->appmenu-number->tooltip
-msgid "Controls how many items appear in the context menu."
-msgstr ""
-
 #. src->settings-schema.json->appmenu-number->units
 msgid "number"
 msgstr ""
@@ -174,14 +166,6 @@ msgstr ""
 
 #. src->settings-schema.json->WindowList->description
 msgid "Window List Settings"
-msgstr ""
-
-#. src->settings-schema.json->appmenu-width->description
-msgid "Context menu width"
-msgstr ""
-
-#. src->settings-schema.json->appmenu-width->tooltip
-msgid "Set the width of the context menu."
 msgstr ""
 
 #. src->settings-schema.json->thumbnail-timeout->description

@@ -78,14 +78,6 @@ msgstr "Скорость исчезновения окна, миллисекун
 msgid "milliseconds"
 msgstr "миллисекунд"
 
-#. src->settings-schema.json->appmenu-number->description
-msgid "Number of context menu items"
-msgstr "Количество элементов"
-
-#. src->settings-schema.json->appmenu-number->tooltip
-msgid "Controls how many items appear in the context menu."
-msgstr "Максимальное количество элементов AppMenu."
-
 # Should not be set, just leave it blank by setting one white-space character
 #. src->settings-schema.json->appmenu-number->units
 msgid "number"
@@ -199,14 +191,6 @@ msgstr "Показывать значки прикрепленных прило�
 #. src->settings-schema.json->WindowList->description
 msgid "Window List Settings"
 msgstr "Настройки списка окон"
-
-#. src->settings-schema.json->appmenu-width->description
-msgid "Context menu width"
-msgstr "Ширина AppMenu"
-
-#. src->settings-schema.json->appmenu-width->tooltip
-msgid "Set the width of the context menu."
-msgstr "Установить ширину AppMenu в пикселях."
 
 #. src->settings-schema.json->thumbnail-timeout->description
 msgid "Thumbnail timeout"

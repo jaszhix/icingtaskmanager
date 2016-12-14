@@ -315,9 +315,7 @@ MyApplet.prototype = {
       {key: 'icon-size', value: 'iconSize', cb: null},
       {key: 'show-recent', value: 'showRecent', cb: this.refreshCurrentAppList},
       {key: 'autostart-menu-item', value: 'autoStart', cb: this.refreshCurrentAppList},
-      {key: 'appmenu-width', value: 'appMenuWidth', cb: null},
-      {key: 'firefox-menu', value: 'firefoxMenu', cb: this.refreshCurrentAppList},
-      {key: 'appmenu-number', value: 'appMenuNum'}
+      {key: 'firefox-menu', value: 'firefoxMenu', cb: this.refreshCurrentAppList}
     ]
 
     if (this.c32) {

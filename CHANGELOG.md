@@ -4,7 +4,7 @@ Changelog
 
   * The left mouse button controls icon dragging again, and the middle mouse button launches new instances of apps.
   * Window thumbnails now scale instead of stacking when screen space is exceeded.
-  * Replaced the context menu with a modified version from the default window list applet for Cinnamon 3.2. This stops the Clutter warnings appearing in ```.xsession-errors```, and improves the applet's performance. Autostart, pinning, and shortcut options have been moved to the "Preferences" sub-menu. Recent items, files, and Firefox history also have their own sub-menus now.
+  * Replaced the context menu with a modified version of the default window list applet for Cinnamon 3.2. This stops the Clutter warnings appearing in ```.xsession-errors```, and improves the applet's performance. Autostart, pinning, and shortcut options have been moved to the "Preferences" sub-menu. Recent items, files, and Firefox history also have their own sub-menus now.
   * Added a new option to show active app indicators.
   * Fixed the thumbnail timeout option requiring a Cinnamon restart to take effect.
   * Fixed the window fade time option having no effect.
