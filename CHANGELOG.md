@@ -1,5 +1,9 @@
 Changelog
 
+### 4.0.2
+
+  * Moved Preferences above the window action options in the context menu.
+
 ### 4.0.1
 
   * Fixed stale thumbnails sometimes lingering after closing a window.
