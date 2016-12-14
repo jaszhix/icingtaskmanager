@@ -345,6 +345,12 @@ msgstr "Группа приложений"
 msgid "Group each app's set of windows."
 msgstr "Группа комплект каждого приложения в окон."
 
+msgid "Show active app indicators"
+msgstr "Показать активные индикаторы приложений"
+
+msgid "Active app styling will indicate if an app is active."
+msgstr "Активное приложение стиль будет указывать, если приложение активно."
+
 #. src->settings-schema.json->arrange-pinnedApps->description
 msgid "Arrange pinned apps"
 msgstr "Перемещать прикрепленные"

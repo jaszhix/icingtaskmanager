@@ -339,6 +339,12 @@ msgstr "אפליקציות קבוצה"
 msgid "Group each app's set of windows."
 msgstr "קבוצה כל קבוצה של חלונות של האפליקציה."
 
+msgid "Show active app indicators"
+msgstr "צג מחווני אפליקציה פעילים"
+
+msgid "Active app styling will indicate if an app is active."
+msgstr "סטיילינג אפליקציות הפעיל יציין אם אפליקציה פעילה."
+
 #. src->settings-schema.json->arrange-pinnedApps->description
 msgid "Arrange pinned apps"
 msgstr "הזז אפליקציות צמודות"

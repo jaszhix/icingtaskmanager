@@ -344,6 +344,12 @@ msgstr "Aplicaciones de grupo"
 msgid "Group each app's set of windows."
 msgstr "Agrupe el conjunto de ventanas de cada aplicación."
 
+msgid "Show active app indicators"
+msgstr "Mostrar indicadores de aplicaciones activas"
+
+msgid "Active app styling will indicate if an app is active."
+msgstr "El estilo de la aplicación activa indicará si una aplicación está activa."
+
 #. src->settings-schema.json->arrange-pinnedApps->description
 msgid "Arrange pinned apps"
 msgstr "Ordenar aplicaciones fijas"

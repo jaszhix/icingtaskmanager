@@ -295,6 +295,14 @@ AppButton.prototype = {
     this._applet.settings.connect('changed::show-alerts', Lang.bind(this, this._updateAttentionGrabber))
   },
 
+  setActiveStatus(windows){
+    if (windows.length > 0) {
+      this.actor.add_style_pseudo_class('active')
+    } else {
+      this.actor.remove_style_pseudo_class('active')
+    }
+  },
+
   _onFocusChange: function () {
         // If any of the windows associated with our app have focus,
         // we should set ourselves to active

@@ -311,6 +311,12 @@ msgstr ""
 msgid "Group each app's set of windows."
 msgstr ""
 
+msgid "Show active app indicators"
+msgstr ""
+
+msgid "Active app styling will indicate if an app is active."
+msgstr ""
+
 #. src->settings-schema.json->arrange-pinnedApps->description
 msgid "Arrange pinned apps"
 msgstr ""

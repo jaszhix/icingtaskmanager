@@ -34,6 +34,18 @@
     "type": "generic",
     "default": []
  },
+ "group-apps" : {
+    "type" : "checkbox",
+    "default" : true,
+    "description": "Group apps",
+    "tooltip": "Group each app's set of windows."
+ },
+ "show-active" : {
+    "type" : "checkbox",
+    "default" : true,
+    "description": "Show active app indicators",
+    "tooltip": "Active app styling will indicate if an app is active."
+ },
  "show-alerts" : {
     "type" : "checkbox",
     "default" : true,
@@ -45,12 +57,6 @@
     "default" : true,
     "description": "Show pinned apps",
     "tooltip": "Controls whether or not the pinned apps appear in the panel if they are not open."
- },
- "group-apps" : {
-    "type" : "checkbox",
-    "default" : true,
-    "description": "Group apps",
-    "tooltip": "Group each app's set of windows."
  },
  "arrange-pinnedApps" : {
     "type" : "checkbox",

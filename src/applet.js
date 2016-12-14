@@ -290,6 +290,7 @@ MyApplet.prototype = {
 
     var settingsProps = [
       {key: 'show-pinned', value: 'showPinned', cb: null},
+      {key: 'show-active', value: 'showActive', cb: this.refreshCurrentAppList},
       {key: 'show-alerts', value: 'showAlerts', cb: null},
       {key: 'group-apps', value: 'groupApps', cb: this.refreshCurrentAppList},
       {key: 'arrange-pinnedApps', value: 'arrangePinned', cb: null},
