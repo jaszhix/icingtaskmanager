@@ -1,5 +1,10 @@
 Changelog
 
+### 4.0.3
+
+  * Added a missing menu separator between Preferences and window controls on window backed apps.
+  * Removed deprecated keyboard shortcuts for moving windows between monitors.
+
 ### 4.0.2
 
   * Moved Preferences above the window action options in the context menu.
