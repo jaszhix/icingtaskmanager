@@ -636,7 +636,7 @@ AppThumbnailHoverMenu.prototype = {
     // Refresh all the thumbnails, etc when the menu opens.  These cannot
     // be created when the menu is initalized because a lot of the clutter window surfaces
     // have not been created yet...
-    this.appSwitcherItem._refresh()
+    setTimeout(()=>this.appSwitcherItem._refresh(), 0)
     this.appSwitcherItem.actor.show()
     PopupMenu.PopupMenu.prototype.open.call(this, this._applet.animateThumbs)
   },
@@ -743,6 +743,22 @@ PopupMenuAppSwitcherItem.prototype = {
     return _.map(this.metaWindows, 'win')
   },
 
+  handleUnopenedPinnedApp(metaWindow, windows, appClosed=false){
+    if (this.metaWindowThumbnail) {
+      this.metaWindowThumbnail.actor.destroy()
+    }
+    var isPinned = windows.length === 0 && !metaWindow && this.isFavapp
+    if (isPinned || (windows.length === 0 && !this.metaWindowThumbnail)) {
+      this.metaWindowThumbnail = new WindowThumbnail(this, metaWindow, windows)
+      this.appContainer.insert_actor(this.metaWindowThumbnail.actor, 0)
+      setTimeout(()=>this.setStyleOptions(null), 0)
+      // Update appThumbnails to remove old programs
+      this.removeStaleWindowThumbnails(windows)
+    }
+    return isPinned
+    
+  },
+
   _refresh: function () {
     // Check to see if this.metaWindow has changed.  If so, we need to recreate
     // our thumbnail, etc.
@@ -754,33 +770,8 @@ PopupMenuAppSwitcherItem.prototype = {
     }
     if (this.metaWindowThumbnail && _.isEqual(this.metaWindowThumbnail.metaWindow, this.metaWindow)) {
       this.metaWindowThumbnail._isFavorite(this.isFavapp)
-    } else {
-      if (this.metaWindowThumbnail) {
-        this.metaWindowThumbnail.actor.destroy()
-      }
-      // If our metaWindow is null, just move along
-      /*clog(this.app.get_id(), this.metaWindows.length)
-      clog(this.app.get_id(), windows.length)
-      clog('metathumb exists:', this.metaWindowThumbnail !== null)
-      clog('atl:', this.appThumbnails.length)
-      clog('isfav:', this.isFavapp)*/
-      //Main._logTrace('')
-      if (this.isFavapp) {
-        if (this.metaWindows.length === 0) {
-          this.metaWindowThumbnail = new WindowThumbnail(this, this.metaWindow, windows)
-          this.appContainer.insert_actor(this.metaWindowThumbnail.actor, 0)
-          setTimeout(()=>this.setStyleOptions(null), 0)
-          // Update appThumbnails to remove old programs
-          this.removeStaleWindowThumbnails(windows)
-          return
-        }
-      } /*else if (this.metaWindowThumbnail !== null) {
-          clog('>>>')
-          this.appContainer.remove_actor(this.metaWindowThumbnail.actor)
-          this.metaWindowThumbnail.actor.destroy()
-          this.metaWindowThumbnail = null
-          clog('did it')
-        }*/
+    } else if (this.handleUnopenedPinnedApp(this.metaWindow, windows)) {
+      return
     }
     // Update appThumbnails to include new programs
     this.addWindowThumbnails(windows)
@@ -817,6 +808,9 @@ PopupMenuAppSwitcherItem.prototype = {
           }
         }
       } else {
+        if (this.metaWindowThumbnail) {
+          this.metaWindowThumbnail.actor.destroy()
+        }
         var thumbnail = new WindowThumbnail(this, metaWindow, windows)
         thumbnail.setMetaWindow(metaWindow, windows)
         this.appThumbnails.push({
@@ -860,8 +854,8 @@ PopupMenuAppSwitcherItem.prototype = {
   removeStaleWindowThumbnails: function (windows) {
     for (let i = 0, len = this.appThumbnails.length; i < len; i++) {  
       if (this.appThumbnails[i] !== undefined && windows.indexOf(this.appThumbnails[i].metaWindow) === -1) {
-        this.appContainer.remove_actor(this.appThumbnails[i].thumbnail.actor)
         if (this.appThumbnails[i].thumbnail) {
+          this.appContainer.remove_actor(this.appThumbnails[i].thumbnail.actor)
           this.appThumbnails[i].thumbnail.destroy()
         }
         _.pullAt(this.appThumbnails, i)
@@ -1066,7 +1060,12 @@ WindowThumbnail.prototype = {
     } catch (e) {
       /* Signal is invalid */
     }
-    delete this._parent.appThumbnails[this.metaWindow]
+    var refThumb = _.findIndex(this._parent.appThumbnails, (thumb)=>{
+      return _.isEqual(thumb.metaWindow, this.metaWindow)
+    })
+    if (refThumb !== -1) {
+      _.pullAt(this._parent.appThumbnails, refThumb)
+    }
     this.actor.destroy_children()
     this.actor.destroy()
   },
