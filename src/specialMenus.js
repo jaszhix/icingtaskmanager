@@ -307,7 +307,11 @@ AppMenuButtonRightClickMenu.prototype = {
         }
         this.addMenuItem(new PopupMenu.PopupSeparatorMenuItem());
       }
-    } catch (e) {}
+    } catch (e) {
+      if (this.app.is_window_backed()) {
+        this.addMenuItem(new PopupMenu.PopupSeparatorMenuItem());
+      }
+    }
 
     /*
       Close all/others
