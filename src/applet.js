@@ -367,7 +367,8 @@ MyApplet.prototype = {
     // Query apps for the current workspace
     this.currentWs = global.screen.get_active_workspace_index()
     this._onSwitchWorkspace()
-
+    this._bindAppKey();
+    
     global.settings.connect('changed::panel-edit-mode', Lang.bind(this, this.on_panel_edit_mode_changed))
   },
 
@@ -383,6 +384,34 @@ MyApplet.prototype = {
     this.signals.disconnectAllSignals();
   },
 
+  _bindAppKey: function(){
+    this._unbindAppKey();
+    var createCallback = function(me, cb, number){
+      return function(){
+        cb.call(me, number);
+      };
+    };
+    for (var i = 1; i < 10; i++) {
+      Main.keybindingManager.addHotKey('launch-app-key-' + i.toString(), '<Super>' + i.toString(), createCallback(this, this._onAppKeyPress, i));
+      Main.keybindingManager.addHotKey('launch-new-app-key-' + i.toString(), '<Super><Shift>' + i.toString(), createCallback(this, this._onNewAppKeyPress, i));
+    }
+  },
+
+  _unbindAppKey: function(){
+    for (var i = 1; i < 10; i++) {
+      Main.keybindingManager.removeHotKey('launch-app-key-' + i.toString());
+      Main.keybindingManager.removeHotKey('launch-new-app-key-' + i.toString());
+    }
+  },
+  
+  _onAppKeyPress: function(number){
+    this.getCurrentAppList()._onAppKeyPress(number);
+  },
+  
+  _onNewAppKeyPress: function(number){
+    this.getCurrentAppList()._onNewAppKeyPress(number);
+  },
+  
   refreshCurrentAppList(){
     setTimeout(()=>{
       this.metaWorkspaces[this.currentWs].appList._refreshList()
@@ -700,6 +729,7 @@ MyApplet.prototype = {
   },
 
   destroy: function () {
+    this._unbindAppKey();
     this.signals.disconnectAllSignals();
     this.actor.destroy()
     this.actor = null
