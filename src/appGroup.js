@@ -139,6 +139,7 @@ AppGroup.prototype = {
   _onDragEnd: function () {
     this.rightClickMenu.close(false)
     this.hoverMenu.close(false)
+    this.appList._fixAppGroupIndexAfterDrag(this);
     this._applet._clearDragPlaceholder()
   },
 

@@ -371,7 +371,25 @@ AppList.prototype = {
     }
     return result
   },
-
+  
+  _fixAppGroupIndexAfterDrag: function (appGroup) {
+    let originPos = _.findIndex(this.appList, {appGroup: appGroup});
+    var pos = _.findIndex(this.manager_container.get_children(), appGroup.actor);
+    if (originPos === pos
+            || originPos < 0
+            || pos < 0) {
+      return;
+    }
+    if (pos > originPos) {
+      // TBD: if drag to a right position, exclude postion hold by origin
+      pos -= 1;
+    }
+    // originPos -> pos
+    let data = this.appList[originPos];
+    _.pullAt(this.appList, originPos);
+    this.appList.splice(pos, 0, data);
+  },
+  
   _windowRemoved: function (metaWorkspace, metaWindow, app=null) {
     
     // When a window is closed, we need to check if the app it belongs
