@@ -332,8 +332,22 @@ AppGroup.prototype = {
       if (fromDrag) {
         return
       }
-      this.lastFocused.minimize(global.get_current_time())
-      this.actor.remove_style_pseudo_class('focus')
+      if (this.metaWindows.length > 1) {
+        var nextWindow = null;
+        for (let i = 0, max = this.metaWindows.length - 1; i < max; i++) {
+          if (this.metaWindows[i].win._lgId === this.lastFocused._lgId) {
+            nextWindow = this.metaWindows[i + 1].win;
+            break;
+          }
+        }
+        if(nextWindow === null){
+          nextWindow = this.metaWindows[0].win;
+        }
+        Main.activateWindow(nextWindow, global.get_current_time());
+      } else {
+        this.lastFocused.minimize(global.get_current_time())
+        this.actor.remove_style_pseudo_class('focus')
+      }
     } else {
       if (this.lastFocused.minimized) {
         this.lastFocused.unminimize(global.get_current_time())
