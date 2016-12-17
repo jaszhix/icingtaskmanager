@@ -60,7 +60,6 @@ AppList.prototype = {
     this.actor.connect('style-changed', Lang.bind(this, this._updateSpacing));
     
     this.on_orientation_changed(this._applet.orientation, true);
-    this._bindAppKey();
   },
 
   on_panel_edit_mode_changed: function () {
@@ -123,27 +122,7 @@ AppList.prototype = {
       this._updateSpacing()
     }
   },
-  
-  _bindAppKey: function(){
-    this._unbindAppKey();
-    var createCallback = function(me, cb, number){
-      return function(){
-        cb.call(me, number);
-      };
-    };
-    for (var i = 1; i < 10; i++) {
-      Main.keybindingManager.addHotKey('launch-app-key-' + i.toString(), '<Super>' + i.toString(), createCallback(this, this._onAppKeyPress, i));
-      Main.keybindingManager.addHotKey('launch-new-app-key-' + i.toString(), '<Super><Shift>' + i.toString(), createCallback(this, this._onNewAppKeyPress, i));
-    }
-  },
 
-  _unbindAppKey: function(){
-    for (var i = 1; i < 10; i++) {
-      Main.keybindingManager.removeHotKey('launch-app-key-' + i.toString());
-      Main.keybindingManager.removeHotKey('launch-new-app-key-' + i.toString());
-    }
-  },
-  
   _onAppKeyPress: function(number){
     if (number > this.appList.length) {
       return;
@@ -449,7 +428,6 @@ AppList.prototype = {
     for (let i = 0, len = this.appList.length; i < len; i++) {
       this.appList[i].appGroup.destroy()
     }
-    this._unbindAppKey();
     this.appList.destroy()
     this.appList = null
   }
