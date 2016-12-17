@@ -236,7 +236,6 @@ AppList.prototype = {
 
       appGroup._updateMetaWindows(this.metaWorkspace, app, window)
       appGroup.watchWorkspace(this.metaWorkspace)
-      appGroup.isFavapp = isFavapp
 
       this.appList[refApp].appGroup = appGroup
       this.appList[refApp].time = time
