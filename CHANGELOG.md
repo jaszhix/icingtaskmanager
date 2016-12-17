@@ -1,5 +1,10 @@
 Changelog
 
+### 4.0.6
+
+  * Fixed app pinning not working after toggling an app's pinned state several times.
+  * Updated Lodash dependency.
+
 ### 4.0.5
 
   * App key binding (Super+#) changes by [zqq90](https://github.com/jaszhix/icingtaskmanager/pull/58).
