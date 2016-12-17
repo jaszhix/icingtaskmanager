@@ -169,33 +169,36 @@ PinnedFavs.prototype = {
     }, 15)
   },
 
-  _addFavorite: function (appId, pos) {
-    if (this.isFavorite(appId)) {
+  _addFavorite: function (opts={appId: null, app: null, pos: -1}) {
+    if (this.isFavorite(opts.appId)) {
       return false
     }
 
-    let app = this.appSys.lookup_app(appId)
-    if (!app) {
-      app = this.appSys.lookup_settings_app(appId)
+    if (!opts.app) {
+      opts.app = this.appSys.lookup_app(opts.appId)
     }
 
-    if (!app) {
+    if (!opts.app) {
+      opts.app = this.appSys.lookup_settings_app(opts.appId)
+    }
+
+    if (!opts.app) {
       return false
     }
 
     var newFav = {
-      id: appId,
-      app: app
+      id: opts.appId,
+      app: opts.app
     }
 
     this._favorites.push(newFav)
 
-    if (pos !== -1) {
-      this.moveFavoriteToPos(appId, pos)
+    if (opts.pos !== -1) {
+      this.moveFavoriteToPos(opts.appId, opts.pos)
       return true
     } 
     this._applet.settings.setValue('pinned-apps', _.map(this._favorites, 'id'))
-    this.triggerUpdate(appId, -1, true)
+    this.triggerUpdate(opts.appId, -1, true)
     return true
   },
 
@@ -212,7 +215,7 @@ PinnedFavs.prototype = {
   _removeFavorite: function (appId) {
     var refFav = _.findIndex(this._favorites, {id: appId})
     if (refFav === -1) {
-      return false
+      this.triggerUpdate(appId, -1, false)
     }
 
     _.pullAt(this._favorites, refFav)
@@ -610,7 +613,7 @@ MyApplet.prototype = {
       if (refFav !== -1) {
         this.pinnedAppsContr.moveFavoriteToPos(id, favPos)
       } else {
-        this.pinnedAppsContr._addFavorite(id, favPos)
+        this.pinnedAppsContr._addFavorite({appId: id, app: app, pos: favPos})
       } 
       return false
     }))
@@ -659,7 +662,7 @@ MyApplet.prototype = {
   },
 
   acceptNewLauncher: function (path) {
-    this.pinnedAppsContr._addFavorite(path, -1)
+    this.pinnedAppsContr._addFavorite({appId: path, pos: -1})
   },
 
   removeLauncher: function (appGroup) {

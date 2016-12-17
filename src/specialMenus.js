@@ -1,6 +1,5 @@
 /* jshint moz:true */
 const Clutter = imports.gi.Clutter
-const Cinnamon = imports.gi.Cinnamon
 const AppletManager = imports.ui.appletManager;
 const Lang = imports.lang
 const Main = imports.ui.main
@@ -10,7 +9,6 @@ const PopupMenu = imports.ui.popupMenu
 const Meta = imports.gi.Meta
 const Util = imports.misc.util
 const St = imports.gi.St
-const Gtk = imports.gi.Gtk
 const Gio = imports.gi.Gio
 const Gettext = imports.gettext
 const Tweener = imports.ui.tweener
@@ -425,7 +423,7 @@ AppMenuButtonRightClickMenu.prototype = {
       this.favs.removeFavorite(this.appId)
     } else {
       if (!this.app.is_window_backed()) {
-        this.favs._addFavorite(this.appId, -1)
+        this.favs._addFavorite({appId: this.appId, app: this.app, pos: -1})
       }
     }
   },

@@ -210,7 +210,7 @@ AppList.prototype = {
       
       var time = Date.now()
 
-      let appGroup = new AppGroup.AppGroup(this._applet, this, app, isFavapp, window, time, index, app.get_id())
+      let appGroup = new AppGroup.AppGroup(this._applet, this, app, isFavapp, window, time, index, appId)
 
       appGroup._updateMetaWindows(this.metaWorkspace, app, window)
       appGroup.watchWorkspace(this.metaWorkspace)
