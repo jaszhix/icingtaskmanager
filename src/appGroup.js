@@ -303,17 +303,6 @@ AppGroup.prototype = {
     } 
   },
 
-  _newAppKeyNumber: function (number) {
-    if (this.hotKeyId) {
-      Main.keybindingManager.removeHotKey(this.hotKeyId)
-    }
-    if (number < 10) {
-      Main.keybindingManager.addHotKey('launch-app-key-' + number.toString(), '<Super>' + number.toString(), Lang.bind(this, this._onAppKeyPress))
-      Main.keybindingManager.addHotKey('launch-new-app-key-' + number.toString(), '<Super><Shift>' + number.toString(), Lang.bind(this, this._onNewAppKeyPress))
-      this.hotKeyId = 'launch-app-key-' + number.toString()
-    }
-  },
-
   _onAppKeyPress: function () {
     if (this.isFavapp) {
       this.app.open_new_window(-1)
