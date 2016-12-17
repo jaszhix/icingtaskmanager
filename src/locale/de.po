@@ -32,7 +32,7 @@ msgstr "Steuert die Größe der Vorschaubilder."
 
 #. src->settings-schema.json->thumbnail-size->units
 msgid "size"
-msgstr " "
+msgstr "Größe"
 
 #. src->settings-schema.json->icon-spacing->description
 msgid "Icon spacing"
@@ -234,7 +234,7 @@ msgstr "Wenn aktiviert, werden Vorschaubilder vertikal gestapelt."
 #. src->settings-schema.json->close-button-style->description
 msgid "Allow themes to control the thumbnail close button"
 msgstr ""
-"Lassen Sie Themen die Schaltfläche zum Schließen des Thumbnails steuern"
+"Erlaube Themen die Schaltflächen zum beenden der Anwendungen zu steuern"
 
 #. src->settings-schema.json->close-button-style->tooltip
 msgid ""
@@ -336,10 +336,10 @@ msgid "Group each app's set of windows."
 msgstr "Gruppe der einzelnen App-Fenster."
 
 msgid "Show active app indicators"
-msgstr "Aktive App-Anzeigen anzeigen"
+msgstr "Geöffnete Anwendungen hervorheben"
 
 msgid "Active app styling will indicate if an app is active."
-msgstr "Active App Styling zeigt an, ob eine App aktiv ist."
+msgstr "Geöffnete Anwendungen werden besonders hervorgehoben."
 
 #. src->settings-schema.json->arrange-pinnedApps->description
 msgid "Arrange pinned apps"
