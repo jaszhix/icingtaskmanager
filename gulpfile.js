@@ -40,6 +40,9 @@ gulp.task('transpile', ['copy'], () =>
         ],
         'transform-es2015-parameters',
         'transform-es2015-destructuring'
+      ],
+      ignore: [
+        './src/lodash.js'
       ]
     }))
     .pipe(gulp.dest('IcingTaskManager@json'))

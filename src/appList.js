@@ -3,15 +3,14 @@ const Cinnamon = imports.gi.Cinnamon
 const Clutter = imports.gi.Clutter;
 const St = imports.gi.St
 const Gio = imports.gi.Gio
-const _ = imports.applet._
 const clog = imports.applet.clog
 const setTimeout = imports.applet.setTimeout
 const Main = imports.ui.main
 
 const AppletDir = imports.ui.appletManager.applets['IcingTaskManager@json']
+const _ = AppletDir.lodash._
 const App = AppletDir.applet
 const AppGroup = AppletDir.appGroup
-
 // List of running apps
 
 function AppList () {
@@ -211,7 +210,7 @@ AppList.prototype = {
       
       var time = Date.now()
 
-      let appGroup = new AppGroup.AppGroup(this._applet, this, app, isFavapp, window, time, index)
+      let appGroup = new AppGroup.AppGroup(this._applet, this, app, isFavapp, window, time, index, appId)
 
       appGroup._updateMetaWindows(this.metaWorkspace, app, window)
       appGroup.watchWorkspace(this.metaWorkspace)
@@ -350,9 +349,9 @@ AppList.prototype = {
     return result
   },
   
-  _fixAppGroupIndexAfterDrag: function (appGroup) {
-    let originPos = _.findIndex(this.appList, {appGroup: appGroup});
-    var pos = _.findIndex(this.manager_container.get_children(), appGroup.actor);
+  _fixAppGroupIndexAfterDrag: function (appId) {
+    let originPos = _.findIndex(this.appList, {id: appId}); // app object
+    var pos = _.findIndex(this.manager_container.get_children(), this.appList[originPos].appGroup.actor);
     if (originPos === pos
             || originPos < 0
             || pos < 0) {

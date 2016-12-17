@@ -2,12 +2,19 @@ Forked by Jason Hicks
 
 Special thanks to the contributors of this project.
 
-### Pull requests 
+### Pull requests
 
-  * NoXPhasma: https://github.com/jaszhix/icingtaskmanager/pull/54
-  * Pandiora: https://github.com/jaszhix/icingtaskmanager/pull/4
-  * mswiszcz: https://github.com/jake-phy/WindowIconList/pull/155
-  * ncelerier: https://github.com/jake-phy/WindowIconList/pull/165
+  * zqq90:
+    * https://github.com/jaszhix/icingtaskmanager/pull/58
+    * https://github.com/jaszhix/icingtaskmanager/pull/57
+  * NoXPhasma:
+    * https://github.com/jaszhix/icingtaskmanager/pull/54
+  * Pandiora:
+    * https://github.com/jaszhix/icingtaskmanager/pull/4
+  * mswiszcz:
+    * https://github.com/jake-phy/WindowIconList/pull/155
+  * ncelerier:
+    * https://github.com/jake-phy/WindowIconList/pull/165
 
 ### Issues
 

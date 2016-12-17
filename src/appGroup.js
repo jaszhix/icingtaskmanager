@@ -6,12 +6,12 @@ const Tweener = imports.ui.tweener
 const PopupMenu = imports.ui.popupMenu
 const Signals = imports.signals
 const DND = imports.ui.dnd
-const _ = imports.applet._
 const clog = imports.applet.clog
 const setTimeout = imports.applet.setTimeout
 
 // Load our applet so we can access other files in our extensions dir as libraries
 const AppletDir = imports.ui.appletManager.applets['IcingTaskManager@json']
+const _ = AppletDir.lodash._
 const App = AppletDir.applet
 const SpecialMenus = AppletDir.specialMenus
 const SpecialButtons = AppletDir.specialButtons
@@ -139,7 +139,7 @@ AppGroup.prototype = {
   _onDragEnd: function () {
     this.rightClickMenu.close(false)
     this.hoverMenu.close(false)
-    this.appList._fixAppGroupIndexAfterDrag(this);
+    this.appList._fixAppGroupIndexAfterDrag(this.appId);
     this._applet._clearDragPlaceholder()
   },
 
@@ -301,7 +301,8 @@ AppGroup.prototype = {
     var button = event.get_button()
     if (button === 3) {
       return true
-    } 
+    }
+    return false;
   },
 
   _onAppKeyPress: function () {
@@ -340,7 +341,7 @@ AppGroup.prototype = {
             break;
           }
         }
-        if(nextWindow === null){
+        if (nextWindow === null){
           nextWindow = this.metaWindows[0].win;
         }
         Main.activateWindow(nextWindow, global.get_current_time());

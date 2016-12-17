@@ -1,6 +1,5 @@
 /* jshint moz:true */
 const Clutter = imports.gi.Clutter
-const Cinnamon = imports.gi.Cinnamon
 const AppletManager = imports.ui.appletManager;
 const Lang = imports.lang
 const Main = imports.ui.main
@@ -10,16 +9,15 @@ const PopupMenu = imports.ui.popupMenu
 const Meta = imports.gi.Meta
 const Util = imports.misc.util
 const St = imports.gi.St
-const Gtk = imports.gi.Gtk
 const Gio = imports.gi.Gio
 const Gettext = imports.gettext
 const Tweener = imports.ui.tweener
 const Applet = imports.ui.applet;
-const _ = imports.applet._
 const clog = imports.applet.clog
 const setTimeout = imports.applet.setTimeout
 
 const AppletDir = AppletManager.applets['IcingTaskManager@json']
+const _ = AppletDir.lodash._
 const FireFox = AppletDir.firefox
 
 const THUMBNAIL_ICON_SIZE = 16
@@ -425,7 +423,7 @@ AppMenuButtonRightClickMenu.prototype = {
       this.favs.removeFavorite(this.appId)
     } else {
       if (!this.app.is_window_backed()) {
-        this.favs._addFavorite(this.appId, -1)
+        this.favs._addFavorite({appId: this.appId, app: this.app, pos: -1})
       }
     }
   },
@@ -704,6 +702,7 @@ PopupMenuAppSwitcherItem.prototype = {
     // our thumbnail, etc.
     // Get a list of all windows of our app that are running in the current workspace
     var windows = _.map(this.metaWindows, 'win')
+
 
     if (this.metaWindowThumbnail && this.metaWindowThumbnail.needs_refresh()) {
       this.metaWindowThumbnail = null
