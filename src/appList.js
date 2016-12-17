@@ -349,9 +349,9 @@ AppList.prototype = {
     return result
   },
   
-  _fixAppGroupIndexAfterDrag: function (appGroup) {
-    let originPos = _.findIndex(this.appList, {appGroup: appGroup});
-    var pos = _.findIndex(this.manager_container.get_children(), appGroup.actor);
+  _fixAppGroupIndexAfterDrag: function (appId) {
+    let originPos = _.findIndex(this.appList, {id: appId}); // app object
+    var pos = _.findIndex(this.manager_container.get_children(), this.appList[originPos].appGroup.actor);
     if (originPos === pos
             || originPos < 0
             || pos < 0) {
