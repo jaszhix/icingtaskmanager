@@ -15,11 +15,11 @@ const Gio = imports.gi.Gio
 const Gettext = imports.gettext
 const Tweener = imports.ui.tweener
 const Applet = imports.ui.applet;
-const _ = imports.applet._
 const clog = imports.applet.clog
 const setTimeout = imports.applet.setTimeout
 
 const AppletDir = AppletManager.applets['IcingTaskManager@json']
+const _ = AppletDir.lodash._
 const FireFox = AppletDir.firefox
 
 const THUMBNAIL_ICON_SIZE = 16
@@ -704,6 +704,7 @@ PopupMenuAppSwitcherItem.prototype = {
     // our thumbnail, etc.
     // Get a list of all windows of our app that are running in the current workspace
     var windows = _.map(this.metaWindows, 'win')
+
 
     if (this.metaWindowThumbnail && this.metaWindowThumbnail.needs_refresh()) {
       this.metaWindowThumbnail = null

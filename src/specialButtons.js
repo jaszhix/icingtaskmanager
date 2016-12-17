@@ -4,9 +4,10 @@ const Cinnamon = imports.gi.Cinnamon
 const St = imports.gi.St
 const Tweener = imports.ui.tweener
 const DND = imports.ui.dnd
-const _ = imports.applet._
 const clog = imports.applet.clog
 const setTimeout = imports.applet.setTimeout
+const AppletDir = imports.ui.appletManager.applets['IcingTaskManager@json']
+const _ = AppletDir.lodash._
 
 const BUTTON_BOX_ANIMATION_TIME = 0.5
 const MAX_BUTTON_WIDTH = 150 // Pixels

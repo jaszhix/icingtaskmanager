@@ -26,11 +26,11 @@ const GLib = imports.gi.GLib
 const Meta = imports.gi.Meta
 const SignalManager = imports.misc.signalManager;
 
-const _ = imports.applet._
 const clog = imports.applet.clog
 const setTimeout = imports.applet.setTimeout
 
 const AppletDir = imports.ui.appletManager.applets['IcingTaskManager@json']
+const _ = AppletDir.lodash._
 const AppList = AppletDir.appList
 
 const TitleDisplay = {
@@ -192,9 +192,8 @@ PinnedFavs.prototype = {
 
     if (pos !== -1) {
       this.moveFavoriteToPos(appId, pos)
-      return
-    }
-
+      return true
+    } 
     this._applet.settings.setValue('pinned-apps', _.map(this._favorites, 'id'))
     this.triggerUpdate(appId, -1, true)
     return true

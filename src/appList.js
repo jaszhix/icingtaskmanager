@@ -3,15 +3,14 @@ const Cinnamon = imports.gi.Cinnamon
 const Clutter = imports.gi.Clutter;
 const St = imports.gi.St
 const Gio = imports.gi.Gio
-const _ = imports.applet._
 const clog = imports.applet.clog
 const setTimeout = imports.applet.setTimeout
 const Main = imports.ui.main
 
 const AppletDir = imports.ui.appletManager.applets['IcingTaskManager@json']
+const _ = AppletDir.lodash._
 const App = AppletDir.applet
 const AppGroup = AppletDir.appGroup
-
 // List of running apps
 
 function AppList () {
