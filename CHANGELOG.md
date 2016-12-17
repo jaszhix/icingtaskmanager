@@ -1,8 +1,14 @@
 Changelog
 
+### 4.0.5
+
+  * App key binding (Super+#) changes by [zqq90](https://github.com/jaszhix/icingtaskmanager/pull/58).
+    * Pressing an app key binding will cycle through an open app's windows.
+    * Fixes app key bindings only working in the last workspace.
+
 ### 4.0.4
 
-  * App key binding (<Super>+#) bug fix by [zqq90](https://github.com/jaszhix/icingtaskmanager/pull/57).
+  * App key binding (Super+#) bug fix by [zqq90](https://github.com/jaszhix/icingtaskmanager/pull/57).
     * Fixes app key bindings becoming out of sync after dragging apps.
     * Fixes app key bindings not working after pinning apps via dragging.
 
