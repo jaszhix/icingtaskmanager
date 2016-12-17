@@ -394,15 +394,15 @@ MyApplet.prototype = {
       };
     };
     for (var i = 1; i < 10; i++) {
-      Main.keybindingManager.addHotKey('launch-app-key-' + i.toString(), '<Super>' + i.toString(), createCallback(this, this._onAppKeyPress, i));
-      Main.keybindingManager.addHotKey('launch-new-app-key-' + i.toString(), '<Super><Shift>' + i.toString(), createCallback(this, this._onNewAppKeyPress, i));
+      Main.keybindingManager.addHotKey(`launch-app-key-${i}`, `<Super>${i}`, createCallback(this, this._onAppKeyPress, i));
+      Main.keybindingManager.addHotKey(`launch-new-app-key-${i}`, `<Super><Shift>${i}`, createCallback(this, this._onNewAppKeyPress, i));
     }
   },
 
   _unbindAppKey: function(){
     for (var i = 1; i < 10; i++) {
-      Main.keybindingManager.removeHotKey('launch-app-key-' + i.toString());
-      Main.keybindingManager.removeHotKey('launch-new-app-key-' + i.toString());
+      Main.keybindingManager.removeHotKey(`launch-app-key-${i}`);
+      Main.keybindingManager.removeHotKey(`launch-new-app-key-${i}`);
     }
   },
   
