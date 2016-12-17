@@ -8,6 +8,7 @@ Special thanks to the contributors of this project.
     * https://github.com/jaszhix/icingtaskmanager/pull/58
     * https://github.com/jaszhix/icingtaskmanager/pull/57
   * NoXPhasma:
+    * https://github.com/jaszhix/icingtaskmanager/pull/59
     * https://github.com/jaszhix/icingtaskmanager/pull/54
   * Pandiora:
     * https://github.com/jaszhix/icingtaskmanager/pull/4

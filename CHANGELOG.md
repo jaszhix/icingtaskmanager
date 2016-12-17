@@ -1,5 +1,9 @@
 Changelog
 
+### 4.0.7
+
+  * German translation corrections by [NoXPhasma](https://github.com/jaszhix/icingtaskmanager/pull/59).
+
 ### 4.0.6
 
   * Fixed app pinning not working after toggling an app's pinned state several times.
