@@ -6,6 +6,7 @@ const Gio = imports.gi.Gio
 const _ = imports.applet._
 const clog = imports.applet.clog
 const setTimeout = imports.applet.setTimeout
+const Main = imports.ui.main
 
 const AppletDir = imports.ui.appletManager.applets['IcingTaskManager@json']
 const App = AppletDir.applet
@@ -59,6 +60,7 @@ AppList.prototype = {
     this.actor.connect('style-changed', Lang.bind(this, this._updateSpacing));
     
     this.on_orientation_changed(this._applet.orientation, true);
+    this._bindAppKey();
   },
 
   on_panel_edit_mode_changed: function () {
@@ -121,7 +123,41 @@ AppList.prototype = {
       this._updateSpacing()
     }
   },
+  
+  _bindAppKey: function(){
+    this._unbindAppKey();
+    var createCallback = function(me, cb, number){
+      return function(){
+        cb.call(me, number);
+      };
+    };
+    for (var i = 1; i < 10; i++) {
+      Main.keybindingManager.addHotKey('launch-app-key-' + i.toString(), '<Super>' + i.toString(), createCallback(this, this._onAppKeyPress, i));
+      Main.keybindingManager.addHotKey('launch-new-app-key-' + i.toString(), '<Super><Shift>' + i.toString(), createCallback(this, this._onNewAppKeyPress, i));
+    }
+  },
 
+  _unbindAppKey: function(){
+    for (var i = 1; i < 10; i++) {
+      Main.keybindingManager.removeHotKey('launch-app-key-' + i.toString());
+      Main.keybindingManager.removeHotKey('launch-new-app-key-' + i.toString());
+    }
+  },
+  
+  _onAppKeyPress: function(number){
+    if (number > this.appList.length) {
+      return;
+    }
+    this.appList[number-1].appGroup._onAppKeyPress(number);
+  },
+  
+  _onNewAppKeyPress: function(number){
+    if (number > this.appList.length) {
+      return;
+    }
+    this.appList[number-1].appGroup._onNewAppKeyPress(number);
+  },
+  
   _updateSpacing: function() {
     this.manager.set_spacing(this._applet.iconSpacing * global.ui_scale)
   },
@@ -200,7 +236,6 @@ AppList.prototype = {
 
       appGroup._updateMetaWindows(this.metaWorkspace, app, window)
       appGroup.watchWorkspace(this.metaWorkspace)
-      appGroup.isFavapp = isFavapp
 
       this.appList[refApp].appGroup = appGroup
       this.appList[refApp].time = time
@@ -278,9 +313,6 @@ AppList.prototype = {
         ungroupedIndex: index
       })
 
-      let appGroupNum = this._appGroupNumber(app)
-      appGroup._newAppKeyNumber(appGroupNum)
-
       if (this._applet.settings.getValue('title-display') === App.TitleDisplay.Focused) {
         appGroup.hideAppButtonLabel(false)
       }
@@ -338,13 +370,25 @@ AppList.prototype = {
     }
     return result
   },
-
-  _refreshAppGroupNumber: function () {
-    for (let i = 0, len = this.appList.length; i < len; i++) {
-      this.appList[i].appGroup._newAppKeyNumber(i+1)
+  
+  _fixAppGroupIndexAfterDrag: function (appGroup) {
+    let originPos = _.findIndex(this.appList, {appGroup: appGroup});
+    var pos = _.findIndex(this.manager_container.get_children(), appGroup.actor);
+    if (originPos === pos
+            || originPos < 0
+            || pos < 0) {
+      return;
     }
+    if (pos > originPos) {
+      // TBD: if drag to a right position, exclude postion hold by origin
+      pos -= 1;
+    }
+    // originPos -> pos
+    let data = this.appList[originPos];
+    _.pullAt(this.appList, originPos);
+    this.appList.splice(pos, 0, data);
   },
-
+  
   _windowRemoved: function (metaWorkspace, metaWindow, app=null) {
     
     // When a window is closed, we need to check if the app it belongs
@@ -395,10 +439,6 @@ AppList.prototype = {
 
       this.appList[refApp].appGroup.destroy()
       _.pullAt(this.appList, refApp)
-
-      setTimeout(()=>{
-        this._refreshAppGroupNumber()
-      }, 15)
     }
   },
 
@@ -409,6 +449,7 @@ AppList.prototype = {
     for (let i = 0, len = this.appList.length; i < len; i++) {
       this.appList[i].appGroup.destroy()
     }
+    this._unbindAppKey();
     this.appList.destroy()
     this.appList = null
   }
