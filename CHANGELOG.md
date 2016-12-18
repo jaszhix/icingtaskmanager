@@ -1,5 +1,9 @@
 Changelog
 
+### 4.0.8
+
+  * Simplified Chinese translation added by [zqq90](https://github.com/jaszhix/icingtaskmanager/pull/60).
+
 ### 4.0.7
 
   * German translation corrections by [NoXPhasma](https://github.com/jaszhix/icingtaskmanager/pull/59).

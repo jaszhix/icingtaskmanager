@@ -5,6 +5,7 @@ Special thanks to the contributors of this project.
 ### Pull requests
 
   * zqq90:
+    * https://github.com/jaszhix/icingtaskmanager/pull/60
     * https://github.com/jaszhix/icingtaskmanager/pull/58
     * https://github.com/jaszhix/icingtaskmanager/pull/57
   * NoXPhasma:
