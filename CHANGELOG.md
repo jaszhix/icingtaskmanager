@@ -1,5 +1,9 @@
 Changelog
 
+### 4.0.9
+
+  * Bulgarian translation added by [AdmiralAnimE](https://github.com/jaszhix/icingtaskmanager/commit/5e59cb1595c600db135cb8f841f167598708d565).
+
 ### 4.0.8
 
   * Simplified Chinese translation added by [zqq90](https://github.com/jaszhix/icingtaskmanager/pull/60).
