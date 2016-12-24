@@ -388,14 +388,9 @@ MyApplet.prototype = {
 
   _bindAppKey: function(){
     this._unbindAppKey();
-    var createCallback = function(me, cb, number){
-      return function(){
-        cb.call(me, number);
-      };
-    };
-    for (var i = 1; i < 10; i++) {
-      Main.keybindingManager.addHotKey(`launch-app-key-${i}`, `<Super>${i}`, createCallback(this, this._onAppKeyPress, i));
-      Main.keybindingManager.addHotKey(`launch-new-app-key-${i}`, `<Super><Shift>${i}`, createCallback(this, this._onNewAppKeyPress, i));
+    for (let i = 1; i < 10; i++) {
+      Main.keybindingManager.addHotKey(`launch-app-key-${i}`, `<Super>${i}`, Lang.bind(this, () => this._onAppKeyPress(i)));
+      Main.keybindingManager.addHotKey(`launch-new-app-key-${i}`, `<Super><Shift>${i}`, Lang.bind(this, () => this._onNewAppKeyPress(i)));
     }
   },
 
