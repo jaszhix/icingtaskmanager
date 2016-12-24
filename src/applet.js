@@ -359,6 +359,7 @@ MyApplet.prototype = {
     this.signals.connect(Main.overview, 'hiding', this._onOverviewHide)
     this.signals.connect(Main.expo, 'showing', this._onOverviewShow)
     this.signals.connect(Main.expo, 'hiding', this._onOverviewHide)
+    this.signals.connect(Main.themeManager, 'theme-set', this.onThemeChange)
 
     this._dragPlaceholder = null
     this._dragPlaceholderPos = -1
@@ -426,6 +427,10 @@ MyApplet.prototype = {
 
   getCurrentAppList(){
     return this.metaWorkspaces[this.currentWs].appList
+  },
+
+  onThemeChange(e){
+    this.refreshCurrentAppList();
   },
 
   getAutostartApps(){
