@@ -83,7 +83,7 @@ IconLabelButton.prototype = {
     this._container.add_actor(this._label)
     this._container.add_actor(this._numLabel)
 
-    this.setIconPadding()
+    setTimeout(()=>this.setIconPadding(true), 0)
     this.setIconSize()
 
     global.settings.connect('changed::panel-edit-mode', Lang.bind(this, this.on_panel_edit_mode_changed))
@@ -96,10 +96,15 @@ IconLabelButton.prototype = {
     this.actor.reactive = !global.settings.get_boolean('panel-edit-mode')
   },
 
-  setIconPadding: function () {
+  setIconPadding: function (init) {
+    if (init) {
+      this.themeNode = this.actor.peek_theme_node()
+      var themePadding = this.themeNode.get_horizontal_padding()
+      this.offsetPadding =  themePadding > 10 ? _.round(themePadding / 4) : themePadding > 7 ? _.round(themePadding / 2) : themePadding;
+    }
     if (this._applet.orientation === St.Side.TOP || this._applet.orientation == St.Side.BOTTOM) {
-      var padding = this._applet.iconPadding <= 5 ? ['6px', '0px'] : [`${this._applet.iconPadding}px`, `${this._applet.iconPadding - 5}px`]
-      this.actor.style = `padding-bottom: 0px;padding-top:0px; padding-left: ${padding[0]};padding-right: ${padding[1]};`
+      var padding = this._applet.iconPadding <= 5 ? [`${this.offsetPadding}px`, '0px'] : [`${this._applet.iconPadding}px`, `${this._applet.iconPadding - this.offsetPadding}px`]
+      this.actor.set_style(`padding-bottom: 0px;padding-top:0px; padding-left: ${padding[0]};padding-right: ${padding[1]};`)
     }
   },
 
