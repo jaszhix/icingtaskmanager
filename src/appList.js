@@ -276,10 +276,10 @@ AppList.prototype = {
       refApp = -1
     }
 
-    var initApp = (window=null, index=null)=>{
+    var initApp = (wsWindows, window=null, index=null)=>{
       var time = Date.now()
       let appGroup = new AppGroup.AppGroup(this._applet, this, app, isFavapp, window, time, index, appId)
-      appGroup._updateMetaWindows(metaWorkspace, app, window)
+      appGroup._updateMetaWindows(metaWorkspace, app, window, wsWindows)
       appGroup.watchWorkspace(metaWorkspace) // disable for windows to stay persistent across ws'
 
       app.connect_after('windows-changed', Lang.bind(this, this._onAppWindowsChanged, app))
@@ -301,10 +301,13 @@ AppList.prototype = {
         initApp()
       } else {
         var windows = app.get_windows()
+        var wsWindows = metaWorkspace.list_windows();
+        windows = _.intersectionWith(windows, wsWindows, _.isEqual);
+
         var _windows = windows.length > 0 ? windows : [null]
 
         for (let i = 0, len = _windows.length; i < len; i++) {
-          initApp(_windows[i], i)
+          initApp(wsWindows, _windows[i], i)
         }
       }
     }

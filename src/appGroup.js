@@ -205,6 +205,9 @@ AppGroup.prototype = {
     this._applet.settings.connect('changed::number-display', ()=>{
       this._calcWindowNumber(metaWorkspace)
     })
+    if (this._applet.groupApps) {
+      this._applet.refreshAppFromCurrentListById(this.appId);
+    }
     this._setWatchedWorkspaces()
   },
 
@@ -368,9 +371,11 @@ AppGroup.prototype = {
   // updates the internal list of metaWindows
   // to include all windows corresponding to this.app on the workspace
   // metaWorkspace
-  _updateMetaWindows: function (metaWorkspace, app=null, window=null) {
+  _updateMetaWindows: function (metaWorkspace, app=null, window=null, _wsWindows=null) {
     // Get a list of all interesting windows that are part of this app on the current workspace
-    var windowsSource = window ? [window] : metaWorkspace.list_windows()
+    var wsWindows = _wsWindows ? _wsWindows : metaWorkspace.list_windows();
+    var windowsSource = window ? [window] : wsWindows;
+
     var filterArgs = _.isEqual(app, this.app)
     var windowList = _.filter(windowsSource, (win)=>{
       if (!app) {
@@ -464,6 +469,7 @@ AppGroup.prototype = {
         }
         
         this.hoverMenu.setMetaWindow(this.lastFocused, this.metaWindows)
+        this._appButton.setMetaWindow(this.lastFocused, this.metaWindows)
 
       }
 
@@ -526,6 +532,7 @@ AppGroup.prototype = {
         if (this.rightClickMenu !== undefined) {
           this.rightClickMenu.setMetaWindow(this.lastFocused, this.metaWindows)
         }
+        this._appButton.setMetaWindow(this.lastFocused, this.metaWindows)
       } else if (this.isFavapp) {
         setTimeout(()=>this._applet.refreshAppFromCurrentListById(this.appId, {favChange: true, isFavapp: this.isFavapp}), 0)
       }
