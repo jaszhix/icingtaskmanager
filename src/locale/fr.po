@@ -67,6 +67,14 @@ msgstr ""
 "Ajustez la taille de l'icône indépendamment de la mise à l'échelle du \"\n"
 "\"panneau Cinnamon."
 
+msgid "Global hotkey to show the order of apps"
+msgstr "Touche de raccourci globale pour afficher l'ordre des applications"
+
+msgid "Duration of the apps order display on hotkey press"
+msgstr ""
+"Durée de l'affichage des commandes d'applications en appuyant sur la touche"
+" de raccourci"
+
 #. src->settings-schema.json->hover-peek-time->description
 msgid "Window fade time"
 msgstr "Durée de l'animation"

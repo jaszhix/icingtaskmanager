@@ -65,6 +65,12 @@ msgstr "Размер значка"
 msgid "Set icon size"
 msgstr "Установить размер значка приложения на панели."
 
+msgid "Global hotkey to show the order of apps"
+msgstr "Глобальные горячие клавиши, чтобы показать порядок приложений"
+
+msgid "Duration of the apps order display on hotkey press"
+msgstr "Продолжительность приложения заказать дисплей на нажатием горячей клавиши"
+
 #. src->settings-schema.json->hover-peek-time->description
 msgid "Window fade time"
 msgstr "Скорость анимации"

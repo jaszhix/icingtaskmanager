@@ -65,6 +65,14 @@ msgstr "Tamaño de ícono"
 msgid "Set icon size"
 msgstr "Configurar el tamaño del icono"
 
+msgid "Global hotkey to show the order of apps"
+msgstr "Tecla de acceso directo global para mostrar el orden de las aplicaciones"
+
+msgid "Duration of the apps order display on hotkey press"
+msgstr ""
+"Duración de la visualización del pedido de aplicaciones en la tecla"
+" rápida"
+
 #. src->settings-schema.json->hover-peek-time->description
 msgid "Window fade time"
 msgstr "Tiempo de desvanecimiento de las ventanas"

@@ -64,6 +64,12 @@ msgstr "图标尺寸"
 msgid "Set icon size"
 msgstr "调节图标的尺寸"
 
+msgid "Global hotkey to show the order of apps"
+msgstr "全局热键以显示应用程序的顺序"
+
+msgid "Duration of the apps order display on hotkey press"
+msgstr "热键按下应用程序顺序的时间显示"
+
 #. src->settings-schema.json->hover-peek-time->description
 msgid "Window fade time"
 msgstr "窗口渐变时长"

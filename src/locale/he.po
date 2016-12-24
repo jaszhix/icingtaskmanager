@@ -65,6 +65,12 @@ msgstr "גודל אייקון"
 msgid "Set icon size"
 msgstr "גודל גדר סמל"
 
+msgid "Global hotkey to show the order of apps"
+msgstr "מקשי קיצור דרך עולמיים להראות את סדר האפליקציות"
+
+msgid "Duration of the apps order display on hotkey press"
+msgstr "משך אפליקציות סדר תצוגה על עיתונות hotkey"
+
 #. src->settings-schema.json->hover-peek-time->description
 msgid "Window fade time"
 msgstr "זמן לאפקט"

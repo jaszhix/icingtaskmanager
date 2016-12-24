@@ -63,6 +63,12 @@ msgstr "Размер на иконките"
 msgid "Set icon size"
 msgstr "Задаване на размера на иконките"
 
+msgid "Global hotkey to show the order of apps"
+msgstr "Global клавишна комбинация, за да се покаже на реда на приложения"
+
+msgid "Duration of the apps order display on hotkey press"
+msgstr "Продължителност на приложенията ред Покажи на клавиш натиснете"
+
 #. src->settings-schema.json->hover-peek-time->description
 msgid "Window fade time"
 msgstr "Време на избледняване на прозорците"

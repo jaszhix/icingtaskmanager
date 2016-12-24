@@ -66,6 +66,12 @@ msgstr "Symbolgröße"
 msgid "Set icon size"
 msgstr "Symbolgröße anpassen"
 
+msgid "Global hotkey to show the order of apps"
+msgstr "Globaler Hotkey, um die Reihenfolge der Apps anzuzeigen"
+
+msgid "Duration of the apps order on hotkey press"
+msgstr "Dauer der App-Auftragsanzeige bei Hotkey-Taste"
+
 #. src->settings-schema.json->hover-peek-time->description
 msgid "Window fade time"
 msgstr "Fenster Einblendungszeit"
