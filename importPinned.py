@@ -38,6 +38,8 @@ def importConfig():
                             ('icon-padding', config['icon-padding']),
                             ('enable-iconSize', config['enable-iconSize']),
                             ('icon-size', config['icon-size']),
+                            ('show-apps-order-hotkey', config['show-apps-order-hotkey']),
+                            ('show-apps-order-timeout', config['show-apps-order-timeout']),
                             ('HoverPeek', config['HoverPeek']),
                             ('seperator2', config['seperator2']),
                             ('enable-hover-peek', config['enable-hover-peek']),
