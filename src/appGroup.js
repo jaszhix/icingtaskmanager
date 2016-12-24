@@ -244,6 +244,17 @@ AppGroup.prototype = {
   showAppButtonLabel: function (animate, targetWidth) {
     this._appButton.showLabel(animate, targetWidth)
   },
+  
+  // TBD: share the _appButton._numLabel with "window number display"
+  showOrderLabel: function (number){
+    var label = this._appButton._numLabel;
+    label.text = `${number + 1}`;
+    label.show();
+  },
+  
+  hideOrderLabel: function (){
+    this._calcWindowNumber(this.appList.metaWorkspace);
+  },
 
   _onAppButtonRelease(actor, event) {
     this._applet._clearDragPlaceholder()

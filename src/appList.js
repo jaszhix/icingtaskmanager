@@ -135,7 +135,18 @@ AppList.prototype = {
     }
     this.appList[number-1].appGroup._onNewAppKeyPress(number);
   },
-  
+
+  _showAppsOrder: function(){
+    for (let i = 0, len = this.appList.length; i < len; i++) {
+      this.appList[i].appGroup.showOrderLabel(i);
+    }
+    setTimeout(() => {
+      for (let i = 0, len = this.appList.length; i < len; i++) {
+        this.appList[i].appGroup.hideOrderLabel();
+      }
+    }, this._applet.showAppsOrderTimeout);
+  },
+
   _updateSpacing: function() {
     this.manager.set_spacing(this._applet.iconSpacing * global.ui_scale)
   },
