@@ -317,7 +317,9 @@ MyApplet.prototype = {
       {key: 'icon-size', value: 'iconSize', cb: null},
       {key: 'show-recent', value: 'showRecent', cb: this.refreshCurrentAppList},
       {key: 'autostart-menu-item', value: 'autoStart', cb: this.refreshCurrentAppList},
-      {key: 'firefox-menu', value: 'firefoxMenu', cb: this.refreshCurrentAppList}
+      {key: 'firefox-menu', value: 'firefoxMenu', cb: this.refreshCurrentAppList},
+      {key: 'show-apps-order-hotkey', value: 'showAppsOrderHotkey', cb: this._bindAppKey},
+      {key: 'show-apps-order-timeout', value: 'showAppsOrderTimeout', cb: null}
     ]
 
     if (this.c32) {
@@ -389,15 +391,11 @@ MyApplet.prototype = {
 
   _bindAppKey: function(){
     this._unbindAppKey();
-    var createCallback = function(me, cb, number){
-      return function(){
-        cb.call(me, number);
-      };
-    };
-    for (var i = 1; i < 10; i++) {
-      Main.keybindingManager.addHotKey(`launch-app-key-${i}`, `<Super>${i}`, createCallback(this, this._onAppKeyPress, i));
-      Main.keybindingManager.addHotKey(`launch-new-app-key-${i}`, `<Super><Shift>${i}`, createCallback(this, this._onNewAppKeyPress, i));
+    for (let i = 1; i < 10; i++) {
+      Main.keybindingManager.addHotKey(`launch-app-key-${i}`, `<Super>${i}`, Lang.bind(this, () => this._onAppKeyPress(i)));
+      Main.keybindingManager.addHotKey(`launch-new-app-key-${i}`, `<Super><Shift>${i}`, Lang.bind(this, () => this._onNewAppKeyPress(i)));
     }
+    Main.keybindingManager.addHotKey('launch-show-apps-order', this.showAppsOrderHotkey, Lang.bind(this, this._showAppsOrder));
   },
 
   _unbindAppKey: function(){
@@ -405,6 +403,7 @@ MyApplet.prototype = {
       Main.keybindingManager.removeHotKey(`launch-app-key-${i}`);
       Main.keybindingManager.removeHotKey(`launch-new-app-key-${i}`);
     }
+    Main.keybindingManager.removeHotKey('launch-show-apps-order');
   },
   
   _onAppKeyPress: function(number){
@@ -414,7 +413,11 @@ MyApplet.prototype = {
   _onNewAppKeyPress: function(number){
     this.getCurrentAppList()._onNewAppKeyPress(number);
   },
-  
+
+  _showAppsOrder: function(){
+    this.getCurrentAppList()._showAppsOrder();
+  },
+
   refreshCurrentAppList(){
     setTimeout(()=>{
       this.metaWorkspaces[this.currentWs].appList._refreshList()

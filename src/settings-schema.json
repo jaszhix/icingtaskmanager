@@ -93,12 +93,25 @@
  "icon-size" : {
    "type": "spinbutton",
    "default" : 20,
-   "min" : 0,
+   "min" : 0, 
    "max" : 150,
    "step" : 1,
    "units" : "px",
    "description" : "Icon size",
    "tooltip" : "Set icon size"
+ },
+ "show-apps-order-timeout": {
+    "type" : "spinbutton",
+    "default" : 1000,
+    "min" : 100,
+    "max" : 10000,
+    "step" : 10,
+    "description" : "Show order of apps timeout"
+ },
+ "show-apps-order-hotkey": {
+    "type" : "keybinding",
+    "default" : "<Super>grave",
+    "description" : "Global hotkey to show order of apps"
  },
  "HoverPeek" : {
     "type" : "header",
