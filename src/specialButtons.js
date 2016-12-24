@@ -99,11 +99,11 @@ IconLabelButton.prototype = {
   setIconPadding: function (init) {
     if (init) {
       this.themeNode = this.actor.peek_theme_node()
-      var themePadding = this.themeNode.get_horizontal_padding()
+      var themePadding = this.themeNode ? this.themeNode.get_horizontal_padding() : 4
       this.offsetPadding =  themePadding > 10 ? _.round(themePadding / 4) : themePadding > 7 ? _.round(themePadding / 2) : themePadding;
     }
     if (this._applet.orientation === St.Side.TOP || this._applet.orientation == St.Side.BOTTOM) {
-      var padding = this._applet.iconPadding <= 5 ? [`${this.offsetPadding}px`, '0px'] : [`${this._applet.iconPadding}px`, `${this._applet.iconPadding - this.offsetPadding}px`]
+      var padding = this._applet.iconPadding <= 5 ? [`${this.offsetPadding}px`, '0px'] : [`${this._applet.iconPadding}px`, `${this._applet.iconPadding - this.offsetPadding+1}px`]
       this.actor.set_style(`padding-bottom: 0px;padding-top:0px; padding-left: ${padding[0]};padding-right: ${padding[1]};`)
     }
   },
@@ -295,6 +295,8 @@ AppButton.prototype = {
     this._applet = parent._applet
     this._parent = parent
     this.isFavapp = parent.isFavapp
+    this.metaWindow = []
+    this.metaWindows = []
     IconLabelButton.prototype._init.call(this, this)
 
     if (this.isFavapp) {
@@ -307,11 +309,16 @@ AppButton.prototype = {
   },
 
   setActiveStatus(windows){
-    if (windows.length > 0 ) {
+    if (windows.length > 0) {
       this.actor.add_style_pseudo_class('active')
     } else {
       this.actor.remove_style_pseudo_class('active')
     }
+  },
+
+  setMetaWindow: function (metaWindow, metaWindows) {
+    this.metaWindow = metaWindow
+    this.metaWindows = _.map(metaWindows, 'win')
   },
 
   _onFocusChange: function () {
@@ -324,7 +331,7 @@ AppButton.prototype = {
       this._needsAttention = false
     } else {
       this.actor.remove_style_pseudo_class('focus')
-      if (this._applet.showActive && this._parent.metaWindows > 0) {
+      if (this._applet.showActive && this.metaWindows.length > 0) {
         this.actor.add_style_pseudo_class('active')
       }
     }
@@ -341,7 +348,7 @@ AppButton.prototype = {
       workspaceIds.push(this.metaWorkspaces[i].workspace.index())
     }
 
-    var windows = _.filter(this.app.get_windows(), function(win){
+    var windows = _.filter(this.metaWindows, function(win){
       return workspaceIds.indexOf(win.get_workspace().index()) >= 0
     })
 
@@ -393,7 +400,6 @@ AppButton.prototype = {
 
   _isFavorite: function (isFav) {
     this.isFavapp = isFav
-    this.actor.ensure_style()
     if (isFav) {
       if (this._applet.orientation === St.Side.LEFT || this._applet.orientation === St.Side.RIGHT) {
         this.setStyle('panel-launcher-vertical')
