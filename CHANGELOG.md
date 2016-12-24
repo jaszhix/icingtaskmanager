@@ -1,5 +1,13 @@
 Changelog
 
+### 4.1.0
+
+  * Fixed the wrong windows appearing active when switching to a new workspace while the group apps option is disabled.
+  * Fixed window thumbnails not sorting by last active window when the sort thumbnails option is enabled.
+  * The default icon padding is now more dependent on the theme's icon padding, and it will reset when changing themes
+  * New feature by [zqq90](https://github.com/jaszhix/icingtaskmanager/pull/64):
+    * Added a new assignable hotkey to show the order of apps with Super + ` by default.
+
 ### 4.0.9
 
   * Bulgarian translation added by [AdmiralAnimE](https://github.com/jaszhix/icingtaskmanager/commit/5e59cb1595c600db135cb8f841f167598708d565).
