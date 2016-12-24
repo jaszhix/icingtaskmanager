@@ -118,7 +118,7 @@ IconLabelButton.prototype = {
 
   setStyle: function (name) {
     if (name) {
-      this.actor.set_style_class_name(name)
+      this.actor.add_style_class_name(name)
     }
   },
 
@@ -302,7 +302,7 @@ AppButton.prototype = {
   },
 
   setActiveStatus(windows){
-    if (windows.length > 0) {
+    if (windows.length > 0 ) {
       this.actor.add_style_pseudo_class('active')
     } else {
       this.actor.remove_style_pseudo_class('active')
@@ -319,7 +319,7 @@ AppButton.prototype = {
       this._needsAttention = false
     } else {
       this.actor.remove_style_pseudo_class('focus')
-      if (this._applet.showActive) {
+      if (this._applet.showActive && this._parent.metaWindows > 0) {
         this.actor.add_style_pseudo_class('active')
       }
     }
@@ -388,6 +388,7 @@ AppButton.prototype = {
 
   _isFavorite: function (isFav) {
     this.isFavapp = isFav
+    this.actor.ensure_style()
     if (isFav) {
       if (this._applet.orientation === St.Side.LEFT || this._applet.orientation === St.Side.RIGHT) {
         this.setStyle('panel-launcher-vertical')
@@ -396,7 +397,7 @@ AppButton.prototype = {
       }
       this._label.text = ''
     } else {
-      this.setStyle('window-list-item-box app-list-item-box')
+      this.setStyle('window-list-item-box')
       if (this._applet.orientation == St.Side.TOP) {
         this.actor.add_style_class_name('window-list-item-box-top')
       } else if (this._applet.orientation == St.Side.BOTTOM) {
