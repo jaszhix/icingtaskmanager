@@ -205,9 +205,6 @@ AppGroup.prototype = {
     this._applet.settings.connect('changed::number-display', ()=>{
       this._calcWindowNumber(metaWorkspace)
     })
-    if (this._applet.groupApps) {
-      this._applet.refreshAppFromCurrentListById(this.appId);
-    }
     this._setWatchedWorkspaces()
   },
 
