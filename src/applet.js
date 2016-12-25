@@ -297,6 +297,8 @@ MyApplet.prototype = {
       {key: 'group-apps', value: 'groupApps', cb: this.refreshCurrentAppList},
       {key: 'arrange-pinnedApps', value: 'arrangePinned', cb: null},
       {key: 'pinned-apps', value: 'pinnedApps', cb: null},
+      {key: 'show-apps-order-hotkey', value: 'showAppsOrderHotkey', cb: this._bindAppKey},
+      {key: 'show-apps-order-timeout', value: 'showAppsOrderTimeout', cb: null},
       {key: 'enable-hover-peek', value: 'enablePeek', cb: null},
       {key: 'onclick-thumbnails', value: 'onclickThumbs', cb: null},
       {key: 'hover-peek-opacity', value: 'peekOpacity', cb: null},
@@ -316,10 +318,9 @@ MyApplet.prototype = {
       {key: 'enable-iconSize', value: 'enableIconSize', cb: this.refreshCurrentAppList},
       {key: 'icon-size', value: 'iconSize', cb: null},
       {key: 'show-recent', value: 'showRecent', cb: this.refreshCurrentAppList},
-      {key: 'autostart-menu-item', value: 'autoStart', cb: this.refreshCurrentAppList},
       {key: 'firefox-menu', value: 'firefoxMenu', cb: this.refreshCurrentAppList},
-      {key: 'show-apps-order-hotkey', value: 'showAppsOrderHotkey', cb: this._bindAppKey},
-      {key: 'show-apps-order-timeout', value: 'showAppsOrderTimeout', cb: null}
+      {key: 'autostart-menu-item', value: 'autoStart', cb: this.refreshCurrentAppList},
+      {key: 'monitor-move-all-windows', value: 'monitorMoveAllWindows', cb: this.refreshCurrentAppList},
     ]
 
     if (this.c32) {

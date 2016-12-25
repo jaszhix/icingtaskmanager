@@ -228,12 +228,6 @@
     "description": "Show recent items",
     "tooltip": "Controls whether recent items will appear in the context menu."
  },
- "autostart-menu-item" : {
-    "type" : "checkbox",
-    "default" : true,
-    "description": "Show autostart option",
-    "tooltip" : "Shows the autostart toggle option in an app's context menu."
- },
  "firefox-menu" : {
     "type": "combobox",
     "default" : 1,
@@ -244,5 +238,16 @@
         "Bookmarks" : 3
     },
     "tooltip" : "Most Visited: show the sites you visit most, Recent History: display the the last pages you visited, Bookmarks: show your favorite bookmarks."
+ },
+ "autostart-menu-item" : {
+    "type" : "checkbox",
+    "default" : true,
+    "description": "Show autostart option",
+    "tooltip" : "Shows the autostart toggle option in an app's context menu."
+ },
+ "monitor-move-all-windows" : {
+    "type" : "checkbox",
+    "default" : true,
+    "description": "Apply monitor move option to all windows"
  }
 }

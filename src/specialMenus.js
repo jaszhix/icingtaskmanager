@@ -97,8 +97,21 @@ AppMenuButtonRightClickMenu.prototype = {
       if (Main.layoutManager.monitors.length > 1) {
         var connectMonitorEvent = (item, mw, i)=>{
           item.connect('activate', ()=>{
-            mw.move_to_monitor(i)
-            this.app.activate(mw, global.get_current_time())
+            if (this._applet.monitorMoveAllWindows) {
+              for (let z = 0, len = this.metaWindows.length; z < len; z++) {
+                var focused = 0;
+                this.metaWindows[z].win.move_to_monitor(i)
+                if (this.metaWindows[z].win.has_focus()) {
+                  ++focused
+                }
+                if (z === len - 1 && focused === 0) {
+                  this.app.activate(this.metaWindows[z].win, global.get_current_time())
+                }
+              }
+            } else {
+              mw.move_to_monitor(i)
+              this.app.activate(mw, global.get_current_time())
+            }
           })
         }
         for (let i = 0, len = Main.layoutManager.monitors.length; i < len; i++) {
