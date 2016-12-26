@@ -111,6 +111,7 @@
     "min" : 100,
     "max" : 10000,
     "step" : 10,
+    "units" : "milliseconds",
     "description" : "Duration of the apps order display on hotkey press"
  },
  "HoverPeek" : {

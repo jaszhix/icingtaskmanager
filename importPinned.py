@@ -59,8 +59,9 @@ def importConfig():
                             ('AppMenu', config['AppMenu']),
                             ('seperator4', config['seperator4']),
                             ('show-recent', config['show-recent']),
-                            ('autostart-menu-item', config['autostart-menu-item']),
                             ('firefox-menu', config['firefox-menu']),
+                            ('autostart-menu-item', config['autostart-menu-item']),
+                            ('monitor-move-all-windows', config['monitor-move-all-windows']),
                             ('__md5__', config['__md5__']),
                             ])
 
