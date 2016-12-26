@@ -1,5 +1,10 @@
 Changelog
 
+### 4.1.1
+
+  * Added a new option: "Apply monitor move option to all windows".
+  * Fixed a bug that prevents some users from using the settings dialog.
+
 ### 4.1.0
 
   * Fixed the wrong windows appearing active when switching to a new workspace while the group apps option is disabled.
