@@ -69,6 +69,20 @@ msgstr "Global клавишна комбинация, за да се покаж�
 msgid "Duration of the apps order display on hotkey press"
 msgstr "Продължителност на приложенията ред Покажи на клавиш натиснете"
 
+msgid "" 
+"When triggered, the window count label will be replaced with its order in "
+"the app list temporarily."
+msgstr ""
+"При задействане етикета на прозореца брой ще бъде заменен с неговия ред в "
+"списъка с приложения временно."
+
+msgid "" 
+"Determines the duration the window count labels are replaced with the "
+"app's order number."
+msgstr ""
+"Определя продължителността етикетите на прозорец броене се заменят с "
+"пореден номер на приложението."
+
 #. src->settings-schema.json->hover-peek-time->description
 msgid "Window fade time"
 msgstr "Време на избледняване на прозорците"
@@ -173,6 +187,18 @@ msgstr ""
 
 msgid "Show autostart option"
 msgstr "Показване на опцията за автоматично пускане"
+
+msgid "Apply the monitor move option to all windows"
+msgstr "Нанесете опцията монитор ход на всички прозорци"
+
+msgid ""
+"When clicking \"Move to monitor\" in the context menu, this option "
+"will move all of an app's windows instead of just the last focused "
+"window from the app."
+msgstr ""
+"Когато кликнете върху \"Преместване да следи\" в контекстното меню, тази "
+"опция Ще се премести на всички прозорци на дадено приложение, а не само "
+"последната фокусирани Прозорец от приложението."
 
 msgid "Shows the autostart toggle option in an app's context menu."
 msgstr "Показва опцията за автоматично пускане в контекстното меню."

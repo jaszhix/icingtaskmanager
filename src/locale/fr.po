@@ -75,6 +75,20 @@ msgstr ""
 "Durée de l'affichage des commandes d'applications en appuyant sur la touche"
 " de raccourci"
 
+msgid "" 
+"When triggered, the window count label will be replaced with its order in "
+"the app list temporarily."
+msgstr ""
+"Lorsqu'il est déclenché, l'étiquette du compteur de fenêtres sera "
+"remplacée temporairement par son ordre dans la liste des applications."
+
+msgid ""
+"Determines the duration the window count labels are replaced with the "
+"app's order number."
+msgstr ""
+"Détermine la durée pendant laquelle les étiquettes de comptage de fenêtre "
+"sont remplacées par le numéro de commande de l'application."
+
 #. src->settings-schema.json->hover-peek-time->description
 msgid "Window fade time"
 msgstr "Durée de l'animation"
@@ -184,6 +198,18 @@ msgstr ""
 
 msgid "Show autostart option"
 msgstr "Afficher l'option de démarrage automatique"
+
+msgid "Apply the monitor move option to all windows"
+msgstr "Appliquer l'option de déplacement du moniteur à toutes les fenêtres"
+
+msgid ""
+"When clicking \"Move to monitor\" in the context menu, this option "
+"will move all of an app's windows instead of just the last focused "
+"window from the app."
+msgstr ""
+"Lorsque vous cliquez sur \"Déplacer vers le moniteur\" dans le menu contextuel, cette option "
+"Va déplacer toutes les fenêtres d'une application au lieu de la dernière focalisée "
+"De l'application."
 
 msgid "Shows the autostart toggle option in an app's context menu."
 msgstr "Affiche l'option de basculement automatique dans le menu contextuel d'une application."

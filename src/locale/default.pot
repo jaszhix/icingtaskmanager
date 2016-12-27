@@ -55,9 +55,18 @@ msgstr ""
 msgid "Global hotkey to show the order of apps"
 msgstr ""
 
-msgid "uration of the apps order display on hotkey press"
+msgid "Duration of the apps order display on hotkey press"
 msgstr ""
 
+msgid "" 
+"When triggered, the window count label will be replaced with its order in "
+"the app list temporarily."
+msgstr ""
+
+msgid "" 
+"Determines the duration the window count labels are replaced with the "
+"app's order number."
+msgstr ""
 
 #. src->settings-schema.json->hover-peek-time->description
 msgid "Window fade time"
@@ -156,6 +165,15 @@ msgid ""
 msgstr ""
 
 msgid "Show autostart option"
+msgstr ""
+
+msgid "Apply the monitor move option to all windows"
+msgstr ""
+
+msgid ""
+"When clicking \"Move to monitor\" in the context menu, this option "
+"will move all of an app's windows instead of just the last focused "
+"window from the app."
 msgstr ""
 
 msgid "Shows the autostart toggle option in an app's context menu."

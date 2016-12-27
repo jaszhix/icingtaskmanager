@@ -251,7 +251,7 @@
  "monitor-move-all-windows" : {
     "type": "checkbox",
     "default" : true,
-    "description": "Apply monitor move option to all windows",
+    "description": "Apply the monitor move option to all windows",
     "tooltip": "When clicking \"Move to monitor\" in the context menu, this option will move all of an app's windows instead of just the last focused window from the app."
  }
 }

@@ -72,6 +72,20 @@ msgstr "Globaler Hotkey, um die Reihenfolge der Apps anzuzeigen"
 msgid "Duration of the apps order on hotkey press"
 msgstr "Dauer der App-Auftragsanzeige bei Hotkey-Taste"
 
+msgid "" 
+"When triggered, the window count label will be replaced with its order in "
+"the app list temporarily."
+msgstr ""
+"Wenn es ausgelöst wird, wird das Fensterzähler-Label durch seine "
+"Reihenfolge in der Appliste vorübergehend ersetzt."
+
+msgid "" 
+"Determines the duration the window count labels are replaced with the "
+"app's order number."
+msgstr ""
+"Legt die Dauer fest, die die Fensterzähler-Etiketten durch die "
+"Bestellnummer der App ersetzt werden."
+
 #. src->settings-schema.json->hover-peek-time->description
 msgid "Window fade time"
 msgstr "Fenster Einblendungszeit"
@@ -177,6 +191,18 @@ msgstr ""
 
 msgid "Show autostart option"
 msgstr "Autostart anzeigen"
+
+msgid "Apply the monitor move option to all windows"
+msgstr "Wenden Sie die Monitorbewegungsoption auf alle Fenster an"
+
+msgid ""
+"When clicking \"Move to monitor\" in the context menu, this option "
+"will move all of an app's windows instead of just the last focused "
+"window from the app."
+msgstr ""
+"Wenn Sie im Kontextmenü auf \"Verschieben zum Monitor\" klicken, wird diese "
+"Option Wird alle App-Fenster statt nur die zuletzt fokussiert "
+"Fenster aus der App."
 
 msgid "Shows the autostart toggle option in an app's context menu."
 msgstr "Zeigt die Autostart-Umschaltoption im Kontextmenü einer App an."

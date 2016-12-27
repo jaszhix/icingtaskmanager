@@ -70,6 +70,16 @@ msgstr "全局热键以显示应用程序的顺序"
 msgid "Duration of the apps order display on hotkey press"
 msgstr "热键按下应用程序顺序的时间显示"
 
+msgid "" 
+"When triggered, the window count label will be replaced with its order in "
+"the app list temporarily."
+msgstr "触发时，窗口计数标签将暂时替换为其在应用程序列表中的顺序。"
+
+msgid ""
+"Determines the duration the window count labels are replaced with the "
+"app's order number."
+msgstr "确定窗口计数标签被应用程序的订单号替换的持续时间。"
+
 #. src->settings-schema.json->hover-peek-time->description
 msgid "Window fade time"
 msgstr "窗口渐变时长"
@@ -170,6 +180,18 @@ msgstr "调节图标的宽度（填充多少像素）。仅适用此小程序的
 
 msgid "Show autostart option"
 msgstr "显示自动启动开关"
+
+msgid "Apply the monitor move option to all windows"
+msgstr "将monitor move选项应用于所有窗口"
+
+msgid ""
+"When clicking \"Move to monitor\" in the context menu, this option "
+"will move all of an app's windows instead of just the last focused "
+"window from the app."
+msgstr ""
+"在上下文菜单中单击”移至监视器“时，此选项"
+"将移动所有的应用程序的窗口，而不是只是最后的焦点"
+"窗口从应用程序"
 
 msgid "Shows the autostart toggle option in an app's context menu."
 msgstr "是否在应用菜单里显示自动启动开关"
