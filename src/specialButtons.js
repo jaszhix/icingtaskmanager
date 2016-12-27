@@ -100,10 +100,10 @@ IconLabelButton.prototype = {
     if (init) {
       this.themeNode = this.actor.peek_theme_node()
       var themePadding = this.themeNode ? this.themeNode.get_horizontal_padding() : 4
-      this.offsetPadding =  themePadding > 10 ? _.round(themePadding / 4) : themePadding > 7 ? _.round(themePadding / 2) : themePadding;
+      this.offsetPadding =  themePadding > 10 ? _.round(themePadding / 4) : themePadding > 7 ? _.round(themePadding / 2) : 5;
     }
     if (this._applet.orientation === St.Side.TOP || this._applet.orientation == St.Side.BOTTOM) {
-      var padding = this._applet.iconPadding <= 5 ? [`${this.offsetPadding}px`, '0px'] : [`${this._applet.iconPadding}px`, `${this._applet.iconPadding - this.offsetPadding+1}px`]
+      var padding = this._applet.iconPadding <= 5 ? [`${this.offsetPadding % 2 === 1 ? this.offsetPadding : this.offsetPadding - 1}px`, '0px'] : [`${this._applet.iconPadding}px`, `${this._applet.iconPadding - (this.offsetPadding > 0 && this.offsetPadding % 2 === 1 ? 5 : 4)}px`]
       this.actor.set_style(`padding-bottom: 0px;padding-top:0px; padding-left: ${padding[0]};padding-right: ${padding[1]};`)
     }
   },
