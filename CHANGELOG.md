@@ -1,8 +1,14 @@
 Changelog
 
+### 4.1.2
+
+  * Fixed a bug that can prevent pinned apps from being dragged.
+  * Corrected the icon padding looking off-centered in some themes.
+  * Updated translations.
+
 ### 4.1.1
 
-  * Added a new option: "Apply monitor move option to all windows".
+  * Added a new option allowing you to apply the monitor move option to all windows.
   * Fixed a bug that prevents some users from using the settings dialog.
 
 ### 4.1.0
