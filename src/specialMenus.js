@@ -534,7 +534,7 @@ AppThumbnailHoverMenu.prototype = {
 
     this.actor.connect('enter-event', Lang.bind(this, this._onMenuEnter))
     this.actor.connect('leave-event', Lang.bind(this, this._onMenuLeave))
-    this.actor.connect('key-release-event', Lang.bind(this, this._onKeyRelease))
+    this.actor.connect('key-release-event', (actor, e)=>this._onKeyRelease(actor, e))
 
     this.lastKeySymbol = null
   },
@@ -576,24 +576,24 @@ AppThumbnailHoverMenu.prototype = {
   },
 
   _onKeyRelease: function(actor, event) {
+    this.hasKeyDown = false
     let symbol = event.get_key_symbol();
-    if (this.isOpen && (symbol === Clutter.KEY_Super_L || symbol === Clutter.KEY_Super_R || symbol !== this.lastKeySymbol)) {
-      this.lastKeySymbol = symbol
+    if (this.isOpen && (symbol === Clutter.KEY_Super_L || symbol === Clutter.KEY_Super_R)) {
       // close this menu, if opened by super+#
-      this.close(true);
+      this.close();
       return true;
     }
   },
 
   hoverOpen: function () {
     if (this.shouldOpen && !this.isOpen) {
-      this.open(true)
+      this.open()
     }
   },
   
   hoverClose: function () {
     if (this.shouldClose) {
-      this.close(true)
+      this.close()
     }
   },
 

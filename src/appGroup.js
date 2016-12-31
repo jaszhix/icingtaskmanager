@@ -323,6 +323,8 @@ AppGroup.prototype = {
     } else {
       if (this.metaWindows.length > 1) {
         this.hoverMenu.open(true);
+      } else {
+        this.appList._closeAllHoverMenus()
       }
       this._windowHandle(false)
     }

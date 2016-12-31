@@ -122,6 +122,12 @@ AppList.prototype = {
     }
   },
 
+  _closeAllHoverMenus(){
+    for (let i = 0, len = this.appList.length; i < len; i++) {
+      this.appList[i].appGroup.hoverMenu.close()
+    }
+  },
+
   _onAppKeyPress: function(number){
     if (number > this.appList.length) {
       return;
