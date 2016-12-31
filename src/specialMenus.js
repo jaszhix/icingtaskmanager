@@ -575,11 +575,19 @@ AppThumbnailHoverMenu.prototype = {
     setTimeout(()=>this.hoverClose(), this._applet.thumbTimeout)
   },
 
+  _onAppKeyPress: function (number) {
+    this.lastAppKeyNumber = number;
+    if (this.metaWindows && this.metaWindows.length > 1) {
+      this.open(true);
+    }
+  },
+
   _onKeyRelease: function(actor, event) {
     let symbol = event.get_key_symbol();
-    if (this.isOpen && (symbol === Clutter.KEY_Super_L || symbol === Clutter.KEY_Super_R || symbol !== this.lastKeySymbol)) {
-      this.lastKeySymbol = symbol
-      // close this menu, if opened by super+#
+    if (this.isOpen && symbol !== Clutter[`KEY_${this.lastAppKeyNumber}`]) {
+      // if release Clutter.KEY_Super_L or Clutter.KEY_Super_R,
+      //  or pressed another number,
+      //  close this menu, opened by super+#
       this.close(true);
       return true;
     }

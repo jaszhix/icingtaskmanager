@@ -316,14 +316,12 @@ AppGroup.prototype = {
     return false;
   },
 
-  _onAppKeyPress: function () {
+  _onAppKeyPress: function (number) {
     if (this.isFavapp) {
       this.app.open_new_window(-1)
       this._animate()
     } else {
-      if (this.metaWindows.length > 1) {
-        this.hoverMenu.open(true);
-      }
+      this.hoverMenu._onAppKeyPress(number);
       this._windowHandle(false)
     }
   },
