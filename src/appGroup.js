@@ -321,6 +321,9 @@ AppGroup.prototype = {
       this.app.open_new_window(-1)
       this._animate()
     } else {
+      if (this.metaWindows.length > 1) {
+        this.hoverMenu.open(true);
+      }
       this._windowHandle(false)
     }
   },
