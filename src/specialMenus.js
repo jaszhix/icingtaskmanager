@@ -514,6 +514,7 @@ AppThumbnailHoverMenu.prototype = {
     this.app = parent.app
     this.isFavapp = parent.isFavapp
 
+
     // need to implement this class or cinnamon outputs a bunch of errors // TBD
     this.actor.style_class = 'hide-arrow'
 
@@ -534,6 +535,8 @@ AppThumbnailHoverMenu.prototype = {
     this.actor.connect('enter-event', Lang.bind(this, this._onMenuEnter))
     this.actor.connect('leave-event', Lang.bind(this, this._onMenuLeave))
     this.actor.connect('key-release-event', Lang.bind(this, this._onKeyRelease))
+
+    this.lastKeySymbol = null
   },
     
   _onButtonPress: function (actor, event) {
@@ -574,9 +577,8 @@ AppThumbnailHoverMenu.prototype = {
 
   _onKeyRelease: function(actor, event) {
     let symbol = event.get_key_symbol();
-    if(this.isOpen && 
-            (symbol === Clutter.KEY_Super_L
-            || symbol === Clutter.KEY_Super_R)) {
+    if (this.isOpen && (symbol === Clutter.KEY_Super_L || symbol === Clutter.KEY_Super_R || symbol !== this.lastKeySymbol)) {
+      this.lastKeySymbol = symbol
       // close this menu, if opened by super+#
       this.close(true);
       return true;
