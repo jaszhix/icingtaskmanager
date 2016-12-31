@@ -534,7 +534,7 @@ AppThumbnailHoverMenu.prototype = {
     this.actor.connect('enter-event', Lang.bind(this, this._onMenuEnter))
     this.actor.connect('leave-event', Lang.bind(this, this._onMenuLeave))
   },
-
+    
   _onButtonPress: function (actor, event) {
     if (this._applet.onclickThumbs && this.appSwitcherItem.appContainer.get_children().length > 1) {
       return
@@ -576,7 +576,7 @@ AppThumbnailHoverMenu.prototype = {
       this.open(true)
     }
   },
-
+  
   hoverClose: function () {
     if (this.shouldClose) {
       this.close(true)
@@ -876,6 +876,7 @@ WindowThumbnail.prototype = {
       this.metaWindow.connect('notify::title', ()=> {
         this._label.text = this.metaWindow.get_title()
       })
+      this.metaWindow.connect('notify::appears-focused', Lang.bind(this, this._focusWindowChange))
       this._updateAttentionGrabber(null, null, this._applet.showAlerts)
       this._applet.settings.connect('changed::show-alerts', Lang.bind(this, this._updateAttentionGrabber))
       this.tracker = this._applet.tracker
@@ -904,8 +905,7 @@ WindowThumbnail.prototype = {
     this.actor.connect('leave-event', ()=>{
       if (!this.isFavapp) {
         this._hoverPeek(OPACITY_OPAQUE, this.metaWindow, false)
-        this.actor.remove_style_pseudo_class('outlined')
-        this.actor.remove_style_pseudo_class('selected')
+        this._focusWindowChange();
         this.button.hide()
         if (this.wasMinimized) {
           this.metaWindow.minimize(global.get_current_time())
@@ -915,6 +915,8 @@ WindowThumbnail.prototype = {
     this.button.connect('button-release-event', Lang.bind(this, this._onButtonRelease))
 
     this.actor.connect('button-release-event', Lang.bind(this, this._connectToWindow))
+    //update focused style
+    setTimeout(()=>this._focusWindowChange(),0)
   },
 
   setMetaWindow: function (metaWindow, metaWindows) {
@@ -951,6 +953,16 @@ WindowThumbnail.prototype = {
   _onFocusChange: function () {
     if (this._hasFocus()) {
       this.actor.remove_style_class_name('thumbnail-alerts')
+    }
+  },
+  
+  _focusWindowChange: function () {
+    if (this._hasFocus()) {
+      this.actor.add_style_pseudo_class('outlined')
+      this.actor.add_style_pseudo_class('selected')
+    }else{
+      this.actor.remove_style_pseudo_class('outlined')
+      this.actor.remove_style_pseudo_class('selected')
     }
   },
 
