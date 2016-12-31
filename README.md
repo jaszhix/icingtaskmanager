@@ -1,6 +1,10 @@
 Icing Task Manager
 =============
 
+**Attention**
+The Cinnamon Spices website is being moved to Github and applets cannot be updated currently. You can download the latest release from the repository in the mean time. Click the "X Releases" link in the Code tab.
+Extract the file into your ~/.local/share/cinnamon/applets/IcingTaskManager@json directory.
+
 This is a fork of the unfinished development branch of [Window List With App Grouping](https://github.com/jake-phy/WindowIconList/) applet, originally by jake-phy who forked the code from [GNOME Shell Window List](https://github.com/siefkenj/gnome-shell-windowlist/).
 
 ### Changes from the original version
