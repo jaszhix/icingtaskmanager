@@ -4,7 +4,11 @@ Special thanks to the contributors of this project.
 
 ### Pull requests
 
+  *  AdmiralAnimE:
+    * https://github.com/jaszhix/icingtaskmanager/commit/5e59cb1595c600db135cb8f841f167598708d565
   * zqq90:
+    * https://github.com/jaszhix/icingtaskmanager/pull/64
+    * https://github.com/jaszhix/icingtaskmanager/pull/60
     * https://github.com/jaszhix/icingtaskmanager/pull/58
     * https://github.com/jaszhix/icingtaskmanager/pull/57
   * NoXPhasma:

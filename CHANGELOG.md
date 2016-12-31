@@ -1,5 +1,32 @@
 Changelog
 
+### 4.1.2
+
+  * Fixed a bug that can prevent pinned apps from being dragged.
+  * Corrected the icon padding looking off-centered in some themes.
+  * Updated translations.
+
+### 4.1.1
+
+  * Added a new option allowing you to apply the monitor move option to all windows.
+  * Fixed a bug that prevents some users from using the settings dialog.
+
+### 4.1.0
+
+  * Fixed the wrong windows appearing active when switching to a new workspace while the group apps option is disabled.
+  * Fixed window thumbnails not sorting by last active window when the sort thumbnails option is enabled.
+  * The default icon padding is now more dependent on the theme's icon padding, and it will reset when changing themes
+  * New feature by [zqq90](https://github.com/jaszhix/icingtaskmanager/pull/64):
+    * Added a new assignable hotkey to show the order of apps with Super + ` by default.
+
+### 4.0.9
+
+  * Bulgarian translation added by [AdmiralAnimE](https://github.com/jaszhix/icingtaskmanager/commit/5e59cb1595c600db135cb8f841f167598708d565).
+
+### 4.0.8
+
+  * Simplified Chinese translation added by [zqq90](https://github.com/jaszhix/icingtaskmanager/pull/60).
+
 ### 4.0.7
 
   * German translation corrections by [NoXPhasma](https://github.com/jaszhix/icingtaskmanager/pull/59).

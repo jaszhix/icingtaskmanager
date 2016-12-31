@@ -93,7 +93,7 @@ use to override window-list-item-box */
 .window-list-item-demands-attention {
 }
 .app-button-label {
-	padding-left: 4px;
+  padding-left: 4px;
 }
 .panel-launcher-vertical {
   padding-top: 2px;

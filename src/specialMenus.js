@@ -97,8 +97,21 @@ AppMenuButtonRightClickMenu.prototype = {
       if (Main.layoutManager.monitors.length > 1) {
         var connectMonitorEvent = (item, mw, i)=>{
           item.connect('activate', ()=>{
-            mw.move_to_monitor(i)
-            this.app.activate(mw, global.get_current_time())
+            if (this._applet.monitorMoveAllWindows) {
+              for (let z = 0, len = this.metaWindows.length; z < len; z++) {
+                var focused = 0;
+                this.metaWindows[z].win.move_to_monitor(i)
+                if (this.metaWindows[z].win.has_focus()) {
+                  ++focused
+                }
+                if (z === len - 1 && focused === 0) {
+                  this.app.activate(this.metaWindows[z].win, global.get_current_time())
+                }
+              }
+            } else {
+              mw.move_to_monitor(i)
+              this.app.activate(mw, global.get_current_time())
+            }
           })
         }
         for (let i = 0, len = Main.layoutManager.monitors.length; i < len; i++) {
@@ -728,17 +741,13 @@ PopupMenuAppSwitcherItem.prototype = {
       for (let w = 0, len = children.length; w < len; w++) {
         this.appContainer.remove_actor(children[w])
       }
-      windows.sort(function (a, b) {
-        return a.user_time - b.user_time
-      })
+      this.appThumbnails = _.orderBy(this.appThumbnails, ['metaWindow.user_time'], ['asc'])
       this.reAdd = true
     }
 
     for (let i = 0, len = windows.length; i < len; i++) {
       var metaWindow = windows[i]
       if (this.appThumbnails[i] !== undefined && this.appThumbnails[i]) {
-        this.appThumbnails[i].thumbnail._isFavorite(this.isFavapp, metaWindow, windows)
-        //this.appThumbnails[i].thumbnail._refresh(metaWindow, windows)
         if (this.reAdd) {
           if (this._applet.sortThumbs) {
             this.appContainer.insert_actor(this.appThumbnails[i].thumbnail.actor, 0)

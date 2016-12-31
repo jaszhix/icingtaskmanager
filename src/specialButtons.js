@@ -83,7 +83,7 @@ IconLabelButton.prototype = {
     this._container.add_actor(this._label)
     this._container.add_actor(this._numLabel)
 
-    this.setIconPadding()
+    setTimeout(()=>this.setIconPadding(true), 0)
     this.setIconSize()
 
     global.settings.connect('changed::panel-edit-mode', Lang.bind(this, this.on_panel_edit_mode_changed))
@@ -96,10 +96,15 @@ IconLabelButton.prototype = {
     this.actor.reactive = !global.settings.get_boolean('panel-edit-mode')
   },
 
-  setIconPadding: function () {
+  setIconPadding: function (init) {
+    if (init) {
+      this.themeNode = this.actor.peek_theme_node()
+      var themePadding = this.themeNode ? this.themeNode.get_horizontal_padding() : 4
+      this.offsetPadding =  themePadding > 10 ? _.round(themePadding / 4) : themePadding > 7 ? _.round(themePadding / 2) : 5;
+    }
     if (this._applet.orientation === St.Side.TOP || this._applet.orientation == St.Side.BOTTOM) {
-      var padding = this._applet.iconPadding <= 5 ? ['6px', '0px'] : [`${this._applet.iconPadding}px`, `${this._applet.iconPadding - 5}px`]
-      this.actor.style = `padding-bottom: 0px;padding-top:0px; padding-left: ${padding[0]};padding-right: ${padding[1]};`
+      var padding = this._applet.iconPadding <= 5 ? [`${this.offsetPadding % 2 === 1 ? this.offsetPadding : this.offsetPadding - 1}px`, '0px'] : [`${this._applet.iconPadding}px`, `${this._applet.iconPadding - (this.offsetPadding > 0 && this.offsetPadding % 2 === 1 ? 5 : 4)}px`]
+      this.actor.set_style(`padding-bottom: 0px;padding-top:0px; padding-left: ${padding[0]};padding-right: ${padding[1]};`)
     }
   },
 
@@ -290,6 +295,8 @@ AppButton.prototype = {
     this._applet = parent._applet
     this._parent = parent
     this.isFavapp = parent.isFavapp
+    this.metaWindow = []
+    this.metaWindows = []
     IconLabelButton.prototype._init.call(this, this)
 
     if (this.isFavapp) {
@@ -309,6 +316,11 @@ AppButton.prototype = {
     }
   },
 
+  setMetaWindow: function (metaWindow, metaWindows) {
+    this.metaWindow = metaWindow
+    this.metaWindows = _.map(metaWindows, 'win')
+  },
+
   _onFocusChange: function () {
     // If any of the windows associated with our app have focus,
     // we should set ourselves to active
@@ -319,7 +331,7 @@ AppButton.prototype = {
       this._needsAttention = false
     } else {
       this.actor.remove_style_pseudo_class('focus')
-      if (this._applet.showActive) {
+      if (this._applet.showActive && this.metaWindows.length > 0) {
         this.actor.add_style_pseudo_class('active')
       }
     }
@@ -336,7 +348,7 @@ AppButton.prototype = {
       workspaceIds.push(this.metaWorkspaces[i].workspace.index())
     }
 
-    var windows = _.filter(this.app.get_windows(), function(win){
+    var windows = _.filter(this.metaWindows, function(win){
       return workspaceIds.indexOf(win.get_workspace().index()) >= 0
     })
 
@@ -388,24 +400,14 @@ AppButton.prototype = {
 
   _isFavorite: function (isFav) {
     this.isFavapp = isFav
-    if (isFav) {
-      if (this._applet.orientation === St.Side.LEFT || this._applet.orientation === St.Side.RIGHT) {
-        this.setStyle('panel-launcher-vertical')
-      } else {
-        this.setStyle('panel-launcher')
-      }
-      this._label.text = ''
-    } else {
-      this.setStyle('window-list-item-box app-list-item-box')
-      if (this._applet.orientation == St.Side.TOP) {
-        this.actor.add_style_class_name('window-list-item-box-top')
-      } else if (this._applet.orientation == St.Side.BOTTOM) {
-        this.actor.add_style_class_name('window-list-item-box-bottom')
-      } else if (this._applet.orientation == St.Side.LEFT) {
-        this.actor.add_style_class_name('window-list-item-box-left')
-      } else if (this._applet.orientation == St.Side.RIGHT) {
-        this.actor.add_style_class_name('window-list-item-box-right')
-      }
+    if (this._applet.orientation == St.Side.TOP) {
+      this.actor.add_style_class_name('window-list-item-box-top')
+    } else if (this._applet.orientation == St.Side.BOTTOM) {
+      this.actor.add_style_class_name('window-list-item-box-bottom')
+    } else if (this._applet.orientation == St.Side.LEFT) {
+      this.actor.add_style_class_name('window-list-item-box-left')
+    } else if (this._applet.orientation == St.Side.RIGHT) {
+      this.actor.add_style_class_name('window-list-item-box-right')
     }
   },
 

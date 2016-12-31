@@ -38,6 +38,8 @@ def importConfig():
                             ('icon-padding', config['icon-padding']),
                             ('enable-iconSize', config['enable-iconSize']),
                             ('icon-size', config['icon-size']),
+                            ('show-apps-order-hotkey', config['show-apps-order-hotkey']),
+                            ('show-apps-order-timeout', config['show-apps-order-timeout']),
                             ('HoverPeek', config['HoverPeek']),
                             ('seperator2', config['seperator2']),
                             ('enable-hover-peek', config['enable-hover-peek']),
@@ -57,8 +59,9 @@ def importConfig():
                             ('AppMenu', config['AppMenu']),
                             ('seperator4', config['seperator4']),
                             ('show-recent', config['show-recent']),
-                            ('autostart-menu-item', config['autostart-menu-item']),
                             ('firefox-menu', config['firefox-menu']),
+                            ('autostart-menu-item', config['autostart-menu-item']),
+                            ('monitor-move-all-windows', config['monitor-move-all-windows']),
                             ('__md5__', config['__md5__']),
                             ])
 

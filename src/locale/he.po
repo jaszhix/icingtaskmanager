@@ -65,6 +65,22 @@ msgstr "גודל אייקון"
 msgid "Set icon size"
 msgstr "גודל גדר סמל"
 
+msgid "Global hotkey to show the order of apps"
+msgstr "מקשי קיצור דרך עולמיים להראות את סדר האפליקציות"
+
+msgid "Duration of the apps order display on hotkey press"
+msgstr "משך אפליקציות סדר תצוגה על עיתונות hotkey"
+
+msgid "" 
+"When triggered, the window count label will be replaced with its order in "
+"the app list temporarily."
+msgstr "כאשר מופעל, התווית חלון הספירה תוחלף מהזמנתו ברשימת היישומים באופן זמני."
+
+msgid ""
+"Determines the duration the window count labels are replaced with the "
+"app's order number."
+msgstr "קובע את המשך זמן תוויות ספירת חלון מוחלפות עם מספר ההזמנה של האפליקציה."
+
 #. src->settings-schema.json->hover-peek-time->description
 msgid "Window fade time"
 msgstr "זמן לאפקט"
@@ -170,6 +186,18 @@ msgstr ""
 
 msgid "Show autostart option"
 msgstr "אפשרות autostart צג"
+
+msgid "Apply the monitor move option to all windows"
+msgstr "החל את אפשרות המעבר לפקח על כל החלונות"
+
+msgid ""
+"When clicking \"Move to monitor\" in the context menu, this option "
+"will move all of an app's windows instead of just the last focused "
+"window from the app."
+msgstr ""
+"כאשר לחיצה \"הזז לפקח \" בתפריט ההקשר, אפשרות זו "
+"יעביר את כל חלונות של אפליקציה במקום רק את הממוקד האחרון "
+"חלון מהאפליקציה."
 
 msgid "Shows the autostart toggle option in an app's context menu."
 msgstr "מציג את האפשרות לעבור autostart ב תפריט ההקשר של יישום."
