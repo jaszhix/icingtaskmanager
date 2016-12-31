@@ -978,6 +978,10 @@ WindowThumbnail.prototype = {
   },
 
   _hasFocus: function () {
+    if (!this.metaWindow) {
+      return false
+    }
+
     if (this.metaWindow.minimized) {
       return false
     }
