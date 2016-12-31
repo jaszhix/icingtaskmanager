@@ -1,5 +1,11 @@
 Changelog
 
+### 4.1.3
+
+  * Window thumbnail enhancement by [zqq90](https://github.com/jaszhix/icingtaskmanager/pull/71):
+    * Highlights the focused window's thumbnail.
+    * Shows the thumbnail menu when switching windows using the Super+# hot keys.
+
 ### 4.1.2
 
   * Fixed a bug that can prevent pinned apps from being dragged.

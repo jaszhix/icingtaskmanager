@@ -576,7 +576,6 @@ AppThumbnailHoverMenu.prototype = {
   },
 
   _onKeyRelease: function(actor, event) {
-    this.hasKeyDown = false
     let symbol = event.get_key_symbol();
     if (this.isOpen && (symbol === Clutter.KEY_Super_L || symbol === Clutter.KEY_Super_R)) {
       // close this menu, if opened by super+#
