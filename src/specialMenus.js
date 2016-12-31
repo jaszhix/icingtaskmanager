@@ -917,6 +917,7 @@ WindowThumbnail.prototype = {
     this.actor.connect('leave-event', ()=>{
       if (!this.isFavapp) {
         this._hoverPeek(OPACITY_OPAQUE, this.metaWindow, false)
+        this.actor.remove_style_pseudo_class('outlined')
         this._focusWindowChange();
         this.button.hide()
         if (this.wasMinimized) {
@@ -967,13 +968,11 @@ WindowThumbnail.prototype = {
       this.actor.remove_style_class_name('thumbnail-alerts')
     }
   },
-  
+
   _focusWindowChange: function () {
     if (this._hasFocus()) {
-      this.actor.add_style_pseudo_class('outlined')
       this.actor.add_style_pseudo_class('selected')
     }else{
-      this.actor.remove_style_pseudo_class('outlined')
       this.actor.remove_style_pseudo_class('selected')
     }
   },
