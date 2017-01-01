@@ -20,6 +20,14 @@ const TitleDisplay = {
   Focused: 4
 }
 
+const pseudoOptions = [
+  {id: 1, label: 'hover'},
+  {id: 2, label: 'focus'},
+  {id: 3, label: 'active'},
+  {id: 4, label: 'outlined'},
+  {id: 5, label: 'selected'},
+]
+
 // Creates a button with an icon and a label.
 // The label text must be set with setText
 // @icon: the icon to be displayed
@@ -97,13 +105,18 @@ IconLabelButton.prototype = {
   },
 
   setIconPadding: function (init) {
-    if (init) {
+    if (init && this._applet.themePadding) {
       this.themeNode = this.actor.peek_theme_node()
       var themePadding = this.themeNode ? this.themeNode.get_horizontal_padding() : 4
       this.offsetPadding =  themePadding > 10 ? _.round(themePadding / 4) : themePadding > 7 ? _.round(themePadding / 2) : 5;
     }
     if (this._applet.orientation === St.Side.TOP || this._applet.orientation == St.Side.BOTTOM) {
-      var padding = this._applet.iconPadding <= 5 ? [`${this.offsetPadding % 2 === 1 ? this.offsetPadding : this.offsetPadding - 1}px`, '0px'] : [`${this._applet.iconPadding}px`, `${this._applet.iconPadding - (this.offsetPadding > 0 && this.offsetPadding % 2 === 1 ? 5 : 4)}px`]
+      var padding;
+      if (this._applet.themePadding) {
+        padding = padding = this._applet.iconPadding <= 5 ? [`${this.offsetPadding % 2 === 1 ? this.offsetPadding : this.offsetPadding - 1}px`, '0px'] : [`${this._applet.iconPadding}px`, `${this._applet.iconPadding - (this.offsetPadding > 0 && this.offsetPadding % 2 === 1 ? 5 : 4)}px`];
+      } else {
+        padding = this._applet.iconPadding <= 5 ? ['6px', '0px'] : [`${this._applet.iconPadding}px`, `${this._applet.iconPadding - 5}px`]
+      }
       this.actor.set_style(`padding-bottom: 0px;padding-top:0px; padding-left: ${padding[0]};padding-right: ${padding[1]};`)
     }
   },
@@ -143,7 +156,7 @@ IconLabelButton.prototype = {
       return
     }
     if (this._applet.showActive) {
-      this.actor.remove_style_pseudo_class('active')
+      this.actor.remove_style_pseudo_class(_.find(pseudoOptions, {id: this._applet.activePseudoClass}).label)
     }
     this.actor.add_style_class_name('window-list-item-demands-attention')
     if (counter < 4) {
@@ -151,7 +164,7 @@ IconLabelButton.prototype = {
         if (this.actor.has_style_class_name('window-list-item-demands-attention')) {
           this.actor.remove_style_class_name('window-list-item-demands-attention')
           if (this._applet.showActive) {
-            this.actor.add_style_pseudo_class('active')
+            this.actor.add_style_pseudo_class(_.find(pseudoOptions, {id: this._applet.activePseudoClass}).label)
           }
         }
         setTimeout(()=>{
@@ -306,13 +319,30 @@ AppButton.prototype = {
     this._trackerSignal = this._applet.tracker.connect('notify::focus-app', Lang.bind(this, this._onFocusChange))
     this._updateAttentionGrabber(null, null, this._applet.showAlerts)
     this._applet.settings.connect('changed::show-alerts', Lang.bind(this, this._updateAttentionGrabber))
+    this.actor.connect('enter-event', Lang.bind(this, this._onEnter))
+    this.actor.connect('leave-event', Lang.bind(this, this._onLeave))
+  },
+
+  _onEnter(){
+    this.actor.add_style_pseudo_class(_.find(pseudoOptions, {id: this._applet.hoverPseudoClass}).label)
+  },
+
+  _onLeave(){
+    if (this.metaWindows.length > 0 && (this._applet.activePseudoClass === 1 || (this._applet.focusPseudoClass === 1 && this._hasFocus()))) {
+      setTimeout(()=>this.actor.add_style_pseudo_class('hover'), 0)
+    } else if (this._applet.hoverPseudoClass > 1) {
+      if (this._applet.hoverPseudoClass === this._applet.activePseudoClass && this.metaWindows.length > 0) {
+        return
+      }
+      setTimeout(()=>this.actor.remove_style_pseudo_class(_.find(pseudoOptions, {id: this._applet.hoverPseudoClass}).label), 0)
+    }
   },
 
   setActiveStatus(windows){
     if (windows.length > 0) {
-      this.actor.add_style_pseudo_class('active')
+      this.actor.add_style_pseudo_class(_.find(pseudoOptions, {id: this._applet.activePseudoClass}).label)
     } else {
-      this.actor.remove_style_pseudo_class('active')
+      this.actor.remove_style_pseudo_class(_.find(pseudoOptions, {id: this._applet.activePseudoClass}).label)
     }
   },
 
@@ -325,15 +355,15 @@ AppButton.prototype = {
     // If any of the windows associated with our app have focus,
     // we should set ourselves to active
     if (this._hasFocus()) {
-      this.actor.add_style_pseudo_class('focus')
+      this.actor.add_style_pseudo_class(_.find(pseudoOptions, {id: this._applet.focusPseudoClass}).label)
       this.actor.remove_style_class_name('window-list-item-demands-attention')
       this.actor.remove_style_class_name('window-list-item-demands-attention-top')
       this._needsAttention = false
     } else {
-      this.actor.remove_style_pseudo_class('focus')
-      if (this._applet.showActive && this.metaWindows.length > 0) {
+      this.actor.remove_style_pseudo_class(_.find(pseudoOptions, {id: this._applet.focusPseudoClass}).label)
+      /*if (this._applet.showActive && this.metaWindows.length > 0) {
         this.actor.add_style_pseudo_class('active')
-      }
+      }*/
     }
   },
 
@@ -400,14 +430,26 @@ AppButton.prototype = {
 
   _isFavorite: function (isFav) {
     this.isFavapp = isFav
-    if (this._applet.orientation == St.Side.TOP) {
-      this.actor.add_style_class_name('window-list-item-box-top')
-    } else if (this._applet.orientation == St.Side.BOTTOM) {
-      this.actor.add_style_class_name('window-list-item-box-bottom')
-    } else if (this._applet.orientation == St.Side.LEFT) {
-      this.actor.add_style_class_name('window-list-item-box-left')
-    } else if (this._applet.orientation == St.Side.RIGHT) {
-      this.actor.add_style_class_name('window-list-item-box-right')
+    if (isFav && this._applet.panelLauncherClass) {
+      if (this._applet.orientation === St.Side.LEFT || this._applet.orientation === St.Side.RIGHT) {
+       this.setStyle('panel-launcher-vertical')
+      } else {
+       this.setStyle('panel-launcher')
+      }
+      this._label.text = ''
+    } else {
+      if (this._applet.panelLauncherClass) {
+        this.setStyle('window-list-item-box')
+      }
+      if (this._applet.orientation == St.Side.TOP) {
+       this.actor.add_style_class_name('window-list-item-box-top')
+      } else if (this._applet.orientation == St.Side.BOTTOM) {
+       this.actor.add_style_class_name('window-list-item-box-bottom')
+      } else if (this._applet.orientation == St.Side.LEFT) {
+       this.actor.add_style_class_name('window-list-item-box-left')
+      } else if (this._applet.orientation == St.Side.RIGHT) {
+       this.actor.add_style_class_name('window-list-item-box-right')
+      }
     }
   },
 

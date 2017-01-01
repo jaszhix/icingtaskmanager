@@ -414,3 +414,35 @@ msgstr ""
 
 msgid "Restore"
 msgstr ""
+
+# Needs translations
+msgid "Use theme padding to center button icons"
+msgstr ""
+
+msgid "If button icons look off-centered, toggling this may help."
+msgstr ""
+
+msgid "App button hover pseudo class"
+msgstr ""
+
+msgid "Overrides the pseudo class for app buttons on hover."
+msgstr ""
+
+msgid "App button focus pseudo class"
+msgstr ""
+
+msgid "Overrides the pseudo class for app button on focus."
+msgstr ""
+
+msgid "App button active pseudo class"
+msgstr ""
+
+msgid "Overrides the pseudo class for app buttons when they are active."
+msgstr ""
+
+msgid "Use the panel launcher class for pinned apps"
+msgstr ""
+
+msgid "Enabling this helps with certain themes."
+msgstr ""
+
