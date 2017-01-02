@@ -666,6 +666,53 @@ PopupMenuAppSwitcherItem.prototype = {
     this._applet.settings.connect('changed::vertical-thumbnails', Lang.bind(this, this._setVerticalSetting))
     this._setVerticalSetting()
     this.addActor(this.box)
+
+    this.actor.connect('key-press-event', (actor, e)=>this._onKeyPress(actor, e))
+  },
+
+  _onKeyPress(actor, e){
+    let symbol = e.get_key_symbol();
+    let i = _.findIndex(this.appThumbnails, (thumb)=>{
+      return thumb.thumbnail.entered
+    })
+
+    let entered = i > -1
+    if (entered) {
+      this.appThumbnails[i].thumbnail.handleLeaveEvent()
+    } else {
+      i = _.findIndex(this.appThumbnails, (thumb)=>{
+        return thumb.thumbnail._hasFocus()
+      })
+      if (i === -1) {
+        i = 0
+      }
+    }
+    var index;
+    if (symbol === 65363) {
+      if (!entered) {
+        index = i
+      } else if (this.appThumbnails[i+1] !== undefined) {
+        index = i+1
+      } else {
+        index = 0
+      }
+    } else if (symbol === 65361) {
+      if (!entered) {
+        index = i
+      } else if (this.appThumbnails[i-1] !== undefined) {
+        index = i-1
+      } else {
+        index = this.appThumbnails.length - 1
+      }
+    } else if (symbol === 65293 && entered) {
+      Main.activateWindow(this.appThumbnails[i].metaWindow, global.get_current_time())
+      this._parent.close()
+    } else if (65364) {
+      this._parent.close()
+    } else {
+      return
+    }
+    this.appThumbnails[index].thumbnail.handleEnterEvent()
   },
 
   _setVerticalSetting: function () {
@@ -894,42 +941,48 @@ WindowThumbnail.prototype = {
       this.tracker = this._applet.tracker
       this._trackerSignal = this.tracker.connect('notify::focus-app', Lang.bind(this, this._onFocusChange))
     }
-    this.actor.connect('enter-event', ()=>{
-      if (!this.isFavapp) {
-        var parent = this._parent._parentContainer
-        parent.shouldOpen = true
-        parent.shouldClose = false
-        this._hoverPeek(this._applet.peekOpacity, this.metaWindow, true)
-        this.actor.add_style_pseudo_class('outlined')
-        this.actor.add_style_pseudo_class('selected')
-        this.button.show()
-        if (this.metaWindow.minimized && this._applet.enablePeek  && this.app.get_name() !== 'Steam') {
-          this.metaWindow.unminimize()
-          if (this.metaWindow.is_fullscreen()) {
-            this.metaWindow.unmaximize(global.get_current_time())
-          }
-          this.wasMinimized = true
-        } else {
-          this.wasMinimized = false
-        }
-      }
-    })
-    this.actor.connect('leave-event', ()=>{
-      if (!this.isFavapp) {
-        this._hoverPeek(OPACITY_OPAQUE, this.metaWindow, false)
-        this.actor.remove_style_pseudo_class('outlined')
-        this._focusWindowChange();
-        this.button.hide()
-        if (this.wasMinimized) {
-          this.metaWindow.minimize(global.get_current_time())
-        }
-      }
-    })
+    this.actor.connect('enter-event', ()=>this.handleEnterEvent())
+    this.actor.connect('leave-event', ()=>this.handleLeaveEvent())
     this.button.connect('button-release-event', Lang.bind(this, this._onButtonRelease))
 
     this.actor.connect('button-release-event', Lang.bind(this, this._connectToWindow))
     //update focused style
     setTimeout(()=>this._focusWindowChange(),0)
+    this.entered = false
+  },
+
+  handleEnterEvent(){
+    this.entered = true
+    if (!this.isFavapp) {
+      this._parent._parentContainer.shouldOpen = true
+      this._parent._parentContainer.shouldClose = false
+      this._hoverPeek(this._applet.peekOpacity, this.metaWindow, true)
+      this.actor.add_style_pseudo_class('outlined')
+      this.actor.add_style_pseudo_class('selected')
+      this.button.show()
+      if (this.metaWindow.minimized && this._applet.enablePeek  && this.app.get_name() !== 'Steam') {
+        this.metaWindow.unminimize()
+        if (this.metaWindow.is_fullscreen()) {
+          this.metaWindow.unmaximize(global.get_current_time())
+        }
+        this.wasMinimized = true
+      } else {
+        this.wasMinimized = false
+      }
+    }
+  },
+
+  handleLeaveEvent(){
+    this.entered = false
+    if (!this.isFavapp) {
+      this._hoverPeek(OPACITY_OPAQUE, this.metaWindow, false)
+      this.actor.remove_style_pseudo_class('outlined')
+      this._focusWindowChange();
+      this.button.hide()
+      if (this.wasMinimized) {
+        this.metaWindow.minimize(global.get_current_time())
+      }
+    }
   },
 
   setMetaWindow: function (metaWindow, metaWindows) {
@@ -972,7 +1025,7 @@ WindowThumbnail.prototype = {
   _focusWindowChange: function () {
     if (this._hasFocus()) {
       this.actor.add_style_pseudo_class('selected')
-    }else{
+    } else {
       this.actor.remove_style_pseudo_class('selected')
     }
   },
