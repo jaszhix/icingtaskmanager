@@ -535,10 +535,8 @@ AppThumbnailHoverMenu.prototype = {
     this.actor.connect('enter-event', Lang.bind(this, this._onMenuEnter))
     this.actor.connect('leave-event', Lang.bind(this, this._onMenuLeave))
     this.actor.connect('key-release-event', (actor, e)=>this._onKeyRelease(actor, e))
-
-    this.lastKeySymbol = null
   },
-    
+
   _onButtonPress: function (actor, event) {
     if (this._applet.onclickThumbs && this.appSwitcherItem.appContainer.get_children().length > 1) {
       return
@@ -564,23 +562,23 @@ AppThumbnailHoverMenu.prototype = {
   _onEnter: function () {
     this.shouldOpen = true
     this.shouldClose = false
-
     setTimeout(()=>this.hoverOpen(), this._applet.thumbTimeout)
   },
 
   _onLeave: function () {
     this.shouldClose = true
     this.shouldOpen = false
-
     setTimeout(()=>this.hoverClose(), this._applet.thumbTimeout)
   },
 
   _onKeyRelease: function(actor, event) {
-    let symbol = event.get_key_symbol();
+    let symbol = event.get_key_symbol()
     if (this.isOpen && (symbol === Clutter.KEY_Super_L || symbol === Clutter.KEY_Super_R)) {
       // close this menu, if opened by super+#
       this.close();
       return true;
+    } else if (symbol === 99) {
+      this._applet.getCurrentAppList()._cycleMenus()
     }
   },
 
@@ -653,6 +651,7 @@ PopupMenuAppSwitcherItem.prototype = {
     this.isFavapp = parent.isFavapp
     this._parentContainer = parent
     this.actor.style_class = ''
+    this._parent = parent
 
     this.box = new St.BoxLayout()
 

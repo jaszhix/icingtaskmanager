@@ -402,6 +402,7 @@ MyApplet.prototype = {
       Main.keybindingManager.addHotKey(`launch-new-app-key-${i}`, `<Super><Shift>${i}`, Lang.bind(this, () => this._onNewAppKeyPress(i)));
     }
     Main.keybindingManager.addHotKey('launch-show-apps-order', this.showAppsOrderHotkey, Lang.bind(this, this._showAppsOrder));
+    Main.keybindingManager.addHotKey('launch-cycle-menus', '<Super>c', Lang.bind(this, this._cycleMenus));
   },
 
   _unbindAppKey: function(){
@@ -410,6 +411,7 @@ MyApplet.prototype = {
       Main.keybindingManager.removeHotKey(`launch-new-app-key-${i}`);
     }
     Main.keybindingManager.removeHotKey('launch-show-apps-order');
+    Main.keybindingManager.removeHotKey('launch-cycle-menus');
   },
   
   _onAppKeyPress: function(number){
@@ -422,6 +424,10 @@ MyApplet.prototype = {
 
   _showAppsOrder: function(){
     this.getCurrentAppList()._showAppsOrder();
+  },
+
+  _cycleMenus: function(){
+    this.getCurrentAppList()._cycleMenus();
   },
 
   refreshCurrentAppList(){

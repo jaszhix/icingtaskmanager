@@ -51,6 +51,7 @@ AppList.prototype = {
 
     this.appList = []
     this.lastFocusedApp = null
+    this.lastCycled = null
 
     // Connect all the signals
     this._setSignals()
@@ -151,6 +152,30 @@ AppList.prototype = {
         this.appList[i].appGroup.hideOrderLabel();
       }
     }, this._applet.showAppsOrderTimeout);
+  },
+
+  _cycleMenus(){
+    var refApp = 0
+    if (!this.lastCycled && this.lastFocusedApp) {
+      refApp = _.findIndex(this.appList, {id: this.lastFocusedApp});
+    } 
+    if (this.lastCycled) {
+      this.appList[this.lastCycled].appGroup.hoverMenu.close()
+      refApp = this.lastCycled+1
+    }
+    if (refApp === this.lastCycled) {
+      refApp = this.lastCycled+1
+    }
+    this.lastCycled = refApp
+    if (refApp > this.appList.length - 1) {
+      refApp = 0
+      this.lastCycled = 0
+    }
+    if (this.appList[refApp].appGroup.metaWindows.length > 0) {
+      this.appList[refApp].appGroup.hoverMenu.open()
+    } else {
+      setTimeout(()=>this._cycleMenus(), 0)
+    }
   },
 
   _updateSpacing: function() {
