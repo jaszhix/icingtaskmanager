@@ -577,8 +577,6 @@ AppThumbnailHoverMenu.prototype = {
       // close this menu, if opened by super+#
       this.close();
       return true;
-    } else if (symbol === 99) {
-      this._applet.getCurrentAppList()._cycleMenus()
     }
   },
 
@@ -688,7 +686,7 @@ PopupMenuAppSwitcherItem.prototype = {
       }
     }
     var index;
-    if (symbol === 65363) {
+    if (symbol === Clutter.KEY_Left) {
       if (!entered) {
         index = i
       } else if (this.appThumbnails[i+1] !== undefined) {
@@ -696,7 +694,7 @@ PopupMenuAppSwitcherItem.prototype = {
       } else {
         index = 0
       }
-    } else if (symbol === 65361) {
+    } else if (symbol === Clutter.KEY_Right) {
       if (!entered) {
         index = i
       } else if (this.appThumbnails[i-1] !== undefined) {
@@ -704,10 +702,10 @@ PopupMenuAppSwitcherItem.prototype = {
       } else {
         index = this.appThumbnails.length - 1
       }
-    } else if (symbol === 65293 && entered) {
+    } else if (symbol === Clutter.KEY_Return && entered) {
       Main.activateWindow(this.appThumbnails[i].metaWindow, global.get_current_time())
       this._parent.close()
-    } else if (65364) {
+    } else if (symbol === Clutter.KEY_Down) {
       this._parent.close()
     } else {
       return
