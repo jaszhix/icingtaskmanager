@@ -513,6 +513,7 @@ AppThumbnailHoverMenu.prototype = {
 
     this.app = parent.app
     this.isFavapp = parent.isFavapp
+    this.appList = parent.appList
 
 
     // need to implement this class or cinnamon outputs a bunch of errors // TBD
@@ -576,6 +577,7 @@ AppThumbnailHoverMenu.prototype = {
     if (this.isOpen && (symbol === Clutter.KEY_Super_L || symbol === Clutter.KEY_Super_R)) {
       // close this menu, if opened by super+#
       this.close();
+      this.appList.lastCycled = null
       return true;
     }
   },
