@@ -739,18 +739,6 @@ PopupMenuAppSwitcherItem.prototype = {
     this.isFavapp = isFav
   },
 
-  getMetaWindows: function () {
-    if (this.metaWindow) {
-      if (!this._applet.groupApps) {
-        return [this.metaWindow]
-      }
-      this.metaWorkspace = this.metaWindow.get_workspace()
-    } else if (!this.metaWorkspace) {
-      return {}
-    }
-    return _.map(this.metaWindows, 'win')
-  },
-
   handleUnopenedPinnedApp(metaWindow, windows, appClosed=false){
     if (this.metaWindowThumbnail) {
       this.metaWindowThumbnail.destroy()
@@ -804,7 +792,8 @@ PopupMenuAppSwitcherItem.prototype = {
 
     for (let i = 0, len = windows.length; i < len; i++) {
       var metaWindow = windows[i]
-      if (this.appThumbnails[i] !== undefined && this.appThumbnails[i]) {
+      var refThumb = _.findIndex(this.appThumbnails, {metaWindow: metaWindow})
+      if (this.appThumbnails[i] !== undefined && this.appThumbnails[i] && refThumb !== -1) {
         if (this.reAdd) {
           if (this._applet.sortThumbs) {
             this.appContainer.insert_actor(this.appThumbnails[i].thumbnail.actor, 0)
