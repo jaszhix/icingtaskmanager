@@ -58,6 +58,12 @@
     "description": "Arrange pinned apps",
     "tooltip": "Arrange pinned apps into a different order."
  },
+ "cycleMenusHotkey": {
+    "type": "keybinding",
+    "default": "<Super>space",
+    "description": "Global hotkey for cycling through thumbnail menus",
+    "tooltip": "This allows you to cycle through the menus without activating a window."
+ },
  "show-apps-order-hotkey": {
     "type": "keybinding",
     "default": "<Super>grave",

@@ -299,6 +299,7 @@ MyApplet.prototype = {
       {key: 'pinned-apps', value: 'pinnedApps', cb: null},
       {key: 'show-apps-order-hotkey', value: 'showAppsOrderHotkey', cb: this._bindAppKey},
       {key: 'show-apps-order-timeout', value: 'showAppsOrderTimeout', cb: null},
+      {key: 'cycleMenusHotkey', value: 'cycleMenusHotkey', cb: this._bindAppKey},
       {key: 'hoverPseudoClass', value: 'hoverPseudoClass', cb: this.refreshCurrentAppList},
       {key: 'focusPseudoClass', value: 'focusPseudoClass', cb: this.refreshCurrentAppList},
       {key: 'activePseudoClass', value: 'activePseudoClass', cb: this.refreshCurrentAppList},
@@ -397,12 +398,16 @@ MyApplet.prototype = {
 
   _bindAppKey: function(){
     this._unbindAppKey();
+    var addLaunchHotkeys = (i)=>{
+      Main.keybindingManager.addHotKey(`launch-app-key-${i}`, `<Super>${i}`, () => this._onAppKeyPress(i));
+      Main.keybindingManager.addHotKey(`launch-new-app-key-${i}`, `<Super><Shift>${i}`, () => this._onNewAppKeyPress(i));
+    };
+
     for (let i = 1; i < 10; i++) {
-      Main.keybindingManager.addHotKey(`launch-app-key-${i}`, `<Super>${i}`, Lang.bind(this, () => this._onAppKeyPress(i)));
-      Main.keybindingManager.addHotKey(`launch-new-app-key-${i}`, `<Super><Shift>${i}`, Lang.bind(this, () => this._onNewAppKeyPress(i)));
+      addLaunchHotkeys(i);
     }
-    Main.keybindingManager.addHotKey('launch-show-apps-order', this.showAppsOrderHotkey, Lang.bind(this, this._showAppsOrder));
-    Main.keybindingManager.addHotKey('launch-cycle-menus', '<Super>c', Lang.bind(this, this._cycleMenus));
+    Main.keybindingManager.addHotKey('launch-show-apps-order', this.showAppsOrderHotkey, ()=>this._showAppsOrder());
+    Main.keybindingManager.addHotKey('launch-cycle-menus', this.cycleMenusHotkey, ()=>this._cycleMenus());
   },
 
   _unbindAppKey: function(){
