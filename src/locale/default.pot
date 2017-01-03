@@ -446,3 +446,8 @@ msgstr ""
 msgid "Enabling this helps with certain themes."
 msgstr ""
 
+msgid "Global hotkey for cycling through thumbnail menus"
+msgstr ""
+
+msgid "This allows you to cycle through the menus without activating a window."
+msgstr ""
