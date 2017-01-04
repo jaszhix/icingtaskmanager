@@ -24,6 +24,9 @@ def importConfig():
                         oldPinned = config['pinned-apps']
                     else:
                         orderedConfig = OrderedDict([
+                            ('ITM', config['ITM']), 
+                            ('seperator0', config['seperator0']), 
+                            ('autoUpdate', config['autoUpdate']),
                             ('WindowList', config['WindowList']), 
                             ('seperator1', config['seperator1']), 
                             ('number-display', config['number-display']), 

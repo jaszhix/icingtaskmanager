@@ -26,6 +26,7 @@ const GLib = imports.gi.GLib
 const Meta = imports.gi.Meta
 const SignalManager = imports.misc.signalManager;
 
+const ajax = imports.applet.ajax
 const clog = imports.applet.clog
 const setTimeout = imports.applet.setTimeout
 
@@ -291,6 +292,7 @@ MyApplet.prototype = {
     Gettext.bindtextdomain(this._uuid, GLib.get_home_dir() + '/.local/share/locale')
 
     var settingsProps = [
+      {key: 'autoUpdate', value: 'autoUpdate', cb: this.handleUpdate},
       {key: 'show-pinned', value: 'showPinned', cb: null},
       {key: 'show-active', value: 'showActive', cb: this.refreshCurrentAppList},
       {key: 'show-alerts', value: 'showAlerts', cb: null},
@@ -382,6 +384,9 @@ MyApplet.prototype = {
     this._bindAppKey();
     
     global.settings.connect('changed::panel-edit-mode', Lang.bind(this, this.on_panel_edit_mode_changed))
+
+    // Wait 3s, as Cinnamon doesn't populate Applet._meta until after the applet loads.
+    setTimeout(()=>this.handleUpdate(), 3000)
   },
 
   on_panel_height_changed: function() {
@@ -394,6 +399,24 @@ MyApplet.prototype = {
 
   on_applet_removed_from_panel: function() {
     this.signals.disconnectAllSignals();
+  },
+
+  handleUpdate(){
+    if (this.autoUpdate) {
+      this.version = `v${this._meta.version}`
+      ajax().then((data)=>{
+        if (data.tag_name !== this.version) {
+          let now = Date.now()
+          Main.notify('Icing Task Manager is updating...', 'Go to settings if you wish to disable automatic updates.')
+          Util.trySpawnCommandLine(`bash -c 'wget -O /tmp/ITM-${now}.zip ${data.assets[0].browser_download_url}'`)
+          // Defer for conservative durations due to lack of callback from Utils CLI methods
+          setTimeout(()=>{
+            Util.trySpawnCommandLine(`bash -c 'unzip -o /tmp/ITM-${now}.zip -d ~/.local/share/cinnamon/applets/IcingTaskManager@json/'`)
+            setTimeout(()=>this._reloadApp(), 10000)
+          }, 10000)
+        }
+      })
+    }
   },
 
   _bindAppKey: function(){
