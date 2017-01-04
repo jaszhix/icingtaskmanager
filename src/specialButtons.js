@@ -378,8 +378,8 @@ AppButton.prototype = {
       workspaceIds.push(this.metaWorkspaces[i].workspace.index())
     }
 
-    var windows = _.filter(this.metaWindows, function(win){
-      return workspaceIds.indexOf(win.get_workspace().index()) >= 0
+    var windows = _.filter(this.metaWindows, (win)=>{
+      return workspaceIds.indexOf(this._applet.currentWs) >= 0
     })
 
     var hasTransient = false
