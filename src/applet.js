@@ -415,6 +415,8 @@ MyApplet.prototype = {
             setTimeout(()=>this._reloadApp(), 10000)
           }, 10000)
         }
+      }).catch((code, e)=>{
+        clog(code, e)
       })
     }
   },

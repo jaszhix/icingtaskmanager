@@ -288,10 +288,10 @@ const ajax = (opts={method: 'GET', url: 'https://api.github.com/repos/jaszhix/ic
         if (message.status_code < 300) {
           resolve(data)
         } else {
-          reject('Error')
+          reject(message.status_code, message.response_body.data)
         }
       } catch (e) {
-        reject(e)
+        reject(-1, e)
       }
     });
   });
