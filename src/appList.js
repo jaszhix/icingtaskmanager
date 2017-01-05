@@ -30,6 +30,12 @@ MyApplet._init, signal (switch-workspace) -> _onSwitchWorkspace -> AppList
 AppList.prototype = {
   _init: function (applet, metaWorkspace) {
     this._applet = applet
+    this.settings = applet.settings
+    this.signals = {
+      actor: [],
+      settings: [],
+      metaWorkspace: []
+    }
     this.metaWorkspace = metaWorkspace
     this.actor = new St.BoxLayout()
 
@@ -57,7 +63,7 @@ AppList.prototype = {
     this._setSignals()
     this._refreshList(true)
 
-    this.actor.connect('style-changed', Lang.bind(this, this._updateSpacing));
+    this.signals.actor.push(this.actor.connect('style-changed', Lang.bind(this, this._updateSpacing)))
     
     this.on_orientation_changed(this._applet.orientation, true);
   },
@@ -107,7 +113,7 @@ AppList.prototype = {
     }
 
     if (!init) {
-      this._applet.settings.setValue('vertical-thumbnails', isVertical)
+      this.settings.setValue('vertical-thumbnails', isVertical)
     }
 
     _.each(containerChildren, (child, key)=>{
@@ -183,14 +189,13 @@ AppList.prototype = {
   },
 
   _setSignals: function () {
-    this.signals = []
     // We use connect_after so that the window-tracker time to identify the app
-    this.signals.push(this.metaWorkspace.connect_after('window-added', Lang.bind(this, this._windowAdded)))
-    this.signals.push(this.metaWorkspace.connect_after('window-removed', Lang.bind(this, this._windowRemoved)))
+    this.signals.metaWorkspace.push(this.metaWorkspace.connect_after('window-added', Lang.bind(this, this._windowAdded)))
+    this.signals.metaWorkspace.push(this.metaWorkspace.connect_after('window-removed', Lang.bind(this, this._windowRemoved)))
 
-    this._applet.settings.connect('changed::show-pinned', Lang.bind(this, this._refreshList))
-    this._applet.settings.connect('changed::icon-spacing', Lang.bind(this, this._updateSpacing))
-    global.settings.connect('changed::panel-edit-mode', Lang.bind(this, this.on_panel_edit_mode_changed))
+    this.signals.settings.push(this.settings.connect('changed::show-pinned', Lang.bind(this, this._refreshList)))
+    this.signals.settings.push(this.settings.connect('changed::icon-spacing', Lang.bind(this, this._updateSpacing)))
+    this.panelEditId = global.settings.connect('changed::panel-edit-mode', Lang.bind(this, this.on_panel_edit_mode_changed))
   },
 
   _setLastFocusedApp(id){
@@ -268,7 +273,7 @@ AppList.prototype = {
   },
 
   _loadFavorites: function (init) {
-    if (!this._applet.settings.getValue('show-pinned')) {
+    if (!this.settings.getValue('show-pinned')) {
       return
     }
     let launchers =  this._applet.pinned_app_contr()._getIds()
@@ -333,7 +338,7 @@ AppList.prototype = {
         ungroupedIndex: index
       })
 
-      if (this._applet.settings.getValue('title-display') === App.TitleDisplay.Focused) {
+      if (this.settings.getValue('title-display') === App.TitleDisplay.Focused) {
         appGroup.hideAppButtonLabel(false)
       }
     };
@@ -466,9 +471,12 @@ AppList.prototype = {
   },
 
   destroy: function () {
-    for (let i = 0, len = this.signals.length; i < len; i++) {
-      this.metaWorkspace.disconnect(this.signals[i])
-    }
+    _.each(this.signals, (signal, key)=>{
+      _.each(signal, (id)=>{
+        this[key].disconnect(id)
+      })
+    })
+    global.settings.disconnect(this.panelEditId)
     for (let i = 0, len = this.appList.length; i < len; i++) {
       this.appList[i].appGroup.destroy()
     }

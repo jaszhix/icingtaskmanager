@@ -62,6 +62,10 @@ AppGroup.prototype = {
       y_fill: false,
       track_hover: true
     })
+    this.signals = {
+      _appButton: [],
+      _draggable: []
+    }
 
     this.appList.manager_container.add_actor(this.actor)
 
@@ -71,8 +75,8 @@ AppGroup.prototype = {
 
     this.actor.add_actor(this._appButton.actor)
 
-    this._appButton.actor.connect('button-release-event', Lang.bind(this, this._onAppButtonRelease))
-    this._appButton.actor.connect('button-press-event', Lang.bind(this, this._onAppButtonPress))
+    this.signals._appButton.push(this._appButton.actor.connect('button-release-event', Lang.bind(this, this._onAppButtonRelease)))
+    this.signals._appButton.push(this._appButton.actor.connect('button-press-event', Lang.bind(this, this._onAppButtonPress)))
 
     // Initialized in _windowAdded first for open apps, then deferred here for init speed up.
     setTimeout(()=>{
@@ -90,15 +94,16 @@ AppGroup.prototype = {
     this._hoverMenuManager.addMenu(this.hoverMenu)
 
     this._draggable = SpecialButtons.makeDraggable(this.actor)
-    this._draggable.connect('drag-begin', Lang.bind(this, this._onDragBegin));
-    this._draggable.connect('drag-cancelled', Lang.bind(this, this._onDragCancelled))
-    this._draggable.connect('drag-end', Lang.bind(this, this._onDragEnd))
+
+    this.signals._draggable.push(this._draggable.connect('drag-begin', Lang.bind(this, this._onDragBegin)))
+    this.signals._draggable.push(this._draggable.connect('drag-cancelled', Lang.bind(this, this._onDragCancelled)))
+    this.signals._draggable.push(this._draggable.connect('drag-end', Lang.bind(this, this._onDragEnd)))
     this.isDraggableApp = true
 
     this.on_panel_edit_mode_changed()
     this.on_arrange_pinned()
-    global.settings.connect('changed::panel-edit-mode', Lang.bind(this, this.on_panel_edit_mode_changed))
-    this._applet.settings.connect('changed::arrange-pinnedApps', Lang.bind(this, this.on_arrange_pinned))
+    this.panelEditId = global.settings.connect('changed::panel-edit-mode', Lang.bind(this, this.on_panel_edit_mode_changed))
+    this.arrangePinnedId = this._applet.settings.connect('changed::arrange-pinnedApps', Lang.bind(this, this.on_arrange_pinned))
   },
 
   getId: function () {
@@ -202,7 +207,7 @@ AppGroup.prototype = {
       })
     }
     this._calcWindowNumber(metaWorkspace)
-    this._applet.settings.connect('changed::number-display', ()=>{
+    this.numDisplaySignal = this._applet.settings.connect('changed::number-display', ()=>{
       this._calcWindowNumber(metaWorkspace)
     })
     this._setWatchedWorkspaces()
@@ -463,8 +468,15 @@ AppGroup.prototype = {
         signals.push(metaWindow.connect('notify::title', Lang.bind(this, this._windowTitleChanged)))
         signals.push(metaWindow.connect('notify::appears-focused', Lang.bind(this, this._focusWindowChange)))
 
+        let appletSettingSignal = this._applet.settings.connect('changed::title-display', ()=>{
+          this.on_title_display_changed(metaWindow)
+          this._windowTitleChanged(metaWindow)
+        })
+
+
         let data = {
-          signals: signals
+          signals: signals,
+          appletSettingSignal: appletSettingSignal
         }
 
         this.metaWindows.push({
@@ -491,11 +503,6 @@ AppGroup.prototype = {
 
       }
 
-      this._applet.settings.connect('changed::title-display', ()=>{
-        this.on_title_display_changed(metaWindow)
-        this._windowTitleChanged(metaWindow)
-      })
-
       if (this.isFavapp) {
         this._isFavorite(false)
       }
@@ -510,7 +517,7 @@ AppGroup.prototype = {
 
   _windowRemoved: function (metaWorkspace, metaWindow) {
 
-    let deleted
+    let deleted = null
 
     var refWindow = _.findIndex(this.metaWindows, (win)=>{
       return _.isEqual(win.win, metaWindow)
@@ -520,10 +527,10 @@ AppGroup.prototype = {
       deleted = this.metaWindows[refWindow].data
     }
     if (deleted) {
-      let signals = deleted.signals
+      this._applet.settings.disconnect(deleted.appletSettingSignal)
       // Clean up all the signals we've connected
-      for (let i = 0, len = signals.length; i < len; i++) {
-        metaWindow.disconnect(signals[i])
+      for (let i = 0, len = deleted.signals.length; i < len; i++) {
+        metaWindow.disconnect(deleted.signals[i])
       }
 
       if (!this._applet.groupApps) {
@@ -543,7 +550,7 @@ AppGroup.prototype = {
         }
         this._appButton.setMetaWindow(this.lastFocused, this.metaWindows)
       } else if (this.isFavapp) {
-        setTimeout(()=>this._applet.refreshAppFromCurrentListById(this.appId, {favChange: true, isFavapp: this.isFavapp}), 0)
+        this._applet.refreshAppFromCurrentListById(this.appId, {favChange: true, isFavapp: this.isFavapp})
       }
 
       this._calcWindowNumber(metaWorkspace)
@@ -692,7 +699,17 @@ AppGroup.prototype = {
 
     for (let i = 0, len = this.metaWindows.length; i < len; i++) {
       destroyWindowSignal(this.metaWindows[i])
+      this._applet.settings.disconnect(this.metaWindows[i].data.appletSettingSignal)
     }
+    for (let i = 0, len = this.signals._appButton.length; i < len; i++) {
+      this._appButton.actor.disconnect(this.signals._appButton[i])
+    }
+    for (let i = 0, len = this.signals._draggable.length; i < len; i++) {
+      this._draggable.disconnect(this.signals._draggable[i])
+    }
+    this._applet.settings.disconnect(this.numDisplaySignal)
+    global.settings.disconnect(this.panelEditId)
+    this._applet.settings.disconnect(this.arrangePinnedId)
 
     this.unwatchWorkspace(null, true)
 

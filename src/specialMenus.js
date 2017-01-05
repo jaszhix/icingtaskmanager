@@ -507,6 +507,10 @@ AppThumbnailHoverMenu.prototype = {
     } else {
       PopupMenu.PopupMenu.prototype._init.call(this, parent.actor, 0.5, parent.orientation)
     }
+    this.signals = {
+      parentActor: [],
+      actor: []
+    }
 
     this.metaWindow = parent.metaWindow
     this.metaWindows = []
@@ -529,13 +533,13 @@ AppThumbnailHoverMenu.prototype = {
     this.appSwitcherItem = new PopupMenuAppSwitcherItem(this)
     this.addMenuItem(this.appSwitcherItem)
 
-    this.parentActor.connect('enter-event', Lang.bind(this, this._onEnter))
-    this.parentActor.connect('leave-event', Lang.bind(this, this._onLeave))
-    this.parentActor.connect('button-release-event', Lang.bind(this, this._onButtonPress))
+    this.signals.parentActor.push(this.parentActor.connect('enter-event', Lang.bind(this, this._onEnter)))
+    this.signals.parentActor.push(this.parentActor.connect('leave-event', Lang.bind(this, this._onLeave)))
+    this.signals.parentActor.push(this.parentActor.connect('button-release-event', Lang.bind(this, this._onButtonPress)))
 
-    this.actor.connect('enter-event', Lang.bind(this, this._onMenuEnter))
-    this.actor.connect('leave-event', Lang.bind(this, this._onMenuLeave))
-    this.actor.connect('key-release-event', (actor, e)=>this._onKeyRelease(actor, e))
+    this.signals.actor.push(this.actor.connect('enter-event', Lang.bind(this, this._onMenuEnter)))
+    this.signals.actor.push(this.actor.connect('leave-event', Lang.bind(this, this._onMenuLeave)))
+    this.signals.actor.push(this.actor.connect('key-release-event', (actor, e)=>this._onKeyRelease(actor, e)))
   },
 
   _onButtonPress: function (actor, event) {
@@ -615,8 +619,15 @@ AppThumbnailHoverMenu.prototype = {
       this.box.remove_actor(item.actor)
       item.actor.destroy()
     }
+    _.each(this.signals, (signal, key)=>{
+      _.each(signal, (id)=>{
+        this[key].disconnect(id)
+      })
+    })
+    this.appSwitcherItem.destroy()
     this.box.destroy()
     this.actor.destroy()
+    PopupMenu.PopupMenu.prototype.destroy.call(this)
   },
 
   setMetaWindow: function (metaWindow, metaWindows) {
@@ -645,6 +656,11 @@ PopupMenuAppSwitcherItem.prototype = {
     PopupMenu.PopupBaseMenuItem.prototype._init.call(this, params)
 
     this._applet = parent._applet
+    this.settings = parent._applet.settings
+    this.signals = {
+      settings: [],
+      actor: []
+    }
     this.metaWindow = parent.metaWindow
     this.metaWindows = []
     this.app = parent.app
@@ -663,11 +679,11 @@ PopupMenuAppSwitcherItem.prototype = {
 
     this.appThumbnails = []
 
-    this._applet.settings.connect('changed::vertical-thumbnails', Lang.bind(this, this._setVerticalSetting))
+    this.signals.settings.push(this.settings.connect('changed::vertical-thumbnails', Lang.bind(this, this._setVerticalSetting)))
     this._setVerticalSetting()
     this.addActor(this.box)
 
-    this.actor.connect('key-press-event', (actor, e)=>this._onKeyPress(actor, e))
+    this.signals.actor.push(this.actor.connect('key-press-event', (actor, e)=>this._onKeyPress(actor, e)))
   },
 
   _onKeyPress(actor, e){
@@ -860,6 +876,32 @@ PopupMenuAppSwitcherItem.prototype = {
         _.pullAt(this.appThumbnails, i)
       }
     }
+  },
+
+  destroy(){
+    _.each(this.signals, (signal, key)=>{
+      _.each(signal, (id)=>{
+        this[key].disconnect(id)
+      })
+    })
+    for (let w = 0, len = this.appThumbnails.length; w < len; w++) {
+      this.appContainer.remove_actor(this.appThumbnails[w].thumbnail.actor)
+      this.appThumbnails[w].thumbnail.destroy()
+    }
+    var children = this.appContainer.get_children()
+    for (let w = 0, len = children.length; w < len; w++) {
+      this.appContainer.remove_actor(children[w])
+    }
+    this.box.remove_actor(this.appContainer)
+    this.appContainer.destroy_children()
+    this.appContainer.destroy()
+    children = this.box.get_children()
+    for (let w = 0, len = children.length; w < len; w++) {
+      this.box.remove_actor(children[w])
+    }
+    this.box.destroy_children()
+    this.box.destroy()
+    PopupMenu.PopupBaseMenuItem.prototype.destroy.call(this)
   }
 }
 
@@ -870,6 +912,7 @@ function WindowThumbnail () {
 WindowThumbnail.prototype = {
   _init: function (parent, metaWindow, metaWindows) {
     this._applet = parent._applet
+    this.settings = parent._applet.settings
     this.metaWindow = metaWindow || null
     this.metaWindows = metaWindows
     this.app = parent.app
@@ -880,7 +923,8 @@ WindowThumbnail.prototype = {
     this.thumbnailPadding = 16
     this.signals = {
       actor: [],
-      button: []
+      button: [],
+      settings: []
     }
 
     // Inherit the theme from the alt-tab menu
@@ -933,7 +977,7 @@ WindowThumbnail.prototype = {
       })
       this.windowFocusId = this.metaWindow.connect('notify::appears-focused', Lang.bind(this, this._focusWindowChange))
       this._updateAttentionGrabber(null, null, this._applet.showAlerts)
-      this._applet.settings.connect('changed::show-alerts', Lang.bind(this, this._updateAttentionGrabber))
+      this.signals.settings.push(this.settings.connect('changed::show-alerts', Lang.bind(this, this._updateAttentionGrabber)))
       this.tracker = this._applet.tracker
       this._trackerSignal = this.tracker.connect('notify::focus-app', Lang.bind(this, this._onFocusChange))
     }

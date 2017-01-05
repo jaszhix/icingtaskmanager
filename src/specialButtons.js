@@ -43,6 +43,7 @@ IconLabelButton.prototype = {
     }
     this._parent = parent
     this._applet = parent._applet
+    this.settings = this._applet.settings
     this._icon = parent.icon
     this.actor = new St.Bin({
       style_class: 'window-list-item-box app-list-item-box',
@@ -54,6 +55,11 @@ IconLabelButton.prototype = {
     })
     this.actor.height = parent._applet._panelHeight
     this.actor._delegate = this
+    this.signals = {
+      _container: [],
+      settings: [],
+      actor: []
+    }
     this.metaWorkspaces = []
 
     // We do a fancy layout with icons and labels, so we'd like to do our own allocation
@@ -75,9 +81,9 @@ IconLabelButton.prototype = {
       this.actor.add_style_class_name('right');
     }
     this.actor.set_child(this._container)
-    this._container.connect('get-preferred-width', Lang.bind(this, this._getPreferredWidth))
-    this._container.connect('get-preferred-height', Lang.bind(this, this._getPreferredHeight))
-    this._container.connect('allocate', Lang.bind(this, this._allocate))
+    this.signals._container.push(this._container.connect('get-preferred-width', Lang.bind(this, this._getPreferredWidth)))
+    this.signals._container.push(this._container.connect('get-preferred-height', Lang.bind(this, this._getPreferredHeight)))
+    this.signals._container.push(this._container.connect('allocate', Lang.bind(this, this._allocate)))
 
     this._label = new St.Label({
       style_class: 'app-button-label'
@@ -94,10 +100,10 @@ IconLabelButton.prototype = {
     setTimeout(()=>this.setIconPadding(true), 0)
     this.setIconSize()
 
-    global.settings.connect('changed::panel-edit-mode', Lang.bind(this, this.on_panel_edit_mode_changed))
-    this._applet.settings.connect('changed::icon-padding', Lang.bind(this, this.setIconPadding))
-    this._applet.settings.connect('changed::icon-size', Lang.bind(this, this.setIconSize))
-    this._applet.settings.connect('changed::enable-iconSize', Lang.bind(this, this.setIconSize))
+    this.panelEditId = global.settings.connect('changed::panel-edit-mode', Lang.bind(this, this.on_panel_edit_mode_changed))
+    this.signals.settings.push(this.settings.connect('changed::icon-padding', Lang.bind(this, this.setIconPadding)))
+    this.signals.settings.push(this.settings.connect('changed::icon-size', Lang.bind(this, this.setIconSize)))
+    this.signals.settings.push(this.settings.connect('changed::enable-iconSize', Lang.bind(this, this.setIconSize)))
   },
 
   on_panel_edit_mode_changed: function () {
@@ -318,9 +324,9 @@ AppButton.prototype = {
 
     this._trackerSignal = this._applet.tracker.connect('notify::focus-app', Lang.bind(this, this._onFocusChange))
     this._updateAttentionGrabber(null, null, this._applet.showAlerts)
-    this._applet.settings.connect('changed::show-alerts', Lang.bind(this, this._updateAttentionGrabber))
-    this.actor.connect('enter-event', Lang.bind(this, this._onEnter))
-    this.actor.connect('leave-event', Lang.bind(this, this._onLeave))
+    this.signals.settings.push(this.settings.connect('changed::show-alerts', Lang.bind(this, this._updateAttentionGrabber)))
+    this.signals.actor.push(this.actor.connect('enter-event', Lang.bind(this, this._onEnter)))
+    this.signals.actor.push(this.actor.connect('leave-event', Lang.bind(this, this._onLeave)))
   },
 
   _onEnter(){
@@ -455,6 +461,12 @@ AppButton.prototype = {
 
   destroy: function () {
     this._applet.tracker.disconnect(this._trackerSignal)
+    _.each(this.signals, (signal, key)=>{
+      _.each(signal, (id)=>{
+        this[key].disconnect(id)
+      })
+    })
+    global.settings.disconnect(this.panelEditId)
     this._container.destroy_children()
     this._container.destroy()
     this.actor.destroy()

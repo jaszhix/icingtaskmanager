@@ -61,55 +61,6 @@ const range = function (a, b) {
   return ret
 }
 
-// Connects and keeps track of signal IDs so that signals
-// can be easily disconnected
-
-function SignalTracker () {
-  this._init.apply(this, arguments)
-}
-
-SignalTracker.prototype = {
-  _init: function () {
-    this._data = []
-  },
-
-  // params = {
-  //              signalName: Signal Name
-  //              callback: Callback Function
-  //              bind: Context to bind to
-  //              object: object to connect to
-  // }
-  connect: function (params) {
-    let signalName = params.signalName
-    let callback = params.callback
-    let bind = params.bind
-    let object = params.object
-    let signalID = null
-
-    signalID = object.connect(signalName, Lang.bind(bind, callback))
-    this._data.push({
-      signalName: signalName,
-      callback: callback,
-      object: object,
-      signalID: signalID,
-      bind: bind
-    })
-  },
-
-  disconnect: function (param) {},
-
-  disconnectAll: function () {
-    for (var i = this._data.length - 1; i >= 0; i--) {
-      this._data[i]
-      this._data[i].object.disconnect(this._data[i].signalID)
-      for (let prop in this._data[i]) {
-        this._data[i][prop] = null
-      }
-    }
-    this._data = []
-  }
-}
-
 function PinnedFavs () {
   this._init.apply(this, arguments)
 }
@@ -361,8 +312,6 @@ MyApplet.prototype = {
     this._menuOpen = false;
     this.forceRefreshList = false
 
-    // Use a signal tracker so we don't have to keep track of all these id's manually!
-
     this.signals = new SignalManager.SignalManager(this);
     this.signals.connect(global.window_manager, 'switch-workspace', this._onSwitchWorkspace)
     this.signals.connect(global.screen, 'notify::n-workspaces', this._onWorkspaceCreatedOrDestroyed)
@@ -383,7 +332,7 @@ MyApplet.prototype = {
     this._onSwitchWorkspace()
     this._bindAppKey();
     
-    global.settings.connect('changed::panel-edit-mode', Lang.bind(this, this.on_panel_edit_mode_changed))
+    this.panelEditId = global.settings.connect('changed::panel-edit-mode', Lang.bind(this, this.on_panel_edit_mode_changed))
 
     // Wait 3s, as Cinnamon doesn't populate Applet._meta until after the applet loads.
     setTimeout(()=>this.handleUpdate(), 3000)
@@ -783,6 +732,20 @@ MyApplet.prototype = {
   destroy: function () {
     this._unbindAppKey();
     this.signals.disconnectAllSignals();
+    global.settings.disconnect(this.panelEditId)
+    for (let i = 0, len = this.metaWorkspaces.length; i < len; i++) {
+      let children = this.metaWorkspaces[i].appList.manager_container.get_children()
+      for (let z = 0, len = children.length; z < len; z++) {
+        this.metaWorkspaces[i].appList.manager_container.remove_actor(children[z])
+        children[z].destroy()
+      }
+      this.metaWorkspaces[i].appList.destroy()
+    }
+
+    this.actor.remove_actor(this._box)
+    this._box.destroy_children()
+    this._box.destroy()
+
     this.actor.destroy()
     this.actor = null
   }
