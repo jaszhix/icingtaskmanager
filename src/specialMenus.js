@@ -621,7 +621,9 @@ AppThumbnailHoverMenu.prototype = {
     }
     _.each(this.signals, (signal, key)=>{
       _.each(signal, (id)=>{
-        this[key].disconnect(id)
+        if (this[key] && id) {
+          this[key].disconnect(id)
+        }
       })
     })
     this.appSwitcherItem.destroy()
@@ -884,8 +886,9 @@ PopupMenuAppSwitcherItem.prototype = {
       })
     })
     for (let w = 0, len = this.appThumbnails.length; w < len; w++) {
-      this.appContainer.remove_actor(this.appThumbnails[w].thumbnail.actor)
-      this.appThumbnails[w].thumbnail.destroy()
+      if (this.appThumbnails[w] !== undefined) {
+        this.appThumbnails[w].thumbnail.destroy(true)
+      }
     }
     var children = this.appContainer.get_children()
     for (let w = 0, len = children.length; w < len; w++) {
@@ -1252,7 +1255,7 @@ WindowThumbnail.prototype = {
     }
   },
 
-  destroy(){
+  destroy(skipSignalDisconnect=null){
     try {
       if (this._trackerSignal) {
         this.tracker.disconnect(this._trackerSignal)
@@ -1272,11 +1275,15 @@ WindowThumbnail.prototype = {
     } catch (e) {
       /* Signal is invalid */
     }
-    _.each(this.signals, (signal, key)=>{
-      _.each(signal, (id)=>{
-        this[key].disconnect(id)
+    if (!skipSignalDisconnect) {
+      _.each(this.signals, (signal, key)=>{
+        _.each(signal, (id)=>{
+          if (this[key] && id) {
+            this[key].disconnect(id)
+          }
+        })
       })
-    })
+    }
     var refThumb = _.findIndex(this._parent.appThumbnails, (thumb)=>{
       return _.isEqual(thumb.metaWindow, this.metaWindow)
     })
