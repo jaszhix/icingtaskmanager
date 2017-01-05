@@ -415,7 +415,6 @@ msgstr ""
 msgid "Restore"
 msgstr ""
 
-# Needs translations
 msgid "Use theme padding to center button icons"
 msgstr ""
 
@@ -455,7 +454,9 @@ msgstr ""
 msgid "Update this applet automatically"
 msgstr ""
 
-msgid "When enabled, ITM will check the Github releases on init, and will start to upgrade if it finds a newer version."
+msgid ""
+"When enabled, ITM will check the Github releases on init, and will "
+"start to upgrade if it finds a newer version."
 msgstr ""
 
 msgid "Theme Settings"
