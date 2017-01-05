@@ -424,7 +424,7 @@ AppGroup.prototype = {
     }
   },
 
-  _windowAdded: function (metaWorkspace, metaWindow, metaWindows) {
+  _windowAdded: function (metaWorkspace, metaWindow, metaWindows, recursion=0) {
 
     let app = App.appFromWMClass(this.appList._appsys, this.appList.specialApps, metaWindow)
     if (!app) {
@@ -443,6 +443,11 @@ AppGroup.prototype = {
       windowAddArgs = windowAddArgs && this._applet.tracker.is_window_interesting(metaWindow)
     }
     if (windowAddArgs) { // TBD
+      if (app.get_id().indexOf('spotify') !== -1 && recursion === 0) {
+        ++recursion
+        setTimeout(()=>this._windowAdded(metaWorkspace, metaWindow, metaWindows, recursion), 3000)
+        return
+      }
       if (metaWindow) {
         if (!this._applet.groupApps && this.metaWindows.length >= 1) {
           if (this.ungroupedIndex === 0) {
@@ -499,15 +504,6 @@ AppGroup.prototype = {
 
     if (app.wmClass && !this.isFavapp) {
       this._calcWindowNumber(metaWorkspace)
-    }
-
-    // Workaround for Spotify not loading correctly due to its window information being unavailable at the normal timing. Better solution TBD.
-    if (!this._applet.forceRefreshList && app.get_id().indexOf('spotify') !== -1) {
-      this._applet.forceRefreshList = true
-      setTimeout(()=>{
-        this.appList._refreshList()
-        this._applet.forceRefreshList = false
-      }, 3000)
     }
 
   },
