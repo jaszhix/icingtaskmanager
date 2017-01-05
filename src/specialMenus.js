@@ -594,7 +594,7 @@ AppThumbnailHoverMenu.prototype = {
     }
   },
 
-  open: function (animate) {
+  open: function () {
     // Refresh all the thumbnails, etc when the menu opens.  These cannot
     // be created when the menu is initalized because a lot of the clutter window surfaces
     // have not been created yet...
@@ -603,7 +603,7 @@ AppThumbnailHoverMenu.prototype = {
     PopupMenu.PopupMenu.prototype.open.call(this, this._applet.animateThumbs)
   },
 
-  close: function (animate) {
+  close: function () {
     PopupMenu.PopupMenu.prototype.close.call(this, this._applet.animateThumbs)
     this.appSwitcherItem.actor.hide()
   },
@@ -734,6 +734,9 @@ PopupMenuAppSwitcherItem.prototype = {
     this.metaWindows = metaWindows
     if (this.metaWindowThumbnail !== undefined && this.metaWindowThumbnail) {
       this.metaWindowThumbnail.setMetaWindow(metaWindow, metaWindows)
+    }
+    for (let w = 0, len = this.appThumbnails.length; w < len; w++) {
+      this.appThumbnails[w].thumbnail.setMetaWindow(null, metaWindows)
     }
   },
 
@@ -975,7 +978,9 @@ WindowThumbnail.prototype = {
   },
 
   setMetaWindow: function (metaWindow, metaWindows) {
-    this.metaWindow = metaWindow
+    if (metaWindow) {
+      this.metaWindow = metaWindow
+    }
     this.metaWindows = metaWindows
   },
 
@@ -1102,19 +1107,20 @@ WindowThumbnail.prototype = {
     return thumbnail
   },
 
-  handleAfterClick(delay){
+  handleAfterClick(){
     this.stopClick = true
     this.destroy()
     this._hoverPeek(OPACITY_OPAQUE, this.metaWindow, false)
-    this._parentContainer.shouldOpen = false
-    this._parentContainer.shouldClose = true
-    Mainloop.timeout_add(delay, Lang.bind(this._parentContainer, this._parentContainer.hoverClose))
+    
     this.metaWindow.delete(global.get_current_time())
+    if (this.metaWindows.length === 1) {
+      this._parentContainer.close()
+    }
   },
 
   _onButtonRelease: function (actor, event) {
     if (event.get_state() & Clutter.ModifierType.BUTTON1_MASK && actor == this.button) {
-      this.handleAfterClick(2000)
+      this.handleAfterClick()
     }
   },
 
@@ -1122,12 +1128,10 @@ WindowThumbnail.prototype = {
     this.wasMinimized = false
     if (event.get_state() & Clutter.ModifierType.BUTTON1_MASK && !this.stopClick && !this.isFavapp) {
       Main.activateWindow(this.metaWindow, global.get_current_time())
-      var parent = this._parent._parentContainer
-      parent.shouldOpen = false
-      parent.shouldClose = true
-      Mainloop.timeout_add(parent.hoverTime, Lang.bind(parent, parent.hoverClose))
+
+      this._parent._parentContainer.close()
     } else if (event.get_state() & Clutter.ModifierType.BUTTON2_MASK && !this.stopClick) {
-      this.handleAfterClick(3000)
+      this.handleAfterClick()
     }
     this.stopClick = false
   },
@@ -1163,8 +1167,6 @@ WindowThumbnail.prototype = {
         this.isFavapp = false
 
         // Replace the old thumbnail
-        var title = this.metaWindow.get_title()
-        this._label.text = title
         if (this._applet.showThumbs) {
           this.thumbnail = this._getThumbnail()
           this.thumbnailActor.child = this.thumbnail
