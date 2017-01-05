@@ -878,6 +878,10 @@ WindowThumbnail.prototype = {
     this._parent = parent
     this._parentContainer = parent._parentContainer
     this.thumbnailPadding = 16
+    this.signals = {
+      actor: [],
+      button: []
+    }
 
     // Inherit the theme from the alt-tab menu
     this.actor = new St.BoxLayout({
@@ -924,22 +928,21 @@ WindowThumbnail.prototype = {
     this._isFavorite(this.isFavapp, this.metaWindow, this.metaWindows)
 
     if (this.metaWindow) {
-      this.metaWindow.connect('notify::title', ()=> {
+      this.windowTitleId = this.metaWindow.connect('notify::title', ()=> {
         this._label.text = this.metaWindow.get_title()
       })
-      this.metaWindow.connect('notify::appears-focused', Lang.bind(this, this._focusWindowChange))
+      this.windowFocusId = this.metaWindow.connect('notify::appears-focused', Lang.bind(this, this._focusWindowChange))
       this._updateAttentionGrabber(null, null, this._applet.showAlerts)
       this._applet.settings.connect('changed::show-alerts', Lang.bind(this, this._updateAttentionGrabber))
       this.tracker = this._applet.tracker
       this._trackerSignal = this.tracker.connect('notify::focus-app', Lang.bind(this, this._onFocusChange))
     }
-    this.actor.connect('enter-event', ()=>this.handleEnterEvent())
-    this.actor.connect('leave-event', ()=>this.handleLeaveEvent())
-    this.button.connect('button-release-event', Lang.bind(this, this._onButtonRelease))
-
-    this.actor.connect('button-release-event', Lang.bind(this, this._connectToWindow))
+    this.signals.actor.push(this.actor.connect('enter-event', ()=>this.handleEnterEvent()))
+    this.signals.actor.push(this.actor.connect('leave-event', ()=>this.handleLeaveEvent()))
+    this.signals.button.push(this.button.connect('button-release-event', Lang.bind(this, this._onButtonRelease)))
+    this.signals.actor.push(this.actor.connect('button-release-event', Lang.bind(this, this._connectToWindow)))
     //update focused style
-    setTimeout(()=>this._focusWindowChange(),0)
+    this._focusWindowChange()
     this.entered = false
   },
 
@@ -1167,6 +1170,7 @@ WindowThumbnail.prototype = {
         this.isFavapp = false
 
         // Replace the old thumbnail
+        this._label.text = this.metaWindow.get_title()
         if (this._applet.showThumbs) {
           this.thumbnail = this._getThumbnail()
           this.thumbnailActor.child = this.thumbnail
@@ -1217,9 +1221,20 @@ WindowThumbnail.prototype = {
       if (this._attention_signal) {
         global.display.disconnect(this._attention_signal)
       }
+      if (this.windowTitleId) {
+        this.metaWindow.disconnect(this.windowTitleId)
+      }
+      if (this.windowFocusId) {
+        this.metaWindow.disconnect(this.windowFocusId)
+      }
     } catch (e) {
       /* Signal is invalid */
     }
+    _.each(this.signals, (signal, key)=>{
+      _.each(signal, (id)=>{
+        this[key].disconnect(id)
+      })
+    })
     var refThumb = _.findIndex(this._parent.appThumbnails, (thumb)=>{
       return _.isEqual(thumb.metaWindow, this.metaWindow)
     })
