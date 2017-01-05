@@ -1,5 +1,18 @@
 Changelog
 
+### 4.2.0
+
+  * Added a configurable app thumbnail menu cycling hotkey. The default is Super + Space.
+  * Added directional button controls for cycling window selections in the thumbnail menus.
+    * Left/Right - select window
+    * Down - close thumbnail menu
+    * Enter - activate window
+  * Added more theme settings to help increase compatibility among all themes.
+  * Improvements in how the applet cleans up stale events and objects.
+  * Added an automatic self updating mechanism that checks the Github repository for newer releases. This is disabled by default.
+  * Fixed a bug causing duplicate thumbnails to appear.
+  * Updated translations.
+
 ### 4.1.3
 
   * Window thumbnail enhancement by [zqq90](https://github.com/jaszhix/icingtaskmanager/pull/71):
