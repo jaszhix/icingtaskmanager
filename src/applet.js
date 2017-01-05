@@ -353,19 +353,24 @@ MyApplet.prototype = {
   handleUpdate(){
     if (this.autoUpdate) {
       this.version = `v${this._meta.version}`
-      ajax().then((data)=>{
-        if (data.tag_name !== this.version) {
+      // Parse out the HTML response instead of using the API endpoint to work around Github's API limit.
+      ajax({method: 'GET', url: 'https://github.com/jaszhix/icingtaskmanager/releases/latest', json: false}).then((res)=>{
+        let split = '/jaszhix/icingtaskmanager/releases/download/'
+        let end = res.split(split)[1].split('.zip')[0]
+        let version = end.split('/')[0]
+        let file = `https://github.com${split}${end}.zip`
+        if (version !== this.version) {
           let now = Date.now()
           Main.notify('Icing Task Manager is updating...', 'Go to settings if you wish to disable automatic updates.')
-          Util.trySpawnCommandLine(`bash -c 'wget -O /tmp/ITM-${now}.zip ${data.assets[0].browser_download_url}'`)
+          Util.trySpawnCommandLine(`bash -c 'wget -O /tmp/ITM-${now}.zip ${file}'`)
           // Defer for conservative durations due to lack of callback from Utils CLI methods
           setTimeout(()=>{
             Util.trySpawnCommandLine(`bash -c 'unzip -o /tmp/ITM-${now}.zip -d ~/.local/share/cinnamon/applets/IcingTaskManager@json/'`)
             setTimeout(()=>this._reloadApp(), 10000)
           }, 10000)
         }
-      }).catch((code, e)=>{
-        clog(code, e)
+      }).catch((e)=>{
+        return null
       })
     }
   },

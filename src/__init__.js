@@ -277,21 +277,21 @@ Promise._setUnhandledRejectionFn = function _setUnhandledRejectionFn(fn) {
 
 // AJAX convenience method
 
-const ajax = (opts={method: 'GET', url: 'https://api.github.com/repos/jaszhix/icingtaskmanager/releases/latest'})=>{
+const ajax = (opts={method: 'GET', json: true, url: 'https://api.github.com/repos/jaszhix/icingtaskmanager/releases/latest'})=>{
   return new Promise((resolve, reject)=>{
     let request = Soup.Message.new(opts.method, opts.url);
     let httpSession = new Soup.SessionAsync();
     httpSession.user_agent = 'IcingTaskManager@json/API';
     httpSession.queue_message(request, (session, message)=>{
       try {
-        var data = JSON.parse(message.response_body.data)
+        var data = opts.json ? JSON.parse(message.response_body.data) : message.response_body.data
         if (message.status_code < 300) {
           resolve(data)
         } else {
-          reject(message.status_code, message.response_body.data)
+          reject(message)
         }
       } catch (e) {
-        reject(-1, e)
+        reject(message)
       }
     });
   });
