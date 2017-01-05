@@ -658,8 +658,7 @@ PopupMenuAppSwitcherItem.prototype = {
     this._applet = parent._applet
     this.settings = parent._applet.settings
     this.signals = {
-      settings: [],
-      actor: []
+      settings: []
     }
     this.metaWindow = parent.metaWindow
     this.metaWindows = []
@@ -683,7 +682,7 @@ PopupMenuAppSwitcherItem.prototype = {
     this._setVerticalSetting()
     this.addActor(this.box)
 
-    this.signals.actor.push(this.actor.connect('key-press-event', (actor, e)=>this._onKeyPress(actor, e)))
+    this.actor.connect('key-press-event', (actor, e)=>this._onKeyPress(actor, e))
   },
 
   _onKeyPress(actor, e){
@@ -892,7 +891,6 @@ PopupMenuAppSwitcherItem.prototype = {
     for (let w = 0, len = children.length; w < len; w++) {
       this.appContainer.remove_actor(children[w])
     }
-    this.box.remove_actor(this.appContainer)
     this.appContainer.destroy_children()
     this.appContainer.destroy()
     children = this.box.get_children()
