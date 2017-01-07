@@ -1,5 +1,9 @@
 Changelog
 
+### 4.2.1
+
+  * Fixed a bug causing the app order to be incorrect when pinning/unpinning apps.
+
 ### 4.2.0
 
   * Added a configurable app thumbnail menu cycling hotkey. The default is Super + Space.
