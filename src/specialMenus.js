@@ -825,7 +825,7 @@ PopupMenuAppSwitcherItem.prototype = {
         }
       } else {
         if (this.metaWindowThumbnail) {
-          this.metaWindowThumbnail.destroy()
+          this.metaWindowThumbnail.destroy(true)
         }
         var thumbnail = new WindowThumbnail(this, metaWindow, windows)
         thumbnail.setMetaWindow(metaWindow, windows)
