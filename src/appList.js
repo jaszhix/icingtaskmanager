@@ -265,12 +265,13 @@ AppList.prototype = {
       this.appList[refApp].appGroup = appGroup
       this.appList[refApp].time = time
 
-      this.appList.splice(opts.favPos, 0, this.appList.splice(refApp, 1)[0]);
+      var refPos = opts.favPos ? opts.favPos : refApp
+
+      this.appList.splice(refPos, 0, this.appList.splice(refApp, 1)[0])
 
       for (let i = 0, len = this.appList.length; i < len; i++) {
         this.manager_container.set_child_at_index(this.appList[i].appGroup.actor, i)
       }
-
     } else if (opts.favChange) {
       this._applet.refreshCurrentAppList()
     }
