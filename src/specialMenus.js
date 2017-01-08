@@ -1207,9 +1207,13 @@ WindowThumbnail.prototype = {
       }
 
       if ((thumbnailSize * metaWindows.length) + thumbnailSize > monitorSize) {
-        setThumbSize(divider * 1.1, 16)
+        let divideMultiplier = this._applet.verticalThumbs ? 3 : 1.1   
+        setThumbSize(divider * divideMultiplier, 16)
         return
       } else {
+        if (this._applet.verticalThumbs) {
+          this.thumbnailActor.height = this.thumbnailHeight
+        }
         this.thumbnailActor.width = this.thumbnailWidth
         this._container.style = 'width: ' + Math.floor(this.thumbnailWidth - 16) + 'px'
         
