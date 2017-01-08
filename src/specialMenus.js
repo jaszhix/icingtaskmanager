@@ -704,8 +704,9 @@ PopupMenuAppSwitcherItem.prototype = {
         i = 0
       }
     }
+    let args = this._applet.verticalThumbs ? [Clutter.KEY_Up, Clutter.KEY_Down] : [Clutter.KEY_Left, Clutter.KEY_Right]
     var index;
-    if (symbol === Clutter.KEY_Left) {
+    if (symbol === args[0]) {
       if (!entered) {
         index = i
       } else if (this.appThumbnails[i+1] !== undefined) {
@@ -713,7 +714,7 @@ PopupMenuAppSwitcherItem.prototype = {
       } else {
         index = 0
       }
-    } else if (symbol === Clutter.KEY_Right) {
+    } else if (symbol === args[1]) {
       if (!entered) {
         index = i
       } else if (this.appThumbnails[i-1] !== undefined) {
