@@ -705,6 +705,16 @@ PopupMenuAppSwitcherItem.prototype = {
       }
     }
     let args = this._applet.verticalThumbs ? [Clutter.KEY_Up, Clutter.KEY_Down] : [Clutter.KEY_Left, Clutter.KEY_Right]
+    let closeArg;
+    if (this._applet.orientation == St.Side.TOP) {
+      closeArg = Clutter.KEY_Up
+    } else if (this._applet.orientation == St.Side.BOTTOM) {
+      closeArg = Clutter.KEY_Down
+    } else if (this._applet.orientation == St.Side.LEFT) {
+      closeArg = Clutter.KEY_Left
+    } else if (this._applet.orientation == St.Side.RIGHT) {
+      closeArg = Clutter.KEY_Right
+    }
     var index;
     if (symbol === args[0]) {
       if (!entered) {
@@ -725,7 +735,7 @@ PopupMenuAppSwitcherItem.prototype = {
     } else if (symbol === Clutter.KEY_Return && entered) {
       Main.activateWindow(this.appThumbnails[i].metaWindow, global.get_current_time())
       this._parent.close()
-    } else if (symbol === Clutter.KEY_Down) {
+    } else if (symbol === closeArg) {
       this._parent.close()
     } else {
       return
