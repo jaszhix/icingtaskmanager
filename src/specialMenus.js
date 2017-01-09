@@ -567,7 +567,7 @@ AppThumbnailHoverMenu.prototype = {
   },
 
   _onAppButtonLeave: function () {
-    if (this._applet.onClickThumbs && this.openTime + 1000 > Date.now()) {
+    if ((this._applet.onClickThumbs && this.openTime + 1000 > Date.now()) || !this._applet.onClickThumbs) {
       setTimeout(()=>this.close(), this._applet.thumbTimeout)
     }
   },
