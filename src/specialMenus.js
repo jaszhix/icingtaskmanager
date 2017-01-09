@@ -528,13 +528,15 @@ AppThumbnailHoverMenu.prototype = {
     this.actor.hide()
     this.parentActor = parent.actor
 
+    this.openTime = Date.now()
+
     Main.layoutManager.addChrome(this.actor, this.orientation)
 
     this.appSwitcherItem = new PopupMenuAppSwitcherItem(this)
     this.addMenuItem(this.appSwitcherItem)
 
-    this.signals.parentActor.push(this.parentActor.connect('enter-event', Lang.bind(this, this._onEnter)))
-    this.signals.parentActor.push(this.parentActor.connect('leave-event', Lang.bind(this, this._onLeave)))
+    this.signals.parentActor.push(this.parentActor.connect('enter-event', Lang.bind(this, this._onAppButtonEnter)))
+    this.signals.parentActor.push(this.parentActor.connect('leave-event', Lang.bind(this, this._onAppButtonLeave)))
     this.signals.parentActor.push(this.parentActor.connect('button-release-event', Lang.bind(this, this._onButtonPress)))
 
     this.signals.actor.push(this.actor.connect('enter-event', Lang.bind(this, this._onMenuEnter)))
@@ -543,37 +545,31 @@ AppThumbnailHoverMenu.prototype = {
   },
 
   _onButtonPress: function (actor, event) {
-    if (this._applet.onclickThumbs && this.appSwitcherItem.appContainer.get_children().length > 1) {
+    if (this._applet.onClickThumbs && this.appSwitcherItem.appContainer.get_children().length > 1) {
       return
     }
-    this.shouldOpen = false
-    this.shouldClose = true
-    setTimeout(()=>this.hoverClose(), this._applet.thumbTimeout)
+    setTimeout(()=>this.close(), this._applet.thumbTimeout)
   },
 
   _onMenuEnter: function () {
-    this.shouldOpen = true
-    this.shouldClose = false
-
+    this.openTime = Date.now()
     setTimeout(()=>this.hoverOpen(), this._applet.thumbTimeout)
   },
 
   _onMenuLeave: function () {
-    this.shouldOpen = false
-    this.shouldClose = true
-    setTimeout(()=>this.hoverClose(), this._applet.thumbTimeout)
+    if (!this._applet.onClickThumbs || this.openTime + 900 < Date.now()) {
+      setTimeout(()=>this.close(), this._applet.thumbTimeout)
+    }
   },
 
-  _onEnter: function () {
-    this.shouldOpen = true
-    this.shouldClose = false
+  _onAppButtonEnter: function () {
     setTimeout(()=>this.hoverOpen(), this._applet.thumbTimeout)
   },
 
-  _onLeave: function () {
-    this.shouldClose = true
-    this.shouldOpen = false
-    setTimeout(()=>this.hoverClose(), this._applet.thumbTimeout)
+  _onAppButtonLeave: function () {
+    if (this._applet.onClickThumbs && this.openTime + 1000 > Date.now()) {
+      setTimeout(()=>this.close(), this._applet.thumbTimeout)
+    }
   },
 
   _onKeyRelease: function(actor, event) {
@@ -587,14 +583,8 @@ AppThumbnailHoverMenu.prototype = {
   },
 
   hoverOpen: function () {
-    if (this.shouldOpen && !this.isOpen) {
+    if (!this.isOpen && !this._applet.onClickThumbs) {
       this.open()
-    }
-  },
-  
-  hoverClose: function () {
-    if (this.shouldClose) {
-      this.close()
     }
   },
 
@@ -666,7 +656,6 @@ PopupMenuAppSwitcherItem.prototype = {
     this.metaWindows = []
     this.app = parent.app
     this.isFavapp = parent.isFavapp
-    this._parentContainer = parent
     this.actor.style_class = ''
     this._parent = parent
 
@@ -931,7 +920,6 @@ WindowThumbnail.prototype = {
     this.isFavapp = parent.isFavapp || false
     this.wasMinimized = false
     this._parent = parent
-    this._parentContainer = parent._parentContainer
     this.thumbnailPadding = 16
     this.signals = {
       actor: [],
@@ -1005,8 +993,6 @@ WindowThumbnail.prototype = {
   handleEnterEvent(){
     this.entered = true
     if (!this.isFavapp) {
-      this._parent._parentContainer.shouldOpen = true
-      this._parent._parentContainer.shouldClose = false
       this._hoverPeek(this._applet.peekOpacity, this.metaWindow, true)
       this.actor.add_style_pseudo_class('outlined')
       this.actor.add_style_pseudo_class('selected')
@@ -1173,7 +1159,7 @@ WindowThumbnail.prototype = {
     
     this.metaWindow.delete(global.get_current_time())
     if (this.metaWindows.length === 1) {
-      this._parentContainer.close()
+      this._parent._parent.close()
     }
   },
 
@@ -1188,7 +1174,7 @@ WindowThumbnail.prototype = {
     if (event.get_state() & Clutter.ModifierType.BUTTON1_MASK && !this.stopClick && !this.isFavapp) {
       Main.activateWindow(this.metaWindow, global.get_current_time())
 
-      this._parent._parentContainer.close()
+      this._parent._parent.close()
     } else if (event.get_state() & Clutter.ModifierType.BUTTON2_MASK && !this.stopClick) {
       this.handleAfterClick()
     }

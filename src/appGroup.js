@@ -270,15 +270,24 @@ AppGroup.prototype = {
       return
     }
 
+    let appWindows = this._applet.groupApps ? this.app.get_windows() : [this.metaWindows[0].win];
+    let appWindowsLen = appWindows.length
+
     var handleMinimizeToggle = (win)=>{
+      if (this._applet.onClickThumbs && appWindowsLen > 1) {
+        if (this.hoverMenu.isOpen) {
+          this.hoverMenu.close()
+        } else {
+          this.hoverMenu.open()
+        }
+        return
+      }
       if (win.appears_focused) {
         win.minimize()
       } else {
         Main.activateWindow(win, global.get_current_time())
       }
     };
-
-    var appWindows = this._applet.groupApps ? this.app.get_windows() : [this.metaWindows[0].win];
 
     if (button === 1) {
 
