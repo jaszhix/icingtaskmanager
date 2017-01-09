@@ -1,5 +1,11 @@
 Changelog
 
+### 4.2.2
+
+  * Fixed a regression causing closed pinned apps to move out of order.
+  * Implemented better thumbnail scaling for vertical panels.
+  * Thumbnail menu directional keys now change to up/down for selection on vertical panels, and the key for closing the menu changes depending the side of the screen the panel is on. E.g., bottom orientation is the down key.
+
 ### 4.2.1
 
   * Fixed a bug causing the app order to be incorrect when pinning/unpinning apps.
