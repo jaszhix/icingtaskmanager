@@ -528,15 +528,13 @@ AppThumbnailHoverMenu.prototype = {
     this.actor.hide()
     this.parentActor = parent.actor
 
-    this.openTime = Date.now()
-
     Main.layoutManager.addChrome(this.actor, this.orientation)
 
     this.appSwitcherItem = new PopupMenuAppSwitcherItem(this)
     this.addMenuItem(this.appSwitcherItem)
 
-    this.signals.parentActor.push(this.parentActor.connect('enter-event', Lang.bind(this, this._onAppButtonEnter)))
-    this.signals.parentActor.push(this.parentActor.connect('leave-event', Lang.bind(this, this._onAppButtonLeave)))
+    this.signals.parentActor.push(this.parentActor.connect('enter-event', Lang.bind(this, this._onMenuEnter)))
+    this.signals.parentActor.push(this.parentActor.connect('leave-event', Lang.bind(this, this._onMenuLeave)))
     this.signals.parentActor.push(this.parentActor.connect('button-release-event', Lang.bind(this, this._onButtonPress)))
 
     this.signals.actor.push(this.actor.connect('enter-event', Lang.bind(this, this._onMenuEnter)))
@@ -548,28 +546,18 @@ AppThumbnailHoverMenu.prototype = {
     if (this._applet.onClickThumbs && this.appSwitcherItem.appContainer.get_children().length > 1) {
       return
     }
-    setTimeout(()=>this.close(), this._applet.thumbTimeout)
+    this.shouldClose = true
+    setTimeout(()=>this.hoverClose(), this._applet.thumbTimeout)
   },
 
   _onMenuEnter: function () {
-    this.openTime = Date.now()
+    this.shouldClose = false
     setTimeout(()=>this.hoverOpen(), this._applet.thumbTimeout)
   },
 
   _onMenuLeave: function () {
-    if (!this._applet.onClickThumbs || this.openTime + 900 < Date.now()) {
-      setTimeout(()=>this.close(), this._applet.thumbTimeout)
-    }
-  },
-
-  _onAppButtonEnter: function () {
-    setTimeout(()=>this.hoverOpen(), this._applet.thumbTimeout)
-  },
-
-  _onAppButtonLeave: function () {
-    if ((this._applet.onClickThumbs && this.openTime + 1000 > Date.now()) || !this._applet.onClickThumbs) {
-      setTimeout(()=>this.close(), this._applet.thumbTimeout)
-    }
+    this.shouldClose = true
+    setTimeout(()=>this.hoverClose(), this._applet.thumbTimeout)
   },
 
   _onKeyRelease: function(actor, event) {
@@ -588,18 +576,22 @@ AppThumbnailHoverMenu.prototype = {
     }
   },
 
+  hoverClose: function () {
+    if (this.shouldClose) {
+      this.close()
+    }
+  },
+
   open: function () {
     // Refresh all the thumbnails, etc when the menu opens.  These cannot
     // be created when the menu is initalized because a lot of the clutter window surfaces
     // have not been created yet...
     setTimeout(()=>this.appSwitcherItem._refresh(), 0)
-    this.appSwitcherItem.actor.show()
     PopupMenu.PopupMenu.prototype.open.call(this, this._applet.animateThumbs)
   },
 
   close: function () {
     PopupMenu.PopupMenu.prototype.close.call(this, this._applet.animateThumbs)
-    this.appSwitcherItem.actor.hide()
   },
 
   destroy: function () {
