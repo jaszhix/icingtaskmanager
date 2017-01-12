@@ -1,5 +1,9 @@
 Changelog
 
+### 4.2.3
+
+  * Re-implemented "open thumbnails on click" option functionality that was in the original version.
+
 ### 4.2.2
 
   * Fixed a regression causing closed pinned apps to move out of order.
