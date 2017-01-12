@@ -1,5 +1,9 @@
 Changelog
 
+### 4.2.4
+
+  * Fixed a regression causing thumbnail menus to close too early.
+
 ### 4.2.3
 
   * Re-implemented "open thumbnails on click" option functionality that was in the original version.
