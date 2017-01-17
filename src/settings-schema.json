@@ -178,7 +178,7 @@
       "Non-symbolic icons": 2,
       "No icons": 3
     },
-    "tooltip": "Determines whether menu item icons are symbolic, or not shown."
+    "tooltip": "Determines whether menu item icons are symbolic, non-symbolic, or not shown."
   },
   "firefox-menu": {
     "type": "combobox",
