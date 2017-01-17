@@ -328,32 +328,10 @@ AppMenuButtonRightClickMenu.prototype = {
     }
 
     /*
-      Close all/others
+      Window controls
     */
 
     if (hasWindows) {
-      if (this.metaWindows.length > 1) {
-        item = new PopupMenu.PopupIconMenuItem(t('Close all'), 'application-exit', St.IconType.SYMBOLIC);
-        item.connect('activate', Lang.bind(this, function() {
-          _.each(this.metaWindows, (metaWindow)=>{
-            if (!metaWindow.win._needsAttention) {
-              metaWindow.win.delete(global.get_current_time);
-            }
-          })
-        }));
-        this.addMenuItem(item);
-        item = new PopupMenu.PopupIconMenuItem(t('Close others'), 'window-close', St.IconType.SYMBOLIC);
-        item.connect('activate', Lang.bind(this, function() {
-          _.each(this.metaWindows, (metaWindow)=>{
-            if (!_.isEqual(metaWindow.win, mw) && !metaWindow.win._needsAttention) {
-              metaWindow.win.delete(global.get_current_time);
-            }
-          })
-        }));
-        this.addMenuItem(item);
-        this.addMenuItem(new PopupMenu.PopupSeparatorMenuItem());
-      }
-
       /*
         Miscellaneous
       */
@@ -392,13 +370,40 @@ AppMenuButtonRightClickMenu.prototype = {
       }
       this.addMenuItem(item);
 
-      item = new PopupMenu.PopupIconMenuItem(t('Close'), 'edit-delete', St.IconType.SYMBOLIC);
-      item.connect('activate', function() {
-        mw.delete(global.get_current_time());
-      });
-      this.addMenuItem(item);
-
-      this.addMenuItem(new PopupMenu.PopupSeparatorMenuItem());
+      if (this.metaWindows.length > 1) {
+        /*
+          Close others
+        */
+        item = new PopupMenu.PopupIconMenuItem(t('Close others'), 'window-close', St.IconType.SYMBOLIC);
+        item.connect('activate', Lang.bind(this, function() {
+          _.each(this.metaWindows, (metaWindow)=>{
+            if (!_.isEqual(metaWindow.win, mw) && !metaWindow.win._needsAttention) {
+              metaWindow.win.delete(global.get_current_time);
+            }
+          })
+        }));
+        this.addMenuItem(item);
+        /*
+          Close all
+        */
+        item = new PopupMenu.PopupIconMenuItem(t('Close all'), 'application-exit', St.IconType.SYMBOLIC);
+        item.connect('activate', Lang.bind(this, function() {
+          _.each(this.metaWindows, (metaWindow)=>{
+            if (!metaWindow.win._needsAttention) {
+              metaWindow.win.delete(global.get_current_time);
+            }
+          })
+        }));
+        this.addMenuItem(item);
+        this.addMenuItem(new PopupMenu.PopupSeparatorMenuItem());
+      } else {
+        item = new PopupMenu.PopupIconMenuItem(t('Close'), 'edit-delete', St.IconType.SYMBOLIC);
+        item.connect('activate', function() {
+          mw.delete(global.get_current_time());
+        });
+        this.addMenuItem(item);
+        this.addMenuItem(new PopupMenu.PopupSeparatorMenuItem());
+      }
     }
   },
 
