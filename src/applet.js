@@ -277,6 +277,7 @@ MyApplet.prototype = {
       {key: 'enable-iconSize', value: 'enableIconSize', cb: this.refreshCurrentAppList},
       {key: 'icon-size', value: 'iconSize', cb: null},
       {key: 'show-recent', value: 'showRecent', cb: this.refreshCurrentAppList},
+      {key: 'menuItemType', value: 'menuItemType', cb: this.refreshCurrentAppList},
       {key: 'firefox-menu', value: 'firefoxMenu', cb: this.refreshCurrentAppList},
       {key: 'autostart-menu-item', value: 'autoStart', cb: this.refreshCurrentAppList},
       {key: 'monitor-move-all-windows', value: 'monitorMoveAllWindows', cb: this.refreshCurrentAppList},

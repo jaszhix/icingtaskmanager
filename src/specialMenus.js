@@ -35,6 +35,12 @@ const ffOptions = [
   {id: 3, label: 'Bookmarks'},
 ]
 
+const menuItemTypeOptions = [
+  {id: 1, label: 'SYMBOLIC'},
+  {id: 2, label: 'FULLCOLOR'},
+  {id: 3, label: null},
+]
+
 function t (str) {
   var resultConf = Gettext.dgettext('IcingTaskManager@json', str)
   if (resultConf != str) {
@@ -88,6 +94,15 @@ AppMenuButtonRightClickMenu.prototype = {
     var length;
     var hasWindows = this.metaWindows.length > 0
 
+    let createMenuItem = (opts={label: '', icon: null})=>{
+      if (this._applet.menuItemType < 3 && opts.icon) {
+        let refMenuType = _.find(menuItemTypeOptions, {id: this._applet.menuItemType})
+        return new PopupMenu.PopupIconMenuItem(t(opts.label), opts.icon, St.IconType[refMenuType.label])
+      } else {
+        return new PopupMenu.PopupMenuItem(t(opts.label));
+      }
+    };
+
     if (hasWindows) {
 
       /*
@@ -118,7 +133,7 @@ AppMenuButtonRightClickMenu.prototype = {
           if (i === mw.get_monitor()) {
             continue;
           }
-          item = new PopupMenu.PopupMenuItem(t(Main.layoutManager.monitors.length === 2 ? 'Move to the other monitor' : `Move to monitor ${i+1}`));
+          item = createMenuItem({label: Main.layoutManager.monitors.length === 2 ? 'Move to the other monitor' : `Move to monitor ${i+1}`})
           connectMonitorEvent(item, mw, i)
           this.addMenuItem(item);
         }
@@ -130,13 +145,13 @@ AppMenuButtonRightClickMenu.prototype = {
 
       if ((length = global.screen.n_workspaces) > 1) {
         if (mw.is_on_all_workspaces()) {
-          item = new PopupMenu.PopupMenuItem(t('Only on this workspace'));
+          item = createMenuItem({label: 'Only on this workspace'})
           item.connect('activate', function() {
             mw.unstick();
           });
           this.addMenuItem(item);
         } else {
-          item = new PopupMenu.PopupMenuItem(t('Visible on all workspaces'));
+          item = createMenuItem({label: 'Visible on all workspaces'})
           item.connect('activate', function() {
             mw.stick();
           });
@@ -154,7 +169,7 @@ AppMenuButtonRightClickMenu.prototype = {
             // Make the index a local variable to pass to function
             let j = i;
             let name = Main.workspace_names[i] ? Main.workspace_names[i] : Main._makeDefaultWorkspaceName(i);
-            let ws = new PopupMenu.PopupMenuItem(name);
+            let ws = createMenuItem({label: name})
 
             if (i === this._launcher._applet.currentWs) {
               ws.setSensitive(false);
@@ -187,7 +202,7 @@ AppMenuButtonRightClickMenu.prototype = {
         var places = defualtPlaces.concat(bookmarks).concat(devices)
         var handlePlaceLaunch = (item, i)=>item.connect('activate', ()=>places[i].launch())
         for (let i = 0, len = places.length; i < len; i++) {
-          item = new PopupMenu.PopupIconMenuItem(t(places[i].name), 'folder', St.IconType.SYMBOLIC)
+          item = createMenuItem({label: places[i].name, icon: 'folder'})
           handlePlaceLaunch(item, i)
           this.recentMenuItems.push(item)
           subMenu.menu.addMenuItem(item);
@@ -208,7 +223,7 @@ AppMenuButtonRightClickMenu.prototype = {
           try {
             var handleHistoryLaunch = (item, i)=>item.connect('activate', ()=>Gio.app_info_launch_default_for_uri(histories[i].uri, global.create_app_launch_context()))
             for (let i = 0, len = histories.length; i < len; i++) {
-              item = new PopupMenu.PopupIconMenuItem(t(histories[i].title), 'go-next', St.IconType.SYMBOLIC)
+              item = createMenuItem({label: histories[i].title, icon: 'go-next'})
               handleHistoryLaunch(item, i)
               this.recentMenuItems.push(item)
               subMenu.menu.addMenuItem(item);
@@ -243,7 +258,7 @@ AppMenuButtonRightClickMenu.prototype = {
         }
         var handleRecentLaunch = (item, i)=>item.connect('activate', ()=>Gio.app_info_launch_default_for_uri(items[i].get_uri(), global.create_app_launch_context()))
         for (let i = 0; i < itemsLength; i++) {
-          item = new PopupMenu.PopupIconMenuItem(t(items[i].get_short_name()), 'list-add', St.IconType.SYMBOLIC)
+          item = createMenuItem({label: items[i].get_short_name(), icon: 'list-add'})
           handleRecentLaunch(item, i)
           this.recentMenuItems.push(item)
           subMenu.menu.addMenuItem(item);
@@ -259,15 +274,15 @@ AppMenuButtonRightClickMenu.prototype = {
     let subMenu = new PopupMenu.PopupSubMenuMenuItem(t('Preferences'));
     this.addMenuItem(subMenu);
 
-    item = new PopupMenu.PopupIconMenuItem(t('About...'), 'dialog-question', St.IconType.SYMBOLIC);
+    item = createMenuItem({label: 'About...', icon: 'dialog-question'})
     item.connect('activate', Lang.bind(this._applet, this._applet.openAbout));
     subMenu.menu.addMenuItem(item);
 
-    item = new PopupMenu.PopupIconMenuItem(t('Configure...'), 'system-run', St.IconType.SYMBOLIC);
+    item = createMenuItem({label: 'Configure...', icon: 'system-run'})
     item.connect('activate', Lang.bind(this._applet, this._applet.configureApplet));
     subMenu.menu.addMenuItem(item);
 
-    item = new PopupMenu.PopupIconMenuItem(t(`Remove 'Icing Task Manager'`), 'edit-delete', St.IconType.SYMBOLIC);
+    item = createMenuItem({label: `Remove 'Icing Task Manager'`, icon: 'edit-delete'})
     item.connect('activate', Lang.bind(this, function() {
       AppletManager._removeAppletFromPanel(this._applet._uuid, this._applet.instance_id);
     }));
@@ -283,7 +298,7 @@ AppMenuButtonRightClickMenu.prototype = {
       if (this.appInfo && actions) {
         this.addMenuItem(new PopupMenu.PopupSeparatorMenuItem());
         var handleAction = (action)=>{
-          item = new PopupMenu.PopupIconMenuItem(t(this.appInfo.get_action_name(action)), 'document-new', St.IconType.SYMBOLIC)
+          item = createMenuItem({label: this.appInfo.get_action_name(action), icon: 'document-new'})
           item.connect('activate', ()=>this.appInfo.launch_action(action, global.create_app_launch_context()))
           this.recentMenuItems.push(item)
         }
@@ -307,26 +322,26 @@ AppMenuButtonRightClickMenu.prototype = {
     if (!this.app.is_window_backed()) {
       if (this._applet.showPinned !== FavType.none && !this.app.is_window_backed()) {
         if (this.isFavapp) {
-          item = new PopupMenu.PopupIconMenuItem(t('Unpin from Panel'), 'list-remove', St.IconType.SYMBOLIC)
+          item = createMenuItem({label: 'Unpin from Panel', icon: 'list-remove'})
           item.connect('activate', Lang.bind(this, this._toggleFav))
         } else {
-          item = new PopupMenu.PopupIconMenuItem(t('Pin to Panel'), 'bookmark-new', St.IconType.SYMBOLIC)
+          item = createMenuItem({label: 'Pin from Panel', icon: 'bookmark-new'})
           item.connect('activate', Lang.bind(this, this._toggleFav))
         }
         this.addMenuItem(item);
       }
       if (this._applet.autoStart) {
         if (this.autostartIndex !== -1) {
-          item = new PopupMenu.PopupIconMenuItem(t('Remove from Autostart'), 'process-stop', St.IconType.SYMBOLIC)
+          item = createMenuItem({label: 'Remove from Autostart', icon: 'process-stop'})
           item.connect('activate', Lang.bind(this, this._toggleAutostart))
         } else {
-          item = new PopupMenu.PopupIconMenuItem(t('Add to Autostart'), 'insert-object', St.IconType.SYMBOLIC)
+          item = createMenuItem({label: 'Add to Autostart', icon: 'insert-object'})
           item.connect('activate', Lang.bind(this, this._toggleAutostart))
         }
         this.addMenuItem(item);
       }
     } else {
-      item = new PopupMenu.PopupIconMenuItem(t('Create Shortcut'), 'list-add', St.IconType.SYMBOLIC)
+      item = createMenuItem({label: 'Create Shortcut', icon: 'list-add'})
       item.connect('activate', Lang.bind(this, this._createShortcut))
       this.addMenuItem(item);
     }
@@ -342,7 +357,7 @@ AppMenuButtonRightClickMenu.prototype = {
       */
 
       if (mw.get_compositor_private().opacity != 255) {
-        item = new PopupMenu.PopupMenuItem(t('Restore to full opacity'));
+        item = createMenuItem({label: 'Restore to full opacity'})
         item.connect('activate', function() {
           mw.get_compositor_private().set_opacity(255);
         });
@@ -350,12 +365,12 @@ AppMenuButtonRightClickMenu.prototype = {
       }
 
       if (mw.minimized) {
-        item = new PopupMenu.PopupIconMenuItem(t('Restore'), 'view-sort-descending', St.IconType.SYMBOLIC);
+        item = createMenuItem({label: 'Restore', icon: 'view-sort-descending'})
         item.connect('activate', function() {
           Main.activateWindow(mw, global.get_current_time());
         });
       } else {
-        item = new PopupMenu.PopupIconMenuItem(t('Minimize'), 'view-sort-ascending', St.IconType.SYMBOLIC);
+        item = createMenuItem({label: 'Minimize', icon: 'view-sort-ascending'})
         item.connect('activate', function() {
           mw.minimize(global.get_current_time());
         });
@@ -363,12 +378,12 @@ AppMenuButtonRightClickMenu.prototype = {
       this.addMenuItem(item);
 
       if (mw.get_maximized()) {
-        item = new PopupMenu.PopupIconMenuItem(t('Unmaximize'), 'view-restore', St.IconType.SYMBOLIC);
+        item = createMenuItem({label: 'Unmaximize', icon: 'view-restore'})
         item.connect('activate', function() {
           mw.unmaximize(Meta.MaximizeFlags.HORIZONTAL | Meta.MaximizeFlags.VERTICAL);
         });
       } else {
-        item = new PopupMenu.PopupIconMenuItem(t('Maximize'), 'view-fullscreen', St.IconType.SYMBOLIC);
+        item = createMenuItem({label: 'Maximize', icon: 'view-fullscreen'})
         item.connect('activate', function() {
           mw.maximize(Meta.MaximizeFlags.HORIZONTAL | Meta.MaximizeFlags.VERTICAL);
         });
@@ -379,7 +394,7 @@ AppMenuButtonRightClickMenu.prototype = {
         /*
           Close others
         */
-        item = new PopupMenu.PopupIconMenuItem(t('Close others'), 'window-close', St.IconType.SYMBOLIC);
+        item = createMenuItem({label: 'Close others', icon: 'window-close'})
         item.connect('activate', Lang.bind(this, function() {
           _.each(this.metaWindows, (metaWindow)=>{
             if (!_.isEqual(metaWindow.win, mw) && !metaWindow.win._needsAttention) {
@@ -391,7 +406,7 @@ AppMenuButtonRightClickMenu.prototype = {
         /*
           Close all
         */
-        item = new PopupMenu.PopupIconMenuItem(t('Close all'), 'application-exit', St.IconType.SYMBOLIC);
+        item = createMenuItem({label: 'Close all', icon: 'application-exit'})
         item.connect('activate', Lang.bind(this, function() {
           _.each(this.metaWindows, (metaWindow)=>{
             if (!metaWindow.win._needsAttention) {
@@ -402,7 +417,7 @@ AppMenuButtonRightClickMenu.prototype = {
         this.addMenuItem(item);
         this.addMenuItem(new PopupMenu.PopupSeparatorMenuItem());
       } else {
-        item = new PopupMenu.PopupIconMenuItem(t('Close'), 'edit-delete', St.IconType.SYMBOLIC);
+        item = createMenuItem({label: 'Close', icon: 'edit-delete'})
         item.connect('activate', function() {
           mw.delete(global.get_current_time());
         });
