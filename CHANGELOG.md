@@ -1,5 +1,11 @@
 Changelog
 
+### 4.3.0
+
+  * Added a menu item type option dropdown controlling the style of icons, or their visibility.
+  * Moved the pinning, autostart, and shortcut creation options from the Preferences sub-menu to the main menu list.
+  * Re-merged the "Close"/"Close all" menu options like in the old context menu to avoid having three different close options for apps with multiple windows.
+
 ### 4.2.4
 
   * Fixed a regression causing thumbnail menus to close too early.

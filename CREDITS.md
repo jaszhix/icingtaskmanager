@@ -45,6 +45,8 @@ Special thanks to the contributors of this project.
   * nicojx
   * NoXPhasma
   * Xeronel
+  * feren
+  * giuspen
 
 ### Support
 
