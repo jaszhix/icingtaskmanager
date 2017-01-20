@@ -1,7 +1,3 @@
-### Note
-
-The Cinnamon Spices website is being moved to Github and applets cannot be updated currently. You can [download](https://github.com/jaszhix/icingtaskmanager/releases) the latest release from the repository in the mean time. Extract the file into your ~/.local/share/cinnamon/applets/IcingTaskManager@json directory.
-
 Icing Task Manager
 =============
 
