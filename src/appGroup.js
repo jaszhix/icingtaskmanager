@@ -477,6 +477,9 @@ AppGroup.prototype = {
         signals.push(metaWindow.connect('notify::title', Lang.bind(this, this._windowTitleChanged)))
         signals.push(metaWindow.connect('notify::appears-focused', Lang.bind(this, this._focusWindowChange)))
 
+        // Set the initial button label as not all windows will get updated via signals initially.
+        this._windowTitleChanged(metaWindow)
+
         let appletSettingSignal = this._applet.settings.connect('changed::title-display', ()=>{
           this.on_title_display_changed(metaWindow)
           this._windowTitleChanged(metaWindow)
