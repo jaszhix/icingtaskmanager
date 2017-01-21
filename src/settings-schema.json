@@ -245,7 +245,7 @@
   },
   "show-active": {
     "type": "checkbox",
-    "default": true,
+    "default": false,
     "description": "Show active app indicators",
     "tooltip": "Active app styling will indicate if an app is active."
   },
