@@ -270,7 +270,7 @@ MyApplet.prototype = {
       {key: 'close-button-style', value: 'thumbCloseBtnStyle', cb: this.refreshCurrentAppList},
       {key: 'include-all-windows', value: 'includeAllWindows', cb: this.refreshCurrentAppList},
       {key: 'number-display', value: 'numDisplay', cb: null},
-      {key: 'title-display', value: 'titleDisplay', cb: null},
+      {key: 'title-display', value: 'titleDisplay', cb: this.refreshCurrentAppList},
       {key: 'icon-spacing', value: 'iconSpacing', cb: null},
       {key: 'themePadding', value: 'themePadding', cb: this.refreshCurrentAppList},
       {key: 'icon-padding', value: 'iconPadding', cb: null},

@@ -480,15 +480,8 @@ AppGroup.prototype = {
         // Set the initial button label as not all windows will get updated via signals initially.
         this._windowTitleChanged(metaWindow)
 
-        let appletSettingSignal = this._applet.settings.connect('changed::title-display', ()=>{
-          this.on_title_display_changed(metaWindow)
-          this._windowTitleChanged(metaWindow)
-        })
-
-
         let data = {
-          signals: signals,
-          appletSettingSignal: appletSettingSignal
+          signals: signals
         }
 
         this.metaWindows.push({
@@ -539,7 +532,6 @@ AppGroup.prototype = {
       deleted = this.metaWindows[refWindow].data
     }
     if (deleted) {
-      this._applet.settings.disconnect(deleted.appletSettingSignal)
       // Clean up all the signals we've connected
       for (let i = 0, len = deleted.signals.length; i < len; i++) {
         metaWindow.disconnect(deleted.signals[i])
@@ -717,7 +709,6 @@ AppGroup.prototype = {
 
     for (let i = 0, len = this.metaWindows.length; i < len; i++) {
       destroyWindowSignal(this.metaWindows[i])
-      this._applet.settings.disconnect(this.metaWindows[i].data.appletSettingSignal)
     }
     for (let i = 0, len = this.signals._appButton.length; i < len; i++) {
       this._appButton.actor.disconnect(this.signals._appButton[i])
