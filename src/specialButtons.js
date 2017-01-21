@@ -88,6 +88,7 @@ IconLabelButton.prototype = {
     this._label = new St.Label({
       style_class: 'app-button-label'
     })
+    this._label.text = ''
     this._numLabel = new St.Label({
       style_class: 'window-list-item-label window-icon-list-numlabel'
     })
@@ -110,7 +111,7 @@ IconLabelButton.prototype = {
     this.actor.reactive = !global.settings.get_boolean('panel-edit-mode')
   },
 
-  setIconPadding: function (init) {
+  setIconPadding: function (init=null) {
     if (init && this._applet.themePadding) {
       this.themeNode = this.actor.peek_theme_node()
       var themePadding = this.themeNode ? this.themeNode.get_horizontal_padding() : 4
@@ -134,9 +135,12 @@ IconLabelButton.prototype = {
     }
   },
 
-  setText: function (text) {
+  setText: function (text='') {
     if (text) {
       this._label.text = text
+      if (text.length > 0) {
+        this._label.set_style('padding-right: 4px;')
+      }
     }
   },
 
@@ -183,8 +187,8 @@ IconLabelButton.prototype = {
   _getPreferredWidth: function (actor, forHeight, alloc) {
     let [iconMinSize, iconNaturalSize] = this._icon.get_preferred_width(forHeight)
     let [labelMinSize, labelNaturalSize] = this._label.get_preferred_width(forHeight)
-        // The label text is starts in the center of the icon, so we should allocate the space
-        // needed for the icon plus the space needed for(label - icon/2)
+    // The label text is starts in the center of the icon, so we should allocate the space
+    // needed for the icon plus the space needed for(label - icon/2)
     alloc.min_size = iconMinSize
     if (this._applet.titleDisplay == 3 && !this._parent.isFavapp) {
       alloc.natural_size = MAX_BUTTON_WIDTH
@@ -251,17 +255,16 @@ IconLabelButton.prototype = {
     }
     this._numLabel.allocate(childBox, flags)
   },
-  showLabel: function (animate, targetWidth) {
-        // need to turn width back to preferred.
+  showLabel: function (animate, targetWidth=MAX_BUTTON_WIDTH) {
+    // need to turn width back to preferred.
     var setToZero
     if (this._label.width < 2) {
       this._label.set_width(-1)
       setToZero = true
-    } else if (this._label.width < (this._label.text.length * 7) - 5 || this._label.width > (this._label.text.length * 7) + 5) {
+    } else if (this._label.text && this._label.width < (this._label.text.length * 7) - 5 || this._label.width > (this._label.text.length * 7) + 5) {
       this._label.set_width(-1)
     }
-    let naturalWidth = this._label.get_preferred_width(-1)
-    var width = Math.min(targetWidth || naturalWidth, 150)
+    var width = Math.min(targetWidth)
     if (setToZero) {
       this._label.width = 1
     }
