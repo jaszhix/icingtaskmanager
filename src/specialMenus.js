@@ -746,7 +746,9 @@ PopupMenuAppSwitcherItem.prototype = {
     } else {
       return
     }
-    this.appThumbnails[index].thumbnail.handleEnterEvent()
+    if (this.appThumbnails[index] !== undefined) {
+      this.appThumbnails[index].thumbnail.handleEnterEvent()
+    }
   },
 
   _setVerticalSetting: function () {
