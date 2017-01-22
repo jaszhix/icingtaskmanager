@@ -46,6 +46,7 @@ AppGroup.prototype = {
     this.launchersBox = applet;
     this.app = app
     this.appId = appId
+    this.appName = this.app.get_name()
     this.autostartIndex = _.findIndex(this._applet.autostartApps, {id: appId})
     this.isFavapp = isFavapp
     this.orientation = applet.orientation
@@ -553,7 +554,7 @@ AppGroup.prototype = {
     let titleType = this._applet.settings.getValue('title-display')
 
     var title = metaWindow.get_title()
-    var appName = this.app.get_name()
+    this.appName = this.app.get_name()
 
     if (titleType === App.TitleDisplay.None || (this._applet.c32 && (this.orientation === St.Side.LEFT || this.orientation === St.Side.RIGHT))) {
       this._appButton.setText('')
@@ -568,8 +569,8 @@ AppGroup.prototype = {
         this._updateFocusedStatus(true)
       }
     } else if (titleType === App.TitleDisplay.App) {
-      if (appName) {
-        this._appButton.setText(appName)
+      if (this.appName) {
+        this._appButton.setText(this.appName)
         this.showAppButtonLabel(true)
       }
     }

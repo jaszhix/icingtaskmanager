@@ -281,6 +281,7 @@ MyApplet.prototype = {
       {key: 'firefox-menu', value: 'firefoxMenu', cb: this.refreshCurrentAppList},
       {key: 'autostart-menu-item', value: 'autoStart', cb: this.refreshCurrentAppList},
       {key: 'monitor-move-all-windows', value: 'monitorMoveAllWindows', cb: this.refreshCurrentAppList},
+      {key: 'useSystemTooltips', value: 'useSystemTooltips', cb: null},
     ]
 
     if (this.c32) {

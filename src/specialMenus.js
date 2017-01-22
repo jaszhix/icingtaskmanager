@@ -3,7 +3,6 @@ const Clutter = imports.gi.Clutter
 const AppletManager = imports.ui.appletManager;
 const Lang = imports.lang
 const Main = imports.ui.main
-const Mainloop = imports.mainloop
 const Params = imports.misc.params
 const PopupMenu = imports.ui.popupMenu
 const Meta = imports.gi.Meta
@@ -13,6 +12,7 @@ const Gio = imports.gi.Gio
 const Gettext = imports.gettext
 const Tweener = imports.ui.tweener
 const Applet = imports.ui.applet;
+const Tooltips = imports.ui.tooltips;
 const clog = imports.applet.clog
 const setTimeout = imports.applet.setTimeout
 
@@ -526,6 +526,7 @@ AppThumbnailHoverMenu.prototype = {
   __proto__: PopupMenu.PopupMenu.prototype,
 
   _init: function (parent) {
+    this.appGroup = parent
     this._applet = parent._applet
     if (parent._applet.c32) {
       PopupMenu.PopupMenu.prototype._init.call(this, parent.actor, parent.orientation, 0.5)
@@ -549,6 +550,8 @@ AppThumbnailHoverMenu.prototype = {
     this.actor.style_class = 'hide-arrow'
 
     this.box.style_class = 'thumbnail-popup-content'
+
+    this._tooltip = new Tooltips.PanelItemTooltip(this._applet, 'Test', parent.orientation);
 
     this.actor.hide()
     this.parentActor = parent.actor
@@ -612,14 +615,27 @@ AppThumbnailHoverMenu.prototype = {
     // be created when the menu is initalized because a lot of the clutter window surfaces
     // have not been created yet...
     setTimeout(()=>this.appSwitcherItem._refresh(), 0)
-    PopupMenu.PopupMenu.prototype.open.call(this, this._applet.animateThumbs)
+    if (this.metaWindows.length === 0 && this._applet.useSystemTooltips) {
+      this._tooltip.set_text(this.appGroup.appName)
+      this._tooltip.show()
+      this._tooltip.preventShow = false
+    } else {
+      setTimeout(()=>this.appSwitcherItem._refresh(), 0)
+      PopupMenu.PopupMenu.prototype.open.call(this, this._applet.animateThumbs)
+    }
   },
 
   close: function () {
-    PopupMenu.PopupMenu.prototype.close.call(this, this._applet.animateThumbs)
+    if (this.metaWindows.length === 0 && this._applet.useSystemTooltips) {
+      this._tooltip.hide()
+      this._tooltip.preventShow = true
+    } else {
+      PopupMenu.PopupMenu.prototype.close.call(this, this._applet.animateThumbs)
+    }
   },
 
   destroy: function () {
+    this._tooltip._destroy()
     var children = this._getMenuItems()
     for (var i = 0; i < children.length; i++) {
       var item = children[i]
@@ -674,7 +690,7 @@ PopupMenuAppSwitcherItem.prototype = {
     this.app = parent.app
     this.isFavapp = parent.isFavapp
     this.actor.style_class = ''
-    this._parent = parent
+    this.hoverMenu = parent
 
     this.box = new St.BoxLayout()
 
@@ -740,9 +756,9 @@ PopupMenuAppSwitcherItem.prototype = {
       }
     } else if (symbol === Clutter.KEY_Return && entered) {
       Main.activateWindow(this.appThumbnails[i].metaWindow, global.get_current_time())
-      this._parent.close()
+      this.hoverMenu.close()
     } else if (symbol === closeArg) {
-      this._parent.close()
+      this.hoverMenu.close()
     } else {
       return
     }
@@ -938,7 +954,7 @@ WindowThumbnail.prototype = {
     this.app = parent.app
     this.isFavapp = parent.isFavapp || false
     this.wasMinimized = false
-    this._parent = parent
+    this.appSwitcherItem = parent
     this.thumbnailPadding = 16
     this.signals = {
       actor: [],
@@ -1016,7 +1032,7 @@ WindowThumbnail.prototype = {
       this.actor.add_style_pseudo_class('outlined')
       this.actor.add_style_pseudo_class('selected')
       this.button.show()
-      if (this.metaWindow.minimized && this._applet.enablePeek  && this.app.get_name() !== 'Steam') {
+      if (this.metaWindow.minimized && this._applet.enablePeek  && this.appSwitcherItem.hoverMenu.appGroup.appName !== 'Steam') {
         this.metaWindow.unminimize()
         if (this.metaWindow.is_fullscreen()) {
           this.metaWindow.unmaximize(global.get_current_time())
@@ -1118,7 +1134,7 @@ WindowThumbnail.prototype = {
       // this.thumbnailActor.height = 0
       // this.thumbnailActor.width = 0
       this.thumbnailActor.child = null
-      var apptext = this.app.get_name()
+      var apptext = this.appSwitcherItem.hoverMenu.appGroup.appName
       // not sure why it's 7
       this.thumbnailWidth = THUMBNAIL_ICON_SIZE + Math.floor(apptext.length * 7.0)
       this._label.text = apptext
@@ -1178,7 +1194,7 @@ WindowThumbnail.prototype = {
     
     this.metaWindow.delete(global.get_current_time())
     if (this.metaWindows.length === 1) {
-      this._parent._parent.close()
+      this.appSwitcherItem.hoverMenu.close()
     }
   },
 
@@ -1193,7 +1209,7 @@ WindowThumbnail.prototype = {
     if (event.get_state() & Clutter.ModifierType.BUTTON1_MASK && !this.stopClick && !this.isFavapp) {
       Main.activateWindow(this.metaWindow, global.get_current_time())
 
-      this._parent._parent.close()
+      this.appSwitcherItem.hoverMenu.close()
     } else if (event.get_state() & Clutter.ModifierType.BUTTON2_MASK && !this.stopClick) {
       this.handleAfterClick()
     }
@@ -1304,11 +1320,11 @@ WindowThumbnail.prototype = {
         })
       })
     }
-    var refThumb = _.findIndex(this._parent.appThumbnails, (thumb)=>{
+    var refThumb = _.findIndex(this.appSwitcherItem.appThumbnails, (thumb)=>{
       return _.isEqual(thumb.metaWindow, this.metaWindow)
     })
     if (refThumb !== -1) {
-      _.pullAt(this._parent.appThumbnails, refThumb)
+      _.pullAt(this.appSwitcherItem.appThumbnails, refThumb)
     }
 
     this._container.destroy_children()

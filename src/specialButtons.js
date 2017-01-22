@@ -55,6 +55,7 @@ IconLabelButton.prototype = {
     })
     this.actor.height = parent._applet._panelHeight
     this.actor._delegate = this
+
     this.signals = {
       _container: [],
       settings: [],
