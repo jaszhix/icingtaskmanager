@@ -187,50 +187,28 @@ AppGroup.prototype = {
     return this.actor
   },
 
-  _setWatchedWorkspaces: function () {
-    this._appButton._setWatchedWorkspaces(this.metaWorkspaces)
-  },
-
   // Add a workspace to the list of workspaces that are watched for
   // windows being added and removed
   watchWorkspace: function (metaWorkspace) {
-    var refWs = _.findIndex(this.metaWorkspaces, (ws)=>{
-      return _.isEqual(ws.workspace, metaWorkspace)
-    })
-    if (refWs === -1) {
-      // We use connect_after so that the window-tracker time to identify the app, otherwise get_window_app might return null!
-      let windowAddedSignal = metaWorkspace.connect_after('window-added', (metaWorkspace, metaWindow)=>this._windowAdded(metaWorkspace, metaWindow))
-      let windowRemovedSignal = metaWorkspace.connect_after('window-removed', Lang.bind(this, this._windowRemoved))
-      this.metaWorkspaces.push({
-        workspace: metaWorkspace,
-        signals: [windowAddedSignal, windowRemovedSignal]
-      })
-    }
+    this.windowAddedSignal = metaWorkspace.connect_after('window-added', (metaWorkspace, metaWindow)=>this._windowAdded(metaWorkspace, metaWindow))
+    this.windowRemovedSignal = metaWorkspace.connect_after('window-removed', Lang.bind(this, this._windowRemoved))
     this._calcWindowNumber(metaWorkspace)
     this.numDisplaySignal = this._applet.settings.connect('changed::number-display', ()=>{
       this._calcWindowNumber(metaWorkspace)
     })
-    this._setWatchedWorkspaces()
   },
 
   // Stop monitoring a workspace for added and removed windows.
   // @metaWorkspace: if null, will remove all signals
   unwatchWorkspace: function (metaWorkspace, unmount=false) {
-    function removeSignals (obj) {
-      let signals = obj.signals
-      for (let i = 0, len = signals.length; i < len; i++) {
-        obj.workspace.disconnect(signals[i])
-      }
-    }
-
     if (!metaWorkspace) {
-      for (let i = 0, len = this.metaWorkspaces.length; i < len; i++) {
-        removeSignals(this.metaWorkspaces[i])
-        _.pullAt(this.metaWorkspaces, i)
-      }
+      return
     }
-    if (!unmount) {
-      this._setWatchedWorkspaces()
+    if (this.windowAddedSignal) {
+      metaWorkspace.disconnect(this.windowAddedSignal)
+    }
+    if (this.windowRemovedSignal) {
+      metaWorkspace.disconnect(this.windowRemovedSignal)
     }
   },
 
@@ -456,7 +434,8 @@ AppGroup.prototype = {
     if (!this._applet.includeAllWindows) {
       windowAddArgs = windowAddArgs && this._applet.tracker.is_window_interesting(metaWindow)
     }
-    if (windowAddArgs) { // TBD
+    if (windowAddArgs) {
+      // Workaround for Spotify thumbnail not showing.
       if (app.get_id().indexOf('spotify') !== -1 && recursion === 0) {
         ++recursion
         setTimeout(()=>this._windowAdded(metaWorkspace, metaWindow, metaWindows, recursion), 3000)
@@ -466,10 +445,8 @@ AppGroup.prototype = {
         if (!this._applet.groupApps && this.metaWindows.length >= 1) {
           if (this.ungroupedIndex === 0) {
             this.appList._windowAdded(metaWorkspace, metaWindow, null, this.isFavapp, true)
-            return
-          } else {
-            return
           }
+          return
         }
         this.lastFocused = metaWindow
 
@@ -521,20 +498,14 @@ AppGroup.prototype = {
   },
 
   _windowRemoved: function (metaWorkspace, metaWindow) {
-
-    let deleted = null
-
     var refWindow = _.findIndex(this.metaWindows, (win)=>{
       return _.isEqual(win.win, metaWindow)
     })
 
     if (refWindow !== -1) {
-      deleted = this.metaWindows[refWindow].data
-    }
-    if (deleted) {
       // Clean up all the signals we've connected
-      for (let i = 0, len = deleted.signals.length; i < len; i++) {
-        metaWindow.disconnect(deleted.signals[i])
+      for (let i = 0, len = this.metaWindows[refWindow].data.signals.length; i < len; i++) {
+        this.metaWindows[refWindow].win.disconnect(this.metaWindows[refWindow].data.signals[i])
       }
 
       if (!this._applet.groupApps) {

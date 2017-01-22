@@ -60,7 +60,6 @@ IconLabelButton.prototype = {
       settings: [],
       actor: []
     }
-    this.metaWorkspaces = []
 
     // We do a fancy layout with icons and labels, so we'd like to do our own allocation
     // in a Cinnamon.GenericContainer
@@ -376,15 +375,13 @@ AppButton.prototype = {
     }
   },
 
-  _setWatchedWorkspaces: function (workspaces) {
-    this.metaWorkspaces = workspaces
-  },
-
   _hasFocus: function () {
     var workspaceIds = []
 
-    for (let i = 0, len = this.metaWorkspaces.length; i < len; i++) {
-      workspaceIds.push(this.metaWorkspaces[i].workspace.index())
+    let workspaces = _.map(this._applet.metaWorkspaces, 'ws')
+
+    for (let i = 0, len = workspaces.length; i < len; i++) {
+      workspaceIds.push(workspaces[i].index())
     }
 
     var windows = _.filter(this.metaWindows, (win)=>{
