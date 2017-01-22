@@ -551,7 +551,7 @@ AppThumbnailHoverMenu.prototype = {
 
     this.box.style_class = 'thumbnail-popup-content'
 
-    this._tooltip = new Tooltips.PanelItemTooltip(this._applet, 'Test', parent.orientation);
+    this._tooltip = new Tooltips.PanelItemTooltip(this._applet, '', parent.orientation);
 
     this.actor.hide()
     this.parentActor = parent.actor
