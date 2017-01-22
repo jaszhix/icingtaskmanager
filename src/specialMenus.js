@@ -614,7 +614,6 @@ AppThumbnailHoverMenu.prototype = {
     // Refresh all the thumbnails, etc when the menu opens.  These cannot
     // be created when the menu is initalized because a lot of the clutter window surfaces
     // have not been created yet...
-    setTimeout(()=>this.appSwitcherItem._refresh(), 0)
     if (this.metaWindows.length === 0 && this._applet.useSystemTooltips) {
       this._tooltip.set_text(this.appGroup.appName)
       this._tooltip.show()
