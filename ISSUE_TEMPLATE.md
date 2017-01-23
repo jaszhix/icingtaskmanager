@@ -1,7 +1,10 @@
-If this issue is a bug report, please list your: 
+If this issue is a bug report, you must list your: 
 
   - Cinnamon version
   - Extension version
   - Linux distribution
-  - Output of cat ~/.cinnamon/configs/IcingTaskManager@json/*.json
+  - Pastbin the outputs of:
+    - ~/.cinnamon/configs/IcingTaskManager@json/*.json
+    - ~/.cinnamon/glass.log
+    - ~/.xsession-errors
   - Describe the steps needed to be taken in order to reproduce this bug.
