@@ -836,12 +836,14 @@ PopupMenuAppSwitcherItem.prototype = {
   },
 
   addWindowThumbnails: function (windows) {
-    if (this._applet.sortThumbs && windows.length > 0) {
+    if (windows.length > 0) {
       var children = this.appContainer.get_children()
       for (let w = 0, len = children.length; w < len; w++) {
         this.appContainer.remove_actor(children[w])
       }
-      this.appThumbnails = _.orderBy(this.appThumbnails, ['metaWindow.user_time'], ['asc'])
+      if (this._applet.sortThumbs) {
+        this.appThumbnails = _.orderBy(this.appThumbnails, ['metaWindow.user_time'], ['asc'])
+      }
       this.reAdd = true
     }
 
@@ -850,11 +852,7 @@ PopupMenuAppSwitcherItem.prototype = {
       var refThumb = _.findIndex(this.appThumbnails, {metaWindow: metaWindow})
       if (this.appThumbnails[i] !== undefined && this.appThumbnails[i] && refThumb !== -1) {
         if (this.reAdd) {
-          if (this._applet.sortThumbs) {
-            this.appContainer.insert_actor(this.appThumbnails[i].thumbnail.actor, 0)
-          } else {
-            this.appContainer.add_actor(this.appThumbnails[i].thumbnail.actor)
-          }
+          this.appContainer.insert_actor(this.appThumbnails[i].thumbnail.actor, 0)
         }
       } else {
         if (this.metaWindowThumbnail) {
@@ -866,11 +864,7 @@ PopupMenuAppSwitcherItem.prototype = {
           metaWindow: metaWindow,
           thumbnail: thumbnail
         })
-        if (this._applet.sortThumbs) {
-          this.appContainer.insert_actor(this.appThumbnails[i].thumbnail.actor, 0)
-        } else {
-          this.appContainer.add_actor(this.appThumbnails[i].thumbnail.actor)
-        }
+        this.appContainer.insert_actor(this.appThumbnails[i].thumbnail.actor, 0)
       }
     }
     this.appContainer.show()
