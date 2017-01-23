@@ -399,7 +399,7 @@ AppGroup.prototype = {
     var filterArgs = _.isEqual(app, this.app)
     var windowList = _.filter(windowsSource, (win)=>{
       if (!app) {
-        app = App.appFromWMClass(this.appList._appsys, this.appList.specialApps, win)
+        app = this._applet.getAppFromWMClass(this.appList.specialApps, win)
         if (!app) {
           app = this._applet.tracker.get_window_app(win)
         }
@@ -416,15 +416,7 @@ AppGroup.prototype = {
       this._windowAdded(metaWorkspace, windowList[i], windowList)
     }
 
-    // When we first populate we need to decide which window
-    // will be triggered when the app button is pressed
-    // TBD
-    /*if (!this.lastFocused) {
-      this.lastFocused = windowList.length === 1 ? windowList[0] : _.chain(windowList).orderBy('user_time').first().values()
-      this.appList._setLastFocusedApp(this.appId)
-    }*/
     if (this.lastFocused && _.isObject(this.lastFocused)) {
-      //this._windowTitleChanged(this.lastFocused)
       if (this.rightClickMenu !== undefined) {
         this.rightClickMenu.setMetaWindow(this.lastFocused, this.metaWindows)
       }
@@ -433,7 +425,7 @@ AppGroup.prototype = {
 
   _windowAdded: function (metaWorkspace, metaWindow, metaWindows, recursion=0) {
 
-    let app = App.appFromWMClass(this.appList._appsys, this.appList.specialApps, metaWindow)
+    let app = this._applet.getAppFromWMClass(this.appList.specialApps, metaWindow)
     if (!app) {
       app = this._applet.tracker.get_window_app(metaWindow)
     }
@@ -506,10 +498,8 @@ AppGroup.prototype = {
       this._calcWindowNumber(metaWorkspace)
     }
 
-    if (app.wmClass && !this.isFavapp) {
       this._calcWindowNumber(metaWorkspace)
     }
-
   },
 
   _windowRemoved: function (metaWorkspace, metaWindow) {
@@ -549,10 +539,6 @@ AppGroup.prototype = {
         this._applet.refreshAppFromCurrentListById(this.appId, {favChange: true, isFavapp: this.isFavapp})
       }
 
-      this._calcWindowNumber(metaWorkspace)
-    }
-    let app = App.appFromWMClass(this.appList._appsys, this.appList.specialApps, metaWindow)
-    if (app && app.wmClass && !this.isFavapp) {
       this._calcWindowNumber(metaWorkspace)
     }
   },

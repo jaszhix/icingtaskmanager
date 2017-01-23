@@ -78,7 +78,6 @@ MyApplet._init -> PinnedFavs
 PinnedFavs.prototype = {
   _init: function (applet) {
     this._applet = applet
-    this.appSys = Cinnamon.AppSystem.get_default()
     this._favorites = []
     this._reload()
   },
@@ -89,7 +88,7 @@ PinnedFavs.prototype = {
     for (let i = 0, len = ids.length; i < len; i++) {
       var refFav = _.findIndex(this._favorites, {id: ids[i]})
       if (refFav === -1) {
-        let app = this.appSys.lookup_app(ids[i])
+        let app = this._applet._appSystem.lookup_app(ids[i])
         this._favorites.push({
           id: ids[i],
           app: app
@@ -127,11 +126,11 @@ PinnedFavs.prototype = {
     }
 
     if (!opts.app) {
-      opts.app = this.appSys.lookup_app(opts.appId)
+      opts.app = this._applet._appSystem.lookup_app(opts.appId)
     }
 
     if (!opts.app) {
-      opts.app = this.appSys.lookup_settings_app(opts.appId)
+      opts.app = this._applet._appSystem.lookup_settings_app(opts.appId)
     }
 
     if (!opts.app) {
@@ -192,25 +191,6 @@ PinnedFavs.prototype = {
   }
 }
 Signals.addSignalMethods(PinnedFavs.prototype)
-
-function appFromWMClass (appsys, specialApps, metaWindow) {
-  function startup_class (wmclass) {
-    let app_final = null
-    for (let i = 0, len = specialApps.length; i < len; i++) {
-      if (specialApps[i].wmClass == wmclass) {
-        app_final = appsys.lookup_app(specialApps[i].id)
-        if (!app_final) {
-          app_final = appsys.lookup_settings_app(specialApps[i].id)
-        }
-        app_final.wmClass = wmclass
-      }
-    }
-    return app_final
-  }
-  let wmClassInstance = metaWindow.get_wm_class_instance()
-  let app = startup_class(wmClassInstance)
-  return app
-}
 
 function MyApplet (metadata, orientation, panel_height, instance_id) {
   this._init(metadata, orientation, panel_height, instance_id)
@@ -300,6 +280,7 @@ MyApplet.prototype = {
     this.actor.add(this._box)
 
     this.tracker = Cinnamon.WindowTracker.get_default()
+    this._appSystem = Cinnamon.AppSystem.get_default()
 
     this.pinnedAppsContr = new PinnedFavs(this)
 
@@ -424,6 +405,25 @@ MyApplet.prototype = {
 
   refreshAppFromCurrentListById(appId, opts={favChange: false, favPos: null, isFavapp: false}){
     this.metaWorkspaces[this.currentWs].appList._refreshAppById(appId, opts)
+  },
+
+  getAppFromWMClass (specialApps, metaWindow) {
+    let startupClass = (wmclass)=> {
+      let app_final = null
+      for (let i = 0, len = specialApps.length; i < len; i++) {
+        if (specialApps[i].wmClass == wmclass) {
+          app_final = this._appSystem.lookup_app(specialApps[i].id)
+          if (!app_final) {
+            app_final = this._appSystem.lookup_settings_app(specialApps[i].id)
+          }
+          app_final.wmClass = wmclass
+        }
+      }
+      return app_final
+    }
+    let wmClassInstance = metaWindow.get_wm_class_instance()
+    let app = startupClass(wmClassInstance)
+    return app
   },
 
   getCurrentAppList(){

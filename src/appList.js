@@ -52,7 +52,6 @@ AppList.prototype = {
     this.manager_container = new Clutter.Actor({ layout_manager: manager })
     this.actor.add_actor(this.manager_container)
 
-    this._appsys = Cinnamon.AppSystem.get_default()
     this.registeredApps = []
 
     this.appList = []
@@ -284,9 +283,9 @@ AppList.prototype = {
     let launchers =  this._applet.pinned_app_contr()._getIds()
 
     for (let i = 0, len = launchers.length; i < len; i++) {
-      let app = this._appsys.lookup_app(launchers[i])
+      let app = this._applet._appSystem.lookup_app(launchers[i])
       if (!app) {
-        app = this._appsys.lookup_settings_app(launchers[i])
+        app = this._applet._appSystem.lookup_settings_app(launchers[i])
       }
       if (!app) {
         continue
@@ -311,7 +310,7 @@ AppList.prototype = {
     if (favapp) {
       app = favapp
     } else {
-      app = App.appFromWMClass(this._appsys, this.specialApps, metaWindow)
+      app = this._applet.getAppFromWMClass(this.specialApps, metaWindow)
     }
     if (!app) {
       app = this._applet.tracker.get_window_app(metaWindow)
@@ -427,7 +426,7 @@ AppList.prototype = {
     // When a window is closed, we need to check if the app it belongs
     // to has no windows left.  If so, we need to remove the corresponding AppGroup
     if (!app) {
-      app = App.appFromWMClass(this._appsys, this.specialApps, metaWindow)
+      app = this._applet.getAppFromWMClass(this.specialApps, metaWindow)
 
       if (!app){
         app = this._applet.tracker.get_window_app(metaWindow)
