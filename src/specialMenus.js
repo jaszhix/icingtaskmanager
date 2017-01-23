@@ -594,8 +594,8 @@ AppThumbnailHoverMenu.prototype = {
       // close this menu, if opened by super+#
       this.close();
       this.appList.lastCycled = null
-      return true;
     }
+    return true;
   },
 
   hoverOpen: function () {
@@ -634,7 +634,6 @@ AppThumbnailHoverMenu.prototype = {
   },
 
   destroy: function () {
-    this._tooltip._destroy()
     var children = this._getMenuItems()
     for (var i = 0; i < children.length; i++) {
       var item = children[i]
