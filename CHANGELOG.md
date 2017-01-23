@@ -1,5 +1,13 @@
 Changelog
 
+### 4.3.1
+
+  * Added an option to use system tooltips for closed apps under Theme Settings.
+  * Fixed a bug causing the thumbnail menu cycling hotkey option to disappear when using importPinned.py or creating a shortcut through the applet.
+  * Fixed the button label padding being off when title display is enabled.
+  * Fixed incorrect app button width being applied when changing the title display setting.
+  * Fixed stale thumbnails persisting after their window is closed when "Sort windows for each app by last focused" is disabled.
+
 ### 4.3.0
 
   * Added a menu item type option dropdown controlling the style of icons, or their visibility.
