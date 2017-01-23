@@ -55,7 +55,6 @@ AppGroup.prototype = {
     this.timeStamp = timeStamp
     this.ungroupedIndex = ungroupedIndex
 
-    this.metaWorkspaces = []
     this.actor = new St.Bin({
       reactive: true,
       can_focus: true,
@@ -67,6 +66,7 @@ AppGroup.prototype = {
       _appButton: [],
       _draggable: []
     }
+    this.metaWorkspacesSignals = []
 
     this.appList.manager_container.add_actor(this.actor)
 
@@ -191,8 +191,19 @@ AppGroup.prototype = {
   // Add a workspace to the list of workspaces that are watched for
   // windows being added and removed
   watchWorkspace: function (metaWorkspace) {
-    this.windowAddedSignal = metaWorkspace.connect_after('window-added', (metaWorkspace, metaWindow)=>this._windowAdded(metaWorkspace, metaWindow))
-    this.windowRemovedSignal = metaWorkspace.connect_after('window-removed', Lang.bind(this, this._windowRemoved))
+    var refWs = _.findIndex(this.metaWorkspacesSignals, (ws)=>{
+      return _.isEqual(ws.workspace, metaWorkspace)
+    })
+    if (refWs === -1) {
+      // We use connect_after so that the window-tracker time to identify the app, otherwise get_window_app might return null!
+      let windowAddedSignal = metaWorkspace.connect_after('window-added', (metaWorkspace, metaWindow)=>this._windowAdded(metaWorkspace, metaWindow))
+      let windowRemovedSignal = metaWorkspace.connect_after('window-removed', Lang.bind(this, this._windowRemoved))
+      // Workspace is cached so the signals are disconnected reliably in unwatchWorkspace.
+      this.metaWorkspacesSignals.push({
+        workspace: metaWorkspace,
+        signals: [windowAddedSignal, windowRemovedSignal]
+      })
+    }
     this._calcWindowNumber(metaWorkspace)
     this.numDisplaySignal = this._applet.settings.connect('changed::number-display', ()=>{
       this._calcWindowNumber(metaWorkspace)
@@ -203,13 +214,16 @@ AppGroup.prototype = {
   // @metaWorkspace: if null, will remove all signals
   unwatchWorkspace: function (metaWorkspace, unmount=false) {
     if (!metaWorkspace) {
-      return
-    }
-    if (this.windowAddedSignal) {
-      metaWorkspace.disconnect(this.windowAddedSignal)
-    }
-    if (this.windowRemovedSignal) {
-      metaWorkspace.disconnect(this.windowRemovedSignal)
+      let removeSignals = (obj)=> {
+        let signals = obj.signals
+        for (let i = 0, len = signals.length; i < len; i++) {
+          obj.workspace.disconnect(signals[i])
+        }
+      }
+      for (let i = 0, len = this.metaWorkspacesSignals.length; i < len; i++) {
+        removeSignals(this.metaWorkspacesSignals[i])
+        _.pullAt(this.metaWorkspacesSignals, i)
+      }
     }
   },
 
