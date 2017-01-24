@@ -27,14 +27,21 @@ See the [changelog](https://github.com/jaszhix/icingtaskmanager/blob/master/CHAN
 
 You can install the applet from the [Cinnamon Spices](https://cinnamon-spices.linuxmint.com/applets/view/269) website.
 
+There are many options in the applet's Preferences that cater to many users' different needs. If you find a problem with your theme, try toggling the options under Theme Settings.
+
 ### Contributing
 
-*  Use [Node 6.x](https://github.com/nodesource/distributions).
+*  Use [Node 6.x LTS](https://github.com/nodesource/distributions).
 ```sh
 curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
 sudo apt-get install -y nodejs
 ```
 *  Install node modules: ```npm install```
-*  Install gulp globally if you haven't already. ```sudo npm install -g gulp```
+*  Install gulp globally: ```sudo npm install -g gulp```
 *  Start transpile watch task: ```gulp spawn-watch```
-*  Monitor logging output: ```tail -f -n100 ~/.cinnamon/glass.log```
+  * This task will auto-reload the extension on every edit.
+*  Monitor the logging output of these files: 
+  * ```tail -f -n100 ~/.cinnamon/glass.log```
+  * ```tail -f -n100 ~/.xsession-errors.log```
+* Use two spaces for indentation, and ES2015 equivalent syntax when possible. 
+  * You may want to read Babel's [documentation](https://babeljs.io/learn-es2015/) if you are not familiar with ES2015.
