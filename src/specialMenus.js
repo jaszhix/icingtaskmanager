@@ -1,24 +1,25 @@
 /* jshint moz:true */
+var importObj = typeof cimports !== 'undefined' ? cimports : imports;
 const Clutter = imports.gi.Clutter
-const AppletManager = imports.ui.appletManager;
+const AppletManager = importObj.ui.appletManager;
 const Lang = imports.lang
-const Main = imports.ui.main
-const Params = imports.misc.params
-const PopupMenu = imports.ui.popupMenu
+const Main = importObj.ui.main
+const Params = importObj.misc.params
+const PopupMenu = importObj.ui.popupMenu
 const Meta = imports.gi.Meta
-const Util = imports.misc.util
+const Util = importObj.misc.util
 const St = imports.gi.St
 const Gio = imports.gi.Gio
 const Gettext = imports.gettext
-const Tweener = imports.ui.tweener
-const Applet = imports.ui.applet;
-const Tooltips = imports.ui.tooltips;
-const clog = imports.applet.clog
-const setTimeout = imports.applet.setTimeout
+const Tweener = importObj.ui.tweener
+const Applet = importObj.ui.applet;
+const Tooltips = importObj.ui.tooltips;
 
-const AppletDir = AppletManager.applets['IcingTaskManager@json']
+const AppletDir = typeof cimports !== 'undefined' ? cimports.applets['IcingTaskManager@json'] : importObj.ui.appletManager.applets['IcingTaskManager@json']
 const _ = AppletDir.lodash._
 const FireFox = AppletDir.firefox
+const clog = AppletDir.__init__.clog
+const setTimeout = AppletDir.__init__.setTimeout
 
 const THUMBNAIL_ICON_SIZE = 16
 const OPACITY_OPAQUE = 255
@@ -1209,6 +1210,10 @@ WindowThumbnail.prototype = {
   },
 
   _refresh: function (metaWindow=this.metaWindow, metaWindows=this.metaWindows) {
+    if (!this.metaWindow) {
+      return false;
+    }
+
     // Turn favorite tooltip into a normal thumbnail
     var monitor = Main.layoutManager.primaryMonitor
 
@@ -1318,12 +1323,17 @@ WindowThumbnail.prototype = {
     if (refThumb !== -1) {
       _.pullAt(this.appSwitcherItem.appThumbnails, refThumb)
     }
-
-    this._container.destroy_children()
+    try {
+      this._container.destroy_children()
+    } catch (e) {}
     this._container.destroy()
-    this.bin.destroy_children()
+    try {
+      this.bin.destroy_children()
+    } catch (e) {}
     this.bin.destroy()
-    this.actor.destroy_children()
+    try {
+      this.actor.destroy_children()
+    } catch (e) {}
     this.actor.destroy()
 
   }
