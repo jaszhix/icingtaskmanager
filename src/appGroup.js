@@ -18,7 +18,7 @@ const SpecialButtons = AppletDir.specialButtons
 const clog = AppletDir.__init__.clog
 const setTimeout = AppletDir.__init__.setTimeout;
 
-const DEFERRED_APPS = ['spotify']
+const DEFERRED_APPS = ['spotify', 'libreoffice']
 
 function AppGroup () {
   this._init.apply(this, arguments)
