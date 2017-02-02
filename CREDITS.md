@@ -4,6 +4,8 @@ Special thanks to the contributors of this project.
 
 ### Pull requests
 
+  * SethosII
+    * https://github.com/jaszhix/icingtaskmanager/pull/93
   *  AdmiralAnimE:
     * https://github.com/jaszhix/icingtaskmanager/commit/5e59cb1595c600db135cb8f841f167598708d565
   * zqq90:
@@ -47,6 +49,7 @@ Special thanks to the contributors of this project.
   * Xeronel
   * feren
   * giuspen
+  * Piiit
 
 ### Support
 

@@ -1,5 +1,11 @@
 Changelog
 
+### 4.3.2
+
+  * Fixed a bug causing new LibreOffice windows to not be shown.
+  * German translation update by [SethosII](https://github.com/jaszhix/icingtaskmanager/pull/93).
+  * Added compatibility checks for the experimental Classic Gnome project.
+
 ### 4.3.1
 
   * Added an option to use system tooltips for closed apps under Theme Settings.
