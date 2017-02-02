@@ -320,10 +320,6 @@ AppList.prototype = {
 
     var appId = app.get_id()
 
-    if (appId.indexOf('org.gnome') !== -1) {
-      return;
-    }
-
     var refApp = _.findIndex(this.appList, {id: appId})
 
     // If forceUngroupedWindow is set, then this method is being called from the first appGroup instance for this app, to override app grouping.
