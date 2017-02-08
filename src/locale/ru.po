@@ -56,7 +56,7 @@ msgstr "Показывать миниатюры"
 #. src->settings-schema.json->show-thumbnails->tooltip
 msgid "Show window thumbnails when hovering over an app button."
 msgstr ""
-msgstr "Показывать миниатюры открытых окон "
+"Показывать миниатюры открытых окон "
 "при наведении на кнопку приложения."
 
 #. src->settings-schema.json->icon-size->description
@@ -209,7 +209,7 @@ msgstr ""
 #. src->settings-schema.json->autostart-menu-item->tooltip
 msgid "Shows the autostart toggle option in an app's context menu."
 msgstr ""
-"Показывает включение автозагрузки в контекстном меню приложения "
+"Показывает включение автозагрузки в контекстном меню приложения."
 
 #. src->settings-schema.json->show-pinned->description
 msgid "Show pinned apps"
