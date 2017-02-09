@@ -1,5 +1,9 @@
 Changelog
 
+### 4.3.3
+
+  * Russian translation update by [ArionWT](https://github.com/jaszhix/icingtaskmanager/pull/96).
+
 ### 4.3.2
 
   * Fixed a bug causing new LibreOffice windows to not be shown.

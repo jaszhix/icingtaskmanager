@@ -4,6 +4,8 @@ Special thanks to the contributors of this project.
 
 ### Pull requests
 
+  * ArionWT
+    * https://github.com/jaszhix/icingtaskmanager/pull/96
   * SethosII
     * https://github.com/jaszhix/icingtaskmanager/pull/93
   *  AdmiralAnimE:
