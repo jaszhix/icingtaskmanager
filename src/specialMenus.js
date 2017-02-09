@@ -50,14 +50,13 @@ function t (str) {
   return Gettext.gettext(str)
 }
 
-function AppMenuButtonRightClickMenu () {
-  this._init.apply(this, arguments)
-}
+class AppMenuButtonRightClickMenu extends Applet.AppletPopupMenu {
+  constructor(launcher, metaWindow, metaWindows, orientation) {
+    super(...arguments)
+    this._init.apply(this, arguments)
+  }
 
-AppMenuButtonRightClickMenu.prototype = {
-  __proto__: Applet.AppletPopupMenu.prototype,
-
-  _init: function(launcher, metaWindow, metaWindows, orientation) {
+  _init(launcher, metaWindow, metaWindows, orientation) {
     Applet.AppletPopupMenu.prototype._init.call(this, launcher, orientation);
 
     this._applet = launcher._applet;
@@ -75,17 +74,17 @@ AppMenuButtonRightClickMenu.prototype = {
     this.metaWindows = metaWindows;
     this.autostartIndex = launcher.autostartIndex;
     this.actor.style = 'width: 500px;'
-  },
+  }
 
-  setMetaWindow: function (metaWindow, metaWindows) {
+  setMetaWindow(metaWindow, metaWindows) {
     // Last focused
     this.metaWindow = metaWindow
 
     // Window list from appGroup
     this.metaWindows = metaWindows
-  },
+  }
 
-  _populateMenu: function() {
+  _populateMenu() {
     if (!this.metaWindow) {
       this.metaWindow = this._launcher._getLastFocusedWindow()
     }
@@ -426,9 +425,9 @@ AppMenuButtonRightClickMenu.prototype = {
         this.addMenuItem(new PopupMenu.PopupSeparatorMenuItem());
       }
     }
-  },
+  }
 
-  _onToggled: function(actor, isOpening) {
+  _onToggled(actor, isOpening) {
     if (this.isOpen) {
       this._applet._menuOpen = true;
     } else {
@@ -440,9 +439,9 @@ AppMenuButtonRightClickMenu.prototype = {
     }
     this.removeAll();
     this._populateMenu();
-  },
+  }
 
-  _toggleAutostart(){
+  _toggleAutostart() {
     if (this.autostartIndex !== -1) {
       this._applet.autostartApps[this.autostartIndex].file.delete(null)
       this._applet.removeAutostartApp(this.autostartIndex)
@@ -455,9 +454,9 @@ AppMenuButtonRightClickMenu.prototype = {
         this.autostartIndex = this._applet.autostartApps.length - 1
       }, 500)
     }
-  },
+  }
 
-  _toggleFav: function (actor, event) {
+  _toggleFav(actor, event) {
     if (this.isFavapp) {
       this.favs.removeFavorite(this.appId)
     } else {
@@ -465,15 +464,15 @@ AppMenuButtonRightClickMenu.prototype = {
         this.favs._addFavorite({appId: this.appId, app: this.app, pos: -1})
       }
     }
-  },
+  }
 
-  _createShortcut: function (actor, event) {
+  _createShortcut(actor, event) {
     var proc = this.app.get_windows()[0].get_pid()
     var cmd = `bash -c 'python ~/.local/share/cinnamon/applets/IcingTaskManager@json/utils.py get_process ${proc.toString()}'`
     Util.trySpawnCommandLine(cmd)
-  },
+  }
 
-  _listDefaultPlaces: function (pattern) {
+  _listDefaultPlaces(pattern) {
     var defaultPlaces = Main.placesManager.getDefaultPlaces()
     var res = []
     for (let i = 0, len = defaultPlaces.length; i < len; i++) {
@@ -482,9 +481,9 @@ AppMenuButtonRightClickMenu.prototype = {
       }
     }
     return res
-  },
+  }
 
-  _listBookmarks: function (pattern) {
+  _listBookmarks(pattern) {
     var bookmarks = Main.placesManager.getBookmarks()
     var res = []
     for (let i = 0, len = bookmarks.length; i < len; i++) {
@@ -493,9 +492,9 @@ AppMenuButtonRightClickMenu.prototype = {
       }
     }
     return res
-  },
+  }
 
-  _listDevices: function (pattern) {
+  _listDevices(pattern) {
     var devices = Main.placesManager.getMounts()
     var res = []
     for (let i = 0, len = devices.length; i < len; i++) {
@@ -504,29 +503,27 @@ AppMenuButtonRightClickMenu.prototype = {
       }
     }
     return res
-  },
-};
-
-function HoverMenuController (owner) {
-  this._init(owner)
+  }
 }
 
-HoverMenuController.prototype = {
-  __proto__: PopupMenu.PopupMenuManager.prototype,
+class HoverMenuController extends PopupMenu.PopupMenuManager {
+  constructor(owner) {
+    super(owner);
+    this._init.apply(this, arguments)
+  }
 
-  _onEventCapture: function (actor, event) {
+  _onEventCapture(actor, event) {
     return false
   }
 }
 
-function AppThumbnailHoverMenu () {
-  this._init.apply(this, arguments)
-}
+class AppThumbnailHoverMenu extends PopupMenu.PopupMenu {
+  constructor(parent) {
+    super(parent);
+    this._init.apply(this, arguments)
+  }
 
-AppThumbnailHoverMenu.prototype = {
-  __proto__: PopupMenu.PopupMenu.prototype,
-
-  _init: function (parent) {
+  _init(parent) {
     this.appGroup = parent
     this._applet = parent._applet
     if (parent._applet.c32) {
@@ -569,27 +566,27 @@ AppThumbnailHoverMenu.prototype = {
     this.signals.actor.push(this.actor.connect('enter-event', Lang.bind(this, this._onMenuEnter)))
     this.signals.actor.push(this.actor.connect('leave-event', Lang.bind(this, this._onMenuLeave)))
     this.signals.actor.push(this.actor.connect('key-release-event', (actor, e)=>this._onKeyRelease(actor, e)))
-  },
+  }
 
-  _onButtonPress: function (actor, event) {
+  _onButtonPress(actor, event) {
     if (this._applet.onClickThumbs && this.appSwitcherItem.appContainer.get_children().length > 1) {
       return
     }
     this.shouldClose = true
     setTimeout(()=>this.hoverClose(), this._applet.thumbTimeout)
-  },
+  }
 
-  _onMenuEnter: function () {
+  _onMenuEnter() {
     this.shouldClose = false
     setTimeout(()=>this.hoverOpen(), this._applet.thumbTimeout)
-  },
+  }
 
-  _onMenuLeave: function () {
+  _onMenuLeave() {
     this.shouldClose = true
     setTimeout(()=>this.hoverClose(), this._applet.thumbTimeout)
-  },
+  }
 
-  _onKeyRelease: function(actor, event) {
+  _onKeyRelease(actor, event) {
     let symbol = event.get_key_symbol()
     if (this.isOpen && (symbol === Clutter.KEY_Super_L || symbol === Clutter.KEY_Super_R)) {
       // close this menu, if opened by super+#
@@ -597,21 +594,21 @@ AppThumbnailHoverMenu.prototype = {
       this.appList.lastCycled = null
     }
     return true;
-  },
+  }
 
-  hoverOpen: function () {
+  hoverOpen() {
     if (!this.isOpen && !this._applet.onClickThumbs) {
       this.open()
     }
-  },
+  }
 
-  hoverClose: function () {
+  hoverClose() {
     if (this.shouldClose) {
       this.close()
     }
-  },
+  }
 
-  open: function () {
+  open() {
     // Refresh all the thumbnails, etc when the menu opens.  These cannot
     // be created when the menu is initalized because a lot of the clutter window surfaces
     // have not been created yet...
@@ -623,18 +620,18 @@ AppThumbnailHoverMenu.prototype = {
       setTimeout(()=>this.appSwitcherItem._refresh(), 0)
       PopupMenu.PopupMenu.prototype.open.call(this, this._applet.animateThumbs)
     }
-  },
+  }
 
-  close: function () {
+  close() {
     if (this.metaWindows.length === 0 && this._applet.useSystemTooltips) {
       this._tooltip.hide()
       this._tooltip.preventShow = true
     } else {
       PopupMenu.PopupMenu.prototype.close.call(this, this._applet.animateThumbs)
     }
-  },
+  }
 
-  destroy: function () {
+  destroy() {
     var children = this._getMenuItems()
     for (var i = 0; i < children.length; i++) {
       var item = children[i]
@@ -652,9 +649,9 @@ AppThumbnailHoverMenu.prototype = {
     this.box.destroy()
     this.actor.destroy()
     PopupMenu.PopupMenu.prototype.destroy.call(this)
-  },
+  }
 
-  setMetaWindow: function (metaWindow, metaWindows) {
+  setMetaWindow(metaWindow, metaWindows) {
     // Last focused
     this.metaWindow = metaWindow
     this.metaWindows = metaWindows
@@ -665,14 +662,13 @@ AppThumbnailHoverMenu.prototype = {
 // display a list of app thumbnails and allow
 // bringing any app to focus by clicking on its thumbnail
 
-function PopupMenuAppSwitcherItem () {
-  this._init.apply(this, arguments)
-}
+class PopupMenuAppSwitcherItem extends PopupMenu.PopupBaseMenuItem {
+  constructor(parent, params) {
+    super(parent, params);
+    this._init.apply(this, arguments)
+  }
 
-PopupMenuAppSwitcherItem.prototype = {
-  __proto__: PopupMenu.PopupBaseMenuItem.prototype,
-
-  _init: function (parent, params) {
+  _init(parent, params) {
     params = Params.parse(params, {
       hover: false,
       activate: false
@@ -706,9 +702,9 @@ PopupMenuAppSwitcherItem.prototype = {
     this.addActor(this.box)
 
     this.actor.connect('key-press-event', (actor, e)=>this._onKeyPress(actor, e))
-  },
+  }
 
-  _onKeyPress(actor, e){
+  _onKeyPress(actor, e) {
     let symbol = e.get_key_symbol();
     let i = _.findIndex(this.appThumbnails, (thumb)=>{
       return thumb.thumbnail.entered
@@ -764,9 +760,9 @@ PopupMenuAppSwitcherItem.prototype = {
     if (this.appThumbnails[index] !== undefined) {
       this.appThumbnails[index].thumbnail.handleEnterEvent()
     }
-  },
+  }
 
-  _setVerticalSetting: function () {
+  _setVerticalSetting() {
     var children = this.box.get_children()
 
     if (children.length > 0) {
@@ -778,9 +774,9 @@ PopupMenuAppSwitcherItem.prototype = {
 
     this.appContainer.vertical = this._applet.verticalThumbs
     this.box.vertical = !this._applet.verticalThumbs
-  },
+  }
 
-  setMetaWindow: function (metaWindow, metaWindows) {
+  setMetaWindow(metaWindow, metaWindows) {
     this.metaWindow = metaWindow
     this.metaWindows = metaWindows
     if (this.metaWindowThumbnail !== undefined && this.metaWindowThumbnail) {
@@ -789,13 +785,13 @@ PopupMenuAppSwitcherItem.prototype = {
     for (let w = 0, len = this.appThumbnails.length; w < len; w++) {
       this.appThumbnails[w].thumbnail.setMetaWindow(null, metaWindows)
     }
-  },
+  }
 
-  _isFavorite: function (isFav) {
+  _isFavorite(isFav) {
     this.isFavapp = isFav
-  },
+  }
 
-  handleUnopenedPinnedApp(metaWindow, windows, appClosed=false){
+  handleUnopenedPinnedApp(metaWindow, windows, appClosed=false) {
     if (this.metaWindowThumbnail) {
       this.metaWindowThumbnail.destroy()
     }
@@ -809,9 +805,9 @@ PopupMenuAppSwitcherItem.prototype = {
     }
     return isPinned
     
-  },
+  }
 
-  _refresh: function () {
+  _refresh() {
     // Check to see if this.metaWindow has changed.  If so, we need to recreate
     // our thumbnail, etc.
     // Get a list of all windows of our app that are running in the current workspace
@@ -834,9 +830,9 @@ PopupMenuAppSwitcherItem.prototype = {
     this.reAdd = false
     // used to make sure everything is on the stage
     setTimeout(()=>this.setStyleOptions(windows), 0)
-  },
+  }
 
-  addWindowThumbnails: function (windows) {
+  addWindowThumbnails(windows) {
     if (windows.length > 0) {
       var children = this.appContainer.get_children()
       for (let w = 0, len = children.length; w < len; w++) {
@@ -869,8 +865,9 @@ PopupMenuAppSwitcherItem.prototype = {
       }
     }
     this.appContainer.show()
-  },
-  setStyleOptions: function (windows) {
+  }
+
+  setStyleOptions(windows) {
     this.appContainer.style = null
     this.box.style = null
     var thumbnailTheme = this.appContainer.peek_theme_node()
@@ -893,9 +890,9 @@ PopupMenuAppSwitcherItem.prototype = {
         this.appThumbnails[i].thumbnail.thumbnailIconSize()
       }
     }
-  },
+  }
 
-  removeStaleWindowThumbnails: function (windows) {
+  removeStaleWindowThumbnails(windows) {
     for (let i = 0, len = this.appThumbnails.length; i < len; i++) {  
       if (this.appThumbnails[i] !== undefined && windows.indexOf(this.appThumbnails[i].metaWindow) === -1) {
         if (this.appThumbnails[i].thumbnail) {
@@ -905,9 +902,9 @@ PopupMenuAppSwitcherItem.prototype = {
         _.pullAt(this.appThumbnails, i)
       }
     }
-  },
+  }
 
-  destroy(){
+  destroy() {
     _.each(this.signals, (signal, key)=>{
       _.each(signal, (id)=>{
         this[key].disconnect(id)
@@ -934,12 +931,12 @@ PopupMenuAppSwitcherItem.prototype = {
   }
 }
 
-function WindowThumbnail () {
-  this._init.apply(this, arguments)
-}
+class WindowThumbnail {
+  constructor() {
+    this._init.apply(this, arguments)
+  }
 
-WindowThumbnail.prototype = {
-  _init: function (parent, metaWindow, metaWindows) {
+  _init(parent, metaWindow, metaWindows) {
     this._applet = parent._applet
     this.settings = parent._applet.settings
     this.metaWindow = metaWindow || null
@@ -1017,9 +1014,9 @@ WindowThumbnail.prototype = {
     //update focused style
     this._focusWindowChange()
     this.entered = false
-  },
+  }
 
-  handleEnterEvent(){
+  handleEnterEvent() {
     this.entered = true
     if (!this.isFavapp) {
       this._hoverPeek(this._applet.peekOpacity, this.metaWindow, true)
@@ -1036,9 +1033,9 @@ WindowThumbnail.prototype = {
         this.wasMinimized = false
       }
     }
-  },
+  }
 
-  handleLeaveEvent(){
+  handleLeaveEvent() {
     this.entered = false
     if (!this.isFavapp) {
       this._hoverPeek(OPACITY_OPAQUE, this.metaWindow, false)
@@ -1049,16 +1046,16 @@ WindowThumbnail.prototype = {
         this.metaWindow.minimize(global.get_current_time())
       }
     }
-  },
+  }
 
-  setMetaWindow: function (metaWindow, metaWindows) {
+  setMetaWindow(metaWindow, metaWindows) {
     if (metaWindow) {
       this.metaWindow = metaWindow
     }
     this.metaWindows = metaWindows
-  },
+  }
 
-  _updateAttentionGrabber: function (obj, oldVal, newVal) {
+  _updateAttentionGrabber(obj, oldVal, newVal) {
     if (newVal) {
       this._urgent_signal = global.display.connect('window-marked-urgent', Lang.bind(this, this._onWindowDemandsAttention))
       this._attention_signal = global.display.connect('window-demands-attention', Lang.bind(this, this._onWindowDemandsAttention))
@@ -1070,9 +1067,9 @@ WindowThumbnail.prototype = {
         global.display.disconnect(this._attention_signal)
       }
     }
-  },
+  }
 
-  _onWindowDemandsAttention: function (display, window) {
+  _onWindowDemandsAttention(display, window) {
     if (this._needsAttention) {
       return false
     }
@@ -1082,23 +1079,23 @@ WindowThumbnail.prototype = {
       return true
     }
     return false
-  },
+  }
 
-  _onFocusChange: function () {
+  _onFocusChange() {
     if (this._hasFocus()) {
       this.actor.remove_style_class_name('thumbnail-alerts')
     }
-  },
+  }
 
-  _focusWindowChange: function () {
+  _focusWindowChange() {
     if (this._hasFocus()) {
       this.actor.add_style_pseudo_class('selected')
     } else {
       this.actor.remove_style_pseudo_class('selected')
     }
-  },
+  }
 
-  _hasFocus: function () {
+  _hasFocus() {
     if (!this.metaWindow) {
       return false
     }
@@ -1120,9 +1117,9 @@ WindowThumbnail.prototype = {
       return true
     })
     return transientHasFocus
-  },
+  }
 
-  _isFavorite: function (isFav, metaWindow=this.metaWindow, windows=this.metaWindows) {
+  _isFavorite(isFav, metaWindow=this.metaWindow, windows=this.metaWindows) {
     // Whether we create a favorite tooltip or a window thumbnail
     if (isFav) {
       // this.thumbnailActor.height = 0
@@ -1140,29 +1137,29 @@ WindowThumbnail.prototype = {
       setTimeout(()=>this.thumbnailPaddingSize(), 0)
       this._refresh(metaWindow, windows)
     }
-  },
+  }
 
-  needs_refresh: function () {
+  needs_refresh() {
     return Boolean(this.thumbnail)
-  },
+  }
 
-  thumbnailIconSize: function () {
+  thumbnailIconSize() {
     var thumbnailTheme = this.themeIcon.peek_theme_node()
     if (thumbnailTheme) {
       var width = thumbnailTheme.get_width()
       var height = thumbnailTheme.get_height()
       this.icon.set_size(width, height)
     }
-  },
+  }
 
-  thumbnailPaddingSize: function () {
+  thumbnailPaddingSize() {
     var thumbnailTheme = this.actor.peek_theme_node()
     var padding = thumbnailTheme ? thumbnailTheme.get_horizontal_padding() : null
     this.thumbnailPadding = (padding && (padding > 3 && padding < 21) ? padding : 12)
     this.actor.style = 'border-width:2px;padding:' + ((this.thumbnailPadding / 2)) + 'px;'
-  },
+  }
 
-  _getThumbnail: function () {
+  _getThumbnail() {
     // Create our own thumbnail if it doesn't exist
     var thumbnail = null
     var muffinWindow = this.metaWindow.get_compositor_private()
@@ -1179,9 +1176,9 @@ WindowThumbnail.prototype = {
     }
 
     return thumbnail
-  },
+  }
 
-  handleAfterClick(){
+  handleAfterClick() {
     this.stopClick = true
     this.destroy()
     this._hoverPeek(OPACITY_OPAQUE, this.metaWindow, false)
@@ -1190,16 +1187,16 @@ WindowThumbnail.prototype = {
     if (this.metaWindows.length === 1) {
       this.appSwitcherItem.hoverMenu.close()
     }
-  },
+  }
 
-  _onButtonRelease: function (actor, event) {
+  _onButtonRelease(actor, event) {
     var button = event.get_button();
     if (button === 1 && actor == this.button) {
       this.handleAfterClick()
     }
-  },
+  }
 
-  _connectToWindow: function (actor, event) {
+  _connectToWindow(actor, event) {
     this.wasMinimized = false
     var button = event.get_button();
     if (button === 1 && !this.stopClick && !this.isFavapp) {
@@ -1210,9 +1207,9 @@ WindowThumbnail.prototype = {
       this.handleAfterClick()
     }
     this.stopClick = false
-  },
+  }
 
-  _refresh: function (metaWindow=this.metaWindow, metaWindows=this.metaWindows) {
+  _refresh(metaWindow=this.metaWindow, metaWindows=this.metaWindows) {
     if (!this.metaWindow) {
       return false;
     }
@@ -1263,9 +1260,9 @@ WindowThumbnail.prototype = {
 
     setThumbSize()
     return false;
-  },
+  }
 
-  _hoverPeek: function (opacity, metaWin, enterEvent) {
+  _hoverPeek(opacity, metaWin, enterEvent) {
     var applet = this._applet
     if (!applet.enablePeek) {
       return
@@ -1290,9 +1287,9 @@ WindowThumbnail.prototype = {
         setOpacity(wa[i], opacity)
       }
     }
-  },
+  }
 
-  destroy(skipSignalDisconnect=null){
+  destroy(skipSignalDisconnect=null) {
     try {
       if (this._trackerSignal) {
         this.tracker.disconnect(this._trackerSignal)

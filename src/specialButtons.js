@@ -33,12 +33,12 @@ const pseudoOptions = [
 // The label text must be set with setText
 // @icon: the icon to be displayed
 
-function IconLabelButton () {
-  this._init.apply(this, arguments)
-}
+class IconLabelButton {
+  constructor() {
+    this._init.apply(this, arguments)
+  }
 
-IconLabelButton.prototype = {
-  _init: function (parent) {
+  _init(parent) {
     if (parent.icon === null) {
       throw 'IconLabelButton icon argument must be non-null'
     }
@@ -106,13 +106,13 @@ IconLabelButton.prototype = {
     this.signals.settings.push(this.settings.connect('changed::icon-padding', Lang.bind(this, this.setIconPadding)))
     this.signals.settings.push(this.settings.connect('changed::icon-size', Lang.bind(this, this.setIconSize)))
     this.signals.settings.push(this.settings.connect('changed::enable-iconSize', Lang.bind(this, this.setIconSize)))
-  },
+  }
 
-  on_panel_edit_mode_changed: function () {
+  on_panel_edit_mode_changed() {
     this.actor.reactive = !global.__settings.get_boolean('panel-edit-mode')
-  },
+  }
 
-  setIconPadding: function (init=null) {
+  setIconPadding(init=null) {
     if (init && this._applet.themePadding) {
       this.themeNode = this.actor.peek_theme_node()
       var themePadding = this.themeNode ? this.themeNode.get_horizontal_padding() : 4
@@ -127,31 +127,31 @@ IconLabelButton.prototype = {
       }
       this.actor.set_style(`padding-bottom: 0px;padding-top:0px; padding-left: ${padding[0]};padding-right: ${padding[1]};`)
     }
-  },
+  }
 
-  setIconSize: function () {
+  setIconSize() {
     var size = this._applet.iconSize
     if (this._applet.enableIconSize) {
       this._icon.set_size(size, size)
     }
-  },
+  }
 
-  setText: function (text='') {
+  setText(text='') {
     if (text) {
       this._label.text = text
       if (text.length > 0) {
         this._label.set_style('padding-right: 4px;')
       }
     }
-  },
+  }
 
-  setStyle: function (name) {
+  setStyle(name) {
     if (name) {
       this.actor.set_style_class_name(name)
     }
-  },
+  }
 
-  getAttention: function () {
+  getAttention() {
     if (this._needsAttention) {
       return false
     }
@@ -160,9 +160,9 @@ IconLabelButton.prototype = {
     var counter = 0
     this._flashButton(counter)
     return true
-  },
+  }
 
-  _flashButton: function (counter) {
+  _flashButton(counter) {
     if (!this._needsAttention) {
       return
     }
@@ -183,9 +183,9 @@ IconLabelButton.prototype = {
         }, FLASH_INTERVAL)
       }, FLASH_INTERVAL)
     }
-  },
+  }
 
-  _getPreferredWidth: function (actor, forHeight, alloc) {
+  _getPreferredWidth(actor, forHeight, alloc) {
     let [iconMinSize, iconNaturalSize] = this._icon.get_preferred_width(forHeight)
     let [labelMinSize, labelNaturalSize] = this._label.get_preferred_width(forHeight)
     // The label text is starts in the center of the icon, so we should allocate the space
@@ -197,16 +197,16 @@ IconLabelButton.prototype = {
     else {
       alloc.natural_size = Math.min(iconNaturalSize + Math.max(0, labelNaturalSize), MAX_BUTTON_WIDTH)
     }
-  },
+  }
 
-  _getPreferredHeight: function (actor, forWidth, alloc) {
+  _getPreferredHeight(actor, forWidth, alloc) {
     let [iconMinSize, iconNaturalSize] = this._icon.get_preferred_height(forWidth)
     let [labelMinSize, labelNaturalSize] = this._label.get_preferred_height(forWidth)
     alloc.min_size = Math.min(iconMinSize, labelMinSize)
     alloc.natural_size = Math.max(iconNaturalSize, labelNaturalSize)
-  },
+  }
 
-  _allocate: function (actor, box, flags) {
+  _allocate(actor, box, flags) {
     // returns [x1,x2] so that the area between x1 and x2 is
     // centered in length
 
@@ -255,8 +255,9 @@ IconLabelButton.prototype = {
       childBox.y2 = box.y2 - 1
     }
     this._numLabel.allocate(childBox, flags)
-  },
-  showLabel: function (animate, targetWidth=MAX_BUTTON_WIDTH) {
+  }
+
+  showLabel(animate, targetWidth=MAX_BUTTON_WIDTH) {
     // need to turn width back to preferred.
     var setToZero
     if (this._label.width < 2) {
@@ -279,9 +280,9 @@ IconLabelButton.prototype = {
       time: BUTTON_BOX_ANIMATION_TIME,
       transition: 'easeOutQuad'
     })
-  },
+  }
 
-  hideLabel: function (animate) {
+  hideLabel(animate) {
     if (!animate) {
       this._label.width = 1
       this._label.hide()
@@ -304,14 +305,13 @@ IconLabelButton.prototype = {
 // need to be attached manually, but automatically
 // highlight when a window of app has focus.
 
-function AppButton () {
-  this._init.apply(this, arguments)
-}
+class AppButton extends IconLabelButton {
+  constructor(parent) {
+    super(parent);
+    this._init.apply(this, arguments)
+  }
 
-AppButton.prototype = {
-  __proto__: IconLabelButton.prototype,
-
-  _init: function (parent) {
+  _init(parent) {
     this.icon_size = Math.floor(parent._applet._panelHeight - 4)
     this.app = parent.app
     this.icon = this.app.create_icon_texture(this.icon_size)
@@ -331,13 +331,13 @@ AppButton.prototype = {
     this.signals.settings.push(this.settings.connect('changed::show-alerts', Lang.bind(this, this._updateAttentionGrabber)))
     this.signals.actor.push(this.actor.connect('enter-event', Lang.bind(this, this._onEnter)))
     this.signals.actor.push(this.actor.connect('leave-event', Lang.bind(this, this._onLeave)))
-  },
+  }
 
-  _onEnter(){
+  _onEnter() {
     this.actor.add_style_pseudo_class(_.find(pseudoOptions, {id: this._applet.hoverPseudoClass}).label)
-  },
+  }
 
-  _onLeave(){
+  _onLeave() {
     if (this.metaWindows.length > 0 && (this._applet.activePseudoClass === 1 || (this._applet.focusPseudoClass === 1 && this._hasFocus()))) {
       setTimeout(()=>this.actor.add_style_pseudo_class('hover'), 0)
     } else if (this._applet.hoverPseudoClass > 1) {
@@ -346,22 +346,22 @@ AppButton.prototype = {
       }
       setTimeout(()=>this.actor.remove_style_pseudo_class(_.find(pseudoOptions, {id: this._applet.hoverPseudoClass}).label), 0)
     }
-  },
+  }
 
-  setActiveStatus(windows){
+  setActiveStatus(windows) {
     if (windows.length > 0) {
       this.actor.add_style_pseudo_class(_.find(pseudoOptions, {id: this._applet.activePseudoClass}).label)
     } else {
       this.actor.remove_style_pseudo_class(_.find(pseudoOptions, {id: this._applet.activePseudoClass}).label)
     }
-  },
+  }
 
-  setMetaWindow: function (metaWindow, metaWindows) {
+  setMetaWindow(metaWindow, metaWindows) {
     this.metaWindow = metaWindow
     this.metaWindows = _.map(metaWindows, 'win')
-  },
+  }
 
-  _onFocusChange: function () {
+  _onFocusChange() {
     // If any of the windows associated with our app have focus,
     // we should set ourselves to active
     if (this._hasFocus()) {
@@ -375,9 +375,9 @@ AppButton.prototype = {
         this.actor.add_style_pseudo_class('active')
       }*/
     }
-  },
+  }
 
-  _hasFocus: function () {
+  _hasFocus() {
     var workspaceIds = []
 
     let workspaces = _.map(this._applet.metaWorkspaces, 'ws')
@@ -409,9 +409,9 @@ AppButton.prototype = {
       windows[i].foreach_transient(handleTransient)
     }
     return hasTransient
-  },
+  }
 
-  _updateAttentionGrabber: function (obj, oldVal, newVal) {
+  _updateAttentionGrabber(obj, oldVal, newVal) {
     if (newVal) {
       this._urgent_signal = global.display.connect('window-marked-urgent', Lang.bind(this, this._onWindowDemandsAttention))
       this._attention_signal = global.display.connect('window-demands-attention', Lang.bind(this, this._onWindowDemandsAttention))
@@ -423,9 +423,9 @@ AppButton.prototype = {
         global.display.disconnect(this._attention_signal)
       }
     }
-  },
+  }
 
-  _onWindowDemandsAttention: function (display, window) {
+  _onWindowDemandsAttention(display, window) {
     var windows = this.app.get_windows()
     for (let i = 0, len = windows.length; i < len; i++) {
       if (_.isEqual(windows[i], window)) {
@@ -434,9 +434,9 @@ AppButton.prototype = {
       }
     }
     return false
-  },
+  }
 
-  _isFavorite: function (isFav) {
+  _isFavorite(isFav) {
     this.isFavapp = isFav
     if (isFav && this._applet.panelLauncherClass) {
       if (this._applet.orientation === St.Side.LEFT || this._applet.orientation === St.Side.RIGHT) {
@@ -459,9 +459,9 @@ AppButton.prototype = {
        this.actor.add_style_class_name('window-list-item-box-right')
       }
     }
-  },
+  }
 
-  destroy: function () {
+  destroy() {
     this._applet.tracker.disconnect(this._trackerSignal)
     _.each(this.signals, (signal, key)=>{
       _.each(signal, (id)=>{

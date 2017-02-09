@@ -10,24 +10,25 @@ const App = AppletDir.applet
 const AppGroup = AppletDir.appGroup
 const clog = AppletDir.__init__.clog
 const setTimeout = AppletDir.__init__.setTimeout
+
 // List of running apps
 
-function AppList () {
-  this._init.apply(this, arguments)
-}
+class AppList {
+  constructor() {
+    this._init.apply(this, arguments)
+  }
 
-/*
-
-
-
-MyApplet._init, signal (switch-workspace) -> _onSwitchWorkspace -> AppList
+  /*
 
 
 
-*/
+  MyApplet._init, signal (switch-workspace) -> _onSwitchWorkspace -> AppList
 
-AppList.prototype = {
-  _init: function (applet, metaWorkspace) {
+
+
+  */
+
+  _init(applet, metaWorkspace) {
     this._applet = applet
     this.settings = applet.settings
     this.signals = {
@@ -64,18 +65,18 @@ AppList.prototype = {
     this.signals.actor.push(this.actor.connect('style-changed', Lang.bind(this, this._updateSpacing)))
     
     this.on_orientation_changed(this._applet.orientation, true);
-  },
+  }
 
-  on_panel_edit_mode_changed: function () {
+  on_panel_edit_mode_changed() {
     this.actor.reactive = global.__settings.get_boolean('panel-edit-mode')
-  },
+  }
 
-  on_applet_added_to_panel: function(userEnabled) {
+  on_applet_added_to_panel(userEnabled) {
     this._updateSpacing();
     this._applet.appletEnabled = true;
-  },
+  }
 
-  on_orientation_changed: function(orientation, init=null) {
+  on_orientation_changed(orientation, init=null) {
     if (this.manager === undefined) {
       return
     }
@@ -125,29 +126,29 @@ AppList.prototype = {
     if (this._applet.appletEnabled) {
       this._updateSpacing()
     }
-  },
+  }
 
-  _closeAllHoverMenus(){
+  _closeAllHoverMenus() {
     for (let i = 0, len = this.appList.length; i < len; i++) {
       this.appList[i].appGroup.hoverMenu.close()
     }
-  },
+  }
 
-  _onAppKeyPress: function(number){
+  _onAppKeyPress(number) {
     if (number > this.appList.length) {
       return;
     }
     this.appList[number-1].appGroup._onAppKeyPress(number);
-  },
-  
-  _onNewAppKeyPress: function(number){
+  }
+
+  _onNewAppKeyPress(number) {
     if (number > this.appList.length) {
       return;
     }
     this.appList[number-1].appGroup._onNewAppKeyPress(number);
-  },
+  }
 
-  _showAppsOrder: function(){
+  _showAppsOrder() {
     for (let i = 0, len = this.appList.length; i < len; i++) {
       this.appList[i].appGroup.showOrderLabel(i);
     }
@@ -156,9 +157,9 @@ AppList.prototype = {
         this.appList[i].appGroup.hideOrderLabel();
       }
     }, this._applet.showAppsOrderTimeout);
-  },
+  }
 
-  _cycleMenus(){
+  _cycleMenus() {
     var refApp = 0
     if (!this.lastCycled && this.lastFocusedApp) {
       refApp = _.findIndex(this.appList, {id: this.lastFocusedApp});
@@ -180,13 +181,13 @@ AppList.prototype = {
     } else {
       setTimeout(()=>this._cycleMenus(), 0)
     }
-  },
+  }
 
-  _updateSpacing: function() {
+  _updateSpacing() {
     this.manager.set_spacing(this._applet.iconSpacing * global.ui_scale)
-  },
+  }
 
-  _setSignals: function () {
+  _setSignals() {
     // We use connect_after so that the window-tracker time to identify the app
     this.signals.metaWorkspace.push(this.metaWorkspace.connect_after('window-added', Lang.bind(this, this._windowAdded)))
     this.signals.metaWorkspace.push(this.metaWorkspace.connect_after('window-removed', Lang.bind(this, this._windowRemoved)))
@@ -194,15 +195,15 @@ AppList.prototype = {
     this.signals.settings.push(this.settings.connect('changed::show-pinned', Lang.bind(this, this._refreshList)))
     this.signals.settings.push(this.settings.connect('changed::icon-spacing', Lang.bind(this, this._updateSpacing)))
     this.panelEditId = global.__settings.connect('changed::panel-edit-mode', Lang.bind(this, this.on_panel_edit_mode_changed))
-  },
+  }
 
-  _setLastFocusedApp(id){
+  _setLastFocusedApp(id) {
     this.lastFocusedApp = id
-  },
+  }
 
   // Gets a list of every app on the current workspace
 
-  _getSpecialApps: function () {
+  _getSpecialApps() {
     this.specialApps = []
     let apps = Gio.app_info_get_all()
 
@@ -213,9 +214,9 @@ AppList.prototype = {
         this.specialApps.push({ id: id, wmClass: wmClass })
       }
     }
-  },
+  }
 
-  _refreshList: function (init=null) {
+  _refreshList(init=null) {
     for (let i = 0, len = this.appList.length; i < len; i++) {
       this.appList[i].appGroup.destroy()
     }
@@ -224,13 +225,13 @@ AppList.prototype = {
     this.registeredApps = this._getSpecialApps()
     this._loadFavorites(init)
     this._refreshApps(init)
-  },
+  }
 
   /*
     Refresh specific apps by finding their index, destroying, and recreating them.
   */
 
-  _refreshAppById(appId, opts){
+  _refreshAppById(appId, opts) {
     var refApp = _.findIndex(this.appList, {id: appId})
     if (refApp !== -1) {
       var app = this.appList[refApp].appGroup.app
@@ -273,9 +274,9 @@ AppList.prototype = {
     } else if (opts.favChange) {
       this._applet.refreshCurrentAppList()
     }
-  },
+  }
 
-  _loadFavorites: function (init) {
+  _loadFavorites(init) {
     if (!this.settings.getValue('show-pinned')) {
       return
     }
@@ -291,17 +292,17 @@ AppList.prototype = {
       }
       this._windowAdded(this.metaWorkspace, null, app, true)
     }
-  },
+  }
 
-  _refreshApps: function (init) {
+  _refreshApps(init) {
     var windows = this.metaWorkspace.list_windows()
 
     for (let i = 0, len = windows.length; i < len; i++) {
       this._windowAdded(this.metaWorkspace, windows[i], null, null)
     }
-  },
+  }
 
-  _windowAdded: function (metaWorkspace, metaWindow, favapp, isFavapp, forceUngroupedWindow=false) {
+  _windowAdded(metaWorkspace, metaWindow, favapp, isFavapp, forceUngroupedWindow=false) {
     // Check to see if the window that was added already has an app group.
     // If it does, then we don't need to do anything.  If not, we need to
     // create an app group.
@@ -362,9 +363,9 @@ AppList.prototype = {
         }
       }
     }
-  },
+  }
 
-  _appGroupNumber: function (parentApp) {
+  _appGroupNumber(parentApp) {
     var result
     for (let i = 0, len = this.appList.length; i < len; i++) {
       if (this.appList[i].appGroup.app === parentApp) {
@@ -373,23 +374,23 @@ AppList.prototype = {
       }
     }
     return result
-  },
+  }
 
-  _onAppWindowsChanged: function (app) {
+  _onAppWindowsChanged(app) {
     let numberOfwindows = this._getNumberOfAppWindowsInWorkspace(app, this.metaWorkspace)
     if (!numberOfwindows || numberOfwindows === 0) {
       this._removeApp(app)
       this._calcAllWindowNumbers()
     }
-  },
+  }
 
-  _calcAllWindowNumbers: function () {
+  _calcAllWindowNumbers() {
     for (let i = 0, len = this.appList.length; i < len; i++) {
       this.appList[i].appGroup._calcWindowNumber(this.metaWorkspace)
     }
-  },
+  }
 
-  _getNumberOfAppWindowsInWorkspace: function (app, workspace) {
+  _getNumberOfAppWindowsInWorkspace(app, workspace) {
     var windows = app.get_windows()
 
     let result = 0
@@ -401,9 +402,9 @@ AppList.prototype = {
       }
     }
     return result
-  },
-  
-  _fixAppGroupIndexAfterDrag: function (appId) {
+  }
+
+  _fixAppGroupIndexAfterDrag(appId) {
     let originPos = _.findIndex(this.appList, {id: appId}); // app object
     var pos = _.findIndex(this.manager_container.get_children(), this.appList[originPos].appGroup.actor);
     if (originPos === pos
@@ -419,9 +420,9 @@ AppList.prototype = {
     let data = this.appList[originPos];
     _.pullAt(this.appList, originPos);
     this.appList.splice(pos, 0, data);
-  },
-  
-  _windowRemoved: function (metaWorkspace, metaWindow, app=null) {
+  }
+
+  _windowRemoved(metaWorkspace, metaWindow, app=null) {
     
     // When a window is closed, we need to check if the app it belongs
     // to has no windows left.  If so, we need to remove the corresponding AppGroup
@@ -449,9 +450,9 @@ AppList.prototype = {
     if (app && !hasWindowsOnWorkspace) {
       this._removeApp(app)
     }
-  },
+  }
 
-  _removeApp: function (app, timeStamp=null) {
+  _removeApp(app, timeStamp=null) {
     // This function may get called multiple times on the same app and so the app may have already been removed
     var refApp = -1
     if (this._applet.groupApps || !timeStamp) {
@@ -472,9 +473,9 @@ AppList.prototype = {
       this.appList[refApp].appGroup.destroy()
       _.pullAt(this.appList, refApp)
     }
-  },
+  }
 
-  destroy: function () {
+  destroy() {
     _.each(this.signals, (signal, key)=>{
       _.each(signal, (id)=>{
         this[key].disconnect(id)

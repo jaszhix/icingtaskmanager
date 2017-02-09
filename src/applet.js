@@ -62,28 +62,28 @@ const range = function (a, b) {
   return ret
 }
 
-function PinnedFavs () {
-  this._init.apply(this, arguments)
-}
+class PinnedFavs {
+  constructor() {
+    this._init.apply(this, arguments)
+  }
 
-/*
-
-
-
-MyApplet._init -> PinnedFavs
+  /*
 
 
 
-*/
+  MyApplet._init -> PinnedFavs
 
-PinnedFavs.prototype = {
-  _init: function (applet) {
+
+
+  */
+
+  _init(applet) {
     this._applet = applet
     this._favorites = []
     this._reload()
-  },
+  }
 
-  _reload: function () {
+  _reload() {
     let ids = this._applet.settings.getValue('pinned-apps')
 
     for (let i = 0, len = ids.length; i < len; i++) {
@@ -96,32 +96,32 @@ PinnedFavs.prototype = {
         })
       }  
     }
-  },
+  }
 
-  _getIds: function () {
+  _getIds() {
     return _.map(this._favorites, 'id')
-  },
+  }
 
-  getFavoriteMap: function () {
+  getFavoriteMap() {
     return this._favorites
-  },
+  }
 
-  getFavorites: function () {
+  getFavorites() {
     return _.map(this._favorites, 'app')
-  },
+  }
 
-  isFavorite: function (appId) {
+  isFavorite(appId) {
     var refFav = _.findIndex(this._favorites, {id: appId})
     return refFav !== -1
-  },
+  }
 
-  triggerUpdate: function (appId, pos=null, isFavapp=false) {
+  triggerUpdate(appId, pos=null, isFavapp=false) {
     setTimeout(()=>{
       this._applet.refreshAppFromCurrentListById(appId, {favChange: true, favPos: pos, isFavapp: isFavapp})
     }, 15)
-  },
+  }
 
-  _addFavorite: function (opts={appId: null, app: null, pos: -1}) {
+  _addFavorite(opts={appId: null, app: null, pos: -1}) {
     if (this.isFavorite(opts.appId)) {
       return false
     }
@@ -152,9 +152,9 @@ PinnedFavs.prototype = {
     this._applet.settings.setValue('pinned-apps', _.map(this._favorites, 'id'))
     this.triggerUpdate(opts.appId, -1, true)
     return true
-  },
+  }
 
-  moveFavoriteToPos: function (appId, pos) {
+  moveFavoriteToPos(appId, pos) {
     let oldIndex = _.findIndex(this._favorites, {id: appId})
     if (oldIndex !== -1 && pos > oldIndex) {
       pos = pos - 1
@@ -162,9 +162,9 @@ PinnedFavs.prototype = {
     this._favorites.splice(pos, 0, this._favorites.splice(oldIndex, 1)[0])
     this._applet.settings.setValue('pinned-apps', _.map(this._favorites, 'id'))
     this.triggerUpdate(appId, pos, true)
-  },
+  }
 
-  _removeFavorite: function (appId) {
+  _removeFavorite(appId) {
     var refFav = _.findIndex(this._favorites, {id: appId})
     if (refFav === -1) {
       this.triggerUpdate(appId, -1, false)
@@ -185,22 +185,22 @@ PinnedFavs.prototype = {
       }, 15)
     }
     return true
-  },
+  }
 
-  removeFavorite: function (appId) {
+  removeFavorite(appId) {
     this._removeFavorite(appId)
   }
 }
+
 Signals.addSignalMethods(PinnedFavs.prototype)
 
-function MyApplet (metadata, orientation, panel_height, instance_id) {
-  this._init(metadata, orientation, panel_height, instance_id)
-}
+class MyApplet extends Applet.Applet {
+  constructor(metadata, orientation, panel_height, instance_id) {
+    super(...arguments)
+    this._init.apply(this, arguments)
+  }
 
-MyApplet.prototype = {
-  __proto__: Applet.Applet.prototype,
-
-  _init: function (metadata, orientation, panel_height, instance_id) {
+  _init(metadata, orientation, panel_height, instance_id) {
     Applet.Applet.prototype._init.call(this, orientation, panel_height, instance_id)
     this.settings = new Settings.AppletSettings(this, 'IcingTaskManager@json', instance_id)
     this.homeDir = GLib.get_home_dir()
@@ -320,21 +320,21 @@ MyApplet.prototype = {
 
     // Wait 3s, as Cinnamon doesn't populate Applet._meta until after the applet loads.
     setTimeout(()=>this.handleUpdate(), 3000)
-  },
+  }
 
-  on_panel_height_changed: function() {
+  on_panel_height_changed() {
     this.refreshCurrentAppList();
-  },
+  }
 
-  on_orientation_changed: function(orientation) {
+  on_orientation_changed(orientation) {
     this.metaWorkspaces[this.currentWs].appList.on_orientation_changed(orientation)
-  },
+  }
 
-  on_applet_removed_from_panel: function() {
+  on_applet_removed_from_panel() {
     this.signals.disconnectAllSignals();
-  },
+  }
 
-  handleUpdate(){
+  handleUpdate() {
     if (this.autoUpdate) {
       this.version = `v${this._meta.version}`
       // Parse out the HTML response instead of using the API endpoint to work around Github's API limit.
@@ -359,9 +359,9 @@ MyApplet.prototype = {
         return null
       })
     }
-  },
+  }
 
-  _bindAppKey: function(){
+  _bindAppKey() {
     this._unbindAppKey();
     var addLaunchHotkeys = (i)=>{
       Main.keybindingManager.addHotKey(`launch-app-key-${i}`, `<Super>${i}`, () => this._onAppKeyPress(i));
@@ -373,44 +373,44 @@ MyApplet.prototype = {
     }
     Main.keybindingManager.addHotKey('launch-show-apps-order', this.showAppsOrderHotkey, ()=>this._showAppsOrder());
     Main.keybindingManager.addHotKey('launch-cycle-menus', this.cycleMenusHotkey, ()=>this._cycleMenus());
-  },
+  }
 
-  _unbindAppKey: function(){
+  _unbindAppKey() {
     for (var i = 1; i < 10; i++) {
       Main.keybindingManager.removeHotKey(`launch-app-key-${i}`);
       Main.keybindingManager.removeHotKey(`launch-new-app-key-${i}`);
     }
     Main.keybindingManager.removeHotKey('launch-show-apps-order');
     Main.keybindingManager.removeHotKey('launch-cycle-menus');
-  },
-  
-  _onAppKeyPress: function(number){
+  }
+
+  _onAppKeyPress(number) {
     this.getCurrentAppList()._onAppKeyPress(number);
-  },
-  
-  _onNewAppKeyPress: function(number){
+  }
+
+  _onNewAppKeyPress(number) {
     this.getCurrentAppList()._onNewAppKeyPress(number);
-  },
+  }
 
-  _showAppsOrder: function(){
+  _showAppsOrder() {
     this.getCurrentAppList()._showAppsOrder();
-  },
+  }
 
-  _cycleMenus: function(){
+  _cycleMenus() {
     this.getCurrentAppList()._cycleMenus();
-  },
+  }
 
-  refreshCurrentAppList(){
+  refreshCurrentAppList() {
     setTimeout(()=>{
       this.metaWorkspaces[this.currentWs].appList._refreshList()
     }, 15)
-  },
+  }
 
-  refreshAppFromCurrentListById(appId, opts={favChange: false, favPos: null, isFavapp: false}){
+  refreshAppFromCurrentListById(appId, opts={favChange: false, favPos: null, isFavapp: false}) {
     this.metaWorkspaces[this.currentWs].appList._refreshAppById(appId, opts)
-  },
+  }
 
-  getAppFromWMClass (specialApps, metaWindow) {
+  getAppFromWMClass(specialApps, metaWindow) {
     let startupClass = (wmclass)=> {
       let app_final = null
       for (let i = 0, len = specialApps.length; i < len; i++) {
@@ -427,17 +427,17 @@ MyApplet.prototype = {
     let wmClassInstance = metaWindow.get_wm_class_instance()
     let app = startupClass(wmClassInstance)
     return app
-  },
+  }
 
-  getCurrentAppList(){
+  getCurrentAppList() {
     return this.metaWorkspaces[this.currentWs].appList
-  },
+  }
 
-  onThemeChange(e){
+  onThemeChange(e) {
     this.refreshCurrentAppList();
-  },
+  }
 
-  getAutostartApps(){
+  getAutostartApps() {
     var info
 
     var getChildren = ()=>{
@@ -462,13 +462,13 @@ MyApplet.prototype = {
         getChildren()
       }, 50)
     }
-  },
+  }
 
-  removeAutostartApp(autostartIndex){
+  removeAutostartApp(autostartIndex) {
     _.pullAt(this.autostartApps, autostartIndex)
-  },
+  }
 
-  execInstallLanguage: function () { // TBD
+  execInstallLanguage() { // TBD
     try {
       let _shareFolder = this.homeDir + '/.local/share/'
       let _localeFolder = Gio.file_new_for_path(_shareFolder + 'locale/')
@@ -503,9 +503,9 @@ MyApplet.prototype = {
         }
       }
     } catch (e) {}
-  },
+  }
 
-  handleDragOver: function (source, actor, x, y, time) {
+  handleDragOver(source, actor, x, y, time) {
     if (!(source.isDraggableApp || (source instanceof DND.LauncherDraggable))) {
       return DND.DragMotionResult.NO_DROP
     }
@@ -571,9 +571,9 @@ MyApplet.prototype = {
     }
 
     return DND.DragMotionResult.MOVE_DROP
-  },
+  }
 
-  acceptDrop: function (source, actor, x, y, time) {
+  acceptDrop(source, actor, x, y, time) {
     if (!(source.isDraggableApp || (source instanceof DND.LauncherDraggable))) {
       return false
     }
@@ -628,30 +628,30 @@ MyApplet.prototype = {
     }))
     this._clearDragPlaceholder()
     return true
-  },
+  }
 
-  _reloadApp: function () {
+  _reloadApp() {
     Util.trySpawnCommandLine(`bash -c "python ~/.local/share/cinnamon/applets/IcingTaskManager@json/utils.py reload"`)
-  },
+  }
 
-  _clearDragPlaceholder: function () {
+  _clearDragPlaceholder() {
     if (this._dragPlaceholder) {
       this._dragPlaceholder.animateOutAndDestroy()
       this._dragPlaceholder = null
       this._dragPlaceholderPos = -1
     }
-  },
+  }
 
-  _makeDirectoy: function (fDir) {
+  _makeDirectoy(fDir) {
     if (!this._isDirectory(fDir)) {
       this._makeDirectoy(fDir.get_parent())
     }
     if (!this._isDirectory(fDir)) {
       fDir.make_directory(null)
     }
-  },
+  }
 
-  _isDirectory: function (fDir) {
+  _isDirectory(fDir) {
     try {
       let info = fDir.query_filesystem_info('standard::type', null)
       if ((info) && (info.get_file_type() != Gio.FileType.DIRECTORY)) {
@@ -659,39 +659,39 @@ MyApplet.prototype = {
       }
     } catch(e) {}
     return false
-  },
+  }
 
-  on_panel_edit_mode_changed: function () {
+  on_panel_edit_mode_changed() {
     this.actor.reactive = global.__settings.get_boolean('panel-edit-mode')
-  },
+  }
 
-  pinned_app_contr: function () {
+  pinned_app_contr() {
     let pinnedAppsContr = this.pinnedAppsContr
     return pinnedAppsContr
-  },
+  }
 
-  acceptNewLauncher: function (path) {
+  acceptNewLauncher(path) {
     this.pinnedAppsContr._addFavorite({appId: path, pos: -1})
-  },
+  }
 
-  removeLauncher: function (appGroup) {
+  removeLauncher(appGroup) {
     // Add code here to remove the launcher if you want.
-  },
+  }
 
-  recent_items_contr: function () {
+  recent_items_contr() {
     return this.recentItems
-  },
+  }
 
-  recent_items_manager: function () {
+  recent_items_manager() {
     return this.recentManager
-  },
+  }
 
-  sortRecentItems: function (items) {
+  sortRecentItems(items) {
     this.recentItems = items.sort(function (a, b) { return a.get_modified() - b.get_modified(); }).reverse()
     return this.recentItems
-  },
+  }
 
-  _onWorkspaceCreatedOrDestroyed: function (i) {
+  _onWorkspaceCreatedOrDestroyed(i) {
     var workspaces = _.filter(global.screen.get_workspace_by_index(i), (ws, key)=>{
       return key in range(global.screen.n_workspaces)
     })
@@ -705,9 +705,9 @@ MyApplet.prototype = {
         _.pullAt(this.metaWorkspaces, i)
       }
     }
-  },
+  }
 
-  _onSwitchWorkspace: function () {
+  _onSwitchWorkspace() {
     this.currentWs = global.screen.get_active_workspace_index()
     let metaWorkspace = global.screen.get_workspace_by_index(this.currentWs)
     
@@ -729,17 +729,17 @@ MyApplet.prototype = {
     var list = refWorkspace !== -1 ? this.metaWorkspaces[refWorkspace].appList : appList
     this._box.set_child(list.actor)
     list._refreshList()
-  },
+  }
 
-  _onOverviewShow: function () {
+  _onOverviewShow() {
     this.actor.hide()
-  },
+  }
 
-  _onOverviewHide: function () {
+  _onOverviewHide() {
     this.actor.show()
-  },
+  }
 
-  destroy: function () {
+  destroy() {
     this._unbindAppKey();
     this.signals.disconnectAllSignals();
     global.__settings.disconnect(this.panelEditId)

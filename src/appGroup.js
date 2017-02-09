@@ -20,23 +20,31 @@ const setTimeout = AppletDir.__init__.setTimeout;
 
 const DEFERRED_APPS = ['spotify', 'libreoffice']
 
-function AppGroup () {
-  this._init.apply(this, arguments)
-}
+class AppGroup {
+  constructor() {
+    this._init.apply(this, arguments)
+  }
 
-/*
-
-
-
-MyApplet._init, signal (switch-workspace) -> _onSwitchWorkspace -> AppList._init, on_orientation_changed  -> _refreshList -> _loadFavorites, _refreshApps -> _windowAdded -> AppGroup
+  /*
 
 
 
-*/
+  MyApplet._init, signal (switch-workspace) -> _onSwitchWorkspace -> AppList._init, on_orientation_changed  -> _refreshList -> _loadFavorites, _refreshApps -> _windowAdded -> AppGroup
 
-AppGroup.prototype = {
-  __proto__: Object.prototype,
-  _init: function (applet, appList, app, isFavapp, window=null, timeStamp=null, ungroupedIndex=null, appId='') {
+
+
+  */
+
+  _init(
+    applet,
+    appList,
+    app,
+    isFavapp,
+    window=null,
+    timeStamp=null,
+    ungroupedIndex=null,
+    appId=''
+  ) {
     if (DND.LauncherDraggable) {
       DND.LauncherDraggable.prototype._init.call(this)
     }
@@ -109,22 +117,22 @@ AppGroup.prototype = {
     this.on_arrange_pinned()
     this.panelEditId = global.__settings.connect('changed::panel-edit-mode', Lang.bind(this, this.on_panel_edit_mode_changed))
     this.arrangePinnedId = this._applet.settings.connect('changed::arrange-pinnedApps', Lang.bind(this, this.on_arrange_pinned))
-  },
+  }
 
-  getId: function () {
+  getId() {
     return this.appId
-  },
+  }
 
-  on_arrange_pinned: function () {
+  on_arrange_pinned() {
     this._draggable.inhibit = !this._applet.settings.getValue('arrange-pinnedApps')
-  },
+  }
 
-  on_panel_edit_mode_changed: function () {
+  on_panel_edit_mode_changed() {
     this._draggable.inhibit = global.__settings.get_boolean('panel-edit-mode')
     this.actor.reactive = !global.__settings.get_boolean('panel-edit-mode')
-  },
+  }
 
-  on_title_display_changed: function (metaWindow) {
+  on_title_display_changed(metaWindow) {
     this._windowTitleChanged(metaWindow)
     let titleType = this._applet.settings.getValue('title-display')
     if (titleType === App.TitleDisplay.Title) {
@@ -134,9 +142,9 @@ AppGroup.prototype = {
     } else if (titleType === App.TitleDisplay.None) {
       this.hideAppButtonLabel(true)
     }
-  },
+  }
 
-  _onDragBegin: function() {
+  _onDragBegin() {
     if (this._applet.orientation == St.Side.TOP || this._applet.orientation == St.Side.BOTTOM) {
       this._draggable._overrideY = this.actor.get_transformed_position()[1];
       this._draggable._overrideX = null;
@@ -144,22 +152,22 @@ AppGroup.prototype = {
       this._draggable._overrideX = this.actor.get_transformed_position()[0];
       this._draggable._overrideY = null;
     }
-  },
+  }
 
-  _onDragEnd: function () {
+  _onDragEnd() {
     this.rightClickMenu.close(false)
     this.hoverMenu.close(false)
     this.appList._fixAppGroupIndexAfterDrag(this.appId);
     this._applet._clearDragPlaceholder()
-  },
+  }
 
-  _onDragCancelled: function () {
+  _onDragCancelled() {
     this.rightClickMenu.close(false)
     this.hoverMenu.close(false)
     this._applet._clearDragPlaceholder()
-  },
+  }
 
-  handleDragOver: function (source, actor, x, y, time) {
+  handleDragOver(source, actor, x, y, time) {
     let IsLauncherDraggable = null
     if (DND.LauncherDraggable) {
       IsLauncherDraggable = source instanceof DND.LauncherDraggable
@@ -180,21 +188,21 @@ AppGroup.prototype = {
       this._windowHandle(true)
     }
     return true
-  },
+  }
 
-  getDragActor: function () {
+  getDragActor() {
     return this.app.create_icon_texture(this._applet._panelHeight)
-  },
+  }
 
   // Returns the original actor that should align with the actor
   // we show as the item is being dragged.
-  getDragActorSource: function () {
+  getDragActorSource() {
     return this.actor
-  },
+  }
 
   // Add a workspace to the list of workspaces that are watched for
   // windows being added and removed
-  watchWorkspace: function (metaWorkspace) {
+  watchWorkspace(metaWorkspace) {
     var refWs = _.findIndex(this.metaWorkspacesSignals, (ws)=>{
       return _.isEqual(ws.workspace, metaWorkspace)
     })
@@ -212,11 +220,11 @@ AppGroup.prototype = {
     this.numDisplaySignal = this._applet.settings.connect('changed::number-display', ()=>{
       this._calcWindowNumber(metaWorkspace)
     })
-  },
+  }
 
   // Stop monitoring a workspace for added and removed windows.
   // @metaWorkspace: if null, will remove all signals
-  unwatchWorkspace: function (metaWorkspace, unmount=false) {
+  unwatchWorkspace(metaWorkspace, unmount=false) {
     if (!metaWorkspace) {
       let removeSignals = (obj)=> {
         let signals = obj.signals
@@ -229,34 +237,34 @@ AppGroup.prototype = {
         _.pullAt(this.metaWorkspacesSignals, i)
       }
     }
-  },
+  }
 
-  hideAppButton: function () {
+  hideAppButton() {
     this._appButton.actor.hide()
-  },
+  }
 
-  showAppButton: function () {
+  showAppButton() {
     this._appButton.actor.show()
-  },
+  }
 
-  hideAppButtonLabel: function (animate) {
+  hideAppButtonLabel(animate) {
     this._appButton.hideLabel(animate)
-  },
+  }
 
-  showAppButtonLabel: function (animate, targetWidth) {
+  showAppButtonLabel(animate, targetWidth) {
     this._appButton.showLabel(animate, targetWidth)
-  },
-  
+  }
+
   // TBD: share the _appButton._numLabel with "window number display"
-  showOrderLabel: function (number){
+  showOrderLabel(number) {
     var label = this._appButton._numLabel;
     label.text = `${number + 1}`;
     label.show();
-  },
-  
-  hideOrderLabel: function (){
+  }
+
+  hideOrderLabel() {
     this._calcWindowNumber(this.appList.metaWorkspace);
-  },
+  }
 
   _onAppButtonRelease(actor, event) {
     this._applet._clearDragPlaceholder()
@@ -317,17 +325,17 @@ AppGroup.prototype = {
         this.rightClickMenu.open()
       }
     }
-  },
+  }
 
-  _onAppButtonPress(actor, event){
+  _onAppButtonPress(actor, event) {
     var button = event.get_button()
     if (button === 3) {
       return true
     }
     return false;
-  },
+  }
 
-  _onAppKeyPress: function () {
+  _onAppKeyPress() {
     if (this.isFavapp) {
       this.app.open_new_window(-1)
       this._animate()
@@ -339,14 +347,14 @@ AppGroup.prototype = {
       }
       this._windowHandle(false)
     }
-  },
+  }
 
-  _onNewAppKeyPress: function (number) {
+  _onNewAppKeyPress(number) {
     this.app.open_new_window(-1)
     this._animate()
-  },
+  }
 
-  _windowHandle: function (fromDrag) {
+  _windowHandle(fromDrag) {
     let has_focus = this.lastFocused.has_focus()
     if (!this.lastFocused.minimized && !has_focus) {
       this.lastFocused.foreach_transient(function (child) {
@@ -387,15 +395,16 @@ AppGroup.prototype = {
       Main.activateWindow(this.lastFocused, global.get_current_time())
       this.actor.add_style_pseudo_class('focus')
     }
-  },
-  _getLastFocusedWindow: function () {
+  }
+
+  _getLastFocusedWindow() {
     return this.lastFocused
-  },
+  }
 
   // updates the internal list of metaWindows
   // to include all windows corresponding to this.app on the workspace
   // metaWorkspace
-  _updateMetaWindows: function (metaWorkspace, app=null, window=null, _wsWindows=null) {
+  _updateMetaWindows(metaWorkspace, app=null, window=null, _wsWindows=null) {
     // Get a list of all interesting windows that are part of this app on the current workspace
     var wsWindows = _wsWindows ? _wsWindows : metaWorkspace.list_windows();
     var windowsSource = window ? [window] : wsWindows;
@@ -425,9 +434,9 @@ AppGroup.prototype = {
         this.rightClickMenu.setMetaWindow(this.lastFocused, this.metaWindows)
       }
     }
-  },
+  }
 
-  _windowAdded: function (metaWorkspace, metaWindow, metaWindows, recursion=0) {
+  _windowAdded(metaWorkspace, metaWindow, metaWindows, recursion=0) {
 
     let app = this._applet.getAppFromWMClass(this.appList.specialApps, metaWindow)
     if (!app) {
@@ -512,9 +521,9 @@ AppGroup.prototype = {
 
       this._calcWindowNumber(metaWorkspace)
     }
-  },
+  }
 
-  _windowRemoved: function (metaWorkspace, metaWindow) {
+  _windowRemoved(metaWorkspace, metaWindow) {
     var refWindow = _.findIndex(this.metaWindows, (win)=>{
       return _.isEqual(win.win, metaWindow)
     })
@@ -553,9 +562,9 @@ AppGroup.prototype = {
 
       this._calcWindowNumber(metaWorkspace)
     }
-  },
+  }
 
-  _windowTitleChanged: function (metaWindow) {
+  _windowTitleChanged(metaWindow) {
     // We only really want to track title changes of the last focused app
     if (!this._appButton) {
       throw 'Error: got a _windowTitleChanged callback but this._appButton is undefined'
@@ -586,9 +595,9 @@ AppGroup.prototype = {
         this.showAppButtonLabel(true)
       }
     }
-  },
+  }
 
-  _focusWindowChange: function (metaWindow) {
+  _focusWindowChange(metaWindow) {
     if (metaWindow.appears_focused) {
       this.appList._setLastFocusedApp(this.appId)
       this.lastFocused = metaWindow
@@ -603,9 +612,9 @@ AppGroup.prototype = {
     if (this._applet.settings.getValue('title-display') === App.TitleDisplay.Focused) {
       this._updateFocusedStatus()
     }
-  },
+  }
 
-  _updateFocusedStatus: function (force) {
+  _updateFocusedStatus(force) {
     let focusState
     for (let i = 0, len = this.metaWindows.length; i < len; i++) {
       if (this.metaWindows[i].win.appears_focused) {
@@ -617,25 +626,25 @@ AppGroup.prototype = {
       this._focusedLabel(focusState)
     }
     this.focusState = focusState
-  },
+  }
 
-  _focusedLabel: function (focusState) {
+  _focusedLabel(focusState) {
     if (focusState) {
       this.showAppButtonLabel(true)
     } else {
       this.hideAppButtonLabel(true)
     }
-  },
+  }
 
-  _isFavorite: function (isFav) {
+  _isFavorite(isFav) {
     this.isFavapp = isFav
     this.wasFavapp = !(isFav)
     this._appButton._isFavorite(isFav)
     this.hoverMenu.appSwitcherItem._isFavorite(isFav)
     this._windowTitleChanged(this.lastFocused)
-  },
+  }
 
-  _calcWindowNumber: function (metaWorkspace) {
+  _calcWindowNumber(metaWorkspace) {
     if (!this._appButton) {
       clog('Error: got a _calcWindowNumber callback but this._appButton is undefined')
     }
@@ -662,9 +671,9 @@ AppGroup.prototype = {
     } else {
       this._appButton._numLabel.hide()
     }
-  },
+  }
 
-  _animate: function () {
+  _animate() {
     this.actor.set_z_rotation_from_gravity(0.0, Clutter.Gravity.CENTER)
     Tweener.addTween(this.actor, {
       opacity: 70,
@@ -679,9 +688,9 @@ AppGroup.prototype = {
         })
       }
     })
-  },
+  }
 
-  destroy: function (skip=false) {
+  destroy(skip=false) {
     // Unwatch all workspaces before we destroy all our actors
     // that callbacks depend on
 
@@ -716,4 +725,5 @@ AppGroup.prototype = {
     this.actor.destroy()
   }
 }
+
 Signals.addSignalMethods(AppGroup.prototype)
