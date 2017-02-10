@@ -49,7 +49,7 @@ gulp.task('transpile', ['copy'], () =>
 );
 
 gulp.task('install', ['transpile'], (cb)=>{
-  exec('cp -avrf  IcingTaskManager@json ~/.local/share/cinnamon/applets/ && ./locale.sh', function (err, stdout, stderr) {
+  exec('cp -avrf  IcingTaskManager@json ~/.local/share/cinnamon/applets/', function (err, stdout, stderr) {
     console.log(stdout);
     console.log(stderr);
     cb(err);
