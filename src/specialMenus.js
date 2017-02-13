@@ -612,14 +612,18 @@ class AppThumbnailHoverMenu extends PopupMenu.PopupMenu {
     // Refresh all the thumbnails, etc when the menu opens.  These cannot
     // be created when the menu is initalized because a lot of the clutter window surfaces
     // have not been created yet...
-    if (this.metaWindows.length === 0 && this._applet.useSystemTooltips) {
-      this._tooltip.set_text(this.appGroup.appName)
-      this._tooltip.show()
-      this._tooltip.preventShow = false
-    } else {
-      setTimeout(()=>this.appSwitcherItem._refresh(), 0)
-      PopupMenu.PopupMenu.prototype.open.call(this, this._applet.animateThumbs)
-    }
+    this.appGroup.appList._closeAllHoverMenus(()=>{
+      this.appGroup.appList._closeAllRightClickMenus(()=>{
+        if (this.metaWindows.length === 0 && this._applet.useSystemTooltips) {
+          this._tooltip.set_text(this.appGroup.appName)
+          this._tooltip.show()
+          this._tooltip.preventShow = false
+        } else {
+          setTimeout(()=>this.appSwitcherItem._refresh(), 0)
+          PopupMenu.PopupMenu.prototype.open.call(this, this._applet.animateThumbs)
+        }
+      })
+    })
   }
 
   close() {
