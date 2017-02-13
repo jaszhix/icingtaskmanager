@@ -334,7 +334,12 @@ MyApplet.prototype = {
     this.signals.disconnectAllSignals();
   },
 
-  handleUpdate(){
+  // Override Applet._onButtonPressEvent due to the applet menu being replicated in AppMenuButtonRightClickMenu.
+  _onButtonPressEvent() {
+    return false
+  },
+
+  handleUpdate() {
     if (this.autoUpdate) {
       this.version = `v${this._meta.version}`
       // Parse out the HTML response instead of using the API endpoint to work around Github's API limit.
