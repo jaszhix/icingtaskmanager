@@ -261,7 +261,8 @@ AppGroup.prototype = {
   _onAppButtonRelease(actor, event) {
     this._applet._clearDragPlaceholder()
     var button = event.get_button();
-    if ((button === 1) && this.isFavapp || button === 2) {
+
+    if (button === 1 && this.isFavapp || button === 2) {
       this.app.open_new_window(-1)
       this._animate()
       return
@@ -287,11 +288,10 @@ AppGroup.prototype = {
     };
 
     if (button === 1) {
-
+      this.hoverMenu.shouldOpen = false;
       if (this.rightClickMenu.isOpen) {
         this.rightClickMenu.toggle();
       }
-      this.hoverMenu.shouldOpen = false;
       if (appWindows.length === 1) {
         handleMinimizeToggle(appWindows[0]);
       } else {
@@ -309,13 +309,11 @@ AppGroup.prototype = {
       }
       
     } else if (button === 3) {
-      if (this.rightClickMenu.isOpen) {
-        this.rightClickMenu.mouseEvent = event;
-        this.rightClickMenu.toggle();
-      } else {
-        this.hoverMenu.close()
-        this.rightClickMenu.open()
-      }
+      this.appList._closeAllRightClickMenus(()=>{
+        this.appList._closeAllHoverMenus(()=>{
+          this.rightClickMenu.open()
+        })
+      })
     }
   },
 

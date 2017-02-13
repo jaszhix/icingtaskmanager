@@ -126,10 +126,25 @@ AppList.prototype = {
       this._updateSpacing()
     }
   },
-
-  _closeAllHoverMenus(){
+  _closeAllHoverMenus(cb) {
     for (let i = 0, len = this.appList.length; i < len; i++) {
-      this.appList[i].appGroup.hoverMenu.close()
+      if (this.appList[i].appGroup.hoverMenu.isOpen) {
+        this.appList[i].appGroup.hoverMenu.close()
+      }
+    }
+    if (typeof cb === 'function') {
+      cb()
+    }
+  },
+
+  _closeAllRightClickMenus(cb) {
+    for (let i = 0, len = this.appList.length; i < len; i++) {
+      if (this.appList[i].appGroup.rightClickMenu.isOpen) {
+        this.appList[i].appGroup.rightClickMenu.close()
+      }
+    }
+    if (typeof cb === 'function') {
+      cb()
     }
   },
 
