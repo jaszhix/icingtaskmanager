@@ -334,6 +334,11 @@ class MyApplet extends Applet.Applet {
     this.signals.disconnectAllSignals();
   }
 
+  // Override Applet._onButtonPressEvent due to the applet menu being replicated in AppMenuButtonRightClickMenu.
+  _onButtonPressEvent() {
+    return false
+  }
+
   handleUpdate() {
     if (this.autoUpdate) {
       this.version = `v${this._meta.version}`
