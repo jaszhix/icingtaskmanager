@@ -547,7 +547,7 @@ class AppThumbnailHoverMenu extends PopupMenu.PopupMenu {
     // need to implement this class or cinnamon outputs a bunch of errors // TBD
     this.actor.style_class = 'hide-arrow'
 
-    this.box.style_class = 'thumbnail-popup-content'
+    this.box.set_style_class_name('thumbnail-popup-content')
 
     this._tooltip = new Tooltips.PanelItemTooltip(this._applet, '', parent.orientation);
 
@@ -882,7 +882,7 @@ class PopupMenuAppSwitcherItem extends PopupMenu.PopupBaseMenuItem {
     padding = boxTheme ? boxTheme.get_vertical_padding() : null
     var boxPadding = (padding && (padding > 0) ? padding : 3)
     this.box.style = 'padding:' + boxPadding + 'px;'
-    if (this.isFavapp) {
+    if (this.isFavapp && this.metaWindowThumbnail) {
       this.metaWindowThumbnail.thumbnailIconSize()
       return
     }
