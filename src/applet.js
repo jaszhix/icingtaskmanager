@@ -246,7 +246,7 @@ MyApplet.prototype = {
       {key: 'thumbnail-size', value: 'thumbSize', cb: null},
       {key: 'sort-thumbnails', value: 'sortThumbs', cb: null},
       {key: 'vertical-thumbnails', value: 'verticalThumbs', cb: null},
-      {key: 'show-thumbnails', value: 'showThumbs', cb: null},
+      {key: 'show-thumbnails', value: 'showThumbs', cb: this.refreshThumbnailsFromCurrentAppList},
       {key: 'animate-thumbnails', value: 'animateThumbs', cb: null},
       {key: 'close-button-style', value: 'thumbCloseBtnStyle', cb: this.refreshCurrentAppList},
       {key: 'include-all-windows', value: 'includeAllWindows', cb: this.refreshCurrentAppList},
@@ -413,6 +413,10 @@ MyApplet.prototype = {
 
   refreshAppFromCurrentListById(appId, opts={favChange: false, favPos: null, isFavapp: false}){
     this.metaWorkspaces[this.currentWs].appList._refreshAppById(appId, opts)
+  },
+
+  refreshThumbnailsFromCurrentAppList(){
+    this.metaWorkspaces[this.currentWs].appList._refreshAllThumbnails()
   },
 
   getAppFromWMClass (specialApps, metaWindow) {

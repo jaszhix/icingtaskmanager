@@ -811,7 +811,7 @@ PopupMenuAppSwitcherItem.prototype = {
     
   },
 
-  _refresh: function () {
+  _refresh: function (refreshThumbnails=null) {
     // Check to see if this.metaWindow has changed.  If so, we need to recreate
     // our thumbnail, etc.
     // Get a list of all windows of our app that are running in the current workspace
@@ -834,6 +834,11 @@ PopupMenuAppSwitcherItem.prototype = {
     this.reAdd = false
     // used to make sure everything is on the stage
     setTimeout(()=>this.setStyleOptions(windows), 0)
+    if (refreshThumbnails) {
+      for (let i = 0, len = this.appThumbnails.length; i < len; i++) {
+        this.appThumbnails[i].thumbnail._refresh(windows[0], windows)
+      }
+    }
   },
 
   addWindowThumbnails: function (windows) {
@@ -1242,8 +1247,10 @@ WindowThumbnail.prototype = {
         setThumbSize(divider * divideMultiplier, 16)
         return
       } else {
-        if (this._applet.verticalThumbs) {
+        if (this._applet.verticalThumbs && this._applet.showThumbs) {
           this.thumbnailActor.height = this.thumbnailHeight
+        } else {
+          this.thumbnailActor.height = 0
         }
         this.thumbnailActor.width = this.thumbnailWidth
         this._container.style = 'width: ' + Math.floor(this.thumbnailWidth - 16) + 'px'

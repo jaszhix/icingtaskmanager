@@ -149,6 +149,12 @@ AppList.prototype = {
     }
   },
 
+  _refreshAllThumbnails() {
+    for (let i = 0, len = this.appList.length; i < len; i++) {
+      this.appList[i].appGroup.hoverMenu.appSwitcherItem._refresh(true)
+    }
+  },
+
   _onAppKeyPress: function(number){
     if (number > this.appList.length) {
       return;
