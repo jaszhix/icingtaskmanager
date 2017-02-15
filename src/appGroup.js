@@ -18,8 +18,6 @@ const SpecialButtons = AppletDir.specialButtons
 const clog = AppletDir.__init__.clog
 const setTimeout = AppletDir.__init__.setTimeout;
 
-const DEFERRED_APPS = ['spotify', 'libreoffice']
-
 function AppGroup () {
   this._init.apply(this, arguments)
 }
@@ -444,23 +442,6 @@ AppGroup.prototype = {
       windowAddArgs = windowAddArgs && this._applet.tracker.is_window_interesting(metaWindow)
     }
     if (windowAddArgs) {
-      // Defer apps that behave improperly when being launched.
-      let handleDeferredApp = false
-      for (let i = 0, len = DEFERRED_APPS.length; i < len; i++) {
-        if (app.get_id().indexOf(DEFERRED_APPS[i]) !== -1 && recursion === 0) {
-          handleDeferredApp = true
-          break
-        }
-      }
-      if (handleDeferredApp) {
-        if (this.isFavapp) {
-          ++recursion
-          setTimeout(()=>this._windowAdded(metaWorkspace, metaWindow, metaWindows, recursion), 3000)
-          return
-        } else {
-          setTimeout(()=>this._applet.refreshCurrentAppList(this.appId), 3000)
-        }
-      }
       if (metaWindow) {
         if (!this._applet.groupApps && this.metaWindows.length >= 1) {
           if (this.ungroupedIndex === 0) {
@@ -545,8 +526,12 @@ AppGroup.prototype = {
           this.rightClickMenu.setMetaWindow(this.lastFocused, this.metaWindows)
         }
         this._appButton.setMetaWindow(this.lastFocused, this.metaWindows)
-      } else if (this.isFavapp) {
-        this._applet.refreshAppFromCurrentListById(this.appId, {favChange: true, isFavapp: this.isFavapp})
+      } else {
+        this.appList._onAppWindowsChanged(this.app, ()=>{
+          if (this.isFavapp) {
+            this._applet.refreshAppFromCurrentListById(this.appId, {favChange: true, isFavapp: this.isFavapp})
+          }
+        })
       }
 
       this._calcWindowNumber(metaWorkspace)

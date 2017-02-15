@@ -10,8 +10,8 @@ const App = AppletDir.applet
 const AppGroup = AppletDir.appGroup
 const clog = AppletDir.__init__.clog
 const setTimeout = AppletDir.__init__.setTimeout
-// List of running apps
 
+// List of running apps
 function AppList () {
   this._init.apply(this, arguments)
 }
@@ -139,7 +139,8 @@ AppList.prototype = {
 
   _closeAllRightClickMenus(cb) {
     for (let i = 0, len = this.appList.length; i < len; i++) {
-      if (this.appList[i].appGroup.rightClickMenu.isOpen) {
+      if (typeof this.appList[i].appGroup.rightClickMenu !== 'undefined'
+        && this.appList[i].appGroup.rightClickMenu.isOpen) {
         this.appList[i].appGroup.rightClickMenu.close()
       }
     }
@@ -346,9 +347,7 @@ AppList.prototype = {
       var time = Date.now()
       let appGroup = new AppGroup.AppGroup(this._applet, this, app, isFavapp, window, time, index, appId)
       appGroup._updateMetaWindows(metaWorkspace, app, window, wsWindows)
-      appGroup.watchWorkspace(metaWorkspace) // disable for windows to stay persistent across ws'
-
-      app.connect_after('windows-changed', Lang.bind(this, this._onAppWindowsChanged, app))
+      appGroup.watchWorkspace(metaWorkspace)
 
       this.appList.push({
         id: appId,
@@ -390,11 +389,14 @@ AppList.prototype = {
     return result
   },
 
-  _onAppWindowsChanged: function (app) {
+  _onAppWindowsChanged: function (app, cb) {
     let numberOfwindows = this._getNumberOfAppWindowsInWorkspace(app, this.metaWorkspace)
     if (!numberOfwindows || numberOfwindows === 0) {
       this._removeApp(app)
       this._calcAllWindowNumbers()
+    }
+    if (typeof cb === 'function') {
+      cb()
     }
   },
 
