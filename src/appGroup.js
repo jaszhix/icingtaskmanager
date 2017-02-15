@@ -51,6 +51,7 @@ AppGroup.prototype = {
     this.appName = this.app.get_name()
     this.autostartIndex = _.findIndex(this._applet.autostartApps, {id: appId})
     this.isFavapp = isFavapp
+    this.wasFavapp = false
     this.orientation = applet.orientation
 
     this.metaWindows = this._applet.groupApps ? [] : [window]
@@ -486,7 +487,7 @@ AppGroup.prototype = {
       }
 
       if (this.isFavapp) {
-        this._isFavorite(false)
+        this._isFavorite(!this.isFavapp)
       }
 
       this._calcWindowNumber(metaWorkspace)
@@ -499,14 +500,18 @@ AppGroup.prototype = {
     })
 
     if (refWindow !== -1) {
-      // Clean up all the signals we've connected
-      for (let i = 0, len = this.metaWindows[refWindow].data.signals.length; i < len; i++) {
-        this.metaWindows[refWindow].win.disconnect(this.metaWindows[refWindow].data.signals[i])
-      }
-
       if (!this._applet.groupApps) {
-        this.appList._removeApp(this.app, this.timeStamp)
+        if (!this.wasFavapp) {
+          this.appList._removeApp(this.app, this.timeStamp)
+        } else {
+          this._applet.refreshAppFromCurrentListById(this.appId, {favChange: true, isFavapp: this.wasFavapp})
+        }
         return
+      } else {
+        // Clean up all the signals we've connected
+        for (let i = 0, len = this.metaWindows[refWindow].data.signals.length; i < len; i++) {
+          this.metaWindows[refWindow].win.disconnect(this.metaWindows[refWindow].data.signals[i])
+        }
       }
 
       _.pullAt(this.metaWindows, refWindow)
@@ -612,7 +617,7 @@ AppGroup.prototype = {
 
   _isFavorite: function (isFav) {
     this.isFavapp = isFav
-    this.wasFavapp = !(isFav)
+    this.wasFavapp = !isFav
     this._appButton._isFavorite(isFav)
     this.hoverMenu.appSwitcherItem._isFavorite(isFav)
     this._windowTitleChanged(this.lastFocused)
