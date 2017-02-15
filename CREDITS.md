@@ -4,6 +4,8 @@ Special thanks to the contributors of this project.
 
 ### Pull requests
 
+  * mariachini
+    * https://github.com/jaszhix/icingtaskmanager/pull/99
   * ArionWT
     * https://github.com/jaszhix/icingtaskmanager/pull/96
   * SethosII

@@ -1,5 +1,15 @@
 Changelog
 
+### 4.3.4
+
+  * Polish translation by [mariachini](https://github.com/jaszhix/icingtaskmanager/pull/99).
+  * Fixed app buttons not appearing correctly when LibreOffice and Spotify are in use.
+    * LibreOffice apps started from the Start Center will spawn from that button, even if other LibreOffice apps are pinned.
+  * Fixed pinned apps disappearing when the "Group apps" option is disabled.
+  * Fixed a bug causing empty spaces to stay present when disabling thumbnails, while vertical thumbnail orientation is enabled.
+  * Fixed a bug that can cause the right click menu to stick and freeze the applet.
+  * Simplified the locale installation process.
+
 ### 4.3.3
 
   * Russian translation update by [ArionWT](https://github.com/jaszhix/icingtaskmanager/pull/96).

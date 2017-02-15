@@ -1249,7 +1249,7 @@ WindowThumbnail.prototype = {
       } else {
         if (this._applet.verticalThumbs && this._applet.showThumbs) {
           this.thumbnailActor.height = this.thumbnailHeight
-        } else {
+        } else if (this._applet.verticalThumbs) {
           this.thumbnailActor.height = 0
         }
         this.thumbnailActor.width = this.thumbnailWidth
