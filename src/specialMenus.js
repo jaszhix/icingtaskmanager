@@ -615,18 +615,14 @@ AppThumbnailHoverMenu.prototype = {
     // Refresh all the thumbnails, etc when the menu opens.  These cannot
     // be created when the menu is initalized because a lot of the clutter window surfaces
     // have not been created yet...
-    this.appGroup.appList._closeAllHoverMenus(()=>{
-      this.appGroup.appList._closeAllRightClickMenus(()=>{
-        if (this.metaWindows.length === 0 && this._applet.useSystemTooltips) {
-          this._tooltip.set_text(this.appGroup.appName)
-          this._tooltip.show()
-          this._tooltip.preventShow = false
-        } else {
-          setTimeout(()=>this.appSwitcherItem._refresh(), 0)
-          PopupMenu.PopupMenu.prototype.open.call(this, this._applet.animateThumbs)
-        }
-      })
-    })
+    if (this.metaWindows.length === 0 && this._applet.useSystemTooltips) {
+      this._tooltip.set_text(this.appGroup.appName)
+      this._tooltip.show()
+      this._tooltip.preventShow = false
+    } else {
+      setTimeout(()=>this.appSwitcherItem._refresh(), 0)
+      PopupMenu.PopupMenu.prototype.open.call(this, this._applet.animateThumbs)
+    }
   },
 
   close: function () {
@@ -1006,7 +1002,7 @@ WindowThumbnail.prototype = {
 
     if (this.metaWindow) {
       this.windowTitleId = this.metaWindow.connect('notify::title', ()=> {
-        this._label.text = this.metaWindow.get_title()
+        this._label.set_text(this.metaWindow.get_title())
       })
       this.windowFocusId = this.metaWindow.connect('notify::appears-focused', Lang.bind(this, this._focusWindowChange))
       this._updateAttentionGrabber(null, null, this._applet.showAlerts)

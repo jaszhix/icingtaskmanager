@@ -279,6 +279,7 @@ AppButton.prototype = {
     if (!this._label.text) {
       this._label.set_text('');
     }
+    // TBD
     /*var setToZero
     if (this._label.width < 2) {
       this._label.set_width(-1)
