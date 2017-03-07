@@ -231,6 +231,7 @@ MyApplet.prototype = {
       {key: 'group-apps', value: 'groupApps', cb: this.refreshCurrentAppList},
       {key: 'arrange-pinnedApps', value: 'arrangePinned', cb: null},
       {key: 'pinned-apps', value: 'pinnedApps', cb: null},
+      {key: 'middle-click-action', value: 'middleClickAction', cb: null},
       {key: 'show-apps-order-hotkey', value: 'showAppsOrderHotkey', cb: this._bindAppKey},
       {key: 'show-apps-order-timeout', value: 'showAppsOrderTimeout', cb: null},
       {key: 'cycleMenusHotkey', value: 'cycleMenusHotkey', cb: this._bindAppKey},

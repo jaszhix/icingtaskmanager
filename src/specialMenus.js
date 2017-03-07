@@ -399,7 +399,7 @@ AppMenuButtonRightClickMenu.prototype = {
         item.connect('activate', Lang.bind(this, function() {
           _.each(this.metaWindows, (metaWindow)=>{
             if (!_.isEqual(metaWindow.win, mw) && !metaWindow.win._needsAttention) {
-              metaWindow.win.delete(global.get_current_time);
+              metaWindow.win.delete(global.get_current_time());
             }
           })
         }));
@@ -411,7 +411,7 @@ AppMenuButtonRightClickMenu.prototype = {
         item.connect('activate', Lang.bind(this, function() {
           _.each(this.metaWindows, (metaWindow)=>{
             if (!metaWindow.win._needsAttention) {
-              metaWindow.win.delete(global.get_current_time);
+              metaWindow.win.delete(global.get_current_time());
             }
           })
         }));

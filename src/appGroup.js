@@ -262,6 +262,10 @@ AppGroup.prototype = {
     var button = event.get_button();
 
     if (button === 1 && this.isFavapp || button === 2) {
+      if (button === 2 && !this._applet.middleClickAction && this.lastFocused) {
+        this.lastFocused.delete(global.get_current_time());
+        return;
+      }
       this.app.open_new_window(-1)
       this._animate()
       return
