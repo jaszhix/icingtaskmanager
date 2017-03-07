@@ -94,7 +94,7 @@ PinnedFavs.prototype = {
           id: ids[i],
           app: app
         })
-      }  
+      }
     }
   },
 
@@ -148,7 +148,7 @@ PinnedFavs.prototype = {
     if (opts.pos !== -1) {
       this.moveFavoriteToPos(opts.appId, opts.pos)
       return true
-    } 
+    }
     this._applet.settings.setValue('pinned-apps', _.map(this._favorites, 'id'))
     this.triggerUpdate(opts.appId, -1, true)
     return true
@@ -316,7 +316,7 @@ MyApplet.prototype = {
     this.currentWs = global.screen.get_active_workspace_index()
     this._onSwitchWorkspace()
     this._bindAppKey();
-    
+
     this.panelEditId = global.__settings.connect('changed::panel-edit-mode', Lang.bind(this, this.on_panel_edit_mode_changed))
 
     // Wait 3s, as Cinnamon doesn't populate Applet._meta until after the applet loads.
@@ -389,11 +389,11 @@ MyApplet.prototype = {
     Main.keybindingManager.removeHotKey('launch-show-apps-order');
     Main.keybindingManager.removeHotKey('launch-cycle-menus');
   },
-  
+
   _onAppKeyPress: function(number){
     this.getCurrentAppList()._onAppKeyPress(number);
   },
-  
+
   _onNewAppKeyPress: function(number){
     this.getCurrentAppList()._onNewAppKeyPress(number);
   },
@@ -604,7 +604,7 @@ MyApplet.prototype = {
         this.pinnedAppsContr.moveFavoriteToPos(id, favPos)
       } else {
         this.pinnedAppsContr._addFavorite({appId: id, app: app, pos: favPos})
-      } 
+      }
       return false
     }))
     this._clearDragPlaceholder()
@@ -691,7 +691,7 @@ MyApplet.prototype = {
   _onSwitchWorkspace: function () {
     this.currentWs = global.screen.get_active_workspace_index()
     let metaWorkspace = global.screen.get_workspace_by_index(this.currentWs)
-    
+
     // If the workspace we switched to isn't in our list,
     // we need to create an AppList for it
     var refWorkspace = _.findIndex(this.metaWorkspaces, {index: this.currentWs})
