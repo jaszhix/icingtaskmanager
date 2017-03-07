@@ -1,5 +1,12 @@
 Changelog
 
+### 4.4.0
+
+  * Polish translation update by [mariachini](https://github.com/jaszhix/icingtaskmanager/pull/104).
+  * Croatian translation by [muzena](https://github.com/linuxmint/cinnamon-spices-applets/pull/160).
+  * Added an option to toggle the middle mouse buttion action between opening a new app and closing the last focused app.
+  * Updated translations.
+
 ### 4.3.4
 
   * Polish translation by [mariachini](https://github.com/jaszhix/icingtaskmanager/pull/99).
