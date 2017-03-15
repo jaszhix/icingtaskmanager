@@ -29,6 +29,8 @@ You can install the applet from the [Cinnamon Spices](https://cinnamon-spices.li
 
 There are many options in the applet's Preferences that cater to many users' different needs. If you find a problem with your theme, try toggling the options under Theme Settings.
 
+In order to use Firefox bookmarks, you need to install the ```gir1.2-gda-5.0``` package.
+
 ### Contributing
 
 *  Use [Node 6.x LTS](https://github.com/nodesource/distributions).
