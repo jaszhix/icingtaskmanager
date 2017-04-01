@@ -1,5 +1,10 @@
 Changelog
 
+### 4.4.1
+
+  * Russian translation update by Faust30000.
+  * Removed the auto updater functionality.
+
 ### 4.4.0
 
   * Polish translation update by [mariachini](https://github.com/jaszhix/icingtaskmanager/pull/104).
