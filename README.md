@@ -1,3 +1,5 @@
+**This repo is now solely for issue tracking. Please direct PRs to the [Cinnamon Spices applets repository](https://github.com/linuxmint/cinnamon-spices-applets).**
+
 Icing Task Manager
 =============
 
