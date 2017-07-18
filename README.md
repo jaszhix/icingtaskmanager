@@ -1,5 +1,3 @@
-**This repo is now solely for issue tracking. Please direct PRs to the [Cinnamon Spices applets repository](https://github.com/linuxmint/cinnamon-spices-applets).**
-
 Icing Task Manager
 =============
 
@@ -27,13 +25,13 @@ See the [changelog](https://github.com/jaszhix/icingtaskmanager/blob/master/CHAN
 
 ### Usage
 
-You can install the applet from the [Cinnamon Spices](https://cinnamon-spices.linuxmint.com/applets/view/269) website.
-
 There are many options in the applet's Preferences that cater to many users' different needs. If you find a problem with your theme, try toggling the options under Theme Settings.
 
 In order to use Firefox bookmarks, you need to install the ```gir1.2-gda-5.0``` package.
 
 ### Contributing
+
+It is recommended to submit issues on ITM's [dedicated repository](https://github.com/jaszhix/icingtaskmanager). All PRs should be submitted to the Cinnamon Spices repository.
 
 *  Use [Node 6.x LTS](https://github.com/nodesource/distributions).
 ```sh
@@ -42,10 +40,9 @@ sudo apt-get install -y nodejs
 ```
 *  Install node modules: ```npm install```
 *  Install gulp globally: ```sudo npm install -g gulp```
-*  Start transpile watch task: ```gulp spawn-watch```
+*  From the root of this applet's directory, start transpile watch task: ```gulp spawn-watch```
   * This task will auto-reload the extension on every edit.
-*  Monitor the logging output of these files: 
+*  Monitor the logging output of these files:
   * ```tail -f -n100 ~/.cinnamon/glass.log```
   * ```tail -f -n100 ~/.xsession-errors.log```
-* Use two spaces for indentation, and ES2015 equivalent syntax when possible. 
-  * You may want to read Babel's [documentation](https://babeljs.io/learn-es2015/) if you are not familiar with ES2015.
+* Use two spaces for indentation.

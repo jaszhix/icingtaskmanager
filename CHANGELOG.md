@@ -1,5 +1,57 @@
 Changelog
 
+### 5.1.0
+
+  * Multiple ITM instances now only display windows from the monitor the instance is displayed on, like the default Cinnamon window list.
+  * Added a new option that controls whether or not pinned apps should use system favorites, or the pinned list in the applet configuration.
+  * Improved thumbnail sorting.
+  * Fixed thumbnail menu key controls for all panel orientations.
+  * Fixed pinning favorites not appending to the end of the pinned app group, and unpinning apps not moving the app to the end of the app list.
+
+### 5.0.0
+
+  * Fixed off-center app button icons.
+  * Fixed the extra menu theming on the thumbnail menu.
+  * Fixed active window markers disappearing.
+  * Fixed app buttons not using the full width of vertical panels.
+  * Fixed the app order display numbering.
+  * Fixed LibreOffice apps not being grouped correctly.
+  * Added a layout to the settings schema.
+  * Hover peek and thumbnail close button theming enabled by default.
+  * The non-system tooltip option was removed to help speed up code improvements in the thumbnail menu, and improve performance.
+  * Changed the default icon size from 16 to 24.
+  * Added an app button width option, which now makes the icon padding options obsolete.
+  * Overhauled ungrouped window mode.
+  * Vertical thumbnails are now enabled automatically on vertical panels.
+  * A lot of optimizations and code improvement.
+
+### 4.6.2
+
+  * Fixed icon sizing in high DPI mode.
+
+### 4.6.1
+
+  * Fixed a bug preventing some apps, such as Transmission, from having their app button removed from the panel after they are closed.
+  * Fixed a couple warnings when windows are minimized through ITM.
+
+### 4.6.0
+
+  * Added support for Cinnamon's minimize animation positioning.
+  * Improved timer handling.
+  * Fixed orphan St.Label errors.
+
+### 4.5.1
+
+  * Removed extra tooling causing performance issues.
+  * Unified the code so one version of the applet runs on Cinnamon 2.8-3.4.
+
+### 4.5.0
+
+  * Fixed thumbnail sizes becoming incorrect when windows are resized.
+  * Improved thumbnail scaling when windows are added or removed.
+  * Added an option that controls whether or not apps are pinned on drag.
+  * Miscellaneous performance improvements.
+
 ### 4.4.1
 
   * Russian translation update by Faust30000.
@@ -264,7 +316,7 @@ Changelog
 
 ### 3.0.10
 
-  * Rewrote parts of the window list handling. 
+  * Rewrote parts of the window list handling.
   * Performance improvements.
   * Localization fixes by [Pandiora](https://github.com/jaszhix/icingtaskmanager/pull/27)
 
@@ -324,132 +376,3 @@ Changelog
   * More theme-agnostic close button than the one found on the development branch.
   * Integrated a [pull request](https://github.com/jake-phy/WindowIconList/pull/155) by mswiszcz, added optional icon size control.
   * Formatting of code for readability.
-
-### Original Fork
-
-2.8.0
-Added windows 7 styled right click menu. 
-	Added firefox appmenu.
-Can pin and unpin items without the appmenu closing.
-Can now close thumbnails without the thumbnail controller closing.  :)
-_____
-2.7.5
-Themeing
-	Fixed a bunch of padding and spacing issue's.
-Updated to the new Cinnamon settings
-	Added settings to ajust Icon padding allows for larger panel size.
-	Added Stackable thumbnails (in right click menu of pinned apps)
-	Added vertical Thumbnails (doesn't order right,  made to use when show thumbnails is off)(in right click menu of pinned apps)
-	Added show thumbnails (if off use vertical thumbnails for best effect)(in right click menu of pinned apps)
-	Added ReArrange (need to enable to arrange apps in different order)(in right click menu of pinned apps)
-	Removed ability to use menu favorites.  not compatible with cinnamon settings.
-different bug fixes.
-Added Stacking Thumbnails :) (right now limited to three rows)
-ReAdded KeyBindings using Cinnamon's KeyBindings.
-Future Projects:  would like to add windows 7 right click menu functionality (don't promise anything but at the moment it looks possible).
-_____
-2.7.1
-removed keybindings will readd when cinnamon 1.8 comes out.
-fixed some of the gshema problems
-still some bugs
-_____
-2.7
-
-Added Highlighting for activity in windows 
-Added Keybindings for launching Favorites
-___________
-2.6.1
-
-fixed cinnamon crashing when schema not loaded
-____
-2.6 
-added option for pinned-apps which are seperate from the menu favorites 
-fixed a drag and drop bug
-_________
-2.5.2
-
-fixed app buttons not closing
-fixed title not showing when apps are not grouped
-____
-2.5.1
-
-fixed openoffice bug
-fixed thumbnail bug
-____
-2.5
-
-Lots of Bugfixes
-
-___________
-
-2.4
-
-added gesettings
-added option to sort thumbnail by when they were opened & set option to default
-fixed problem with windows in favorite groups not focusing right after resarting cinnamon
-
-___________
-
-2.2
-
-fixed cinnamon freezing
-updated to work in gnome 3.4
-
-___________
-
-2.1
-
-Added a hover peek feature
-Stuck all the options in a seperate file
-Bugfixes
-
-___________
-
-2.0
-
-switched base extension to "Window List" by siefkenj for the app-grouping
-Added a window number when grouped.
-Thumbnail Preveiws:  major bug fixes and a facelift
-Favorites:  made them act like Window 7's Pinned Apps
-
-___________
-
-1.5
-
-created more options for thumbnails ( in thumbnailPreveiw.js)
-made favorites fully drag and drop compatible with main menu
-enabled favorites
-
--------------------
-
-1.4.2
-
-changed file permissions
-updated to cinnamon 1.4
-added exit button to window previews
-disabled favorites(couldn't get it working in cinnamon 1.4)
-
--------------------
-
-1.4.1x
-
-added  option to turn favorites on and off in applet.js
-and fixed some bugs
-
--------------------
-
-1.4x
-
-updated window preview style
-added favorites actor
-intergrated favorites into windowlist right click list
-
--------------------
-
- 
-
-1.1
-
-added window previews
-added,  middle click to close window
-changed style to work with cinnamon theme there has to be a better style but i don't know
