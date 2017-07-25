@@ -56,15 +56,10 @@ AppGroup.prototype = {
       y_fill: false,
       track_hover: true
     });
-
-    this.metaWorkspacesSignals = [];
-
     this.appList.managerContainer.add_actor(this.actor);
-
     this.actor._delegate = this;
 
     this._appButton = new SpecialButtons.AppButton(this);
-
     this.actor.add_actor(this._appButton.actor);
 
     this.rightClickMenu = new SpecialMenus.AppMenuButtonRightClickMenu({
@@ -209,7 +204,6 @@ AppGroup.prototype = {
           handleMinimizeToggle(appWindows[0]);
         }
       }
-
     } else if (button === 3) {
       if (!this.rightClickMenu.isOpen) {
         this.appList._closeAllRightClickMenus(()=>{
@@ -232,7 +226,7 @@ AppGroup.prototype = {
   },
 
   _onAppKeyPress: function () {
-    if (this.isFavoriteApp) {
+    if (this.isFavoriteApp && this.metaWindows.length === 0) {
       this.app.open_new_window(-1);
       this._animate();
     } else {
@@ -245,7 +239,7 @@ AppGroup.prototype = {
     }
   },
 
-  _onNewAppKeyPress: function (number) {
+  _onNewAppKeyPress: function () {
     this.app.open_new_window(-1);
     this._animate();
   },
@@ -302,7 +296,7 @@ AppGroup.prototype = {
     if (!this._applet.includeAllWindows) {
       windowAddArgs = windowAddArgs && this._applet.tracker.is_window_interesting(metaWindow);
     }
-    if (this._applet.panel && metaWindow) {
+    if (this._applet.panel && metaWindow && this._applet.listMonitorWindows) {
       windowAddArgs = windowAddArgs && this._applet._monitorWatchList.indexOf(metaWindow.get_monitor()) > -1;
     }
     return windowAddArgs;
@@ -356,8 +350,8 @@ AppGroup.prototype = {
 
     if (this.metaWindows.length > 0 && !this.willUnmount) {
       this.lastFocused = _.last(this.metaWindows);
-      this._windowTitleChanged(this.lastFocused);
       this.hoverMenu.setMetaWindow(this.lastFocused, this.metaWindows);
+      this._windowTitleChanged(this.lastFocused);
       /*
         Workaround for #86 - https://github.com/jaszhix/icingtaskmanager/issues/86
         this.hoverMenu.setMetaWindow is being called after this.hoverMenu.open calls
@@ -385,7 +379,11 @@ AppGroup.prototype = {
   },
 
   _windowTitleChanged: function (metaWindow) {
-    if (this.willUnmount || !metaWindow) {
+    if (this.willUnmount) {
+      return false;
+    }
+    if (!metaWindow || (this.metaWindows.length === 0 && this.isFavoriteApp)) {
+      this._appButton.hideLabel();
       return false;
     }
     let title = metaWindow.get_title();
@@ -395,10 +393,10 @@ AppGroup.prototype = {
         return false;
       }
     });
-
     let titleType = this._applet.settings.getValue('title-display');
     this.appName = this.app.get_name();
-    if (titleType === constants.TitleDisplay.None || (this._applet.c32 && (this.orientation === St.Side.LEFT || this.orientation === St.Side.RIGHT))) {
+    if (titleType === constants.TitleDisplay.None
+      || (this.orientation === St.Side.LEFT || this.orientation === St.Side.RIGHT)) {
       this._appButton.setText('');
     } else if (titleType === constants.TitleDisplay.Title) {
       if (title) {
@@ -460,7 +458,10 @@ AppGroup.prototype = {
     this.isFavoriteApp = isFav;
     this.wasFavapp = !isFav;
     this._appButton._isFavorite(isFav);
-    this.hoverMenu.appSwitcherItem._isFavorite(isFav);
+    if (this.metaWindows.length === 0) {
+      this.hoverMenu.appSwitcherItem._isFavorite(isFav);
+      this.hoverMenu.close();
+    }
     this._windowTitleChanged(this.lastFocused);
   },
 
@@ -522,6 +523,11 @@ AppGroup.prototype = {
     this._appButton.destroy();
     this.appList.managerContainer.remove_child(this.actor);
     this.actor.destroy();
+
+    let props = Object.keys(this);
+    each(props, (propKey)=>{
+      delete this[propKey];
+    });
   }
 };
 Signals.addSignalMethods(AppGroup.prototype);
