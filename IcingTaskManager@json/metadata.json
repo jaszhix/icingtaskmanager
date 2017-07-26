@@ -1,17 +1,10 @@
 {
-    "multiversion": true, 
-    "uuid": "IcingTaskManager@json", 
-    "cinnamon-version": [
-        "2.8", 
-        "3.0", 
-        "3.2", 
-        "3.4"
-    ], 
-    "max-instances": -1, 
-    "dangerous": false, 
-    "description": "Window list with app grouping and thumbnails", 
-    "version": "5.2.1", 
-    "role": "panellauncher", 
-    "last-edited": 1500927606, 
-    "name": "Icing Task Manager"
+    "description": "Window list with app grouping and thumbnails",
+    "max-instances": -1,
+    "name": "Icing Task Manager",
+    "version": "5.3.0",
+    "role": "panellauncher",
+    "uuid": "IcingTaskManager@json",
+    "multiversion": true,
+    "cinnamon-version": ["2.8", "3.0", "3.2", "3.4"]
 }
