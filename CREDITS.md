@@ -2,6 +2,8 @@ Forked by Jason Hicks
 
 Special thanks to the contributors of this project.
 
+Incomplete list of contributors follows:
+
 ### Pull requests
 
   * mariachini
@@ -55,9 +57,12 @@ Special thanks to the contributors of this project.
   * giuspen
   * Piiit
 
-### Support
+### Support / Upstream work
 
+  * Cinnamon developers
   * clefebvre
+
+Parts of ITM's code, such as multi-monitor window monitoring and icon allocation, is based on the Cinnamon window list.
 
 Original applet by jake-phy: https://github.com/jake-phy/WindowIconList/
 
