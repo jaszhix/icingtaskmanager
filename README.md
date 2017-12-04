@@ -1,3 +1,5 @@
+Please submit PRs to the upstream [Cinnamon Spices repository](https://github.com/linuxmint/cinnamon-spices-applets).
+
 Icing Task Manager
 =============
 
