@@ -11,27 +11,31 @@ const Applet = imports.ui.applet;
 const Util = imports.misc.util;
 const SignalManager = imports.misc.signalManager;
 
-let each, isEqual, constants, getFirefoxHistory, setTimeout, unref, _, store;
+let each, find, findIndex, tryFn, isEqual, constants, getFirefoxHistory, setTimeout, unref, _;
 if (typeof require !== 'undefined') {
   const utils = require('./utils');
   each = utils.each;
+  findIndex = utils.findIndex;
+  find = utils.find;
+  tryFn = utils.tryFn;
   isEqual = utils.isEqual;
   constants = require('./constants').constants;
   _ = utils.t;
   setTimeout = utils.setTimeout;
   unref = utils.unref;
   getFirefoxHistory = require('./firefox').getFirefoxHistory;
-  store = require('./store');
 } else {
   const AppletDir = imports.ui.appletManager.applets['IcingTaskManager@json'];
   each = AppletDir.utils.each;
+  findIndex = AppletDir.utils.findIndex;
+  find = AppletDir.utils.find;
+  tryFn = AppletDir.utils.tryFn;
   isEqual = AppletDir.utils.isEqual;
   constants = AppletDir.constants.constants;
   _ = AppletDir.utils.t;
   setTimeout = AppletDir.utils.setTimeout;
   unref = AppletDir.utils.unref;
   getFirefoxHistory = AppletDir.firefox.getFirefoxHistory;
-  store = AppletDir.store_mozjs24;
 }
 
 const convertRange = function(value, r1, r2) {
@@ -90,10 +94,11 @@ AppMenuButtonRightClickMenu.prototype = {
     let item;
     let length;
     let hasWindows = this.groupState.metaWindows.length > 0;
+    let isWindowBacked = this.groupState.app.is_window_backed();
 
     let createMenuItem = (opts={label: '', icon: null}) => {
       if (this.state.settings.menuItemType < 3 && opts.icon) {
-        let refMenuType = store.queryCollection(constants.menuItemTypeOptions, {id: this.state.settings.menuItemType});
+        let refMenuType = find(constants.menuItemTypeOptions, (item) => item.id === this.state.settings.menuItemType);
         return new PopupMenu.PopupIconMenuItem(opts.label, opts.icon, St.IconType[refMenuType.label]);
       } else {
         return new PopupMenu.PopupMenuItem(opts.label);
@@ -107,7 +112,7 @@ AppMenuButtonRightClickMenu.prototype = {
           this.signals.connect(item, 'activate', Lang.bind(this, this.monitorMoveWindows, i));
         };
         for (let i = 0, len = Main.layoutManager.monitors.length; i < len; i++) {
-          if (i === this.groupState.lastFocused.get_monitor()) {
+          if (!this.groupState.lastFocused || i === this.groupState.lastFocused.get_monitor()) {
             continue;
           }
           item = createMenuItem({label: Main.layoutManager.monitors.length === 2 ? _('Move to the other monitor') : _('Move to monitor ') + (i + 1).toString()});
@@ -117,13 +122,19 @@ AppMenuButtonRightClickMenu.prototype = {
       }
       // Workspace
       if ((length = global.screen.n_workspaces) > 1) {
-        if (this.groupState.lastFocused.is_on_all_workspaces()) {
+        if (this.groupState.lastFocused && this.groupState.lastFocused.is_on_all_workspaces()) {
           item = createMenuItem({label: _('Only on this workspace')});
-          this.signals.connect(item, 'activate', () => this.groupState.lastFocused.unstick());
+          this.signals.connect(item, 'activate', () => {
+            this.groupState.lastFocused.unstick();
+            this.state.trigger('removeWindowFromOtherWorkspaces', this.groupState.lastFocused);
+          });
           this.addMenuItem(item);
         } else {
           item = createMenuItem({label: _('Visible on all workspaces')});
-          this.signals.connect(item, 'activate', () => this.groupState.lastFocused.stick());
+          this.signals.connect(item, 'activate', () => {
+            this.groupState.lastFocused.stick();
+            this.state.trigger('addWindowToAllWorkspaces', this.groupState.lastFocused);
+          });
           this.addMenuItem(item);
 
           item = new PopupMenu.PopupSubMenuMenuItem(_('Move to another workspace'));
@@ -150,7 +161,6 @@ AppMenuButtonRightClickMenu.prototype = {
       this.addMenuItem(new PopupMenu.PopupSeparatorMenuItem());
     }
 
-    this.recentMenuItems = [];
     if (this.state.settings.showRecent) {
 
       // Places
@@ -168,7 +178,6 @@ AppMenuButtonRightClickMenu.prototype = {
         for (let i = 0, len = places.length; i < len; i++) {
           item = createMenuItem({label: _(places[i].name), icon: 'folder'});
           handlePlaceLaunch(item, i);
-          this.recentMenuItems.push(item);
           subMenu.menu.addMenuItem(item);
         }
         this.addMenuItem(new PopupMenu.PopupSeparatorMenuItem());
@@ -176,23 +185,28 @@ AppMenuButtonRightClickMenu.prototype = {
 
       // History
       if (this.groupState.appId === 'firefox.desktop' || this.groupState.appId === 'firefox web browser.desktop') {
-        let subMenu = new PopupMenu.PopupSubMenuMenuItem(_(constants.ffOptions.find(ffOption => ffOption.id === this.state.settings.firefoxMenu).label));
-        this.addMenuItem(subMenu);
+        let histories = null;
+        tryFn(() => {
+          histories = getFirefoxHistory(this.state.settings);
+        });
+        let subMenu;
 
-        let histories = getFirefoxHistory(this.state.settings);
         if (histories) {
-          try {
+          subMenu = new PopupMenu.PopupSubMenuMenuItem(_(constants.ffOptions.find(ffOption => ffOption.id === this.state.settings.firefoxMenu).label));
+          tryFn(() => {
             let handleHistoryLaunch = (item, i) => {
               this.signals.connect(item, 'activate', () => Gio.app_info_launch_default_for_uri(histories[i].uri, global.create_app_launch_context()));
             };
             for (let i = 0, len = histories.length; i < len; i++) {
               item = createMenuItem({label: _(histories[i].title), icon: 'go-next'});
               handleHistoryLaunch(item, i);
-              this.recentMenuItems.push(item);
               subMenu.menu.addMenuItem(item);
             }
-          } catch (e) {}
+          });
+        } else {
+          subMenu = createMenuItem({label: _('Bookmarks/History requires gir1.2-gda-5.0'), icon: 'help-about'});
         }
+        this.addMenuItem(subMenu);
         this.addMenuItem(new PopupMenu.PopupSeparatorMenuItem());
       }
 
@@ -222,7 +236,6 @@ AppMenuButtonRightClickMenu.prototype = {
         for (let i = 0; i < itemsLength; i++) {
           item = createMenuItem({label: _(items[i].get_short_name()), icon: 'list-add'});
           handleRecentLaunch(item, i);
-          this.recentMenuItems.push(item);
           subMenu.menu.addMenuItem(item);
         }
         this.addMenuItem(new PopupMenu.PopupSeparatorMenuItem());
@@ -248,17 +261,18 @@ AppMenuButtonRightClickMenu.prototype = {
     subMenu.menu.addMenuItem(item);
 
     // Actions
-    let actions = null;
-    try {
-      actions = this.groupState.appInfo.list_actions();
-      if (this.groupState.appInfo && actions) {
+    tryFn(() => {
+      if (!this.groupState.appInfo) {
+        return;
+      }
+      let actions = this.groupState.appInfo.list_actions();
+      if (actions) {
         this.addMenuItem(new PopupMenu.PopupSeparatorMenuItem());
         let handleAction = (action)=>{
           item = createMenuItem({label: _(this.groupState.appInfo.get_action_name(action)), icon: 'document-new'});
           this.signals.connect(item, 'activate', () => {
             this.groupState.appInfo.launch_action(action, global.create_app_launch_context());
           });
-          this.recentMenuItems.push(item);
         };
 
         for (let i = 0, len = actions.length; i < len; i++) {
@@ -267,15 +281,27 @@ AppMenuButtonRightClickMenu.prototype = {
         }
         this.addMenuItem(new PopupMenu.PopupSeparatorMenuItem());
       }
-    } catch (e) {
-      if (this.groupState.app.is_window_backed()) {
+      if (this.state.settings.launchNewInstance
+        && (!actions || actions.length === 0)
+        && !isWindowBacked) {
+        item = createMenuItem({label: _('New Window'), icon: 'document-new'});
+        this.signals.connect(item, 'activate', () => {
+          this.groupState.trigger('launchNewInstance');
+        });
+        this.addMenuItem(item);
+        if (!actions || actions.length === 0) {
+          this.addMenuItem(new PopupMenu.PopupSeparatorMenuItem());
+        }
+      }
+    }, () => {
+      if (isWindowBacked) {
         this.addMenuItem(new PopupMenu.PopupSeparatorMenuItem());
       }
-    }
+    });
 
     // Pin/unpin, shortcut handling
-    if (!this.groupState.app.is_window_backed()) {
-      if (this.state.settings.showPinned !== constants.FavType.none && !this.groupState.app.is_window_backed()) {
+    if (!isWindowBacked) {
+      if (this.state.settings.showPinned !== constants.FavType.none) {
         let label = this.groupState.isFavoriteApp ? _('Unpin from Panel') : _('Pin to Panel');
         this.pinToggleItem = createMenuItem({label: label, icon: 'bookmark-new'});
         this.signals.connect(this.pinToggleItem, 'activate', Lang.bind(this, this._toggleFav));
@@ -288,6 +314,7 @@ AppMenuButtonRightClickMenu.prototype = {
         this.addMenuItem(item);
       }
     } else {
+      this.addMenuItem(new PopupMenu.PopupSeparatorMenuItem());
       item = createMenuItem({label: _('Create Shortcut'), icon: 'list-add'});
       this.signals.connect(item, 'activate', Lang.bind(this, this._createShortcut));
       this.addMenuItem(item);
@@ -296,11 +323,12 @@ AppMenuButtonRightClickMenu.prototype = {
 
     // Window controls
     if (hasWindows) {
+      let metaWindowActor = this.groupState.lastFocused.get_compositor_private();
       // Miscellaneous
-      if (this.groupState.lastFocused.get_compositor_private().opacity !== 255) {
+      if (metaWindowActor.opacity !== 255) {
         item = createMenuItem({label: _('Restore to full opacity')});
         this.signals.connect(item, 'activate', () => {
-          this.groupState.lastFocused.get_compositor_private().set_opacity(255);
+          metaWindowActor.set_opacity(255);
         });
         this.addMenuItem(item);
       }
@@ -489,7 +517,7 @@ AppThumbnailHoverMenu.prototype = {
       },
       addThumbnailToMenu: (win) => this.addThumbnail(win),
       removeThumbnailFromMenu: (win) => {
-        let index = store.queryCollection(this.appThumbnails, {metaWindow: win}, {indexOnly: true});
+        let index = findIndex(this.appThumbnails, (item) => item.metaWindow === win);
         if (index > -1) {
           this.appThumbnails[index].destroy();
           this.appThumbnails[index] = undefined;
@@ -554,7 +582,8 @@ AppThumbnailHoverMenu.prototype = {
   close: function (force) {
     if (!force && (!this.shouldClose
       || (!this.shouldClose && this.state.settings.onClickThumbs))
-      || !this.groupState) {
+      || !this.groupState
+      || !this.groupState.tooltip) {
       return;
     }
     if (!this.groupState.metaWindows || this.groupState.metaWindows.length === 0) {
@@ -568,12 +597,12 @@ AppThumbnailHoverMenu.prototype = {
 
   _onKeyPress: function(actor, e){
     let symbol = e.get_key_symbol();
-    let i = store.queryCollection(this.appThumbnails, {entered: true}, {indexOnly: true});
+    let i = findIndex(this.appThumbnails, (item) => item.entered === true);
     let entered = i > -1;
     if (!entered) {
-      i = store.queryCollection(this.appThumbnails, function(thumbnail) {
+      i = findIndex(this.appThumbnails, function(thumbnail) {
         return thumbnail.isFocused;
-      }, {indexOnly: true});
+      });
       if (i === -1) {
         i = 0;
       }
@@ -662,7 +691,7 @@ AppThumbnailHoverMenu.prototype = {
         return b.metaWindow.user_time - a.metaWindow.user_time;
       });
     }
-    let refThumb = store.queryCollection(this.appThumbnails, thumbnail => isEqual(thumbnail.metaWindow, metaWindow), {indexOnly: true});
+    let refThumb = findIndex(this.appThumbnails, (thumbnail) => isEqual(thumbnail.metaWindow, metaWindow));
     if (!this.appThumbnails[refThumb] && refThumb === -1) {
       let thumbnail = new WindowThumbnail({
         state: this.state,
@@ -722,9 +751,11 @@ AppThumbnailHoverMenu.prototype = {
     if (skipThumbnailIconResize) {
       return;
     }
-    for (let i = 0; i < this.appThumbnails.length; i++) {
-      if (this.appThumbnails[i]) {
-        this.appThumbnails[i].thumbnailIconSize();
+    if (this.state.settings.showIcons) {
+      for (let i = 0; i < this.appThumbnails.length; i++) {
+        if (this.appThumbnails[i]) {
+          this.appThumbnails[i].thumbnailIconSize();
+        }
       }
     }
     if (wasOpen) {
@@ -771,6 +802,8 @@ AppThumbnailHoverMenu.prototype = {
           this.appThumbnails[w].handleLeaveEvent();
         }
         this.appThumbnails[w].destroy(true);
+        this.appThumbnails[w] = null;
+        this.appThumbnails.splice(w, 1)
       }
     }
     this.removeAll();
@@ -787,6 +820,13 @@ function WindowThumbnail () {
 WindowThumbnail.prototype = {
   _init: function (params) {
     this.state = params.state;
+    this.stateConnectId = this.state.connect({
+      scrollActive: () => {
+        if (this.state.overlayPreview) {
+          this.destroyOverlayPreview();
+        }
+      }
+    })
     this.groupState = params.groupState;
     this.connectId = this.groupState.connect({
       isFavoriteApp: () => this.handleFavorite(),
@@ -834,16 +874,26 @@ WindowThumbnail.prototype = {
       y_expand: false
     });
 
-    this.icon = this.groupState.app.create_icon_texture(16);
-    this.themeIcon = new St.BoxLayout({
-      style_class: 'thumbnail-icon'
-    });
-    this.themeIcon.add_actor(this.icon);
-    this._container.add_actor(this.themeIcon);
     this._label = new St.Label({
-      style_class: 'thumbnail-label'
+      style_class: this.icon ? 'thumbnail-label' : 'thumbnail-label-no-icon'
     });
-    this._container.add_actor(this._label);
+
+    if (this.state.settings.showIcons) {
+      this.icon = this.groupState.app.create_icon_texture(16);
+      this.themeIcon = new St.BoxLayout({
+        style_class: 'thumbnail-icon'
+      });
+      this.themeIcon.add_actor(this.icon);
+      this._container.add_actor(this.themeIcon);
+      this._container.add_actor(this._label);
+    } else {
+      this.labelContainer = new St.Bin({
+        y_align: this.icon ? St.Align.START : St.Align.MIDDLE
+      });
+      this.labelContainer.add_actor(this._label);
+      this._container.add_actor(this.labelContainer);
+    }
+
     this.button = new St.BoxLayout({
       reactive: true
     });
@@ -1035,6 +1085,9 @@ WindowThumbnail.prototype = {
         }
 
         // Replace the old thumbnail
+        if (this.labelContainer) {
+          this.labelContainer.set_width(this.thumbnailWidth);
+        }
         this._label.text = this.metaWindow.title;
         this.getThumbnail();
       }
@@ -1044,7 +1097,7 @@ WindowThumbnail.prototype = {
   },
 
   _hoverPeek: function (opacity) {
-    if (!this.state.settings.enablePeek || this.state.overlayPreview) {
+    if (!this.state.settings.enablePeek || this.state.overlayPreview || this.state.scrollActive) {
       return;
     }
     if (!this.metaWindowActor) {
@@ -1077,6 +1130,7 @@ WindowThumbnail.prototype = {
     if (!this.groupState) {
       return;
     }
+    this.state.disconnect(this.stateConnectId);
     this.groupState.disconnect(this.connectId);
     this.signals.disconnectAllSignals();
     this._container.destroy();

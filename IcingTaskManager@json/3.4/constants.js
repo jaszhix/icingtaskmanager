@@ -1,7 +1,7 @@
 const constants = {
   THUMBNAIL_ICON_SIZE: 16,
   OPACITY_OPAQUE: 255,
-  BUTTON_BOX_ANIMATION_TIME: 0.25,
+  BUTTON_BOX_ANIMATION_TIME: 0.15,
   MAX_BUTTON_WIDTH: 150, // Pixels
   FLASH_INTERVAL: 500,
   TitleDisplay: {
@@ -37,6 +37,7 @@ const constants = {
     {id: 3, label: 'active'},
     {id: 4, label: 'outlined'},
     {id: 5, label: 'selected'},
+    {id: 6, label: 'checked'},
   ],
   autoStartStrDir: './.config/autostart'
 };

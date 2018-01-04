@@ -98,6 +98,59 @@ const each = function(obj, cb) {
   }
 };
 
+const findIndex = function(arr, cb) {
+  for (let i = 0, len = arr.length; i < len; i++) {
+    if (cb(arr[i], i, arr)) {
+      return i;
+    }
+  }
+  return -1;
+}
+
+const find = function(arr, cb) {
+  for (let i = 0, len = arr.length; i < len; i++) {
+    if (cb(arr[i], i, arr)) {
+      return arr[i];
+    }
+  }
+  return null;
+}
+
+const filter = function (arr, cb) {
+  let result = [];
+  for (let i = 0, len = arr.length; i < len; i++) {
+    if (cb(arr[i], i, arr)) {
+      result.push(arr[i]);
+    }
+  }
+  return result;
+};
+
+const map = function (arr, fn) {
+  if (arr == null) {
+    return [];
+  }
+
+  let len = arr.length;
+  let out = Array(len);
+
+  for (let i = 0; i < len; i++) {
+    out[i] = fn(arr[i], i, arr);
+  }
+
+  return out;
+}
+
+const tryFn = function(fn, errCb) {
+  try {
+    return fn();
+  } catch (e) {
+    if (typeof errCb === 'function') {
+      return errCb(e);
+    }
+  }
+};
+
 const unref = function(object) {
   // Some actors being destroyed have a cascading effect (e.g. PopupMenu items),
   // so it is safest to wait for the next 'tick' before removing references.
@@ -109,4 +162,25 @@ const unref = function(object) {
       }
     }
   }, 0);
+};
+
+const getFocusState = function (metaWindow) {
+  if (!metaWindow
+    || metaWindow.minimized) {
+    return false;
+  }
+
+  if (metaWindow.appears_focused) {
+    return true;
+  }
+
+  let transientHasFocus = false;
+  metaWindow.foreach_transient(function (transient) {
+    if (transient && transient.appears_focused) {
+      transientHasFocus = true;
+      return false;
+    }
+    return true;
+  });
+  return transientHasFocus;
 };
