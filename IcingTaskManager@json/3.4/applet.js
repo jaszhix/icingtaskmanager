@@ -98,7 +98,7 @@ PinnedFavs.prototype = {
 
   triggerUpdate: function (appId, pos, isFavoriteApp) {
     let currentAppList = this.params.state.trigger('getCurrentAppList');
-    let refApp = currentAppList.appList.findIndex(appGroup => appGroup.groupState.appId === appId);
+    let refApp = findIndex(currentAppList.appList, appGroup => appGroup.groupState.appId === appId);
     if (refApp > -1) {
       // Destroy pinned app
       if (!isFavoriteApp && currentAppList.appList[refApp] && currentAppList.appList[refApp].groupState.metaWindows.length === 0) {
@@ -234,7 +234,7 @@ PinnedFavs.prototype = {
   },
 
   removeFavorite: function (appId) {
-    let refFav = this._favorites.findIndex(favorite => favorite.id === appId);
+    let refFav = findIndex(this._favorites, favorite => favorite.id === appId);
     this.triggerUpdate(appId, -1, false);
     this._favorites.splice(refFav, 1);
     this._saveFavorites();
@@ -294,7 +294,7 @@ MyApplet.prototype = {
       getAppSystem: () => Cinnamon.AppSystem.get_default(),
       getAppFromWMClass: (specialApps, metaWindow) => this.getAppFromWMClass(specialApps, metaWindow),
       getTracker: () => this.tracker,
-      isWindowInteresting: (metaWindow) => this.tracker.is_window_interesting(metaWindow),
+      isWindowInteresting: (metaWindow) => Main.isInteresting(metaWindow),
       addWindowToAllWorkspaces: (win, app, isFavoriteApp) => {
         each(this.appLists, function(appList) {
           appList._windowAdded(appList.metaWorkspace, win, app, isFavoriteApp);
@@ -334,7 +334,7 @@ MyApplet.prototype = {
         let left = global.ui_scale > 1 ? -10 : 0;
         button.style = 'padding: 0px; width: ' + size + 'px; height: ' + size + 'px; max-width: ' + size + 'px; max-height: ' + size + 'px; '
           + '-cinnamon-close-overlap: 0px; postion: ' + left + 'px -2px;background-size: ' + size + 'px ' + size + 'px;';
-          button.style_class = 'window-close';
+        button.style_class = 'window-close';
       },
       cycleWindows: (e, source) => this.handleScroll(e, source),
       openAbout: () => this.openAbout(),
@@ -383,6 +383,7 @@ MyApplet.prototype = {
       {key: 'group-apps', value: 'groupApps', cb: this.refreshCurrentAppList},
       {key: 'enable-app-button-dragging', value: 'enableDragging', cb: null},
       {key: 'pinOnDrag', value: 'pinOnDrag', cb: null},
+      {key: 'launcher-animation-effect', value: 'launcherAnimationEffect', cb: null},
       {key: 'pinned-apps', value: 'pinnedApps', cb: null},
       {key: 'middle-click-action', value: 'middleClickAction', cb: null},
       {key: 'left-click-action', value: 'leftClickAction', cb: null},
@@ -928,7 +929,7 @@ MyApplet.prototype = {
       return false;
     }
 
-    let refFav = this.pinnedFavorites._favorites.findIndex(favorite => favorite.id === source.groupState.appId);
+    let refFav = findIndex(this.pinnedFavorites._favorites, favorite => favorite.id === source.groupState.appId);
     let favPos = this.state.dragPlaceholderPos;
 
     if (favPos === -1) {
