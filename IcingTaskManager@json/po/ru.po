@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-02-23 21:32-0600\n"
+"POT-Creation-Date: 2018-04-14 21:32-0600\n"
 "PO-Revision-Date: \n"
 "Last-Translator: ArionWT <arionwhiteac@gmail.com>\n"
 "Language-Team: \n"
@@ -446,7 +446,7 @@ msgstr "Показывать иконки прикрепленных прило�
 
 #. 2.8->settings-schema.json->useSystemTooltips->description
 msgid "Use system tooltips for closed apps"
-msgstr "Использование системных подсказок для закрытых приложений"
+msgstr "Системные подсказки для закрытых приложений"
 
 #. 2.8->settings-schema.json->useSystemTooltips->tooltip
 msgid ""
@@ -498,7 +498,9 @@ msgstr "Таймаут миниатюр"
 msgid ""
 "Controls how quickly an app's set of window thumbnails will fade out when "
 "the mouse leaves the app button."
-msgstr "Установить время, через которое появится миниатюра, в миллисекундах."
+msgstr ""
+"Установить время, через которое появится миниатюра, "
+"в миллисекундах."
 
 #. 2.8->settings-schema.json->ThemeSettings->description
 msgid "Theme Settings"
@@ -692,7 +694,8 @@ msgid ""
 "Determines the duration the window count labels are replaced with the app's "
 "order number."
 msgstr ""
-"Определяет длительность замены счетчика окон на порядковые номера приложений."
+"Определяет длительность замены счетчика окон на "
+"порядковые номера приложений."
 
 #. 2.8->settings-schema.json->arrange-pinnedApps->description
 msgid "Arrange pinned apps"
@@ -762,23 +765,24 @@ msgstr "мс"
 #. 3.4->settings-schema.json->thumbnail-padding->description
 #, fuzzy
 msgid "Thumbnail padding"
-msgstr "Настройки миниатюр"
+msgstr "Отступы миниатюр"
 
 #. 3.4->settings-schema.json->thumbnail-padding->tooltip
 #, fuzzy
 msgid "Controls how much space will be around the window preview thumbnails."
-msgstr "Устанавливает расстояние между иконками в пикселях."
+msgstr "Устанавливает размер отступов вокруг миниатюр с предпросмотром окон."
 
 #. 3.4->settings-schema.json->system-favorites->description
 #, fuzzy
 msgid "Use system favorites for pinned apps"
-msgstr "Использование системных подсказок для закрытых приложений"
+msgstr "Системное избранное как прикрепленные приложения"
 
 #. 3.4->settings-schema.json->system-favorites->tooltip
 #, fuzzy
 msgid ""
 "Controls whether or not pinned apps consist of the system favorites list."
-msgstr "Показывать иконки прикрепленных приложений."
+msgstr ""
+"Прикрепленные приложения добавляются в список избранного в системе."
 
 #. 3.4->settings-schema.json->generalSection->title
 msgid "Behavior"
@@ -788,7 +792,7 @@ msgstr "Поведение"
 #. 3.4->settings-schema.json->thumbnailsSection->title
 #, fuzzy
 msgid "Thumbnails"
-msgstr "Размер миниатюры"
+msgstr "Миниатюры"
 
 #. 3.4->settings-schema.json->presetSection->title
 msgid "Recommended Presets"
@@ -827,12 +831,12 @@ msgstr "Стиль"
 #. 3.4->settings-schema.json->contextMenuPage->title
 #, fuzzy
 msgid "Context Menu"
-msgstr "Настройки контекстного меню"
+msgstr "Контекстное меню"
 
 #. 3.4->settings-schema.json->themePage->title
 #, fuzzy
 msgid "Theming"
-msgstr "Настройки темы"
+msgstr "Тема"
 
 #. 3.4->settings-schema.json->mintYPreset->description
 #. 3.4->settings-schema.json->mintYPreset->tooltip
@@ -856,7 +860,7 @@ msgstr "Перетаскивание кнопок"
 #. 3.4->settings-schema.json->launch-new-instance-menu-item->description
 #, fuzzy
 msgid "Show new window option"
-msgstr "Отображать параметры автозагрузки"
+msgstr "Показывает опцию Новое окно"
 
 #. 3.4->settings-schema.json->launch-new-instance-menu-item->tooltip
 msgid ""
@@ -875,7 +879,9 @@ msgstr "Ширина кнопки"
 msgid ""
 "Controls the width of the application button. This option only works for "
 "horizontal panels."
-msgstr "Управляет размером миниатюры."
+msgstr ""
+"Управляет размером миниатюры. Работает только "
+"на горизонтальных панелях."
 
 #. 3.4->settings-schema.json->mintXPreset->description
 #. 3.4->settings-schema.json->mintXPreset->tooltip
@@ -916,7 +922,9 @@ msgstr "Отображать список окон только для акти�
 msgid ""
 "This option will only come into effect for monitors displaying an ITM "
 "instance."
-msgstr "Этот параметр будет работать только для мониторов с ITM."
+msgstr ""
+"Этот параметр будет работать только на мониторах с "
+"установленным ITM."
 
 #. 3.4->settings-schema.json->thumbnail-close-button-size->description
 #, fuzzy
@@ -926,7 +934,7 @@ msgstr "Размер кнопки закрытия"
 #. 3.4->settings-schema.json->thumbnail-close-button-size->tooltip
 #, fuzzy
 msgid "Controls how large the thumbnail close button is."
-msgstr "Разрешить теме установить кнопку закрытия миниатюр"
+msgstr "Устанавлиает размеры кнопки закрытия на миниатюре."
 
 #. 3.4->settings-schema.json->middle-click-action->description
 #. 3.4->settings-schema.json->middle-click-action->tooltip
@@ -949,7 +957,9 @@ msgstr "Поведение колёсика"
 msgid ""
 "Choose if scrolling the mouse wheel cycles running apps, an app button's "
 "windows on hover, or is disabled."
-msgstr "Поведение скролла колёсиком мыши над кнопками открытых приложений."
+msgstr ""
+"Поведение скролла колёсиком мыши при "
+"наведении на кнопки приложений."
 
 #. 3.4->settings-schema.json->scroll-behavior->options
 msgid "Cycle apps"
@@ -975,7 +985,9 @@ msgstr "Переключение окон при скролле колёсико
 msgid ""
 "Choose whether or not scrolling the mouse wheel cycles windows when hovering "
 "over a thumbnail menu."
-msgstr "Поведение скролла колёсиком мыши над миниатюрами."
+msgstr ""
+"Поведение скролла колёсиком мыши при "
+"наведении на миниатюры окон."
 
 #. 3.4->settings-schema.json->left-click-action->options
 msgid "Toggle activation of last focused window"
@@ -989,64 +1001,3 @@ msgstr "Icing Task Manager"
 #, fuzzy
 msgid "Window list with app grouping and thumbnails"
 msgstr "Список окон с группировкой и миниатюрами"
-
-# Should not be set, just leave it blank by setting one white-space character
-#~ msgid "number"
-#~ msgstr " "
-
-#~ msgid "Show option to close all windows"
-#~ msgstr "Параметр 'Закрыть все'"
-
-#~ msgid ""
-#~ "Show a \"Close All\" context menu item to close all windows for an app."
-#~ msgstr "Показать параметр 'Закрыть все' для закрытия всех окон приложения."
-
-#~ msgid "Install Gda"
-#~ msgstr "Установить GDA"
-
-#~ msgid "Move to right workspace"
-#~ msgstr "На рабочий стол справа"
-
-#~ msgid "Settings"
-#~ msgstr "Настройки"
-
-#~ msgid "Rearrange"
-#~ msgstr "Перемещение"
-
-#~ msgid "Show Pinned"
-#~ msgstr "Прикрепленные"
-
-#~ msgid "Show Thumbs"
-#~ msgstr "Миниатюры"
-
-#~ msgid "Stack Thumbs"
-#~ msgstr "Стек миниатюр"
-
-#~ msgid "Peek on Hover"
-#~ msgstr "При наведении"
-
-#~ msgid "Show Recent"
-#~ msgstr "Недавние"
-
-#~ msgid "Vertical Thumbs"
-#~ msgstr "Вертикальные миниатюры"
-
-# 5 spaces in front of it
-#~ msgid "     Go to Settings"
-#~ msgstr "     Открыть настройки"
-
-#~ msgid "Group apps into single icon"
-#~ msgstr "Группировать окна приложения"
-
-#~ msgid "Group the open app instances into single icon"
-#~ msgstr "Группировать все открытые окна приложения в одну иконку."
-
-#~ msgid "Update this applet automatically"
-#~ msgstr "Автоматически обновлять апплет"
-
-#~ msgid ""
-#~ "When enabled, ITM will check the Github releases on init, and will start "
-#~ "to upgrade if it finds a newer version."
-#~ msgstr ""
-#~ "Если эта функция включена, ITM будет проверять релизы на Github и начнет "
-#~ "обновление, если он находит более новую версию."
