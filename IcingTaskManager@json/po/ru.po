@@ -22,7 +22,7 @@ msgstr "Переместить на другой экран"
 #: 3.4/specialMenus.js:118
 #, fuzzy
 msgid "Move to monitor "
-msgstr "Переместить на экран %d"
+msgstr "Переместить на экран "
 
 #: 3.4/specialMenus.js:126
 msgid "Only on this workspace"
