@@ -801,7 +801,7 @@ MyApplet.prototype = {
       z = direction === 0 ? focusedIndex - 1 : focusedIndex + 1;
       count = this.appLists[this.state.currentWs].appList.length - 1;
     } else {
-      if (!source.groupState || source.groupState.metaWindows.length < 2) {
+      if (!source.groupState || source.groupState.metaWindows.length < 1) {
         return;
       }
       let focusedIndex = findIndex(source.groupState.metaWindows, function(metaWindow) {
@@ -822,6 +822,9 @@ MyApplet.prototype = {
         z += 1;
       }
       if (limit < 0) {
+        if (count === 0) {
+          z = 0;
+        }
         break;
       } else if (z < 0) {
         z = count;
