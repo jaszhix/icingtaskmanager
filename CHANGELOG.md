@@ -1,5 +1,14 @@
 Changelog
 
+### 6.3.3
+
+  * Fixed thumbnail key navigation.
+  * Fixed LibreOffice apps being grouped incorrectly.
+
+### 6.3.2
+
+  * Fixed a DND regression from 6.1.0.
+
 ### 6.3.1
 
   * Fixed an issue that could impact users of Cinnamon on CJS 3.2.
