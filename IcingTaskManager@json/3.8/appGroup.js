@@ -143,6 +143,7 @@ class AppGroup {
     });
     this._numLabel = new St.Label({
       style_class: 'window-list-item-label window-icon-list-numlabel',
+      text: ''
     });
     this._numLabel.clutter_text.ellipsize = false;
 
@@ -526,6 +527,18 @@ class AppGroup {
       return false;
     }
 
+    this.resetHoverStatus();
+
+    if (this.hadClosedPseudoClass && this.groupState.metaWindows.length === 0) {
+      this.hadClosedPseudoClass = false;
+      this.actor.add_style_pseudo_class('closed');
+    }
+
+    this._setFavoriteAttributes();
+    this.hoverMenu._onMenuLeave();
+  }
+
+  resetHoverStatus() {
     let hoverPseudoClass = getPseudoClass(this.state.settings.hoverPseudoClass);
     let focusPseudoClass = getPseudoClass(this.state.settings.focusPseudoClass);
     let activePseudoClass = getPseudoClass(this.state.settings.activePseudoClass);
@@ -542,14 +555,6 @@ class AppGroup {
       && (hoverPseudoClass !== focusPseudoClass || hoverPseudoClass !== activePseudoClass)) {
       this.actor.remove_style_pseudo_class(hoverPseudoClass);
     }
-
-    if (this.hadClosedPseudoClass && this.groupState.metaWindows.length === 0) {
-      this.hadClosedPseudoClass = false;
-      this.actor.add_style_pseudo_class('closed');
-    }
-
-    this._setFavoriteAttributes();
-    this.hoverMenu._onMenuLeave();
   }
 
   setActiveStatus(windows){
@@ -597,6 +602,7 @@ class AppGroup {
     if (this.state.settings.showActive && this.groupState.metaWindows.length > 0) {
       this.actor.add_style_pseudo_class(getPseudoClass(this.state.settings.activePseudoClass));
     }
+    this.resetHoverStatus();
   }
 
   _onWindowDemandsAttention (metaWindow) {
@@ -821,7 +827,7 @@ class AppGroup {
       return isEqual(win, metaWindow);
     });
     if (metaWindow) {
-      this.signals.connect(metaWindow, 'notify::title', () => throttle(this._windowTitleChanged, 100, true));
+      this.signals.connect(metaWindow, 'notify::title', (...args) => this._windowTitleChanged(...args));
       this.signals.connect(metaWindow, 'notify::appears-focused', (...args) => this._focusWindowChange(...args));
       this.signals.connect(metaWindow, 'notify::gtk-application-id', (w) => this._onAppChange(w));
       this.signals.connect(metaWindow, 'notify::wm-class', (w) => this._onAppChange(w));
@@ -857,6 +863,7 @@ class AppGroup {
 
     this.groupState.metaWindows.splice(refWindow, 1);
     this._calcWindowNumber(this.groupState.metaWindows);
+
     if (this.groupState.metaWindows.length > 0 && !this.groupState.willUnmount) {
       if (this.progressOverlay.visible && metaWindow.progress > 0) {
         this._progress = 0;
@@ -868,6 +875,7 @@ class AppGroup {
         lastFocused: this.groupState.metaWindows[this.groupState.metaWindows.length - 1]
       }, true);
       this.groupState.trigger('removeThumbnailFromMenu', metaWindow);
+      this.groupState.trigger('refreshThumbnails');
     } else {
       // This is the last window, so this group needs to be destroyed. We'll call back _windowRemoved
       // in appList to put the final nail in the coffin.
