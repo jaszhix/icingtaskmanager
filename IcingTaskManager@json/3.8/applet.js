@@ -25,7 +25,7 @@ const Settings = imports.ui.settings;
 const Util = imports.misc.util;
 const SignalManager = imports.misc.signalManager;
 
-const {each, findIndex, isEqual, setTimeout, throttle, unref} = require('./utils');
+const {each, findIndex, filter, isEqual, setTimeout, throttle, unref} = require('./utils');
 const constants = require('./constants');
 const AppList = require('./appList');
 const store = require('./store');
@@ -180,6 +180,9 @@ class PinnedFavs {
       newIndex = newIndex - 1;
     }
     this._favorites.splice(newIndex, 0, this._favorites.splice(oldIndex, 1)[0]);
+    this._favorites = filter(this._favorites, function(favorite) {
+      return favorite.app != null;
+    });
     this._saveFavorites();
   }
 
@@ -654,22 +657,22 @@ class ITMApplet extends Applet.Applet {
   }
 
   getAppFromWMClass(specialApps, metaWindow) {
-    let startupClass = (wmclass)=> {
-      let app_final = null;
+    let startupClass = (wmClass)=> {
+      let app = null;
       for (let i = 0, len = specialApps.length; i < len; i++) {
-        if (specialApps[i].wmClass === wmclass) {
-          app_final = this.appSystem.lookup_app(specialApps[i].id);
-          if (!app_final) {
-            app_final = this.appSystem.lookup_settings_app(specialApps[i].id);
+        if (specialApps[i].wmClass === wmClass) {
+          app = this.appSystem.lookup_app(specialApps[i].id);
+          if (!app) {
+            app = this.appSystem.lookup_settings_app(specialApps[i].id);
           }
-          app_final.wmClass = wmclass;
+          if (app) {
+            app.wmClass = wmClass;
+          }
         }
       }
-      return app_final;
+      return app;
     };
-    let wmClassInstance = metaWindow.get_wm_class_instance();
-    let app = startupClass(wmClassInstance);
-    return app;
+    return startupClass(metaWindow.get_wm_class_instance());
   }
 
   getCurrentAppList() {

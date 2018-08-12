@@ -1,5 +1,14 @@
 Changelog
 
+### 6.3.11
+
+  * Fixed an issue with the applet not initializing when an open app can't be resolved by wm_class.
+
+### 6.3.10
+
+  * Fixed an issue with pinned applications becoming ordered incorrectly when uninstalled applications are present.
+  * Corrected a warning occurring during context menu initialization.
+
 ### 6.3.9
 
   * Fixed scaling of thumbnails when removing windows.
